@@ -243,6 +243,14 @@ struct Walker {
                 for (Ptr c : game::Children(cell))
                     if (game::Visible(c) && game::IsButton(c)) buttons.push_back(c);
         }
+        // A cell may show its name in a text field under the thumbnail (a pet's breed).
+        auto cellName = [](Ptr button) -> std::string {
+            Ptr cell = game::Parent(button);
+            if (!cell) return "";
+            for (Ptr c : game::Children(cell))
+                if (game::Visible(c) && game::IsTextEdit(c)) return util::CleanForSpeech(game::TextEditText(c));
+            return "";
+        };
         if (buttons.empty()) return false;
         std::sort(buttons.begin(), buttons.end(), [](Ptr a, Ptr b) {
             RECT ra = game::ScreenRect(a), rb = game::ScreenRect(b);
@@ -256,6 +264,7 @@ struct Walker {
             std::string title, rest;
             SplitTip(game::Tooltip(buttons[i]), &title, &rest);
             it.label = util::Format(S(Str::ValueOfMax), (int)i + 1, (int)buttons.size());
+            if (title.empty()) title = cellName(buttons[i]);
             if (!title.empty()) it.label = title + ", " + it.label;
             it.detail = rest;
             Add(groupKey, it);

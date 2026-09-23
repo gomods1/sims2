@@ -25,7 +25,7 @@ Tested live unless marked **not yet seen**.
 | Steps 2-5: heads, hair, face, clothes | grids read "3 de 6" with their selection; no names for the items yet |
 | Step 6: personality, aspiration, star sign | dedicated: personality bars as sliders ("de Gruñón a Cordial, 6 de 10", Left/Right with the points left); aspirations, signs (the chosen one said); group names from design captions |
 | Turn-ons / turn-offs (Nightlife) | generic plus: the slots named "Me pone 1/2", "Me corta"; the trait list is a generic modal |
-| Pets (Create a Pet, dog verified) | generic steps like a Sim's; step 6 personality: five trait pairs in group "rasgos", each three choices "Genio", "entre Genio y Bobo", "Bobo" (the game's radio group, `cTSWinProcRadioGroup`), Enter chooses |
+| Pets (Create a Pet, dog verified) | generic steps like a Sim's; breeds read by name from the text under each thumbnail ("Akita, 3 de 6"); step 6 personality: five trait pairs in group "rasgos", each three choices "Genio", "entre Genio y Bobo", "Bobo" (the game's radio group, `cTSWinProcRadioGroup`), Enter chooses |
 
 ## Lot: live mode
 
