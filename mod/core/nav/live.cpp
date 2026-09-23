@@ -5,6 +5,7 @@
 #include <windows.h>
 
 #include <algorithm>
+#include <map>
 
 #include "../game/game_strings.h"
 #include "../game/gz.h"
@@ -162,7 +163,20 @@ void WatchFamily() {
     std::string action = q.items.empty() ? "" : q.items[0].label;
     if (action != g_lastAction) {
         if (!g_lastAction.empty()) buffers::Record(util::Format(S(Str::ActionFinished), name.c_str(), g_lastAction.c_str()));
-        if (!action.empty()) Narrate(util::Format(S(Str::ActionStarted), name.c_str(), action.c_str()), false);
+        if (!action.empty()) {
+            // An action the Sim keeps coming back to (stomping, examining on its own) is said once
+            // a minute at most; the events buffer has every start.
+            static std::map<std::string, ULONGLONG> s_said;
+            ULONGLONG now = GetTickCount64();
+            std::string line = util::Format(S(Str::ActionStarted), name.c_str(), action.c_str());
+            auto it = s_said.find(line);
+            if (it != s_said.end() && now - it->second < 60000) {
+                buffers::Record(line);
+            } else {
+                s_said[line] = now;
+                Narrate(line, false);
+            }
+        }
         g_lastAction = action;
     }
     std::vector<NeedValue> needs = Needs(sim);

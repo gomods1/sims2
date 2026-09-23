@@ -163,9 +163,11 @@ void Refresh(ULONGLONG now) {
     g.groups = Collect(root);
     std::set<Ptr> keys;
     for (const Group& group : g.groups) keys.insert(group.key);
+    // The mod's own groups (needs, action queue, lots) come and go with the game's state: they
+    // are no new panel, and never take the focus.
     int appeared = 0;
     for (Ptr k : keys)
-        if (!g.knownGroups.count(k)) appeared++;
+        if (!g.knownGroups.count(k) && k >= 0x10000) appeared++;
     if (appeared > 0 && !g.announcePending) {
         g.announcePending = true;
         g.changedAt = now;
@@ -184,7 +186,7 @@ void Refresh(ULONGLONG now) {
             std::string texts;
             for (int gi = 0; gi < (int)g.groups.size(); gi++) {
                 const Group& group = g.groups[gi];
-                if (g.knownGroups.count(group.key)) continue;
+                if (g.knownGroups.count(group.key) || group.key < 0x10000) continue;
                 for (const Item& it : group.items)
                     if (it.role == Role::Text) AppendSentence(texts, it.label);
                 if (panel < 0 && !IsTextOnly(group)) panel = gi;
