@@ -246,12 +246,20 @@ struct Walker {
             else if (l.left >= r.right - 4) right = title;
             util::AppendSentence(detail, rest);
         }
+        // A bar without both trait names is a meter (the age's days) or a part of another bar.
+        if (left.empty() || right.empty()) return true;
+        // Only Create a Sim (where the points left show on a "total" bar) lets them change; the
+        // Sim panel's personality page shows them read-only.
+        bool editable = false;
+        for (Ptr s : game::Children(parent))
+            if (game::Visible(s) && game::Caption(s) == "total" && game::ProcClass(s) == "cTSWinProcStepFillBar") editable = true;
         Item it;
         it.widget = k;
-        it.role = Role::Slider;
+        it.role = editable ? Role::Slider : Role::Text;
         it.step = step;
         it.steps = steps;
-        it.label = left.empty() || right.empty() ? left + right : util::Format(S(Str::SliderRange), left.c_str(), right.c_str());
+        it.label = util::Format(S(Str::SliderRange), left.c_str(), right.c_str());
+        if (!editable) it.label = util::Format(S(Str::LabelValue), it.label.c_str(), util::Format(S(Str::ValueOfMax), step, steps).c_str());
         it.detail = detail;
         it.rect = game::ScreenRect(k);
         Add(groupKey, it);
@@ -415,8 +423,8 @@ std::vector<Group> Collect(Ptr root) {
         // A text the game wrapped over several windows (the next piece starts in lowercase) is one item.
         std::vector<Item> merged;
         for (const Item& it : g.items) {
-            if (!merged.empty() && it.role == Role::Text && merged.back().role == Role::Text &&
-                util::StartsLowercase(it.label)) {
+            if (!merged.empty() && it.role == Role::Text && merged.back().role == Role::Text && !it.steps &&
+                !merged.back().steps && util::StartsLowercase(it.label)) {
                 util::AppendSentence(merged.back().label, it.label);
                 UnionRect(&merged.back().rect, &merged.back().rect, &it.rect);
             } else {

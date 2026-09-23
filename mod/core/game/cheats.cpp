@@ -16,6 +16,8 @@
 #include <string>
 
 namespace game {
+
+bool g_screenDumpRequested = false;
 namespace {
 
 template <class Fn>
@@ -57,6 +59,7 @@ void DevCommand(const std::string& line) {
     }
     else if (!strcmp(name, "pie")) ShowInteractions(a);
     else if (!strcmp(name, "movein")) ClickLotWithTool(a);
+    else if (!strcmp(name, "screen")) g_screenDumpRequested = true;
     else if (!strcmp(name, "wall")) DragTool(CurrentTool(), (float)a, (float)b, (float)c, (float)d, e, false);
     else if (!strcmp(name, "families")) {
         for (const FamilyEntry& f : Families())

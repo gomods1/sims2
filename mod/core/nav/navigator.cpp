@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "../game/addresses.h"
+#include "../game/cheats.h"
 #include "../game/gz.h"
 #include "../game/rtti.h"
 #include "../speech/speech.h"
@@ -204,6 +205,16 @@ void Reset() { g = State(); }
 
 void Tick() {
     ULONGLONG now = GetTickCount64();
+    if (game::g_screenDumpRequested) {
+        game::g_screenDumpRequested = false;
+        Refresh(now);
+        for (const Group& group : g.groups) {
+            Log("  group %p %s, %d items", (void*)group.key, GroupName(group).c_str(), (int)group.items.size());
+            for (const Item& it : group.items) Log("    %s", Describe(it).c_str());
+        }
+        const Item* f = Focused();
+        Log("  focus: %s", f ? Describe(*f).c_str() : "none");
+    }
     if (g.pressed && now - g.pressedAt >= kPressFeedbackMs) {
         Ptr w = g.pressed;
         g.pressed = 0;
