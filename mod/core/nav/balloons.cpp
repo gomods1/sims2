@@ -223,6 +223,7 @@ void Tick() {
             else if (game::ReadLotObject(b.iconThing, &o)) icon = !o.catalogName.empty() ? o.catalogName : o.name;
             if (!icon.empty() && icon[0] == '*') icon.clear();  // an internal part ("*Head Slots Holder")
         }
+        if (!icon.empty() && icon == who) continue;  // the Sim's own face ("Carmen dice: Carmen") says nothing
         std::string line;
         if (b.sheet >= 0 && IsRouteFailure(b.group, b.sheet, b.iconValue)) {
             line = util::Format(S(Str::BalloonRouteFailed), who.c_str());
