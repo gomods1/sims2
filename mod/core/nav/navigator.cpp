@@ -12,6 +12,7 @@
 #include "collect.h"
 #include "describe.h"
 #include "nhood_view.h"
+#include "world.h"
 
 namespace nav {
 namespace {
@@ -218,6 +219,7 @@ void Tick() {
             Relocate();
         }
     }
+    world::Tick();
     if (now - g.lastCollect < kRefreshMs) return;
     g.lastCollect = now;
     Refresh(now);

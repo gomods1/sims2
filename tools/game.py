@@ -5,6 +5,7 @@
   python game.py windows            list the game's top-level windows (hwnd, class, title, rect, style)
   python game.py shot [name]        screenshot the game's main window to shots/<name>.png
   python game.py cheat <line>       run a cheat console line through the mod (dev build)
+  python game.py restore            un-minimize the game behind the user's windows (it stops when minimized)
   python game.py kill               terminate Sims2EP9.exe (by PID)
 """
 
@@ -162,6 +163,18 @@ def main(argv: list[str]) -> int:
         # The mod (dev build) runs the line through the game's cheat system on its next tick.
         with open(os.path.join(MOD_DIR, "cheat_request.txt"), "w", encoding="utf-8") as f:
             f.write(" ".join(argv[1:]))
+    elif cmd == "restore":
+        # A minimized game neither draws nor simulates: restore it behind the user's windows,
+        # without activating it or taking the foreground.
+        pid = find_pid()
+        w = main_window(pid) if pid else None
+        hwnd = user32.FindWindowW("{0xdb637c87}", None)
+        fg = user32.GetForegroundWindow()
+        user32.ShowWindow(hwnd, 4)  # SW_SHOWNOACTIVATE
+        user32.SetWindowPos(hwnd, 1, 0, 0, 0, 0, 0x1 | 0x2 | 0x10)  # HWND_BOTTOM, no size/move/activate
+        if fg and user32.GetForegroundWindow() != fg:
+            user32.SetForegroundWindow(fg)
+        print("restored behind other windows")
     elif cmd == "kill":
         pid = find_pid()
         if pid:

@@ -5,6 +5,7 @@
 #include "../game/hooks.h"
 #include "../nav/buffers.h"
 #include "../nav/navigator.h"
+#include "../nav/world.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
 #include "../util/strings.h"
@@ -23,6 +24,7 @@ namespace {
 //   Ctrl+F1                the mod's keys for this screen
 
 bool g_consumed[256] = {};  // key-downs we took; their key-ups are taken too
+bool g_worldFocus = false;  // Enter and R act on the object browser (after PageUp/PageDown)
 WPARAM g_swallowChar = 0;   // character TranslateMessage will produce from the last claimed key
 
 // Keys posted by tools/keys.py carry this reserved lParam bit; their modifiers are tracked from
@@ -37,7 +39,16 @@ bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == 
 
 bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
+    bool lot = !typing && nav::world::LotViewActive();
+    if (vk != VK_PRIOR && vk != VK_NEXT && vk != VK_RETURN && vk != 'R') g_worldFocus = false;
     switch (vk) {
+    case VK_PRIOR: case VK_NEXT:
+        // The lot's objects (the game's own keys change floor; the control panel has buttons for that).
+        if (!lot || ctrl) return false;
+        g_worldFocus = true;
+        if (shift) nav::world::NextCategory(vk == VK_NEXT ? +1 : -1);
+        else nav::world::NextObject(vk == VK_NEXT ? +1 : -1);
+        return true;
     case VK_UP: if (ctrl) nav::buffers::Deeper(); else nav::Move(-1); return true;
     case VK_DOWN: if (ctrl) nav::buffers::TowardTop(); else nav::Move(+1); return true;
     case VK_LEFT:
@@ -59,7 +70,8 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     case VK_RETURN:
         if (ctrl || typing) return false;  // a text field's Enter is the game's (the cheat console runs its line)
         g_swallowChar = '\r';
-        nav::Activate();
+        if (g_worldFocus && lot) nav::world::Interact();
+        else nav::Activate();
         return true;
     case VK_F1:
         if (!ctrl) return false;  // F1 alone is the game's
@@ -68,7 +80,8 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     case 'R':
         if (typing || shift || ctrl) return false;
         g_swallowChar = 'r';
-        nav::RepeatFocus();
+        if (g_worldFocus && lot) nav::world::Repeat();
+        else nav::RepeatFocus();
         return true;
     default:
         return false;

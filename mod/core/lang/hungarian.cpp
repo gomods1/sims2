@@ -61,6 +61,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "előbb írj be vagy válassz egy csalást"},
     // Money
     {Str::FundsNow, "pénz %s, %s"},
+    // Lot: object browser (PageUp/PageDown)
     {Str::FundsChanged, "%1$s, maradt %2$s"},
 };
 

@@ -73,6 +73,7 @@ bool Fill(Ptr o, int id, LotObject* out) {
     if (def) {
         out->guid = Rd<uint32_t>(def + addr::objd::kGuid);
         out->price = Rd<int>(def + addr::objd::kPrice);
+        out->functionFlags = Rd<uint16_t>(def + addr::objd::kFunctionFlags);
     }
     if (out->guid && !out->person) out->catalogName = CatalogName(out->guid);
     return true;

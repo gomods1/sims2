@@ -18,6 +18,7 @@ struct LotObject {
     bool person = false;   // a Sim (cTSPerson)
     uint32_t guid = 0;     // its definition's GUID
     int price = 0;
+    uint16_t functionFlags = 0;  // buy mode categories (game/addresses.h objd::kFunctionFlags)
     std::string catalogName;  // UTF-8, the name the catalog shows (empty for objects outside it)
 };
 

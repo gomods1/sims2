@@ -70,4 +70,27 @@
     /* Money */                                                                                                        \
     X(Simoleons, "simoleons")                                                                                          \
     X(FundsNow, "funds %s, %s")                                                                                        \
+    /* Lot: object browser (PageUp/PageDown) */                                                                        \
+    X(CategorySims, "Sims")                                                                                            \
+    X(CategoryOther, "other objects")                                                                                  \
+    X(NoObjects, "no objects here")                                                                                    \
+    X(FloorNumber, "floor %d")                                                                                         \
+    X(NotOnLot, "not on a lot")                                                                                        \
+    X(HereNow, "right here")                                                                                           \
+    X(TilesAway, "%d tiles %s")                                                                                        \
+    X(OneTileAway, "1 tile %s")                                                                                        \
+    X(DirNorth, "north")                                                                                               \
+    X(DirNorthEast, "north-east")                                                                                      \
+    X(DirEast, "east")                                                                                                 \
+    X(DirSouthEast, "south-east")                                                                                      \
+    X(DirSouth, "south")                                                                                               \
+    X(DirSouthWest, "south-west")                                                                                      \
+    X(DirWest, "west")                                                                                                 \
+    X(DirNorthWest, "north-west")                                                                                      \
+    X(OtherFloor, "on another floor")                                                                                  \
+    X(SelectedSimSuffix, "selected")                                                                                   \
+    X(NoInteractionsAtAll, "no interactions: nothing can be done with this object")                                    \
+    X(WalkingThere, "walking there")                                                                                   \
+    X(CannotWalk, "cannot walk there")                                                                                 \
+    X(NoSimSelected, "no Sim selected")                                                                                \
     X(FundsChanged, "%1$s, %2$s left")

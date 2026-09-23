@@ -128,6 +128,9 @@ constexpr int kDefinition = 0x238;     // -> cTSPersistResourceT<cEdithObjectDef
 namespace objd {
 constexpr int kGuid = 0x20;
 constexpr int kPrice = 0x28;
+constexpr int kFunctionFlags = 0x54;   // u16 buy mode categories: 1 comfort, 2 surfaces, 4 appliances,
+                                       // 8 electronics, 0x10 plumbing, 0x20 decorative, 0x40 misc,
+                                       // 0x80 lighting, 0x100 hobbies (checked on known objects)
 }  // namespace objd
 
 // The catalog's names by GUID, as Lua's GetCatalogName (0xa0561640): cTSGlobals slot 24 gives the
