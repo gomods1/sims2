@@ -131,6 +131,9 @@ const Translation kEntries[] = {
     {Str::PlaceFacing, "朝%s"},
     {Str::PlaceNoSpot, "照這個方向，地段上哪裡都放不下"},
     {Str::PlaceRoomSpots, "%1$s，%2$d 個位置"},
+    {Str::PlaceMoving, "移動%s：Page Down 尋找位置，Enter 放下，Delete 賣掉，Escape 放回原處"},
+    {Str::PlaceCannotPick, "%s無法拿起"},
+    {Str::PlaceSold, "已賣掉%s"},
 };
 
 }  // namespace

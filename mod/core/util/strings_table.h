@@ -127,4 +127,7 @@
     X(PlacePlaced, "%s placed")                                                                                        \
     X(PlaceFacing, "facing %s")                                                                                        \
     X(PlaceNoSpot, "it fits nowhere on this lot as it is turned")                                                      \
-    X(PlaceRoomSpots, "%1$s, %2$d spots")
+    X(PlaceRoomSpots, "%1$s, %2$d spots")                                                                              \
+    X(PlaceMoving, "moving %s: PageDown finds spots, Enter puts it down, Delete sells it, Escape puts it back")        \
+    X(PlaceCannotPick, "%s cannot be picked up")                                                                       \
+    X(PlaceSold, "%s sold")

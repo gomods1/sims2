@@ -133,6 +133,10 @@ const Translation kEntries[] = {
     {Str::PlaceFacing, "irány: %s"},
     {Str::PlaceNoSpot, "így forgatva sehol sem fér el a telken"},
     {Str::PlaceRoomSpots, "%1$s, %2$d hely"},
+    {Str::PlaceMoving,
+     "áthelyezés: %s. A Page Down helyet keres, az Enter leteszi, a Delete eladja, az Escape visszateszi"},
+    {Str::PlaceCannotPick, "%s nem vehető fel"},
+    {Str::PlaceSold, "%s eladva"},
 };
 
 }  // namespace

@@ -49,6 +49,13 @@ struct State {
     int spotIndex = -1;           // in the current list (all spots, or one room's)
     bool roomMode = false;
     int roomLevel = 0, roomId = -1;
+    // Picking up an object of the lot: the click was sent, see whether the tool holds it.
+    bool pickingUp = false;
+    uint32_t pickGuid = 0;
+    ULONGLONG pickAt = 0;
+    bool moving = false;          // the held object came from the lot (no copy follows)
+    bool selling = false;         // Delete was pressed
+    ULONGLONG sellAt = 0;
 };
 State g;
 
@@ -247,8 +254,29 @@ void Begin(const std::string& productName) {
     Send();
 }
 
+void BeginMove(game::Ptr object, uint32_t guid, const std::string& name, float x, float y, int level) {
+    g = State();
+    g.name = name;
+    g.x = (int)std::floor(x);
+    g.y = (int)std::floor(y);
+    g.level = level;
+    if (!game::ForceObjectPick(object)) {
+        speech::Say(util::Format(S(Str::PlaceCannotPick), name.c_str()));
+        return;
+    }
+    // The hand picks up what is under the cursor on a click: the object pick answers with this
+    // object, the ground pick with its tile.
+    game::SetPickOverride(true, g.x + 0.5f, g.y + 0.5f, g.level);
+    game::MouseClick(kSceneX, kSceneY);
+    g.active = true;
+    g.pickingUp = true;
+    g.pickGuid = guid;
+    g.pickAt = GetTickCount64();
+    Log("picking up %s (%p) at %d,%d floor %d", name.c_str(), (void*)object, g.x, g.y, g.level);
+}
+
 bool OnKey(WPARAM vk, bool shift, bool ctrl) {
-    if (!g.active) return false;
+    if (!g.active || g.pickingUp) return false;
     int step = shift ? 5 : 1;
     switch (vk) {
     case VK_UP: if (ctrl) return false; g.y -= step; g.spotIndex = -1; Send(); return true;
@@ -295,6 +323,10 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
         g.placedAt = GetTickCount64();
         return true;
     }
+    case VK_DELETE:
+        g.selling = true;
+        g.sellAt = GetTickCount64();
+        return false;  // the game sells the held object
     case VK_ESCAPE:
         Log("placing cancelled");
         Stop();
@@ -312,11 +344,39 @@ void Tick() {
         Stop();
         return;
     }
+    if (g.pickingUp) {
+        if (now - g.pickAt < 400) return;
+        game::ClearObjectPick();
+        g.pickingUp = false;
+        game::HeldObject held;
+        bool holding = game::ReadHeldObject(game::CurrentTool(), &held) && held.holding && held.guid == g.pickGuid;
+        Log("pick up: tool %p holding guid %08x", (void*)game::CurrentTool(), held.guid);
+        if (!holding) {
+            std::string name = g.name;
+            Stop();
+            speech::Say(util::Format(S(Str::PlaceCannotPick), name.c_str()));
+            return;
+        }
+        g.moving = true;
+        speech::Say(util::Format(S(Str::PlaceMoving), g.name.c_str()));
+        Send();
+        return;
+    }
+    if (g.selling) {
+        if (now - g.sellAt < 400) return;
+        g.selling = false;
+        game::HeldObject held;
+        if (!(game::ReadHeldObject(game::CurrentTool(), &held) && held.holding)) {
+            buffers::Event(util::Format(S(Str::PlaceSold), g.name.c_str()));
+            Stop();
+        }
+        return;
+    }
     if (g.placing) {
         if (now - g.placedAt < 500) return;
         // The game hands over another copy right away: placing goes on until Escape.
         game::HeldObject held;
-        bool holding = game::ReadHeldObject(game::CurrentTool(), &held) && held.guid;
+        bool holding = game::ReadHeldObject(game::CurrentTool(), &held) && held.holding;
         Log("after placing: tool %p holding %d", (void*)game::CurrentTool(), holding ? 1 : 0);
         buffers::Event(util::Format(S(Str::PlacePlaced), g.name.c_str()));
         g.placing = false;

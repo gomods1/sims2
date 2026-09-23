@@ -134,6 +134,10 @@ const Translation kEntries[] = {
     {Str::PlaceFacing, "suunta: %s"},
     {Str::PlaceNoSpot, "näin käännettynä se ei mahdu mihinkään tontilla"},
     {Str::PlaceRoomSpots, "%1$s, %2$d paikkaa"},
+    {Str::PlaceMoving,
+     "siirrä %s: Page Down etsii paikat, Enter asettaa sen, Delete myy sen, Escape palauttaa sen"},
+    {Str::PlaceCannotPick, "%s ei voi nostaa"},
+    {Str::PlaceSold, "%s myyty"},
 };
 
 }  // namespace

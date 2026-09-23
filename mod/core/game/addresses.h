@@ -190,12 +190,17 @@ namespace tool {
 constexpr uint32_t kPick = 0xa078d6c3;          // cTSUserToolBase slot 31: thiscall (sx, sy, float out[3], flag)
                                             // -> bool; out = {x, y, level (1 = ground)} in tiles
 constexpr uint32_t kObjectVerdict = 0xa067f31a;  // cTSUserToolObject slot 86: thiscall (bool fits)
+constexpr uint32_t kObjectPick = 0xa078d789;     // cTSUserToolBase slot 29: thiscall (sx, sy, 1, a, b)
+                                                 // -> the scene node under the cursor (the node's
+                                                 // 135-slot interface, see scenenode::), or 0
 constexpr uint32_t kMouseLeave = 0xa078ec6d;     // cTSUserToolBase slot 48: thiscall (); tool message 6,
                                                  // the cursor left the 3D view: clears kOverLot
 constexpr int kOverLot = 0x50;              // u8: the last pick is on the lot (slots 59/60)
 constexpr int kPicked = 0x54;               // float x, y, int level: the last pick
 constexpr int kSnapped = 0x80;              // float x, y, int level: where the held object stands
-constexpr int kHeldGuid = 0xa4;             // the held object's GUID
+constexpr int kHeldGuid = 0xa4;             // the last held object's GUID (kept after it is put down)
+constexpr uint32_t kIsHolding = 0xa067be89;  // cTSUserToolObject: thiscall () -> bool, an object is held
+constexpr uint32_t kHeldObject = 0xa067cb69; // cTSUserToolObject: thiscall () -> the held cTSObject or 0
 constexpr int kRotation = 0xa0;             // int, the held object's direction: steps of 2 (8 = a turn),
                                             // not wrapped (the game's , and . add -2 / +2)
 constexpr int kSlotMouseMessage = 42;       // thiscall (int message, int pos[2] screen): 3 = move; runs
@@ -203,6 +208,17 @@ constexpr int kSlotMouseMessage = 42;       // thiscall (int message, int pos[2]
 constexpr int kSlotMouseMove = 45;          // thiscall (int pos[2]): after 42 for a move; the object
                                             // tool moves the held object to the pick and judges it
 }  // namespace tool
+
+// Scene graph nodes (nTSSG::cObject and subclasses): what the tools' object pick returns.
+namespace scenenode {
+constexpr int kObject = 0x88;  // -> the lot object (cTSObject / cTSPerson, the object module's entry)
+// The interface the pick returns sits at a class-dependent offset (re/classes.tsv, 135 slots).
+constexpr struct {
+    const char* cls;
+    int offset;
+} kPickInterface[] = {{"nTSSG::cPerson", 912}, {"nTSSG::cLocomotable", 860},
+                      {"nTSSG::cAnimatable", 432}, {"nTSSG::cObject", 324}};
+}  // namespace scenenode
 
 // Rooms, as Lua's GetRoomAtLocation (0xa05673c0): the world service (framework GetSystemService
 // 0x4a037ee3 / iid 0x49ff7d6f, cached by the game at [0xa10cc45c]); its slot 39 gives the room

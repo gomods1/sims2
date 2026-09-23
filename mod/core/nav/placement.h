@@ -8,17 +8,25 @@
 //   Enter                        put the object down (buys it) where it fits; the game hands over
 //                                another copy, so placing goes on
 //   R                            say the spot again
-//   Escape                       stop placing (the game's Escape drops the object)
+//   Escape                       stop placing (the game's Escape drops a new object, or puts a
+//                                moved one back)
+//   Delete                       sell the object (the game's key)
+// Enter on an object of the lot browser in buy mode picks it up to move it (BeginMove).
 #pragma once
 
 #include <windows.h>
 
+#include <cstdint>
 #include <string>
+
+#include "../game/memory.h"
 
 namespace nav::placement {
 
 bool Active();
 void Begin(const std::string& productName);
+// Picks up an object of the lot (buy mode's hand, clicked on it through the object pick).
+void BeginMove(game::Ptr object, uint32_t guid, const std::string& name, float x, float y, int level);
 // A key while placing: true when the mod used it.
 bool OnKey(WPARAM vk, bool shift, bool ctrl);
 void Tick();

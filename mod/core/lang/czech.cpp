@@ -132,6 +132,9 @@ const Translation kEntries[] = {
     {Str::PlaceFacing, "natočeno na %s"},
     {Str::PlaceNoSpot, "takto natočené se nikam na pozemku nevejde"},
     {Str::PlaceRoomSpots, "%1$s, míst: %2$d"},
+    {Str::PlaceMoving, "přesun: %s. Page Down hledá místa, Enter položí, Delete prodá, Escape vrátí na místo"},
+    {Str::PlaceCannotPick, "%s nelze zvednout"},
+    {Str::PlaceSold, "%s prodáno"},
 };
 
 }  // namespace

@@ -13,14 +13,26 @@ struct ClassInfo {
 
 std::unordered_map<Ptr, ClassInfo> g_classes;  // by vtable address
 
-// TypeDescriptor name ".?AVcTSWinBtn@@" -> "cTSWinBtn"
+// TypeDescriptor name ".?AVcTSWinBtn@@" -> "cTSWinBtn", ".?AVcAnimatable@nTSSG@@" ->
+// "nTSSG::cAnimatable" (as re/classes.tsv writes them); templates keep their decorated name.
 std::string TypeName(Ptr typeDescriptor) {
     char raw[128] = {};
     if (!Read(typeDescriptor + 8, raw, sizeof raw - 1)) return "";
     std::string s(raw);
     if (s.rfind(".?AV", 0) == 0 || s.rfind(".?AU", 0) == 0) s = s.substr(4);
     size_t end = s.find("@@");
-    return end == std::string::npos ? s : s.substr(0, end);
+    if (end != std::string::npos) s = s.substr(0, end);
+    if (s.rfind("?$", 0) == 0) return s;
+    std::string out;
+    size_t start = 0;
+    while (true) {  // innermost name first: prepend each scope
+        size_t at = s.find('@', start);
+        std::string part = s.substr(start, at == std::string::npos ? std::string::npos : at - start);
+        out = out.empty() ? part : part + "::" + out;
+        if (at == std::string::npos) break;
+        start = at + 1;
+    }
+    return out;
 }
 
 // x86 layout: vtable[-1] -> CompleteObjectLocator {signature 0, offset, cdOffset,

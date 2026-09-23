@@ -1,5 +1,8 @@
 #include "world.h"
 
+#include "../game/buy.h"
+#include "placement.h"
+
 #include <windows.h>
 
 #include <algorithm>
@@ -194,7 +197,8 @@ bool LotViewActive() {
         visited++;
         if (!game::Visible(w)) continue;
         std::string proc = game::ProcClass(w);
-        if (proc == "cTSWinProcLivePanel" || proc == "cTSWinProcBuyPanel" || proc == "cTSWinProcBuildPanel")
+        if (proc == "cTSWinProcLivePanel" || proc == "cTSWinProcBuyPanel" || proc == "cTSWinProcBuildPanel" ||
+            proc == "cTSWinProcSellPanel")  // buy mode while an object of the lot is held
             return true;
         for (Ptr c : game::Children(w)) stack.push_back(c);
     }
@@ -285,6 +289,15 @@ void Interact() {
     LotObject o;
     if (g_focusId < 0 || !game::ReadLotObject(g_focusId, &o)) {
         speech::Say(S(Str::NoObjects));
+        return;
+    }
+    // Buy mode: Enter picks the object up to move (or sell) it.
+    if (game::CurrentModeClass() == "cTSUIModeBuy") {
+        if (o.person) {
+            speech::Say(util::Format(S(Str::PlaceCannotPick), DisplayName(o).c_str()));
+            return;
+        }
+        placement::BeginMove(o.ptr, o.guid, DisplayName(o), o.x, o.y, o.level);
         return;
     }
     Log("interactions of object %d (%s)", o.id, DisplayName(o).c_str());

@@ -1,5 +1,7 @@
 #include "buy.h"
 
+#include <map>
+
 #include "../util/log.h"
 #include "addresses.h"
 #include "gz.h"
@@ -40,6 +42,53 @@ void __fastcall VerdictDetour(Ptr self, void* edx, uint32_t fits) {
     g_verdictFn(self, edx, fits);
 }
 
+// cTSUserToolBase::slot29 (thiscall: sx, sy, 1, a, b) -> the scene node under the cursor.
+Ptr g_forcedPick = 0;
+typedef Ptr(__fastcall* ObjectPickFn)(Ptr self, void* edx, int sx, int sy, int one, int a, int b);
+ObjectPickFn g_objectPick = nullptr;
+Ptr __fastcall ObjectPickDetour(Ptr self, void* edx, int sx, int sy, int one, int a, int b) {
+    if (g_forcedPick) return g_forcedPick;
+    return g_objectPick(self, edx, sx, sy, one, a, b);
+}
+
+// The scene node of a lot object: the node holds the object at +0x88. Found by scanning the
+// process's private writable memory for that pointer (a fraction of a second), then cached.
+std::map<Ptr, Ptr> g_nodes;
+Ptr NodeInterface(Ptr node) {
+    std::string cls = ClassName(node);
+    for (const auto& k : addr::scenenode::kPickInterface)
+        if (cls == k.cls) return node + k.offset;
+    return 0;
+}
+Ptr FindNode(Ptr object) {
+    auto it = g_nodes.find(object);
+    if (it != g_nodes.end() && Rd<Ptr>(it->second + addr::scenenode::kObject) == object && NodeInterface(it->second))
+        return it->second;
+    ULONGLONG t0 = GetTickCount64();
+    MEMORY_BASIC_INFORMATION mbi;
+    Ptr found = 0;
+    for (Ptr p = 0x10000; p < 0x7fff0000 && !found; p += mbi.RegionSize) {
+        if (!VirtualQuery((void*)p, &mbi, sizeof mbi)) break;
+        p = (Ptr)mbi.BaseAddress;
+        if (mbi.State != MEM_COMMIT || !(mbi.Protect & (PAGE_READWRITE | PAGE_EXECUTE_READWRITE | PAGE_WRITECOPY)) ||
+            (mbi.Protect & PAGE_GUARD))
+            continue;
+        const uint32_t* w = (const uint32_t*)mbi.BaseAddress;
+        size_t n = mbi.RegionSize / 4;
+        for (size_t i = 0x88 / 4; i < n; i++) {
+            if (w[i] != (uint32_t)object) continue;
+            Ptr node = (Ptr)&w[i] - addr::scenenode::kObject;
+            if (NodeInterface(node)) {
+                found = node;
+                break;
+            }
+        }
+    }
+    Log("scene node of %p: %p (%s), %llu ms", (void*)object, (void*)found, ClassName(found).c_str(), GetTickCount64() - t0);
+    if (found) g_nodes[object] = found;
+    return found;
+}
+
 // cTSUserToolBase::slot48 (thiscall): the cursor left the 3D view. The real cursor is elsewhere
 // while the mod places (the player's other windows), so the tool would drop the spot at once.
 typedef void(__fastcall* LeaveFn)(Ptr self, void* edx);
@@ -68,6 +117,14 @@ Ptr MainToolbar() {
 }
 
 }  // namespace
+
+bool ForceObjectPick(Ptr object) {
+    Ptr node = FindNode(object);
+    g_forcedPick = node ? NodeInterface(node) : 0;
+    return g_forcedPick != 0;
+}
+
+void ClearObjectPick() { g_forcedPick = 0; }
 
 Ptr CurrentTool() {
     Ptr tb = MainToolbar();
@@ -103,6 +160,7 @@ bool ReadProduct(Ptr thumbnail, Product* out) {
 void InitBuyHooks() {
     HookGame("cTSUserToolBase::Pick", addr::tool::kPick, (void*)PickDetour, (void**)&g_pick);
     HookGame("cTSUserToolObject::SetFits", addr::tool::kObjectVerdict, (void*)VerdictDetour, (void**)&g_verdictFn);
+    HookGame("cTSUserToolBase::ObjectPick", addr::tool::kObjectPick, (void*)ObjectPickDetour, (void**)&g_objectPick);
     HookGame("cTSUserToolBase::MouseLeave", addr::tool::kMouseLeave, (void*)LeaveDetour, (void**)&g_leave);
 }
 
@@ -129,6 +187,14 @@ bool ReadHeldObject(Ptr tool, HeldObject* out) {
     out->level = Rd<int>(tool + addr::tool::kSnapped + 8);
     out->overLot = Rd<uint8_t>(tool + addr::tool::kOverLot) != 0;
     out->direction = ((Rd<int>(tool + addr::tool::kRotation) % 8) + 8) % 8;
+    typedef char(__thiscall * BoolFn)(Ptr);
+    typedef Ptr(__thiscall * PtrFn)(Ptr);
+    if (FunctionOk(addr::tool::kIsHolding) && FunctionOk(addr::tool::kHeldObject)) {
+        Guarded([&] {
+            out->holding = ((BoolFn)Va(addr::tool::kIsHolding))(tool) != 0;
+            out->object = out->holding ? ((PtrFn)Va(addr::tool::kHeldObject))(tool) : 0;
+        });
+    }
     return true;
 }
 

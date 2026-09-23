@@ -27,6 +27,12 @@ bool ReadProduct(Ptr thumbnail, Product* out);
 
 void InitBuyHooks();  // from InitHooks (MinHook ready)
 
+// While set, the tools' object pick (what is under the cursor) answers with this lot object's
+// scene node: a click then acts on it (buy mode's hand picks it up). False when the object has
+// no node (found by scanning memory once, then cached).
+bool ForceObjectPick(Ptr object);
+void ClearObjectPick();
+
 // The main toolbar's current user tool (the object tool while a bought object is held), 0 if none.
 Ptr CurrentTool();
 // The class of the toolbar's current UI mode ("cTSUIModeBuy"...), empty when unknown.
@@ -41,13 +47,15 @@ Ptr PickTool();
 int PlacementVerdict(uint32_t* counter = nullptr);
 
 struct HeldObject {
-    uint32_t guid = 0;
+    bool holding = false;  // an object is on the cursor now
+    Ptr object = 0;        // it (cTSObject)
+    uint32_t guid = 0;     // the last held object's GUID (kept after it is put down)
     int direction = 0;   // 0, 2, 4, 6 (the tool's rotation, wrapped)
     float x = 0, y = 0;  // the snapped spot (tile centres)
     int level = 0;       // 1 = ground floor
     bool overLot = false;
 };
-// The object placement tool's state; false when tool is no object tool.
+// The object placement tool's state; false when the tool is no object tool.
 bool ReadHeldObject(Ptr tool, HeldObject* out);
 
 // Moves the held object to a spot right away (the tool's own mouse-move handling, with the pick
