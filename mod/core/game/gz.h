@@ -62,6 +62,9 @@ bool SetStepBar(Ptr w, int step);
 bool IsText(Ptr w);
 bool IsTextEdit(Ptr w);
 std::string TextEditText(Ptr w);    // UTF-8
+// A long text field (a console's output): its length, and the text from an offset (max bytes).
+uint32_t TextEditLength(Ptr w);
+std::string TextEditTextFrom(Ptr w, uint32_t from, uint32_t max);
 bool TextEditEditable(Ptr w);        // the player can type into it
 
 // Presses a window the way a left click at its centre does: mouse enter, left down, left up,

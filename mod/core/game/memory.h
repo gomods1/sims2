@@ -28,6 +28,9 @@ bool WriteU32(Ptr addr, uint32_t value);
 
 std::string ReadStdString(Ptr addr);          // MSVC std::string, raw bytes of game text
 std::string ReadStdStringUtf8(Ptr addr);      // same, converted to UTF-8
+// Long strings (a console's output): the length, and up to max bytes from an offset.
+uint32_t StdStringSize(Ptr addr);
+std::string ReadStdStringPart(Ptr addr, uint32_t from, uint32_t max);
 
 // True when the function at this preferred VA matched its expected prologue at startup.
 bool FunctionOk(Ptr preferredVa);

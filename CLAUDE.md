@@ -94,6 +94,11 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     name, floor, tiles, bounds, doors and windows (the details buffer: each with its wall and the
     room behind). Doors and windows are objects whose parts stand on both sides of their wall
     (OBJD type 8 / 9, sub index 0 is the lead part, facing its direction from the front tile).
+  - Cheat console (the game's Ctrl+Shift+C, the "Debug Console" window): its input reads
+    "consola de trucos: <text>"; Enter on it clicks it (a click gives a text field the keyboard);
+    typing is echoed; Enter runs the line (Enter goes to a game field after typing into it since the
+    last navigation key); what the command writes to the output is spoken (`nav/console.cpp`; the
+    output grows past 40 KB with the game's log lines, read by offset).
   - Ctrl+N: the narrator speaks everything, warnings only (urgent needs, visitors), or nothing
     (`[mod] narrator=2/1/0` in `Sims2Access.ini`); every line still goes to the events buffer.
   - Camera: in live mode the mod presses the game's Return ("Center on active Sim") when the

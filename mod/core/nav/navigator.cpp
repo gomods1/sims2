@@ -17,6 +17,7 @@
 #include "describe.h"
 #include "nhood_view.h"
 #include "build.h"
+#include "console.h"
 #include "placement.h"
 #include "live.h"
 #include "world.h"
@@ -254,6 +255,7 @@ void Tick() {
     live::Tick();
     placement::Tick();
     build::Tick();
+    console::Tick();
     if (now - g.lastCollect < kRefreshMs) return;
     g.lastCollect = now;
     Refresh(now);
@@ -364,6 +366,12 @@ void Activate() {
     }
     if (it->role == Role::QueuedAction) {
         live::CancelQueued(*it);
+        return;
+    }
+    if (it->role == Role::TextField) {
+        // A click gives a text field the keyboard (a press through its slots does not).
+        Log("click text field %p", (void*)it->widget);
+        game::ClickWindow(it->widget);
         return;
     }
     if (it->role == Role::PieItem) {

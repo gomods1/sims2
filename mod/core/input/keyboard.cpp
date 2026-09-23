@@ -31,7 +31,8 @@ namespace {
 //   Ctrl+F1                the mod's keys for this screen
 
 bool g_consumed[256] = {};  // key-downs we took; their key-ups are taken too
-bool g_worldFocus = false;  // Enter and R act on the object browser (after PageUp/PageDown)
+bool g_worldFocus = false;
+bool g_typedSinceNav = false;  // characters went to a game text field since the last navigation key  // Enter and R act on the object browser (after PageUp/PageDown)
 WPARAM g_swallowChar = 0;   // character TranslateMessage will produce from the last claimed key
 
 // Keys posted by tools/keys.py carry this reserved lParam bit; their modifiers are tracked from
@@ -83,6 +84,8 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         if (vk == VK_ESCAPE) return false;
     }
     if (vk != VK_PRIOR && vk != VK_NEXT && vk != VK_RETURN && vk != 'R') g_worldFocus = false;
+    if (vk == VK_UP || vk == VK_DOWN || vk == VK_TAB || (!typing && (vk == VK_LEFT || vk == VK_RIGHT)))
+        g_typedSinceNav = false;
     switch (vk) {
     case VK_PRIOR: case VK_NEXT:
         // The lot's objects (the game's own keys change floor; the control panel has buttons for that).
@@ -126,7 +129,12 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         }
         // A text field's Enter is the game's (the cheat console runs its line), unless the mod's
         // focus is on another item (Create a Family keeps its surname field focused throughout).
-        if (ctrl || (typing && nav::FocusedIsTextField())) return false;
+        // Also after typing into the field since the last navigation key (the cheat console:
+        // Enter runs the line even though the mod's focus was elsewhere when it opened).
+        if (ctrl || (typing && (nav::FocusedIsTextField() || g_typedSinceNav))) {
+            g_typedSinceNav = false;
+            return false;
+        }
         g_swallowChar = '\r';
         if (g_worldFocus && lot && !game::ModalWindow()) nav::world::Interact();
         else nav::Activate();
@@ -239,6 +247,7 @@ bool OnChar(WPARAM ch) {
     bool swallow = g_swallowChar && (ch == g_swallowChar || (letter && (ch == g_swallowChar - 32 || ch == (g_swallowChar & 0x1f))));
     g_swallowChar = 0;
     if (!swallow && ch >= 32 && ch != 127 && nav::TextEntryActive()) {
+        g_typedSinceNav = true;
         // The window is ANSI: the character comes in the system code page.
         char in[2] = {static_cast<char>(ch), 0};
         wchar_t wide[4] = {};

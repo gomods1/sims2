@@ -417,6 +417,17 @@ struct Walker {
             if (it.label.empty()) return;  // icon without a name: logged by the navigator later
             Add(parent, it);
         } else if (game::IsTextEdit(k)) {
+            // The cheat console ("Debug Console"): its output is read as it grows (console.cpp),
+            // its input is named.
+            if (game::Caption(parent) == "Debug Console") {
+                RECT r = game::Area(k);
+                if (r.bottom - r.top > 40) return;  // the output: read as it grows
+                it.label = util::Format(S(Str::LabelValue), S(Str::CheatConsole),
+                                        util::CleanForSpeech(game::TextEditText(k)).c_str());
+                it.role = Role::TextField;
+                Add(parent, it);
+                return;
+            }
             std::string raw = game::TextEditText(k);
             it.label = util::CleanForSpeech(raw);
             it.role = game::TextEditEditable(k) ? Role::TextField : Role::Text;

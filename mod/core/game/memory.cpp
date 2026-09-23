@@ -1,5 +1,6 @@
 #include "memory.h"
 
+#include <algorithm>
 #include <cstring>
 
 #include "../util/log.h"
@@ -92,6 +93,22 @@ std::string ReadStdString(Ptr addr) {
 }
 
 std::string ReadStdStringUtf8(Ptr addr) { return ReadStdString(addr); }  // Sims 2 text is UTF-8
+
+uint32_t StdStringSize(Ptr addr) {
+    uint32_t size = Rd<uint32_t>(addr + 0x10), cap = Rd<uint32_t>(addr + 0x14);
+    return size <= cap && cap >= 15 && size < (64u << 20) ? size : 0;
+}
+
+std::string ReadStdStringPart(Ptr addr, uint32_t from, uint32_t max) {
+    uint32_t size = StdStringSize(addr);
+    if (from >= size) return "";
+    uint32_t cap = Rd<uint32_t>(addr + 0x14);
+    Ptr data = cap > 15 ? Rd<Ptr>(addr) : addr;
+    uint32_t n = std::min(max, size - from);
+    std::string s(n, '\0');
+    if (!Read(data + from, s.data(), n)) return "";
+    return s;
+}
 
 bool FunctionOk(Ptr preferredVa) {
     for (const Signature& sig : g_signatures)

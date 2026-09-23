@@ -162,6 +162,12 @@ bool TextEditEditable(Ptr w) {
 
 std::string TextEditText(Ptr w) { return IsTextEdit(w) ? ReadStdString(w + addr::edit::kText + 4) : ""; }
 
+uint32_t TextEditLength(Ptr w) { return IsTextEdit(w) ? StdStringSize(w + addr::edit::kText + 4) : 0; }
+
+std::string TextEditTextFrom(Ptr w, uint32_t from, uint32_t max) {
+    return IsTextEdit(w) ? ReadStdStringPart(w + addr::edit::kText + 4, from, max) : "";
+}
+
 bool ListBoxRows(Ptr w, std::vector<ListRow>* rows) {
     Ptr lb = CompleteObject(w);
     if (!IsKindOf(lb, "cTSWinListBox")) return false;
