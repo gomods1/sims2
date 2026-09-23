@@ -119,7 +119,12 @@ subclass used for labels showing a value (tooltip names it).
   through slot 86), 4 down, 5 up, 6 the cursor left the view (slot 48 clears +0x50).
 - Placement errors: UIText.package STR# 0x89 ("Can't intersect other objects", "Must be against
   wall" ...), the tooltip the game shows while a spot is refused. Where the tool keeps the
-  current error was not found yet.
+  current error was not found yet. Leads tried (2026-09-23): 0xa079abb6 turns an entry into a
+  tooltip, but only for the neighborhood's decoration tool (its one caller, 0xa079ac10, from
+  0xa06b2145 = `cTSUserToolPlopNeighborhoodObject` slot 17); no string reference to STR# 0x89 is
+  made while the object tool refuses spots or clicks (the constructor 0xa01d0e90 was watched); the
+  judge (slot 71, 0xa06815d7) passes tool +0x118 (pairs of pointer and count, not errors) to its
+  checks 0xa07983e6 / 0xa0798558, whose error output is the next place to look.
 
 ## Build mode
 
