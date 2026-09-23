@@ -143,6 +143,9 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, วัตถุ %d ชิ้น"},
     {Str::RoomObjectsOne, "%s, วัตถุ 1 ชิ้น"},
     {Str::FundsChanged, "%1$s เหลือ %2$s"},
+    // Camera
+    {Str::CameraFree, "กล้องอิสระ"},
+    {Str::CameraFollowing, "ติดตาม%s"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down หาที่ที่วางได้ ลูกศรเลื่อน Enter วาง Escape ยกเลิก"},
     {Str::PlaceTile, "ช่อง %1$d, %2$d"},

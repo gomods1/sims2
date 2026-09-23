@@ -144,6 +144,9 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, obiektów: %d"},
     {Str::RoomObjectsOne, "%s, 1 obiekt"},
     {Str::FundsChanged, "%1$s, zostało %2$s"},
+    // Camera
+    {Str::CameraFree, "kamera swobodna"},
+    {Str::CameraFollowing, "śledzi: %s"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down szuka miejsc, gdzie się mieści, strzałki go przesuwają, Enter go stawia, Escape anuluje"},

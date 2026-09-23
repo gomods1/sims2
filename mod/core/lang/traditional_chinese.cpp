@@ -138,6 +138,9 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s，%d件物品"},
     {Str::RoomObjectsOne, "%s，1件物品"},
     {Str::FundsChanged, "%1$s，剩餘%2$s"},
+    // Camera
+    {Str::CameraFree, "鏡頭自由"},
+    {Str::CameraFollowing, "跟隨%s"},
     // Buy mode
     {Str::PlaceBegin, "%s：Page Down 尋找放得下的位置，方向鍵移動，Enter 放下，Escape 取消"},
     {Str::PlaceTile, "格子 %1$d，%2$d"},

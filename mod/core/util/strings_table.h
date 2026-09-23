@@ -130,6 +130,9 @@
     X(RoomObjects, "%s, %d objects")                                                                                   \
     X(RoomObjectsOne, "%s, 1 object")                                                                                  \
     X(FundsChanged, "%1$s, %2$s left")                                                                                 \
+    /* Camera */                                                                                                       \
+    X(CameraFree, "camera free")                                                                                       \
+    X(CameraFollowing, "following %s")                                                                                 \
     /* Buy mode */                                                                                                     \
     X(PlaceBegin, "%s: PageDown finds spots where it fits, arrows move it, Enter puts it down, Escape cancels")        \
     X(PlaceTile, "tile %1$d, %2$d")                                                                                    \

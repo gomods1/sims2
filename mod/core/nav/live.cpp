@@ -1,5 +1,7 @@
 #include "live.h"
 
+#include <cmath>
+
 #include <windows.h>
 
 #include <algorithm>
@@ -12,7 +14,10 @@
 #include "../util/log.h"
 #include "../util/strings.h"
 #include "../util/text.h"
+#include "../input/keyboard.h"
+#include "../game/buy.h"
 #include "buffers.h"
+#include "navigator.h"
 #include "world.h"
 
 namespace nav::live {
@@ -241,6 +246,39 @@ std::string FundsText() {
     return funds ? util::CleanForSpeech(game::Caption(funds)) : "";
 }
 
+// ---- Camera following the selected Sim --------------------------------------------------------
+bool g_follow = true;
+int g_followSim = 0;
+float g_followX = -1000, g_followY = -1000;
+ULONGLONG g_followAt = 0;
+
+void FollowTick() {
+    if (!g_follow || game::CurrentModeClass() != "cTSUIModeLive") return;
+    if (game::ModalWindow() || nav::TextEntryActive()) return;  // Return would press a dialog's button
+    int sim = game::SelectedSimId();
+    game::LotObject o;
+    if (!sim || !game::ReadLotObject(sim, &o) || o.x < 0) return;
+    ULONGLONG now = GetTickCount64();
+    bool moved = std::hypot(o.x - g_followX, o.y - g_followY) >= 4.0;
+    if (sim == g_followSim && (!moved || now - g_followAt < 3000)) return;
+    g_followSim = sim;
+    g_followX = o.x;
+    g_followY = o.y;
+    g_followAt = now;
+    input::PostGameKey(VK_RETURN);  // "Center on active Sim"
+}
+
+void ToggleFollow() {
+    g_follow = !g_follow;
+    g_followSim = 0;
+    if (!g_follow) {
+        speech::Say(S(Str::CameraFree));
+        return;
+    }
+    std::string name = SimName(game::SelectedSimId());
+    speech::Say(util::Format(S(Str::CameraFollowing), name.c_str()));
+}
+
 void SelectMember(int index) {
     // The family's portraits: buttons of the Sim chooser, top to bottom.
     std::vector<Ptr> buttons;
@@ -291,6 +329,7 @@ void Tick() {
     }
     WatchFamily();
     WatchVisitors();
+    FollowTick();
     // 0 paused, else the chosen speed (the speed buttons show the choice, not the pause).
     Ptr main = game::MainWindow();
     int speed = -1;

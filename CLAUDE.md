@@ -90,6 +90,10 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     Space marks the start, Enter builds from the mark to the cursor, Ctrl+Enter removes; the cost is
     said. The mod drags the game's own tool, one mouse message per tick.
   - Ctrl+Enter on the object browser: walk the selected Sim there (Ctrl+Shift+Enter runs).
+  - Camera: in live mode the mod presses the game's Return ("Center on active Sim") when the
+    selected Sim has moved four tiles or another Sim is selected (never while a dialog or a text
+    field is up), because the game's sounds come from what is on screen. Ctrl+F turns it off/on.
+    The mod's posted game keys carry lParam bit 26 so its own handler lets them through.
 - Game key bindings: `extracted/accelerators.txt` (from `ui.package`, type 0xA2E3D533). Lot view:
   F1-F5 modes, P/Pause/`/NumPad0 pause, 1-3 speeds, Space/N next Sim, PageUp/PageDown floors,
   Home/End wall mode, Return centers on the Sim, H/E/R/F/J/M build tools, L day/night, Tab/Y camera

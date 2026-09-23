@@ -3,6 +3,7 @@
 #include <cstring>
 
 #include "../game/gz.h"
+#include "../game/mouse.h"
 #include "../game/hooks.h"
 #include "../nav/buffers.h"
 #include "../nav/navigator.h"
@@ -35,6 +36,7 @@ WPARAM g_swallowChar = 0;   // character TranslateMessage will produce from the 
 // Keys posted by tools/keys.py carry this reserved lParam bit; their modifiers are tracked from
 // their own messages. Real keys read the physical keyboard.
 constexpr LPARAM kSyntheticKey = 1 << 25;
+constexpr LPARAM kGameKey = 1 << 26;  // posted by the mod for the game's own binding (PostGameKey)
 bool g_syntheticDown[256] = {};
 bool g_synthetic = false;
 bool Held(int vk) {
@@ -133,6 +135,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = vk;
         nav::live::SelectMember((int)vk - '1');
         return true;
+    case 'F':
+        if (!ctrl || shift || !lot) return false;
+        g_swallowChar = 'f';
+        nav::live::ToggleFollow();
+        return true;
     case 'E':
         if (!ctrl || shift || !lot) return false;
         g_swallowChar = 'e';
@@ -162,6 +169,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
 
 bool OnKeyDown(WPARAM vk, LPARAM lp) {
     if (vk >= 256) return false;
+    if (lp & kGameKey) return false;
     if (vk == VK_BACK && nav::TextEntryActive()) {
         // Said before the game deletes it (the caret is at the end while typing).
         SayCharacter(LastUtf8Char(game::TextEditText(game::FocusWindow())));
@@ -177,7 +185,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
         return false;
     }
     bool ctrl = Held(VK_CONTROL);
-    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || (vk >= '1' && vk <= '9') ||
+    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || vk == 'F' || (vk >= '1' && vk <= '9') ||
                    vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN;
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) return false;
     g_consumed[vk] = true;
@@ -188,6 +196,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
 
 bool OnKeyUp(WPARAM vk, LPARAM lp) {
     if (vk >= 256) return false;
+    if (lp & kGameKey) return false;
     if (IsModifier(vk)) {
         if (lp & kSyntheticKey) {
             g_syntheticDown[vk] = false;
@@ -214,6 +223,14 @@ bool OnChar(WPARAM ch) {
             SayCharacter(utf8);
     }
     return swallow;
+}
+
+void PostGameKey(WPARAM vk) {
+    HWND hwnd = game::GameWindow();
+    if (!hwnd) return;
+    LPARAM lp = 1 | ((LPARAM)MapVirtualKeyA((UINT)vk, 0) << 16) | kGameKey;
+    PostMessageA(hwnd, WM_KEYDOWN, vk, lp);
+    PostMessageA(hwnd, WM_KEYUP, vk, lp | (1 << 30) | (1u << 31));
 }
 
 void OnFocusLost() { memset(g_syntheticDown, 0, sizeof g_syntheticDown); }

@@ -12,4 +12,8 @@ bool OnKeyUp(WPARAM vk, LPARAM lp);
 bool OnChar(WPARAM ch);
 void OnFocusLost();  // forget tracked modifier keys
 
+// Presses a key for the game itself (its own binding, e.g. Return centers the camera on the
+// selected Sim): posted with a marker the mod's handler lets through.
+void PostGameKey(WPARAM vk);
+
 }  // namespace input

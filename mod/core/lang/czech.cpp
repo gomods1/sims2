@@ -143,6 +143,9 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, objektů: %d"},
     {Str::RoomObjectsOne, "%s, 1 objekt"},
     {Str::FundsChanged, "%1$s, zbývá %2$s"},
+    // Camera
+    {Str::CameraFree, "kamera volná"},
+    {Str::CameraFollowing, "sleduje: %s"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down hledá místa, kam se vejde, šipky ho posouvají, Enter ho položí, Escape ruší"},
     {Str::PlaceTile, "pole %1$d, %2$d"},
