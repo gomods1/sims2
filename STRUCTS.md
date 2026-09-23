@@ -176,3 +176,15 @@ subclass used for labels showing a value (tooltip names it).
   A row (`cWinListBoxRow`, a window) +0xf8 is a vector of 0x68-byte cells: +0x04 the drawn text
   (cut with "..."), +0x24 the whole text (std::strings behind cRZString vtables), +0x44 a data
   object (`cTSLotInfo` in the travel dialog). A press on a row selects it, scrolled out of view too.
+
+## SimAntics (leads for the narrator's balloons)
+
+- The primitive dispatcher is 0xa0534650 (thiscall on the running thread object: (stack frame,
+  instruction)): a switch on the opcode (instruction slot 3) calling one handler per primitive.
+  Opcodes 0x69-0x6f are forwarded to another object.
+- The balloon painter `cTSUIPaintingService` slot 6 (0xa06c1092, "BalloonEffectThumbnail_0x%08x")
+  was called from the handler of opcode 0x70 (0xa05805c0, a large function; Ghidra merges it into
+  0xa0580360). That handler also runs every tick for a Sim with the same operands; it checks a
+  balloon type (`cmp [ebp-0x4c], 3`: 0 thought, 1 scream, 2 speak; error code 0x1d, the message
+  table 0xa05290e0). Its operand layout is not decoded yet.
+- `cTSUIPaintingService` slot 8 (0xa06c1917) makes headline text textures.
