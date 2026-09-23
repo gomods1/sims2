@@ -43,6 +43,10 @@ std::string ProcClass(Ptr w);        // the class of the window's proc (cTSWinPr
 Ptr Proc(Ptr w);                     // the window's proc object, 0 if none
 // A meter (a window with a cTSWinProcGradientFillBar): its fill as 0..100; false if none.
 bool MeterPercent(Ptr w, int* percent);
+// A step bar (cTSWinProcStepFillBar): its value in steps and its number of steps.
+bool StepBar(Ptr w, int* value, int* steps);
+// Sets a step bar to a step (0..steps) by a click on the bar, as the mouse does.
+bool SetStepBar(Ptr w, int step);
 
 // Text (cGZWinText, cGZWinTextEdit)
 bool IsText(Ptr w);

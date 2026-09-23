@@ -55,6 +55,8 @@ const Translation kEntries[] = {
     {Str::Space, "szóköz"},
     // Values
     {Str::ValueOfMax, "%d / %d"},
+    {Str::SliderRange, "%1$s – %2$s"},
+    {Str::PointsLeft, "%d pont maradt"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "következő oldal"},
     {Str::PreviousPage, "előző oldal"},

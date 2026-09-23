@@ -296,6 +296,16 @@ constexpr int kCaptionExtent = 0x124;  // non-zero while the caption is drawn (h
 constexpr int kTip = 0x188;     // cRZString tooltip ("Title|Description"), std::string at +0x18c
 }  // namespace btn
 
+// cTSWinProcStepFillBar (Create a Sim's personality bars; the window's proc). Its message handler
+// (0xa0624391) steps the value on message 3 / 0x287259f6 (data 1 down, 2 up) through SetValue.
+namespace stepbar {
+constexpr int kValue = 0x6c;  // int, 0..kMax (a personality point is 100)
+constexpr int kMax = 0x74;    // int (1000)
+constexpr int kSteps = 0x80;  // int (10)
+constexpr int kValueInterface = 8;  // the interface whose slot 8 is SetValue(int value, bool notify, int)
+constexpr int kSlotSetValue = 8;
+}  // namespace stepbar
+
 // cGZWinTextEdit, from the cIGZWin pointer: the text as a cRZString (std::string at +0x100).
 namespace edit {
 constexpr int kText = 0xfc;

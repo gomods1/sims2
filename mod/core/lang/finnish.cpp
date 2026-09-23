@@ -56,6 +56,8 @@ const Translation kEntries[] = {
     {Str::Space, "välilyönti"},
     // Values
     {Str::ValueOfMax, "%d, enintään %d"},
+    {Str::SliderRange, "%1$s–%2$s"},
+    {Str::PointsLeft, "%d pistettä jäljellä"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "seuraava sivu"},
     {Str::PreviousPage, "edellinen sivu"},

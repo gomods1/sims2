@@ -2,6 +2,9 @@
 
 #include <set>
 
+#include <algorithm>
+
+#include "../game/addresses.h"
 #include "../game/gz.h"
 #include "../game/rtti.h"
 #include "../speech/speech.h"
@@ -317,6 +320,47 @@ void Activate() {
 void RepeatFocus() {
     Refresh(GetTickCount64());
     AnnounceFocus(true);
+}
+
+bool FocusedIsSlider() {
+    const Item* it = Focused();
+    return it && it->role == Role::Slider;
+}
+
+// The points still to give on Create a Sim's personality page (its "total" bar), -1 if none.
+int PointsLeft(Ptr bar) {
+    for (Ptr s : game::Children(game::Parent(bar))) {
+        int value, steps;
+        if (game::Caption(s) == "total" && game::StepBar(s, &value, &steps)) {
+            Ptr proc = game::Proc(s);
+            return game::Rd<int>(proc + game::addr::stepbar::kValue) / 100;
+        }
+    }
+    return -1;
+}
+
+void AdjustFocused(int delta) {
+    Refresh(GetTickCount64());
+    const Item* it = Focused();
+    if (!it || it->role != Role::Slider) return;
+    Ptr w = it->widget;
+    int step, steps;
+    if (!game::StepBar(w, &step, &steps)) return;
+    int before = step;
+    int left = PointsLeft(w);  // the total bar follows a change a little later: counted here
+    int target = std::clamp(step + delta, 0, steps);
+    if (left == 0 && target > step) target = step;  // no point left to give
+    if (target != step) game::SetStepBar(w, target);
+    game::StepBar(w, &step, &steps);
+    std::string line = util::Format(S(Str::ValueOfMax), step, steps);
+    if (left >= 0) line += ", " + util::Format(S(Str::PointsLeft), left + before - step);
+    Log("slider %p: %d -> %d of %d (asked %d)", (void*)w, before, step, steps, target);
+    speech::Say(line);
+}
+
+bool FocusedIsTextField() {
+    const Item* it = Focused();
+    return !it || it->role == Role::TextField;
 }
 
 Ptr FocusedWidget() {

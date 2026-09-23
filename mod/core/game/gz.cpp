@@ -153,6 +153,30 @@ bool TextEditEditable(Ptr w) {
 
 std::string TextEditText(Ptr w) { return IsTextEdit(w) ? ReadStdString(w + addr::edit::kText + 4) : ""; }
 
+bool StepBar(Ptr w, int* value, int* steps) {
+    Ptr proc = Rd<Ptr>(w + addr::win::kProc);
+    if (ProcClass(w) != "cTSWinProcStepFillBar") return false;
+    int max = Rd<int>(proc + addr::stepbar::kMax), n = Rd<int>(proc + addr::stepbar::kSteps);
+    if (max <= 0 || n <= 0) return false;
+    *steps = n;
+    *value = (Rd<int>(proc + addr::stepbar::kValue) * n + max / 2) / max;
+    return true;
+}
+
+bool SetStepBar(Ptr w, int step) {
+    int value, steps;
+    if (!StepBar(w, &value, &steps)) return false;
+    // What the bar's own step message does (its handler 0xa0624391): SetValue(value, notify, 0)
+    // on the proc's +8 interface, which tells Create a Sim (the points left follow).
+    Ptr proc = Rd<Ptr>(w + addr::win::kProc);
+    Ptr iface = proc + addr::stepbar::kValueInterface;
+    int max = Rd<int>(proc + addr::stepbar::kMax);
+    typedef void(__thiscall * SetFn)(Ptr, int, int, int);
+    auto set = Slot<SetFn>(iface, addr::stepbar::kSlotSetValue);
+    if (!set) return false;
+    return Guarded([&] { set(iface, step * max / steps, 1, 0); });
+}
+
 bool PressAt(Ptr w, int x, int y) {
     typedef bool(__thiscall * MouseFn)(Ptr, int, int, uint32_t);
     typedef bool(__thiscall * EnterFn)(Ptr, uint32_t, uint32_t);

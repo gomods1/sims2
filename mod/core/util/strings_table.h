@@ -51,6 +51,8 @@
     X(Space, "space")                                                                                                  \
     /* Values */                                                                                                       \
     X(ValueOfMax, "%d of %d")                                                                                          \
+    X(SliderRange, "%1$s to %2$s")                                                                                     \
+    X(PointsLeft, "%d points left")                                                                                    \
     X(LabelValue, "%s: %s")                                                                                            \
     X(NextPage, "next page")                                                                                           \
     X(PreviousPage, "previous page")                                                                                   \

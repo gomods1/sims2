@@ -15,6 +15,8 @@ std::string Describe(const Item& it) {
     case Role::Lot: return label;
     case Role::PieItem: return label;
     case Role::QueuedAction: return label + ", " + S(Str::RoleButton);
+    case Role::Slider:
+        return label + ", " + S(Str::RoleSlider) + ", " + util::Format(S(Str::ValueOfMax), it.step, it.steps);
     case Role::Product: return label + ", " + S(Str::RoleButton) + (it.value.empty() ? "" : ", " + it.value);
     case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
     case Role::Toggle: {

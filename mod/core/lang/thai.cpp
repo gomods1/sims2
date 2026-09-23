@@ -55,6 +55,8 @@ const Translation kEntries[] = {
     {Str::Space, "เว้นวรรค"},
     // Values
     {Str::ValueOfMax, "%d จาก %d"},
+    {Str::SliderRange, "จาก%1$sถึง%2$s"},
+    {Str::PointsLeft, "เหลือ %d คะแนน"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "หน้าถัดไป"},
     {Str::PreviousPage, "หน้าก่อนหน้า"},

@@ -55,6 +55,8 @@ const Translation kEntries[] = {
     {Str::Space, "spazio"},
     // Values
     {Str::ValueOfMax, "%d su %d"},
+    {Str::SliderRange, "da %1$s a %2$s"},
+    {Str::PointsLeft, "%d punti rimasti"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "pagina successiva"},
     {Str::PreviousPage, "pagina precedente"},

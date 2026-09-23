@@ -55,6 +55,8 @@ const Translation kEntries[] = {
     {Str::Space, "mellemrum"},
     // Values
     {Str::ValueOfMax, "%d af %d"},
+    {Str::SliderRange, "%1$s til %2$s"},
+    {Str::PointsLeft, "%d point tilbage"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "næste side"},
     {Str::PreviousPage, "forrige side"},

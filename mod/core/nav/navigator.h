@@ -21,5 +21,8 @@ void NextGroup(int delta);   // previous/next group (wraps)
 void Activate();             // press the focused item
 void RepeatFocus();          // say the focused item again, with its group
 game::Ptr FocusedWidget();
+bool FocusedIsTextField();
+bool FocusedIsSlider();
+void AdjustFocused(int delta);  // Left/Right on a slider   // the focused item is a text field (or nothing is focused)
 
 }  // namespace nav

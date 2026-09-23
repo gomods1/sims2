@@ -2,6 +2,7 @@
 
 #include <cstring>
 
+#include "../game/gz.h"
 #include "../game/hooks.h"
 #include "../nav/buffers.h"
 #include "../nav/navigator.h"
@@ -39,8 +40,25 @@ bool Held(int vk) {
 }
 bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == VK_MENU; }
 
+// The last character of UTF-8 text (one code point), empty for empty text.
+std::string LastUtf8Char(const std::string& s) {
+    if (s.empty()) return "";
+    size_t i = s.size() - 1;
+    while (i > 0 && (static_cast<unsigned char>(s[i]) & 0xC0) == 0x80) i--;
+    return s.substr(i);
+}
+
+// Echo while typing into a game field: the character typed, or the one Backspace deletes.
+void SayCharacter(const std::string& utf8) {
+    if (utf8.empty()) return;
+    speech::Say(utf8 == " " ? S(Str::Space) : utf8);
+}
+
 bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
+    // The caret keys belong to the field only while the mod's focus is on it too (a screen can
+    // keep a field focused all along, as Create a Family does with the surname).
+    bool fieldFocus = typing && nav::FocusedIsTextField();
     bool lot = !typing && nav::world::LotViewActive();
     if (lot && nav::placement::Active()) {
         if (nav::placement::OnKey(vk, shift, ctrl)) {
@@ -63,15 +81,23 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     case VK_UP: if (ctrl) nav::buffers::Deeper(); else nav::Move(-1); return true;
     case VK_DOWN: if (ctrl) nav::buffers::TowardTop(); else nav::Move(+1); return true;
     case VK_LEFT:
-        if (typing && !ctrl) return false;  // the caret
+        if (fieldFocus && !ctrl) return false;  // the caret
+        if (!ctrl && nav::FocusedIsSlider()) {
+            nav::AdjustFocused(-1);
+            return true;
+        }
         if (ctrl) nav::buffers::Switch(-1); else nav::Move(-1);
         return true;
     case VK_RIGHT:
-        if (typing && !ctrl) return false;
+        if (fieldFocus && !ctrl) return false;
+        if (!ctrl && nav::FocusedIsSlider()) {
+            nav::AdjustFocused(+1);
+            return true;
+        }
         if (ctrl) nav::buffers::Switch(+1); else nav::Move(+1);
         return true;
     case VK_HOME: case VK_END:
-        if (typing) return false;
+        if (fieldFocus) return false;
         nav::MoveToEdge(vk == VK_END);
         return true;
     case VK_TAB:
@@ -84,7 +110,9 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             nav::world::WalkTo(shift);
             return true;
         }
-        if (ctrl || typing) return false;  // a text field's Enter is the game's (the cheat console runs its line)
+        // A text field's Enter is the game's (the cheat console runs its line), unless the mod's
+        // focus is on another item (Create a Family keeps its surname field focused throughout).
+        if (ctrl || (typing && nav::FocusedIsTextField())) return false;
         g_swallowChar = '\r';
         if (g_worldFocus && lot) nav::world::Interact();
         else nav::Activate();
@@ -118,6 +146,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
 
 bool OnKeyDown(WPARAM vk, LPARAM lp) {
     if (vk >= 256) return false;
+    if (vk == VK_BACK && nav::TextEntryActive()) {
+        // Said before the game deletes it (the caret is at the end while typing).
+        SayCharacter(LastUtf8Char(game::TextEditText(game::FocusWindow())));
+        return false;
+    }
     LogVerbose("key down vk=0x%02x lparam=0x%08lx", (unsigned)vk, (unsigned long)lp);
     g_synthetic = (lp & kSyntheticKey) != 0;
     if (IsModifier(vk)) {
@@ -155,6 +188,15 @@ bool OnChar(WPARAM ch) {
     bool letter = g_swallowChar >= 'a' && g_swallowChar <= 'z';
     bool swallow = g_swallowChar && (ch == g_swallowChar || (letter && (ch == g_swallowChar - 32 || ch == (g_swallowChar & 0x1f))));
     g_swallowChar = 0;
+    if (!swallow && ch >= 32 && ch != 127 && nav::TextEntryActive()) {
+        // The window is ANSI: the character comes in the system code page.
+        char in[2] = {static_cast<char>(ch), 0};
+        wchar_t wide[4] = {};
+        char utf8[16] = {};
+        if (MultiByteToWideChar(CP_ACP, 0, in, 1, wide, 4) > 0 &&
+            WideCharToMultiByte(CP_UTF8, 0, wide, 1, utf8, sizeof utf8 - 1, nullptr, nullptr) > 0)
+            SayCharacter(utf8);
+    }
     return swallow;
 }
 

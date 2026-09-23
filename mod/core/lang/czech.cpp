@@ -55,6 +55,8 @@ const Translation kEntries[] = {
     {Str::Space, "mezera"},
     // Values
     {Str::ValueOfMax, "%d z %d"},
+    {Str::SliderRange, "od %1$s po %2$s"},
+    {Str::PointsLeft, "zbývá bodů: %d"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "další stránka"},
     {Str::PreviousPage, "předchozí stránka"},

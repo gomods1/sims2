@@ -145,6 +145,69 @@ struct Walker {
         return true;
     }
 
+    // A grid of choices without names (Create a Sim's heads, hair, clothes: thumbnails whose
+    // captions are resource keys): "3 of 6", selected or not.
+    bool Grid(Ptr k, Ptr groupKey) {
+        if (!game::IsKindOf(k, "cGZWinGrid")) return false;
+        std::vector<Ptr> buttons;
+        for (Ptr cell : game::Children(k)) {
+            if (!game::Visible(cell)) continue;
+            if (game::IsButton(cell)) buttons.push_back(cell);
+            else
+                for (Ptr c : game::Children(cell))
+                    if (game::Visible(c) && game::IsButton(c)) buttons.push_back(c);
+        }
+        if (buttons.empty()) return false;
+        std::sort(buttons.begin(), buttons.end(), [](Ptr a, Ptr b) {
+            RECT ra = game::ScreenRect(a), rb = game::ScreenRect(b);
+            return ra.top / 8 != rb.top / 8 ? ra.top < rb.top : ra.left < rb.left;
+        });
+        for (size_t i = 0; i < buttons.size(); i++) {
+            Item it;
+            it.widget = buttons[i];
+            it.role = Role::Toggle;
+            it.rect = game::ScreenRect(buttons[i]);
+            std::string title, rest;
+            SplitTip(game::Tooltip(buttons[i]), &title, &rest);
+            it.label = util::Format(S(Str::ValueOfMax), (int)i + 1, (int)buttons.size());
+            if (!title.empty()) it.label = title + ", " + it.label;
+            it.detail = rest;
+            Add(groupKey, it);
+        }
+        return true;
+    }
+
+    // A personality bar: its value, named by the two traits beside it ("de Gruñón a Cordial").
+    // The "total" bar (the points left) is read with the bars, not on its own.
+    bool StepBarItem(Ptr k, Ptr parent, Ptr groupKey) {
+        int step, steps;
+        if (!game::StepBar(k, &step, &steps)) return false;
+        if (game::Caption(k) == "total") return true;
+        RECT r = game::Area(k);
+        std::string left, right, detail;
+        for (Ptr s : game::Children(parent)) {
+            if (!game::Visible(s) || !game::IsKindOf(s, "cTSWinTextLabel")) continue;
+            RECT l = game::Area(s);
+            if (l.bottom <= r.top || l.top >= r.bottom) continue;  // another row
+            std::string title, rest;
+            SplitTip(game::Tooltip(s), &title, &rest);
+            if (title.empty()) title = util::CleanForSpeech(game::Caption(s));
+            if (l.right <= r.left + 4) left = title;
+            else if (l.left >= r.right - 4) right = title;
+            util::AppendSentence(detail, rest);
+        }
+        Item it;
+        it.widget = k;
+        it.role = Role::Slider;
+        it.step = step;
+        it.steps = steps;
+        it.label = left.empty() || right.empty() ? left + right : util::Format(S(Str::SliderRange), left.c_str(), right.c_str());
+        it.detail = detail;
+        it.rect = game::ScreenRect(k);
+        Add(groupKey, it);
+        return true;
+    }
+
     void Walk(Ptr w, int depth) {
         if (depth > 40) return;
         std::vector<Ptr> kids = game::Children(w);
@@ -155,6 +218,8 @@ struct Walker {
             std::vector<Ptr> motiveKids = game::Children(k);
             if (Motive(k, motiveKids, w)) continue;
             if (Product(k, motiveKids, w)) continue;
+            if (Grid(k, w)) continue;
+            if (StepBarItem(k, w, w)) continue;
             std::vector<Ptr> grandKids = game::Children(k);
             if (!grandKids.empty() && Thumbnail(k, grandKids, w)) continue;
             Visit(k, w);
@@ -168,6 +233,12 @@ struct Walker {
         it.rect = game::ScreenRect(k);
         if (it.rect.right <= it.rect.left || it.rect.bottom <= it.rect.top) return;
         if (game::IsKindOf(k, "cTSWinTextLabel")) {
+            // The trait names beside a personality bar are read with the bar.
+            for (Ptr s : game::Children(parent)) {
+                RECT l = game::Area(k), b = game::Area(s);
+                if (game::ProcClass(s) == "cTSWinProcStepFillBar" && game::Visible(s) && l.bottom > b.top && l.top < b.bottom)
+                    return;
+            }
             // A value shown as a label (net worth, funds): its tooltip names it.
             std::string title, rest;
             SplitTip(game::Tooltip(k), &title, &rest);
@@ -195,8 +266,20 @@ struct Walker {
             if (it.label.empty()) return;  // icon without a name: logged by the navigator later
             Add(parent, it);
         } else if (game::IsTextEdit(k)) {
-            it.label = util::CleanForSpeech(game::TextEditText(k));
+            std::string raw = game::TextEditText(k);
+            it.label = util::CleanForSpeech(raw);
             it.role = game::TextEditEditable(k) ? Role::TextField : Role::Text;
+            // An empty field shows its prompt as its text ("Ponle un nombre"), which the first
+            // key replaces: the text first seen is the field's name once typing has replaced it
+            // (text typed after a real value extends it instead).
+            static std::map<Ptr, std::string> s_first;
+            if (it.role == Role::TextField) {
+                auto first = s_first.emplace(k, it.label).first;
+                const std::string& prompt = first->second;
+                if (!prompt.empty() && it.label != prompt && it.label.rfind(prompt, 0) != 0)
+                    it.label = util::Format(S(Str::LabelValue), prompt.c_str(),
+                                            it.label.empty() ? S(Str::Blank) : it.label.c_str());
+            }
             if (it.label.empty() && it.role == Role::Text) return;
             Add(parent, it);
         } else if (game::IsText(k)) {
@@ -288,6 +371,13 @@ std::vector<Group> Collect(Ptr root) {
             }
         }
         g.items = merged;
+        // Controls that share a label (four "Tono de piel" swatches, two body shapes) are told
+        // apart by their order: "Tono de piel 2".
+        std::map<std::string, int> counts, seen;
+        for (const Item& it : g.items)
+            if (it.role != Role::Text) counts[it.label]++;
+        for (Item& it : g.items)
+            if (it.role != Role::Text && counts[it.label] > 1) it.label += " " + std::to_string(++seen[it.label]);
         g.bounds = g.items[0].rect;
         for (const Item& it : g.items) UnionRect(&g.bounds, &g.bounds, &it.rect);
         out.push_back(std::move(g));

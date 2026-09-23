@@ -55,6 +55,8 @@ const Translation kEntries[] = {
     {Str::Space, "пробел"},
     // Values
     {Str::ValueOfMax, "%d из %d"},
+    {Str::SliderRange, "от %1$s до %2$s"},
+    {Str::PointsLeft, "осталось очков: %d"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "следующая страница"},
     {Str::PreviousPage, "предыдущая страница"},

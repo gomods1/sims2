@@ -56,6 +56,8 @@ const Translation kEntries[] = {
     {Str::Space, "Leerzeichen"},
     // Values
     {Str::ValueOfMax, "%d von %d"},
+    {Str::SliderRange, "%1$s bis %2$s"},
+    {Str::PointsLeft, "%d Punkte übrig"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "nächste Seite"},
     {Str::PreviousPage, "vorige Seite"},

@@ -21,6 +21,7 @@ enum class Role {
     PieItem,    // an entry of the interaction (pie) menu: Enter chooses it
     QueuedAction,  // an action in the selected Sim's queue: Enter cancels it
     Product,    // a buy mode catalog product: Enter picks it up to place it
+    Slider,     // a value in steps (Create a Sim's personality bars): Left/Right change it
 };
 
 struct Item {
@@ -29,6 +30,7 @@ struct Item {
     std::string label;   // UTF-8, what is spoken first
     std::string detail;  // the rest of a tooltip ("Title|Description": the description)
     std::string value;   // Role::Product: price and ratings, spoken after the role
+    int step = 0, steps = 0;  // Role::Slider
     RECT rect = {};      // main window coordinates
     int number = 0;      // Role::Lot: the lot id
     int family = 0;      // Role::Lot: the family living there (its id), 0 when none
