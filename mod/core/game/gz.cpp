@@ -112,6 +112,8 @@ bool ButtonOn(Ptr w) {
     return IsButton(w) && (Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) & addr::btn::kFlagOn) != 0;
 }
 
+uint32_t ButtonFlags(Ptr w) { return IsButton(w) ? Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) : 0; }
+
 bool ButtonToggles(Ptr w) {
     return IsButton(w) &&
            (Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) & (addr::btn::kFlagToggle | addr::btn::kFlagChoice)) != 0;

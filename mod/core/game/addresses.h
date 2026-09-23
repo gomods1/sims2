@@ -209,6 +209,15 @@ constexpr int kSlotMouseMove = 45;          // thiscall (int pos[2]): after 42 f
                                             // tool moves the held object to the pick and judges it
 }  // namespace tool
 
+// Neighborhood tools (cTSUserToolNeighborhoodMoveIn: a family chosen in the family bin, waiting
+// for a click on a lot). Their dispatcher (slot 8, 0xa079a1d5: thiscall (0, message, int pos[2]))
+// takes 3 move / 4 down / 5 up; on a down the move-in tool asks slot 24 for the lot under the cursor.
+namespace nhoodtool {
+constexpr uint32_t kLotAtScreen = 0xa079a5a4;  // slot 24: thiscall (int pos[2], int* lot, cIGZString* name)
+                                               // -> bool; a ray against the scene's "LotData" nodes
+constexpr int kSlotDispatch = 8;
+}  // namespace nhoodtool
+
 // Scene graph nodes (nTSSG::cObject and subclasses): what the tools' object pick returns.
 namespace scenenode {
 constexpr int kObject = 0x88;  // -> the lot object (cTSObject / cTSPerson, the object module's entry)

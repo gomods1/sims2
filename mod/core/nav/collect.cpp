@@ -39,14 +39,25 @@ bool IsPanelProc(const std::string& proc) {
     return true;
 }
 
-// The group an item belongs to: the nearest panel around it, else its container.
+// A container that wraps a single control (a turn-on slot's frame): its control belongs with
+// the windows around the container.
+bool Wrapper(Ptr w) {
+    int controls = 0;
+    for (Ptr c : game::Children(w))
+        if (game::Visible(c) && (game::IsButton(c) || game::IsText(c) || game::IsTextEdit(c))) controls++;
+    return controls == 1;
+}
+
+// The group an item belongs to: the nearest panel around it, else its container (past wrappers).
 Ptr GroupOf(Ptr parent, Ptr root) {
     int depth = 0;
     for (Ptr p = parent; p && depth < 40; p = game::Parent(p), depth++) {
         if (IsPanelProc(game::ProcClass(p))) return p;
         if (p == root) break;
     }
-    return parent;
+    Ptr p = parent;
+    while (p != root && Wrapper(p) && game::Parent(p) && !game::ProcClass(p).size()) p = game::Parent(p);
+    return p;
 }
 
 // A visible text or text field next to w shows this text.
@@ -58,6 +69,44 @@ bool SiblingShows(Ptr w, const std::string& text) {
         if (util::CleanForSpeech(t) == text) return true;
     }
     return false;
+}
+
+// The nearest text above a window, overlapping it horizontally, among the windows beside it or
+// beside its container (screen coordinates); empty when none is close.
+std::string HeadingAbove(Ptr w) {
+    RECT r = game::ScreenRect(w);
+    std::string best;
+    int bestGap = 120;
+    Ptr parent = game::Parent(w);
+    for (Ptr scope : {parent, game::Parent(parent)}) {
+        if (!scope) continue;
+        for (Ptr s : game::Children(scope)) {
+            if (s == w || s == parent || !game::Visible(s) || !game::IsText(s)) continue;
+            RECT t = game::ScreenRect(s);
+            int gap = r.top - t.bottom;
+            if (gap < -4 || gap > bestGap || t.right <= r.left || t.left >= r.right) continue;
+            std::string text = util::CleanForSpeech(game::Caption(s));
+            if (text.empty() || text.size() > 40) continue;
+            best = text;
+            bestGap = gap;
+        }
+    }
+    return best;
+}
+
+// A plain button that is the only one on among at least four alike (same flags but the on bit):
+// the chosen one of a set (Create a Sim's aspiration and star sign, the options page shown).
+// Plain buttons are also on for other reasons (Accept and Cancel after a press), hence the count.
+bool ChosenAmongOthers(Ptr w) {
+    if (!game::ButtonOn(w)) return false;
+    uint32_t family = game::ButtonFlags(w) | 1;
+    int alike = 0, on = 0;
+    for (Ptr s : game::Children(game::Parent(w))) {
+        if (!game::Visible(s) || !game::IsButton(s) || (game::ButtonFlags(s) | 1) != family) continue;
+        alike++;
+        if (game::ButtonOn(s)) on++;
+    }
+    return alike >= 4 && on == 1;
 }
 
 struct Walker {
@@ -254,7 +303,10 @@ struct Walker {
             std::string caption = util::CleanForSpeech(game::Caption(k));
             // No tooltip and a caption that is not drawn: the caption is a design-time name
             // ("influence popup / button"), unless a text beside the button shows it.
-            if (title.empty() && !game::CaptionShown(k) && !SiblingShows(k, caption)) return;
+            if (title.empty() && !game::CaptionShown(k) && !SiblingShows(k, caption)) caption.clear();
+            // An unnamed box under a heading ("Me pone" over the turn-on slots) takes the heading.
+            if (title.empty() && caption.empty()) title = HeadingAbove(k);
+            if (title.empty() && caption.empty()) return;
             it.label = util::WithoutHotkey(title.empty() ? caption : title);
             it.detail = it.label != title && !title.empty() ? title + (rest.empty() ? "" : ". " + rest) : rest;
             // A value drawn on the button (the funds, the clock): "Fondos: 83.947 simoleones".
@@ -262,7 +314,7 @@ struct Walker {
                 it.label = util::Format(S(Str::LabelValue), it.label.c_str(), caption.c_str());
             // A value drawn on a disabled button (the clock, the funds) is text to read.
             if (game::CaptionShown(k) && !game::Enabled(k)) it.role = Role::Text;
-            it.role = game::ButtonToggles(k) ? Role::Toggle : Role::Button;
+            it.role = game::ButtonToggles(k) || ChosenAmongOthers(k) ? Role::Toggle : Role::Button;
             if (it.label.empty()) return;  // icon without a name: logged by the navigator later
             Add(parent, it);
         } else if (game::IsTextEdit(k)) {

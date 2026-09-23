@@ -49,6 +49,11 @@ const Translation kEntries[] = {
     {Str::GroupControls, "contrôles"},
     {Str::GroupBuyPanel, "mode Achat"},
     {Str::GroupCatalog, "catalogue"},
+    {Str::GroupStarSign, "signe astrologique"},
+    {Str::GroupAspiration, "aspiration"},
+    {Str::GroupSteps, "étapes"},
+    {Str::GroupAge, "âge"},
+    {Str::GroupSex, "sexe"},
     // Text fields
     {Str::TextField, "%s %s, champ de texte"},
     {Str::Blank, "vide"},

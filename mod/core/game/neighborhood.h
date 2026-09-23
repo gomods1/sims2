@@ -37,4 +37,9 @@ Ptr LotInfoProc();
 // Shows the lot info dialog for a lot, as a click on the house does (Show, interface slot 4).
 bool ShowLotInfo(int lotId, int arg2, int mode);
 
+// With a family chosen in the family bin (the move-in tool), a click on a lot as the mouse makes
+// it: the game then asks what it asks (buy the lot, move in). False when no family is chosen.
+bool ClickLotWithTool(int lotId);
+void InitNeighborhoodHooks();  // from InitHooks
+
 }  // namespace game

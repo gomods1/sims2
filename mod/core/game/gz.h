@@ -38,6 +38,7 @@ bool IsButton(Ptr w);
 std::string Tooltip(Ptr w);          // UTF-8, "Title|Description" as the game stores it
 bool ButtonOn(Ptr w);                // a toggle or radio button that is on
 bool ButtonToggles(Ptr w);
+uint32_t ButtonFlags(Ptr w);  // GetBtnFlag bits (game/addresses.h btn::kFlags)
 bool CaptionShown(Ptr w);            // the button draws its caption (a value such as the funds)
 std::string ProcClass(Ptr w);        // the class of the window's proc (cTSWinProc*), empty if none
 Ptr Proc(Ptr w);                     // the window's proc object, 0 if none

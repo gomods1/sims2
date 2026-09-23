@@ -48,6 +48,11 @@ const Translation kEntries[] = {
     {Str::GroupControls, "控制按钮"},
     {Str::GroupBuyPanel, "购买模式"},
     {Str::GroupCatalog, "目录"},
+    {Str::GroupStarSign, "星座"},
+    {Str::GroupAspiration, "志向"},
+    {Str::GroupSteps, "步骤"},
+    {Str::GroupAge, "年龄"},
+    {Str::GroupSex, "性别"},
     // Text fields
     {Str::TextField, "%s %s，文本框"},
     {Str::Blank, "空白"},

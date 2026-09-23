@@ -49,6 +49,11 @@ const Translation kEntries[] = {
     {Str::GroupControls, "ovládací prvky"},
     {Str::GroupBuyPanel, "režim nákupu"},
     {Str::GroupCatalog, "katalog"},
+    {Str::GroupStarSign, "znamení zvěrokruhu"},
+    {Str::GroupAspiration, "aspirace"},
+    {Str::GroupSteps, "kroky"},
+    {Str::GroupAge, "věk"},
+    {Str::GroupSex, "pohlaví"},
     // Text fields
     {Str::TextField, "%s %s, textové pole"},
     {Str::Blank, "prázdné"},

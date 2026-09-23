@@ -52,6 +52,20 @@ std::string GroupName(const Group& g) {
     };
     for (const auto& p : kPanels)
         if (g.proc == p.proc) return S(p.name);
+    // Containers known by their design-time caption (Create a Sim has no panel procs).
+    static const struct {
+        const char* caption;
+        Str name;
+    } kContainers[] = {
+        {"Zodiac", Str::GroupStarSign},   {"TAE Aspirations", Str::GroupAspiration},
+        {"full wizard", Str::GroupSteps}, {"Age", Str::GroupAge},
+        {"Gender", Str::GroupSex},        {"CAS PUC", Str::GroupControlPanel},
+    };
+    if (g.key > 0x10000) {
+        std::string caption = game::Caption(g.key);
+        for (const auto& c : kContainers)
+            if (caption == c.caption) return S(c.name);
+    }
     for (const Item& it : g.items)
         if (it.role == Role::Text && it.label.size() < 60) return it.label;
     return S(IsTextOnly(g) ? Str::GroupText : Str::GroupButtons);

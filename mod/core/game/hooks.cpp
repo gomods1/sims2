@@ -8,6 +8,7 @@
 #include "MinHook.h"
 #include "addresses.h"
 #include "buy.h"
+#include "neighborhood.h"
 #include "gz.h"
 #include "rtti.h"
 
@@ -121,6 +122,7 @@ void InitHooks() {
     }
     HookGame("cGZWinMgrW32::DoModalWin", 0xa0972f48, (void*)DoModalDetour, &g_doModal);
     InitBuyHooks();
+    InitNeighborhoodHooks();
     HookApi("GetAsyncKeyState", (void*)GetAsyncKeyStateDetour, &g_getAsyncKeyState);
     HookApi("GetKeyState", (void*)GetKeyStateDetour, &g_getKeyState);
 }

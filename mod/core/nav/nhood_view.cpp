@@ -111,6 +111,11 @@ std::vector<std::string> LotDetails(const Item& it) {
     return lines;
 }
 
-void OpenLot(const Item& it) { game::ShowLotInfo(it.number, it.family, 0); }
+void OpenLot(const Item& it) {
+    // A family chosen in the family bin: the lot is clicked with the game's move-in tool, which
+    // asks whether to move the family there (and at what cost). Otherwise the lot's panel opens.
+    if (game::ClickLotWithTool(it.number)) return;
+    game::ShowLotInfo(it.number, it.family, 0);
+}
 
 }  // namespace nav::neighborhood

@@ -56,6 +56,14 @@ void DevCommand(const std::string& line) {
         MouseClick(1280, 640);
     }
     else if (!strcmp(name, "pie")) ShowInteractions(a);
+    else if (!strcmp(name, "movein")) ClickLotWithTool(a);
+    else if (!strcmp(name, "families")) {
+        for (const FamilyEntry& f : Families())
+            Log("  family %d \"%s\" lot %d members %d funds %d", f.id, f.name.c_str(), f.lot, f.members, f.funds);
+    } else if (!strcmp(name, "lots")) {
+        for (const LotEntry& l : Lots())
+            Log("  lot %d \"%s\" type %d size %dx%d flags %x", l.id, l.name.c_str(), l.type, l.width, l.depth, l.flags);
+    }
     else if (!strcmp(name, "check")) {
         // !check x y n: time n spot checks along x from (x, y)
         LARGE_INTEGER f, t0, t1;

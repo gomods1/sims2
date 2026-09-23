@@ -2,6 +2,10 @@
 
 #include "../util/log.h"
 #include "addresses.h"
+#include "buy.h"
+#include "hooks.h"
+#include "mouse.h"
+#include "rtti.h"
 #include "gz.h"
 #include "rtti.h"
 
@@ -80,6 +84,42 @@ Ptr LotInfoProc() {
     if (!win) return 0;
     Ptr proc = Rd<Ptr>(win + addr::win::kProc);
     return IsKindOf(proc, "cTSWinProcLotInfoDialog") ? proc : 0;
+}
+
+namespace {
+int g_forcedLot = -1;
+typedef char(__fastcall* LotAtScreenFn)(Ptr self, void* edx, int* pos, int* lot, Ptr name);
+LotAtScreenFn g_lotAtScreen = nullptr;
+char __fastcall LotAtScreenDetour(Ptr self, void* edx, int* pos, int* lot, Ptr name) {
+    if (g_forcedLot >= 0 && lot) {
+        *lot = g_forcedLot;
+        return 1;
+    }
+    return g_lotAtScreen(self, edx, pos, lot, name);
+}
+}  // namespace
+
+void InitNeighborhoodHooks() {
+    HookGame("cTSUserToolNeighborhood::LotAtScreen", addr::nhoodtool::kLotAtScreen, (void*)LotAtScreenDetour,
+             (void**)&g_lotAtScreen);
+}
+
+bool ClickLotWithTool(int lotId) {
+    Ptr tool = CurrentTool();
+    if (!IsKindOf(tool, "cTSUserToolNeighborhoodMoveIn")) return false;
+    typedef void(__thiscall * DispatchFn)(Ptr, int, int, int*);
+    Ptr vt = Rd<Ptr>(tool);
+    auto dispatch = InImage(vt) ? (DispatchFn)Rd<Ptr>(vt + addr::nhoodtool::kSlotDispatch * 4) : nullptr;
+    if (!dispatch) return false;
+    int pos[2] = {1280, 640};
+    MouseMove(pos[0], pos[1]);  // the tool reads mouse input only while a cursor shows
+    g_forcedLot = lotId;
+    Log("move-in tool %p: click on lot %d", (void*)tool, lotId);
+    // A dialog the click opens runs its loop inside this call; the mod keeps ticking meanwhile.
+    bool ok = Guarded([&] { dispatch(tool, 0, 4, pos); });
+    ok = ok && Guarded([&] { dispatch(tool, 0, 5, pos); });
+    g_forcedLot = -1;
+    return ok;
 }
 
 bool ShowLotInfo(int lotId, int arg2, int mode) {

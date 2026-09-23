@@ -49,6 +49,11 @@ const Translation kEntries[] = {
     {Str::GroupControls, "vezérlők"},
     {Str::GroupBuyPanel, "vásárlás mód"},
     {Str::GroupCatalog, "katalógus"},
+    {Str::GroupStarSign, "csillagjegy"},
+    {Str::GroupAspiration, "törekvés"},
+    {Str::GroupSteps, "lépések"},
+    {Str::GroupAge, "életkor"},
+    {Str::GroupSex, "nem"},
     // Text fields
     {Str::TextField, "%s %s, szövegmező"},
     {Str::Blank, "üres"},

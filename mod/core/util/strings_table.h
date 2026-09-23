@@ -45,6 +45,11 @@
     X(GroupControls, "controls")                                                                                       \
     X(GroupBuyPanel, "buy mode")                                                                                       \
     X(GroupCatalog, "catalog")                                                                                         \
+    X(GroupStarSign, "star sign")                                                                                      \
+    X(GroupAspiration, "aspiration")                                                                                   \
+    X(GroupSteps, "steps")                                                                                             \
+    X(GroupAge, "age")                                                                                                 \
+    X(GroupSex, "sex")                                                                                                 \
     /* Text fields */                                                                                                  \
     X(TextField, "%s %s, text field")                                                                                  \
     X(Blank, "blank")                                                                                                  \
