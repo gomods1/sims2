@@ -24,41 +24,32 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   keyboard (spots where it fits, nearest first, by room; arrows; facing; Enter buys), moving and
   selling objects of the lot (Enter on the object browser, Delete sells); moving past the last
   product (or before the first) turns the catalog's page.
+- Live mode by ear: pause, speed, clock, funds changes (and money paid or received), Ctrl+E
+  state, the action queue (Enter cancels), family members (Ctrl+1..9), the narrator (actions,
+  needs, visitors, balloons and relationship headlines, Ctrl+N verbosity), rooms
+  (Ctrl+PageUp/PageDown, Ctrl+L layout), walking (Ctrl+Enter, Ctrl+Shift+Enter runs), the camera
+  following the selected Sim (Ctrl+F).
+- The Sim panel: needs, relationships (daily and lifetime), job (column by column, workdays),
+  skills, personality, interests, hobby enthusiasm, memories, chemistry, rewards and inventory.
+- Create a Family / Sim / Pet: names, age, sex, skin, body, grids ("3 of 6"; pet breeds by name),
+  personality with the points left, pet trait pairs, aspiration, star sign, turn-ons; accepting;
+  the family bin; moving in.
+- Build mode: walls, fences, rooms, foundations (corners); floors and pools (tiles); doors,
+  windows and stairs through placement's spots; the cost of each change.
+- Travel: taxi from home to a community lot, Options > Barrio back; saving (Options > Guardar).
 
-## Next (live mode first: it is where the game is played)
+## Next
 
-- Game state by ear: pause and speed changes, the clock and day, funds changes; Ctrl+E the
-  selected Sim's state (action, needs from the Sim's data even with the panel closed, mood);
-  the action queue as a group (Enter cancels); family members (select with Ctrl+1..9, Space/N).
-- Narrator: need warnings, what each Sim starts and finishes, visitors arriving and leaving,
-  phone calls and letters (dialogs already read), money. Balloons done (needs, interests,
-  hobbies, Sims, relationship headlines); still unnamed: the misc, zodiac, turn-on, job, wealth,
-  aspiration and pet sheets (view them with `tools/sims2_texture.py`), wants and fears balloons.
-- Rooms: the lot's rooms (Ctrl+PageUp/PageDown), room names from contents, Ctrl+L layout.
-- Walk to an object or spot (Ctrl+Enter), camera following the selected Sim (sounds come from
-  what is on screen), edge scrolling off.
-- Sim names in full (neighbor data), relationships, skills, job, aspiration, personality,
-  interests, inventory.
-- Create a Family / Create a Sim: names (typing echoed), age, sex, skin tone, body shape, heads
-  and other grids ("3 of 6"), personality sliders with the points left, aspiration, star sign,
-  turn-ons; accept the Sim and the family; the family bin; moving a family in (Enter on a lot
-  with the family chosen: the game's own question and cost).
-- Build mode: walls, fences, rooms, foundations by corners; floors and pools by tiles (a cursor,
-  Space marks, Enter builds, Ctrl+Enter removes, PageUp/PageDown levels), with the cost.
-- Walking to an object (Ctrl+Enter; Ctrl+Shift+Enter runs).
-- Buy mode, still: the game's reason
-  when a spot is refused (STR# 0x89), which directions fit a spot, doors and windows, multi-tile
-  objects' footprint in the spot line.
-- Build mode, still: walls' checks before building (shutting a Sim in, cutting objects off),
-  ready-made rooms, stairs, roofs, terrain, wallpaper. (Done: Ctrl+L room layout; doors and
-  windows through buy placement's spots with the wall and the room behind.)
-- Create a Sim, still: names for heads, hair, clothes (their property sets), the family's
-  relationships, pets, the CAS group names without design captions (skin, body).
-- Create a Sim / family (CAS): names, age, gender, personality, aspiration, looks (with the
-  game's own names where they exist), and the family bin, moving families in and out.
-- Expansion content: university (dorms, classes), nightlife (dates, cars), business, pets,
-  seasons, travel, apartments, hobbies, magic; their panels and dialogs through the generic
-  navigation first, then dedicated readers where the generic one falls short.
+- Build mode: wallpaper (the tool picks walls from the screen: `STRUCTS.md`), roofs, terrain;
+  checks before building walls (shutting a Sim in, cutting objects off); ready-made rooms.
+- Buy mode: the game's reason when a spot is refused (STR# 0x89), which directions fit a spot,
+  multi-tile objects' footprint in the spot line.
+- Create a Sim: the family's relationships (the drag screen), names for heads, hair, clothes (no
+  names in the game: perhaps colors and categories), group names without design captions.
+- Balloons still unnamed: job, University's professor sheet, wants and fears (flag 0x2000).
+- Expansion content, checked one by one through the generic navigation, dedicated readers where
+  it falls short: university (dorms, classes), nightlife (dates, cars), business, seasons,
+  vacations, apartments, magic.
 - Translation of every new mod string (19 languages); the key help per screen (Ctrl+F1).
 
 ## Findings to follow up
