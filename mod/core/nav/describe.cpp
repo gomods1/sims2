@@ -48,6 +48,7 @@ std::string GroupName(const Group& g) {
         {"cTSWinProcPanelMotives", Str::GroupNeeds},
         {"cTSWinProcNeighborhoodUCP", Str::GroupControlPanel},
         {"cTSWinProcBuyPanel", Str::GroupBuyPanel},
+        {"cTSWinProcBuildPanel", Str::GroupBuildPanel},
         {"cTSWinProcCatalog", Str::GroupCatalog},
     };
     for (const auto& p : kPanels)

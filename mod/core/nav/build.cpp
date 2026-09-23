@@ -34,11 +34,33 @@ struct State {
 };
 State g;
 
-// The dragged tools: walls and fences (cTSUserToolWall); others come later (floors, terrain).
-bool IsDragTool(game::Ptr tool) { return game::IsKindOf(tool, "cTSUserToolWall"); }
+// The dragged tools: walls, fences and rooms, foundations and decks go from corner to corner;
+// floors and pools cover tiles.
+enum class Kind { None, Corners, Tiles };
+Kind KindOf(game::Ptr tool) {
+    if (game::IsKindOf(tool, "cTSUserToolWall") || game::IsKindOf(tool, "cTSUserToolDeckFoundation"))
+        return Kind::Corners;
+    if (game::IsKindOf(tool, "cTSUserToolFloorPattern") || game::IsKindOf(tool, "cTSUserToolCurvedPool"))
+        return Kind::Tiles;
+    return Kind::None;
+}
+bool IsDragTool(game::Ptr tool) { return KindOf(tool) != Kind::None; }
+
+// The funds as a number, from the control panel's text ("49.129 simoleones"); -1 when unknown.
+long long FundsValue(const std::string& text) {
+    long long v = 0;
+    bool any = false;
+    for (char c : text)
+        if (c >= '0' && c <= '9') {
+            v = v * 10 + (c - '0');
+            any = true;
+        }
+    return any ? v : -1;
+}
 
 void SayCorner() {
-    std::string line = util::Format(S(Str::BuildCorner), g.x, g.y);
+    bool tiles = KindOf(game::CurrentTool()) == Kind::Tiles;
+    std::string line = util::Format(S(tiles ? Str::PlaceTile : Str::BuildCorner), g.x, g.y);
     std::string room = world::RoomNameAt(g.x + 0.5f, g.y + 0.5f, g.level);
     if (!room.empty()) line += ", " + room;
     speech::Say(line);
@@ -150,7 +172,8 @@ void Tick() {
         // 1: move to the start, 2: press, 3-4: move to the end, 5: release.
         int step = g.dragStep++;
         bool atEnd = step >= 3;
-        game::SetPickOverride(true, (float)(atEnd ? g.x : g.markX), (float)(atEnd ? g.y : g.markY), g.level);
+        float centre = KindOf(tool) == Kind::Tiles ? 0.5f : 0.0f;  // tiles by their centre, corners exactly
+        game::SetPickOverride(true, (atEnd ? g.x : g.markX) + centre, (atEnd ? g.y : g.markY) + centre, g.level);
         if (g.dragCtrl) game::SetSyntheticModifier(VK_CONTROL, true);
         int message = step == 2 ? 4 : step == 5 ? 5 : 3;
         game::ToolMessage(tool, step == 1 ? 0 : 1, message, 1280 + step, 640);
@@ -169,8 +192,14 @@ void Tick() {
     if (g.waiting && GetTickCount64() - g.draggedAt > 400) {
         g.waiting = false;
         std::string funds = live::FundsText();
-        if (funds == g.fundsBefore) buffers::Event(S(Str::BuildNothing));
-        else buffers::Event(util::Format(S(g.removing ? Str::BuildRemoved : Str::BuildDone), funds.c_str()));
+        long long before = FundsValue(g.fundsBefore), after = FundsValue(funds);
+        if (funds == g.fundsBefore || before < 0 || after < 0) {
+            buffers::Event(S(Str::BuildNothing));
+        } else {
+            // What it cost (or what came back), then the funds left.
+            std::string change = util::Money((int)std::llabs(after - before));
+            buffers::Event(util::Format(S(after < before ? Str::BuildDone : Str::BuildRemoved), change.c_str(), funds.c_str()));
+        }
     }
 }
 

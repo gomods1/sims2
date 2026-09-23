@@ -48,6 +48,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "potřeby"},
     {Str::GroupControls, "ovládací prvky"},
     {Str::GroupBuyPanel, "režim nákupu"},
+    {Str::GroupBuildPanel, "režim stavby"},
     {Str::GroupCatalog, "katalog"},
     {Str::GroupStarSign, "znamení zvěrokruhu"},
     {Str::GroupAspiration, "aspirace"},
@@ -142,6 +143,15 @@ const Translation kEntries[] = {
     {Str::PlaceMoving, "přesun: %s. Page Down hledá místa, Enter položí, Delete prodá, Escape vrátí na místo"},
     {Str::PlaceCannotPick, "%s nelze zvednout"},
     {Str::PlaceSold, "%s prodáno"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: šipky posouvají roh, mezerník označí začátek, Enter staví, Ctrl+Enter odstraní, Escape ukončí"},
+    {Str::BuildCorner, "roh %1$d, %2$d"},
+    {Str::BuildMarked, "začátek označen na %1$d, %2$d"},
+    {Str::BuildNoMark, "nejprve označ začátek mezerníkem"},
+    {Str::BuildDone, "postaveno za %1$s, zbývá %2$s"},
+    {Str::BuildRemoved, "odstraněno, vráceno %1$s, %2$s"},
+    {Str::BuildNothing, "nic se nezměnilo"},
 };
 
 }  // namespace

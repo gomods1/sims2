@@ -44,6 +44,7 @@
     X(GroupNeeds, "needs")                                                                                             \
     X(GroupControls, "controls")                                                                                       \
     X(GroupBuyPanel, "buy mode")                                                                                       \
+    X(GroupBuildPanel, "build mode")                                                                                   \
     X(GroupCatalog, "catalog")                                                                                         \
     X(GroupStarSign, "star sign")                                                                                      \
     X(GroupAspiration, "aspiration")                                                                                   \
@@ -143,6 +144,6 @@
     X(BuildCorner, "corner %1$d, %2$d")                                                                                \
     X(BuildMarked, "start marked at %1$d, %2$d")                                                                       \
     X(BuildNoMark, "mark the start with Space first")                                                                  \
-    X(BuildDone, "built, %s")                                                                                          \
-    X(BuildRemoved, "removed, %s")                                                                                     \
+    X(BuildDone, "built for %1$s, %2$s left")                                                                                          \
+    X(BuildRemoved, "removed, %1$s back, %2$s")                                                                                     \
     X(BuildNothing, "nothing changed")                                                                                 \

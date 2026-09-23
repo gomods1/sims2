@@ -48,6 +48,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "потребности"},
     {Str::GroupControls, "элементы управления"},
     {Str::GroupBuyPanel, "режим покупки"},
+    {Str::GroupBuildPanel, "режим строительства"},
     {Str::GroupCatalog, "каталог"},
     {Str::GroupStarSign, "знак зодиака"},
     {Str::GroupAspiration, "стремление"},
@@ -144,6 +145,15 @@ const Translation kEntries[] = {
      "перемещение: %s. Page Down ищет места, Enter ставит, Delete продаёт, Escape возвращает на место"},
     {Str::PlaceCannotPick, "%s нельзя поднять"},
     {Str::PlaceSold, "%s продан"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: стрелки двигают угол, пробел отмечает начало, Enter строит, Ctrl+Enter сносит, Escape выход"},
+    {Str::BuildCorner, "угол %1$d, %2$d"},
+    {Str::BuildMarked, "начало отмечено в %1$d, %2$d"},
+    {Str::BuildNoMark, "сначала отметьте начало пробелом"},
+    {Str::BuildDone, "построено за %1$s, осталось %2$s"},
+    {Str::BuildRemoved, "снесено, возвращено %1$s, %2$s"},
+    {Str::BuildNothing, "ничего не изменилось"},
 };
 
 }  // namespace

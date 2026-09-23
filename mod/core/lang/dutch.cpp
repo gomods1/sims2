@@ -48,6 +48,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "behoeften"},
     {Str::GroupControls, "besturing"},
     {Str::GroupBuyPanel, "koopmodus"},
+    {Str::GroupBuildPanel, "bouwmodus"},
     {Str::GroupCatalog, "catalogus"},
     {Str::GroupStarSign, "sterrenbeeld"},
     {Str::GroupAspiration, "ambitie"},
@@ -145,6 +146,16 @@ const Translation kEntries[] = {
      "%s verplaatsen: Page Down zoekt plekken, Enter zet het neer, Delete verkoopt het, Escape zet het terug"},
     {Str::PlaceCannotPick, "%s kan niet opgepakt worden"},
     {Str::PlaceSold, "%s verkocht"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: de pijltjes verplaatsen de hoek, spatie markeert het begin, Enter bouwt, Ctrl+Enter verwijdert, Escape "
+     "stopt"},
+    {Str::BuildCorner, "hoek %1$d, %2$d"},
+    {Str::BuildMarked, "begin gemarkeerd op %1$d, %2$d"},
+    {Str::BuildNoMark, "markeer eerst het begin met spatie"},
+    {Str::BuildDone, "gebouwd voor %1$s, nog %2$s"},
+    {Str::BuildRemoved, "verwijderd, %1$s terug, %2$s"},
+    {Str::BuildNothing, "er is niets veranderd"},
 };
 
 }  // namespace

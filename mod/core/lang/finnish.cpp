@@ -49,6 +49,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "tarpeet"},
     {Str::GroupControls, "ohjaimet"},
     {Str::GroupBuyPanel, "ostotila"},
+    {Str::GroupBuildPanel, "rakennustila"},
     {Str::GroupCatalog, "luettelo"},
     {Str::GroupStarSign, "tähtimerkki"},
     {Str::GroupAspiration, "tavoite"},
@@ -145,6 +146,15 @@ const Translation kEntries[] = {
      "siirrä %s: Page Down etsii paikat, Enter asettaa sen, Delete myy sen, Escape palauttaa sen"},
     {Str::PlaceCannotPick, "%s ei voi nostaa"},
     {Str::PlaceSold, "%s myyty"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: nuolet siirtävät kulmaa, välilyönti merkitsee alun, Enter rakentaa, Ctrl+Enter poistaa, Escape lopettaa"},
+    {Str::BuildCorner, "kulma %1$d, %2$d"},
+    {Str::BuildMarked, "alku merkitty kohtaan %1$d, %2$d"},
+    {Str::BuildNoMark, "merkitse ensin alku välilyönnillä"},
+    {Str::BuildDone, "rakennettu hintaan %1$s, jäljellä %2$s"},
+    {Str::BuildRemoved, "poistettu, %1$s takaisin, %2$s"},
+    {Str::BuildNothing, "mikään ei muuttunut"},
 };
 
 }  // namespace

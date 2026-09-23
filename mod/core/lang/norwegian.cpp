@@ -48,6 +48,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "behov"},
     {Str::GroupControls, "kontroller"},
     {Str::GroupBuyPanel, "kjøpemodus"},
+    {Str::GroupBuildPanel, "byggemodus"},
     {Str::GroupCatalog, "katalog"},
     {Str::GroupStarSign, "stjernetegn"},
     {Str::GroupAspiration, "ambisjon"},
@@ -145,6 +146,16 @@ const Translation kEntries[] = {
      "flytt %s: Page Down finner plasser, Enter setter den ned, Delete selger den, Escape setter den tilbake"},
     {Str::PlaceCannotPick, "%s kan ikke plukkes opp"},
     {Str::PlaceSold, "%s solgt"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: piltastene flytter hjørnet, mellomrom markerer starten, Enter bygger, Ctrl+Enter fjerner, Escape "
+     "avslutter"},
+    {Str::BuildCorner, "hjørne %1$d, %2$d"},
+    {Str::BuildMarked, "start markert ved %1$d, %2$d"},
+    {Str::BuildNoMark, "marker først starten med mellomrom"},
+    {Str::BuildDone, "bygget for %1$s, %2$s igjen"},
+    {Str::BuildRemoved, "fjernet, %1$s tilbake, %2$s"},
+    {Str::BuildNothing, "ingenting endret"},
 };
 
 }  // namespace

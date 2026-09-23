@@ -47,6 +47,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "욕구"},
     {Str::GroupControls, "제어판"},
     {Str::GroupBuyPanel, "구매 모드"},
+    {Str::GroupBuildPanel, "건축 모드"},
     {Str::GroupCatalog, "카탈로그"},
     {Str::GroupStarSign, "별자리"},
     {Str::GroupAspiration, "열망"},
@@ -141,6 +142,14 @@ const Translation kEntries[] = {
     {Str::PlaceMoving, "%s 옮기기: Page Down으로 자리 찾기, Enter로 놓기, Delete로 팔기, Escape로 제자리에"},
     {Str::PlaceCannotPick, "%s 들 수 없음"},
     {Str::PlaceSold, "%s 팔았음"},
+    // Build mode
+    {Str::BuildBegin, "%s: 화살표로 모서리 이동, 스페이스로 시작점 표시, Enter로 건설, Ctrl+Enter로 철거, Escape로 종료"},
+    {Str::BuildCorner, "모서리 %1$d, %2$d"},
+    {Str::BuildMarked, "시작점 %1$d, %2$d 표시됨"},
+    {Str::BuildNoMark, "먼저 스페이스로 시작점을 표시하세요"},
+    {Str::BuildDone, "%1$s에 건설, 남은 돈 %2$s"},
+    {Str::BuildRemoved, "철거함, %1$s 돌려받음, %2$s"},
+    {Str::BuildNothing, "바뀐 것 없음"},
 };
 
 }  // namespace

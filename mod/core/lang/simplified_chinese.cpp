@@ -47,6 +47,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "需求"},
     {Str::GroupControls, "控制按钮"},
     {Str::GroupBuyPanel, "购买模式"},
+    {Str::GroupBuildPanel, "建造模式"},
     {Str::GroupCatalog, "目录"},
     {Str::GroupStarSign, "星座"},
     {Str::GroupAspiration, "志向"},
@@ -141,6 +142,14 @@ const Translation kEntries[] = {
     {Str::PlaceMoving, "移动%s：Page Down 查找位置，Enter 放下，Delete 卖掉，Escape 放回原处"},
     {Str::PlaceCannotPick, "%s无法拿起"},
     {Str::PlaceSold, "已卖掉%s"},
+    // Build mode
+    {Str::BuildBegin, "%s：方向键移动角点，空格标记起点，Enter 建造，Ctrl+Enter 拆除，Escape 退出"},
+    {Str::BuildCorner, "角点 %1$d，%2$d"},
+    {Str::BuildMarked, "起点标记在 %1$d，%2$d"},
+    {Str::BuildNoMark, "请先用空格标记起点"},
+    {Str::BuildDone, "花费 %1$s 建成，剩余 %2$s"},
+    {Str::BuildRemoved, "已拆除，退回 %1$s，%2$s"},
+    {Str::BuildNothing, "没有变化"},
 };
 
 }  // namespace

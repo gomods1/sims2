@@ -49,6 +49,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "Bedürfnisse"},
     {Str::GroupControls, "Steuerung"},
     {Str::GroupBuyPanel, "Kaufmodus"},
+    {Str::GroupBuildPanel, "Baumodus"},
     {Str::GroupCatalog, "Katalog"},
     {Str::GroupStarSign, "Sternzeichen"},
     {Str::GroupAspiration, "Bestreben"},
@@ -145,6 +146,16 @@ const Translation kEntries[] = {
      "%s verschieben: Bild ab findet Plätze, Eingabe stellt es hin, Entf verkauft es, Escape stellt es zurück"},
     {Str::PlaceCannotPick, "%s kann nicht aufgehoben werden"},
     {Str::PlaceSold, "%s verkauft"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: Pfeiltasten bewegen die Ecke, Leertaste markiert den Anfang, Eingabe baut, Strg+Eingabe entfernt, "
+     "Escape beendet"},
+    {Str::BuildCorner, "Ecke %1$d, %2$d"},
+    {Str::BuildMarked, "Anfang markiert bei %1$d, %2$d"},
+    {Str::BuildNoMark, "markiere zuerst den Anfang mit der Leertaste"},
+    {Str::BuildDone, "gebaut für %1$s, übrig %2$s"},
+    {Str::BuildRemoved, "entfernt, %1$s zurück, %2$s"},
+    {Str::BuildNothing, "nichts geändert"},
 };
 
 }  // namespace

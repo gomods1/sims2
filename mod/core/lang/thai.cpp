@@ -48,6 +48,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "ความต้องการ"},
     {Str::GroupControls, "ปุ่มควบคุม"},
     {Str::GroupBuyPanel, "โหมดซื้อ"},
+    {Str::GroupBuildPanel, "โหมดก่อสร้าง"},
     {Str::GroupCatalog, "แคตตาล็อก"},
     {Str::GroupStarSign, "ราศี"},
     {Str::GroupAspiration, "ความปรารถนา"},
@@ -142,6 +143,14 @@ const Translation kEntries[] = {
     {Str::PlaceMoving, "ย้าย%s: Page Down หาที่ Enter วาง Delete ขาย Escape วางคืนที่เดิม"},
     {Str::PlaceCannotPick, "ยก%sไม่ได้"},
     {Str::PlaceSold, "ขาย%sแล้ว"},
+    // Build mode
+    {Str::BuildBegin, "%s: ลูกศรเลื่อนมุม เว้นวรรคกำหนดจุดเริ่ม Enter สร้าง Ctrl+Enter รื้อ Escape ออก"},
+    {Str::BuildCorner, "มุม %1$d, %2$d"},
+    {Str::BuildMarked, "กำหนดจุดเริ่มที่ %1$d, %2$d"},
+    {Str::BuildNoMark, "กดเว้นวรรคกำหนดจุดเริ่มก่อน"},
+    {Str::BuildDone, "สร้างแล้วราคา %1$s เหลือ %2$s"},
+    {Str::BuildRemoved, "รื้อแล้ว ได้คืน %1$s, %2$s"},
+    {Str::BuildNothing, "ไม่มีอะไรเปลี่ยน"},
 };
 
 }  // namespace

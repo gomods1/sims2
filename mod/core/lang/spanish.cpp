@@ -48,6 +48,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "necesidades"},
     {Str::GroupControls, "controles"},
     {Str::GroupBuyPanel, "modo Comprar"},
+    {Str::GroupBuildPanel, "modo Construir"},
     {Str::GroupCatalog, "catálogo"},
     {Str::GroupStarSign, "signo del zodiaco"},
     {Str::GroupAspiration, "aspiración"},
@@ -144,6 +145,16 @@ const Translation kEntries[] = {
      "mover %s: Avance de página busca sitios, Intro lo coloca, Suprimir lo vende, Escape lo devuelve a su sitio"},
     {Str::PlaceCannotPick, "%s no se puede coger"},
     {Str::PlaceSold, "%s vendido"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: las flechas mueven la esquina, Espacio marca el inicio, Intro construye, Control+Intro quita, Escape "
+     "sale"},
+    {Str::BuildCorner, "esquina %1$d, %2$d"},
+    {Str::BuildMarked, "inicio marcado en %1$d, %2$d"},
+    {Str::BuildNoMark, "marca primero el inicio con Espacio"},
+    {Str::BuildDone, "construido por %1$s, quedan %2$s"},
+    {Str::BuildRemoved, "quitado, se devuelven %1$s, %2$s"},
+    {Str::BuildNothing, "no ha cambiado nada"},
 };
 
 }  // namespace

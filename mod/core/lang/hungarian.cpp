@@ -48,6 +48,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "szükségletek"},
     {Str::GroupControls, "vezérlők"},
     {Str::GroupBuyPanel, "vásárlás mód"},
+    {Str::GroupBuildPanel, "építés mód"},
     {Str::GroupCatalog, "katalógus"},
     {Str::GroupStarSign, "csillagjegy"},
     {Str::GroupAspiration, "törekvés"},
@@ -144,6 +145,16 @@ const Translation kEntries[] = {
      "áthelyezés: %s. A Page Down helyet keres, az Enter leteszi, a Delete eladja, az Escape visszateszi"},
     {Str::PlaceCannotPick, "%s nem vehető fel"},
     {Str::PlaceSold, "%s eladva"},
+    // Build mode
+    {Str::BuildBegin,
+     "%s: a nyilak mozgatják a sarkot, a szóköz jelöli a kezdetet, az Enter épít, a Ctrl+Enter bont, az Escape "
+     "kilép"},
+    {Str::BuildCorner, "sarok %1$d, %2$d"},
+    {Str::BuildMarked, "kezdet megjelölve: %1$d, %2$d"},
+    {Str::BuildNoMark, "előbb jelöld meg a kezdetet szóközzel"},
+    {Str::BuildDone, "megépítve %1$s áron, maradt %2$s"},
+    {Str::BuildRemoved, "lebontva, %1$s vissza, %2$s"},
+    {Str::BuildNothing, "nem változott semmi"},
 };
 
 }  // namespace

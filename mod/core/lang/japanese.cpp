@@ -47,6 +47,7 @@ const Translation kEntries[] = {
     {Str::GroupNeeds, "欲求"},
     {Str::GroupControls, "コントロールパネル"},
     {Str::GroupBuyPanel, "購入モード"},
+    {Str::GroupBuildPanel, "建築モード"},
     {Str::GroupCatalog, "カタログ"},
     {Str::GroupStarSign, "星座"},
     {Str::GroupAspiration, "願望"},
@@ -141,6 +142,14 @@ const Translation kEntries[] = {
     {Str::PlaceMoving, "%sを移動：Page Downで場所を探す、Enterで置く、Deleteで売る、Escapeで元に戻す"},
     {Str::PlaceCannotPick, "%sは持ち上げられない"},
     {Str::PlaceSold, "%sを売った"},
+    // Build mode
+    {Str::BuildBegin, "%s：矢印キーで角を移動、スペースで始点を指定、Enterで建てる、Ctrl+Enterで撤去、Escapeで終了"},
+    {Str::BuildCorner, "角 %1$d、%2$d"},
+    {Str::BuildMarked, "始点を %1$d、%2$d に指定"},
+    {Str::BuildNoMark, "先にスペースで始点を指定してください"},
+    {Str::BuildDone, "%1$sで建てた、残り%2$s"},
+    {Str::BuildRemoved, "撤去した、%1$s戻った、%2$s"},
+    {Str::BuildNothing, "何も変わらなかった"},
 };
 
 }  // namespace
