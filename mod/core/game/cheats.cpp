@@ -59,6 +59,13 @@ void DevCommand(const std::string& line) {
         MouseClick(1280, 640);
     }
     else if (!strcmp(name, "pie")) ShowInteractions(a);
+    else if (!strcmp(name, "nb")) {
+        // !nb id [count]: neighbor names from id on
+        for (int id = a; id < a + (b ? b : 1); id++) {
+            std::string first, last;
+            if (NeighborName(id, &first, &last)) Log("  neighbor %d: %s %s", id, first.c_str(), last.c_str());
+        }
+    }
     else if (!strcmp(name, "movein")) ClickLotWithTool(a);
     else if (!strcmp(name, "screen")) g_screenDumpRequested = true;
     else if (!strcmp(name, "press")) Press((Ptr)(unsigned)a);  // !press <window pointer in decimal>

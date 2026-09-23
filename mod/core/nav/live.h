@@ -23,6 +23,9 @@ std::string FundsText();
 // the game's sounds come from what is on screen), or stays where the player left it.
 void ToggleFollow();
 // Ctrl+N: the narrator speaks everything, warnings only (urgent needs, visitors), or nothing.
-void CycleNarrator();  // the control panel's funds as shown ("83.787 simoleones"), empty if none
+void CycleNarrator();
+// A narrator line: spoken (and kept in the events buffer) as the verbosity allows (warnings are
+// spoken unless the narrator is off), else only kept.
+void Narrate(const std::string& line, bool warning);  // the control panel's funds as shown ("83.787 simoleones"), empty if none
 
 }  // namespace nav::live

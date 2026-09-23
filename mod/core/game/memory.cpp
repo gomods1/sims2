@@ -34,6 +34,8 @@ Signature g_signatures[] = {
     {0xa079a5a4, "cTSUserToolNeighborhood::LotAtScreen", {0xb8}, 1, false},  // mov eax, imm32 (relocated)
     {0xa078d789, "cTSUserToolBase::ObjectPick", {0x55, 0x8b, 0xec, 0x8b, 0x49, 0x04, 0x85, 0xc9}, 8, false},
     {0xa078ec6d, "cTSUserToolBase::MouseLeave", {0x8b, 0x01, 0xff, 0xa0, 0xf0, 0x00, 0x00, 0x00}, 8, false},
+    {0xa05805c0, "SimAntics::Balloon", {0x55, 0x8b, 0xec, 0x6a, 0xff, 0x68}, 6, false},
+    {0xa06c1092, "cTSUIPaintingService::BalloonThumbnail", {0xb8}, 1, false},
 };
 
 bool RawRead(Ptr addr, void* out, size_t n) {

@@ -101,6 +101,15 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     output grows past 40 KB with the game's log lines, read by offset).
   - Ctrl+N: the narrator speaks everything, warnings only (urgent needs, visitors), or nothing
     (`[mod] narrator=2/1/0` in `Sims2Access.ini`); every line still goes to the events buffer.
+  - Balloons (`nav/balloons.cpp`, `game/simantics.cpp`; layouts in `STRUCTS.md` "SimAntics"): the
+    hook on the effects primitive (opcode 0x70) sees every balloon and headline as it starts:
+    "Carlos piensa: Energía" (the needs sheet), "Carlos dice: Política" (the six interest sheets),
+    "Carlos piensa: Fitness" (Free Time's hobby sheets), "Carlos piensa: Silvio" (a Sim's face),
+    "grita" for screams (warnings), "no X" for crossed-out icons, and the headlines ("Carlos: la
+    relación mejora", "nuevo amigo", "primer beso"...). Names are the game's own (Live.package STR#
+    130 needs, 0x8c interests, 0xf2 hobbies), so every language works. The family's are spoken, a
+    visitor's only kept in the events buffer; the same line over the same Sim once in 15 s.
+    Topics the mod cannot name yet (misc, zodiac, turn-ons, job, pets sheets) are skipped.
   - Camera: in live mode the mod presses the game's Return ("Center on active Sim") when the
     selected Sim has moved four tiles or another Sim is selected (never while a dialog or a text
     field is up), because the game's sounds come from what is on screen. Ctrl+F turns it off/on.

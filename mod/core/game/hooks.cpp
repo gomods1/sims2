@@ -11,6 +11,7 @@
 #include "neighborhood.h"
 #include "gz.h"
 #include "rtti.h"
+#include "simantics.h"
 
 namespace game {
 namespace {
@@ -123,6 +124,7 @@ void InitHooks() {
     HookGame("cGZWinMgrW32::DoModalWin", 0xa0972f48, (void*)DoModalDetour, &g_doModal);
     InitBuyHooks();
     InitNeighborhoodHooks();
+    InitSimAnticsHooks();
     HookApi("GetAsyncKeyState", (void*)GetAsyncKeyStateDetour, &g_getAsyncKeyState);
     HookApi("GetKeyState", (void*)GetKeyStateDetour, &g_getKeyState);
 }

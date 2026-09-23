@@ -1,0 +1,196 @@
+#include "balloons.h"
+
+#include <windows.h>
+
+#include <algorithm>
+#include <map>
+#include <string>
+#include <vector>
+
+#include "../game/game_strings.h"
+#include "../game/objects.h"
+#include "../game/simantics.h"
+#include "../util/log.h"
+#include "../util/strings.h"
+#include "../util/text.h"
+#include "buffers.h"
+#include "live.h"
+
+namespace nav::balloons {
+namespace {
+
+constexpr uint32_t kGlobalGroup = 0x7fd46cd0;
+constexpr unsigned kSheetNames = 0x95;     // STR# of a balloon's icon texture sheets
+constexpr unsigned kNeedNames = 130;       // Live.package: the needs panel's names
+constexpr unsigned kInterestNames = 0x8c;  // Live.package: the interests (conversation topics)
+constexpr unsigned kHobbyNames = 0xf2;     // Live.package: the hobbies (Free Time)
+
+// The global effects (STR# 0x8f of the global group, by index) the narrator knows.
+enum class Kind { Thought, Scream, Talk, Headline };
+struct Effect {
+    int index;
+    Kind kind;
+    bool crossed;  // the icon is crossed out (the "_x" effects)
+    Str headline;  // Kind::Headline: its line
+};
+const Effect kEffects[] = {
+    {0x00, Kind::Headline, false, Str::BalloonRomance},
+    {0x01, Kind::Headline, false, Str::BalloonRomanceBroken},
+    {0x02, Kind::Headline, false, Str::BalloonCrush},
+    {0x03, Kind::Headline, false, Str::BalloonCrushBroken},
+    {0x04, Kind::Headline, false, Str::BalloonRelationUp},
+    {0x05, Kind::Headline, false, Str::BalloonRelationUpMuch},
+    {0x06, Kind::Headline, false, Str::BalloonRelationDown},
+    {0x07, Kind::Headline, false, Str::BalloonRelationDownMuch},
+    {0x08, Kind::Headline, false, Str::BalloonMomentBad},
+    {0x09, Kind::Headline, false, Str::BalloonFirstKiss},
+    {0x0a, Kind::Headline, false, Str::BalloonMomentGood},
+    {0x0b, Kind::Headline, false, Str::BalloonFirstLove},
+    {0x10, Kind::Headline, false, Str::BalloonInLove},
+    {0x11, Kind::Headline, false, Str::BalloonLoveLost},
+    {0x12, Kind::Headline, false, Str::BalloonCrush},
+    {0x13, Kind::Headline, false, Str::BalloonCrushBroken},
+    {0x14, Kind::Headline, false, Str::BalloonFriend},
+    {0x15, Kind::Headline, false, Str::BalloonFriendLost},
+    {0x16, Kind::Headline, false, Str::BalloonBestFriend},
+    {0x17, Kind::Headline, false, Str::BalloonBestFriendLost},
+    {0x18, Kind::Headline, false, Str::BalloonEnemy},
+    {0x19, Kind::Headline, false, Str::BalloonEnemyLost},
+    {0x27, Kind::Thought, false, Str::BalloonThinks},
+    {0x28, Kind::Thought, true, Str::BalloonThinks},
+    {0x2b, Kind::Talk, false, Str::BalloonSays},
+    {0x2c, Kind::Talk, false, Str::BalloonSays},
+    {0x2d, Kind::Talk, true, Str::BalloonSays},
+    {0x2e, Kind::Talk, true, Str::BalloonSays},
+    {0xc3, Kind::Headline, false, Str::BalloonMemoryGood},
+    {0xc4, Kind::Headline, false, Str::BalloonMemoryGood},
+    {0xc5, Kind::Headline, false, Str::BalloonMemoryBad},
+    {0xc6, Kind::Headline, false, Str::BalloonMemoryBad},
+    {0xc9, Kind::Headline, false, Str::BalloonTopicLiked},
+    {0xca, Kind::Headline, false, Str::BalloonTopicLiked},
+    {0xcb, Kind::Headline, false, Str::BalloonTopicDisliked},
+    {0xcc, Kind::Headline, false, Str::BalloonTopicDisliked},
+    {0xd2, Kind::Scream, false, Str::BalloonScreams},
+    {0xd3, Kind::Scream, true, Str::BalloonScreams},
+    {0xd8, Kind::Talk, false, Str::BalloonSays},
+    {0xd9, Kind::Talk, false, Str::BalloonSays},
+    {0xda, Kind::Talk, true, Str::BalloonSays},
+    {0xdb, Kind::Talk, true, Str::BalloonSays},
+    {0xdc, Kind::Thought, false, Str::BalloonThinks},
+    {0xde, Kind::Thought, true, Str::BalloonThinks},
+    {0xe0, Kind::Scream, false, Str::BalloonScreams},
+    {0xe2, Kind::Scream, true, Str::BalloonScreams},
+    {0xe3, Kind::Thought, false, Str::BalloonDreams},
+    {0xe4, Kind::Thought, true, Str::BalloonDreams},
+    {0xe5, Kind::Thought, false, Str::BalloonDreams},
+    {0xe6, Kind::Thought, true, Str::BalloonDreams},
+    {0xe7, Kind::Headline, false, Str::BalloonPersonalityGood},
+    {0xe8, Kind::Headline, false, Str::BalloonPersonalityGood},
+    {0xe9, Kind::Headline, false, Str::BalloonPersonalityBad},
+    {0xea, Kind::Headline, false, Str::BalloonPersonalityBad},
+};
+
+const Effect* FindEffect(int index) {
+    for (const Effect& e : kEffects)
+        if (e.index == index) return &e;
+    return nullptr;
+}
+
+// The needs sheets (uieffects-headlines-motives-thought / -scream): cell -> Live.package STR# 130
+// entry (1 energy, 2 bladder, 3 hygiene, 4 environment, 5 fun, 6 comfort, 7 hunger, 8 social,
+// 9 a baby bottle: hunger).
+const int kNeedCells[] = {-1, 9, 7, 5, 15, 11, 3, 1, 13, 1};
+
+std::string Lower(std::string s) {
+    for (char& c : s)
+        if (c >= 'A' && c <= 'Z') c = (char)(c - 'A' + 'a');
+    return s;
+}
+
+// What a sheet's cell pictures, in the game's words; empty when the mod does not know it.
+std::string IconName(uint32_t group, int sheet, int cell) {
+    // The tree's own sheet names first, then the global ones (as the game looks them up).
+    std::string name = game::ObjectString(group, kSheetNames, sheet, true);
+    if (name.empty() || name == "-") name = game::ObjectString(kGlobalGroup, kSheetNames, sheet, true);
+    name = Lower(name);
+    if (name.find("motives-thought") != std::string::npos || name.find("motives-scream") != std::string::npos) {
+        if (cell >= 1 && cell < (int)(sizeof kNeedCells / sizeof kNeedCells[0]))
+            return game::GameString("Live.package", kNeedNames, kNeedCells[cell]);
+        return "";
+    }
+    // The six shared conversation sheets hold the 18 interests, five icons each, in the order of
+    // the interests panel (Live.package STR# 0x8c).
+    size_t at = name.find("conversationshared0");
+    if (at != std::string::npos && at + 19 < name.size()) {
+        int n = name[at + 19] - '1';
+        if (n >= 0 && n < 6 && cell >= 0 && cell < 15)
+            return util::CleanForSpeech(game::GameString("Live.package", kInterestNames, n * 3 + cell / 5));
+    }
+    // Free Time's hobby sheets (the game's misspelled "converstaion-<hobby>"; some objects have
+    // their own): the whole sheet is one hobby, named as the hobby panel does (STR# 0xf2).
+    static const struct {
+        const char* word;
+        int hobby;
+    } kHobbies[] = {{"food", 0},       {"artandcrafts", 1}, {"filmandliterature", 2}, {"literature", 2},
+                    {"sports", 3},     {"games", 4},        {"nature", 5},            {"birdwatching", 5},
+                    {"engineering", 6}, {"fitness", 7},     {"science", 8},           {"stars", 8},
+                    {"planets", 8},    {"consteallations", 8}, {"music", 9}};
+    at = name.find("converstaion-");
+    if (at != std::string::npos) {
+        std::string word = name.substr(at + 13);
+        for (const auto& h : kHobbies)
+            if (word == h.word) return util::CleanForSpeech(game::GameString("Live.package", kHobbyNames, h.hobby));
+    }
+    return "";
+}
+
+std::map<std::string, ULONGLONG> g_said;  // "object|line" -> when it was said
+
+}  // namespace
+
+void Tick() {
+    game::Balloon got[32];
+    int n = game::TakeBalloons(got, 32);
+    if (!n) return;
+    ULONGLONG now = GetTickCount64();
+    std::vector<int> family = game::FamilySimIds();
+    for (int i = 0; i < n; i++) {
+        const game::Balloon& b = got[i];
+        if (b.mode != 0 && b.mode != 0xf) continue;  // starts only: 2-4 stop effects, 1 and 3 refresh them
+        LogVerbose("balloon: over %d, effect 0x%x, flags %04x, group %08x, sheet %d, icon %d%s", b.objectId, b.effect,
+                   b.flags, b.group, b.sheet, b.iconValue, b.iconObject ? " (a Sim)" : "");
+        const Effect* e = FindEffect(b.effect);
+        if (!e) continue;
+        std::string who, last;
+        if (!game::SimName(b.objectId, &who, &last)) continue;  // over an object
+        std::string icon;
+        if (b.iconObject) game::NeighborName(b.iconValue, &icon, nullptr);
+        else if (b.sheet >= 0) icon = IconName(b.group, b.sheet, b.iconValue);
+        std::string line;
+        if (e->kind == Kind::Headline) {
+            line = util::Format(S(e->headline), who.c_str());
+        } else if (!icon.empty()) {
+            if (e->crossed) icon = util::Format(S(Str::BalloonCrossed), icon.c_str());
+            line = util::Format(S(e->headline), who.c_str(), icon.c_str());
+        } else if (e->kind == Kind::Scream) {
+            line = util::Format(S(Str::BalloonScreamsNothing), who.c_str());
+        } else {
+            continue;  // a topic the mod cannot name
+        }
+        // The same line over the same Sim once in 15 s (a conversation cycles its topics).
+        std::string key = std::to_string(b.objectId) + "|" + line;
+        auto said = g_said.find(key);
+        if (said != g_said.end() && now - said->second < 15000) continue;
+        g_said[key] = now;
+        // The family's balloons are spoken (a Sim on the phone with them counts); a visitor's only
+        // kept in the events buffer, as the small relationship steps each social gives.
+        bool small = b.effect == 0x04 || b.effect == 0x06;
+        if (!small && std::find(family.begin(), family.end(), b.objectId) != family.end())
+            live::Narrate(line, e->kind == Kind::Scream);
+        else
+            buffers::Record(line);
+    }
+    if (g_said.size() > 200) g_said.clear();
+}
+
+}  // namespace nav::balloons

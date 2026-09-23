@@ -3,6 +3,7 @@
 // labels the game shows but keeps nowhere the mod can reach at runtime (buy mode categories).
 #pragma once
 
+#include <cstdint>
 #include <string>
 
 namespace game {
@@ -15,5 +16,10 @@ int StringLanguageCode();
 // expansion that has it, in the game's language (English when the entry is empty). UTF-8; empty
 // when missing.
 std::string GameString(const char* file, unsigned instance, int index);
+
+// Entry `index` of STR# `instance` in group `group` of the objects' package (objects.package of the
+// newest pack), in the game's language (or English), falling back to English. UTF-8; empty when
+// missing. The first call indexes the package (a fraction of a second).
+std::string ObjectString(uint32_t group, unsigned instance, int index, bool english = false);
 
 }  // namespace game

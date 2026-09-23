@@ -215,6 +215,28 @@ bool SimName(int objectId, std::string* first, std::string* last) {
     return !first->empty() || !last->empty();
 }
 
+bool NeighborName(int neighborId, std::string* first, std::string* last) {
+    Ptr g = Rd<Ptr>(Va(addr::globals::kInstance));
+    Ptr mgr = g ? Rd<Ptr>(g + addr::globals::kNeighborManager) : 0;
+    if (!mgr || neighborId < 1 || !IsKindOf(mgr, "cTSNeighborManager")) return false;
+    typedef Ptr(__thiscall * FindFn)(Ptr, int, int);
+    typedef void(__thiscall * NameFn)(Ptr, RZString*);
+    RZString a = {}, b = {};
+    a.vtable = b.vtable = Va(addr::person::kRZStringVtable);
+    a.cap = b.cap = 15;
+    bool ok = Guarded([&] {
+        Ptr nb = Slot<FindFn>(mgr, addr::neighbors::kSlotFind)(mgr, neighborId, 1);
+        Ptr sel = nb ? Rd<Ptr>(nb + addr::neighbors::kSelector) : 0;
+        if (!sel || !IsKindOf(sel, "cTSObjectSelector")) return;
+        Slot<NameFn>(sel, addr::person::kNeighborSlotFirstName)(sel, &a);
+        if (last) Slot<NameFn>(sel, addr::person::kNeighborSlotLastName)(sel, &b);
+    });
+    if (!ok) return false;
+    *first = Text(a);
+    if (last) *last = Text(b);
+    return !first->empty();
+}
+
 int RoomAt(float x, float y, int level) {
     static Ptr s_world = 0;
     if (!s_world) {

@@ -19,7 +19,37 @@ public class Decompile extends GhidraScript {
         DecompInterface di = new DecompInterface();
         di.openProgram(currentProgram);
         for (int i = 1; i < args.length; i++) {
-            Function f = getFunctionContaining(toAddr(Long.parseLong(args[i].replace("0x", ""), 16)));
+            // "+va": a function starts exactly there (Ghidra sometimes merges it into the one
+            // before): the containing function is removed and both are made again (in memory
+            // only, the project is opened read-only).
+            boolean exact = args[i].startsWith("+");
+            ghidra.program.model.address.Address at = toAddr(Long.parseLong(args[i].replace("+", "").replace("0x", ""), 16));
+            if (exact) {
+                Function old = getFunctionContaining(at);
+                if (old == null && getFunctionAt(at) == null) {
+                    if (getInstructionAt(at) == null) {
+                        clearListing(at, at.add(15));
+                        disassemble(at);
+                    }
+                    createFunction(at, null);
+                } else if (old != null && !old.getEntryPoint().equals(at)) {
+                    ghidra.program.model.address.Address oldEntry = old.getEntryPoint();
+                    removeFunction(old);
+                    if (getInstructionAt(at) == null) {
+                        clearListing(at, at.add(15));
+                        disassemble(at);
+                    }
+                    Function made = createFunction(at, null);
+                    if (made == null) {  // flow from the old entry claims it: make it by hand
+                        ghidra.app.cmd.function.CreateFunctionCmd cmd =
+                            new ghidra.app.cmd.function.CreateFunctionCmd(null, at, null,
+                                ghidra.program.model.symbol.SourceType.USER_DEFINED, false, true);
+                        println("create at " + at + ": " + cmd.applyTo(currentProgram, monitor) + " " + cmd.getStatusMsg());
+                    }
+                    println("split " + oldEntry + " / " + at + ": " + (getFunctionAt(at) != null));
+                }
+            }
+            Function f = getFunctionContaining(at);
             if (f == null) {
                 println("no function at " + args[i]);
                 continue;

@@ -27,12 +27,15 @@ def key(name: str):
     time.sleep(0.45)
 
 
+WHOLE = False  # match the whole item line (the text looked for has a comma)
+
+
 def name_of(line: str) -> str:
     """The item's name in a spoken line (after a group summary "group, N items. ", if any)."""
     parts = line.split(". ", 1)
     if len(parts) == 2 and "," in parts[0]:
         line = parts[1]
-    return line.split(", ", 1)[0].lower()
+    return line.lower() if WHOLE else line.split(", ", 1)[0].lower()
 
 
 def press_if(enter: bool, line: str) -> bool:
@@ -60,7 +63,9 @@ def find_item(item: str, moves: int, enter: bool) -> bool:
 
 def main(argv):
     args = [a for a in argv if not a.startswith("--")]
+    global WHOLE
     group, item = args[0].lower(), args[1].lower()
+    WHOLE = "," in item
     enter = "--enter" in argv
     tabs = int(argv[argv.index("--tabs") + 1]) if "--tabs" in argv else 14
     moves = int(argv[argv.index("--moves") + 1]) if "--moves" in argv else 40

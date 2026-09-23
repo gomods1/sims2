@@ -18,6 +18,7 @@
 #include "../util/text.h"
 #include "../input/keyboard.h"
 #include "../game/buy.h"
+#include "balloons.h"
 #include "buffers.h"
 #include "navigator.h"
 #include "world.h"
@@ -78,6 +79,19 @@ Ptr FindById(Ptr w, uint32_t id, int depth) {
     return 0;
 }
 
+// The control panel's funds: id 0x3000 is not unique (the phone book's selected thumbnail has it
+// too), the funds are the one whose caption has a digit.
+Ptr FindFunds(Ptr w, int depth) {
+    if (!w || depth > 25 || !game::Visible(w)) return 0;
+    if (game::WinId(w) == kFundsId) {
+        std::string caption = game::Caption(w);
+        if (caption.find_first_of("0123456789") != std::string::npos) return w;
+    }
+    for (Ptr c : game::Children(w))
+        if (Ptr f = FindFunds(c, depth + 1)) return f;
+    return 0;
+}
+
 int g_lastSpeed = -1;
 ULONGLONG g_lastCheck = 0;
 
@@ -112,11 +126,15 @@ bool g_visitorsPrimed = false;  // the Sims already there when the lot loaded ar
 // (urgent needs, visitors), or nothing spoken; every line still goes to the events buffer.
 int Verbosity() { return util::GetSetting("narrator", 2); }
 
+}  // namespace
+
 void Narrate(const std::string& line, bool warning) {
     int v = Verbosity();
     if (v >= 2 || (v == 1 && warning)) buffers::Event(line);
     else buffers::Record(line);
 }
+
+namespace {
 
 void WatchVisitors() {
     std::vector<int> family = game::FamilySimIds();
@@ -267,7 +285,7 @@ std::string RatingName(int rating) {
 }
 
 std::string FundsText() {
-    Ptr funds = FindById(game::MainWindow(), kFundsId, 0);
+    Ptr funds = FindFunds(game::MainWindow(), 0);
     return funds ? util::CleanForSpeech(game::Caption(funds)) : "";
 }
 
@@ -374,6 +392,7 @@ void WatchFunds() {
 }
 
 void Tick() {
+    if (world::LotViewActive()) balloons::Tick();
     ULONGLONG now = GetTickCount64();
     if (now - g_lastCheck < 300) return;
     g_lastCheck = now;
@@ -408,7 +427,7 @@ void Tick() {
     if (paused) {
         Ptr pause = FindById(main, kSpeeds[0].id, 0);
         std::string line = pause ? util::WithoutHotkey(util::CleanForSpeech(game::Tooltip(pause))) : "";
-        Ptr clock = FindById(main, kClockId, 0), funds = FindById(main, kFundsId, 0);
+        Ptr clock = FindById(main, kClockId, 0), funds = FindFunds(main, 0);
         if (clock) util::AppendSentence(line, util::CleanForSpeech(game::Caption(clock)));
         std::string money = funds ? util::CleanForSpeech(game::Caption(funds)) : "";
         if (!money.empty()) line += ", " + money;

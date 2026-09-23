@@ -166,7 +166,93 @@ const std::vector<std::string>& Table(const char* file, unsigned instance, int l
     return g_cache.emplace(key, std::move(entries)).first->second;
 }
 
+// One pack's objects package (TSData\Res\Objects\objects.package: the objects that pack adds or
+// changes, and the global trees), indexed once; its STR# resources are read on demand (the files
+// are up to ~110 MB).
+struct ObjectPackage {
+    const wchar_t* pack = L"";
+    HANDLE file = INVALID_HANDLE_VALUE;
+    bool tried = false;
+    struct Where {
+        uint32_t off, size;
+        bool compressed;
+    };
+    std::map<uint64_t, Where> strs;  // (group << 32 | instance) -> where
+
+    bool ReadAt(uint32_t off, void* out, uint32_t n) {
+        LARGE_INTEGER at;
+        at.QuadPart = off;
+        DWORD got = 0;
+        return SetFilePointerEx(file, at, nullptr, FILE_BEGIN) && ReadFile(file, out, n, &got, nullptr) && got == n;
+    }
+
+    bool Open() {
+        if (tried) return file != INVALID_HANDLE_VALUE;
+        tried = true;
+        file = CreateFileW((InstallDir() + L"\\" + pack + L"\\TSData\\Res\\Objects\\objects.package").c_str(),
+                           GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+        if (file == INVALID_HANDLE_VALUE) return false;
+        std::vector<uint8_t> head(0x60);
+        if (!ReadAt(0, head.data(), 0x60) || memcmp(head.data(), "DBPF", 4) != 0) return false;
+        uint32_t count = U32(head, 0x24), index = U32(head, 0x28), minor = U32(head, 0x3c);
+        uint32_t esz = minor == 2 ? 24 : 20;
+        std::vector<uint8_t> idx((size_t)count * esz);
+        if (!ReadAt(index, idx.data(), (uint32_t)idx.size())) return false;
+        std::map<uint64_t, bool> compressed;
+        for (uint32_t k = 0; k < count; k++) {
+            size_t p = (size_t)k * esz;
+            uint32_t type = U32(idx, p), group = U32(idx, p + 4), inst = U32(idx, p + 8);
+            uint32_t off = U32(idx, p + esz - 8), size = U32(idx, p + esz - 4);
+            if (type == kTypeStr) strs[(uint64_t)group << 32 | inst] = {off, size, false};
+            if (type == kTypeDir) {
+                std::vector<uint8_t> dir(size);
+                if (!ReadAt(off, dir.data(), size)) continue;
+                uint32_t step = minor == 2 ? 20 : 16;
+                for (uint32_t q = 0; q + step <= size; q += step)
+                    if (U32(dir, q) == kTypeStr) compressed[(uint64_t)U32(dir, q + 4) << 32 | U32(dir, q + 8)] = true;
+            }
+        }
+        for (auto& [key, where] : strs) where.compressed = compressed.count(key) != 0;
+        Log("objects package %ls: %d string tables", pack, (int)strs.size());
+        return true;
+    }
+
+    std::vector<uint8_t> Str(uint32_t group, uint32_t instance) {
+        if (!Open()) return {};
+        auto it = strs.find((uint64_t)group << 32 | instance);
+        if (it == strs.end() || it->second.size > 4 * 1024 * 1024) return {};
+        std::vector<uint8_t> raw(it->second.size);
+        if (!ReadAt(it->second.off, raw.data(), it->second.size)) return {};
+        if (it->second.compressed && raw.size() > 9 && raw[4] == 0x10 && raw[5] == 0xFB) {
+            size_t usz = (raw[6] << 16) | (raw[7] << 8) | raw[8];
+            return RefPack(raw.data() + 9, raw.size() - 9, usz);
+        }
+        return raw;
+    }
+};
+
+// Newest first: a pack's version of a table replaces the older ones.
+ObjectPackage g_objects[] = {{L"EP9"}, {L"SP7"}, {L"EP8"}, {L"SP6"}, {L"EP7"}, {L"SP5"}, {L"SP4"}, {L"EP6"},
+                             {L"EP5"}, {L"EP4"}, {L"SP2"}, {L"SP1"}, {L"EP3"}, {L"EP2"}, {L"EP1"}, {L"Base"}};
+std::map<std::string, std::vector<std::string>> g_objectCache;
+
 }  // namespace
+
+std::string ObjectString(uint32_t group, unsigned instance, int index, bool english) {
+    int language = english ? 1 : StringLanguageCode();
+    std::string key = std::to_string(group) + "/" + std::to_string(instance) + "/" + std::to_string(language);
+    auto it = g_objectCache.find(key);
+    if (it == g_objectCache.end()) {
+        std::vector<uint8_t> str;
+        for (ObjectPackage& pkg : g_objects) {
+            str = pkg.Str(group, instance);
+            if (!str.empty()) break;
+        }
+        it = g_objectCache.emplace(key, ParseStr(str, language)).first;
+        if (it->second.empty() && language != 1) it->second = ParseStr(str, 1);
+    }
+    return index >= 0 && index < (int)it->second.size() ? it->second[index] : std::string();
+}
 
 int StringLanguageCode() {
     switch (util::ReadGameLanguageNumber()) {

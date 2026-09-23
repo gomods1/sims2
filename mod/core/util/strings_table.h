@@ -171,3 +171,35 @@
     X(BuildDone, "built for %1$s, %2$s left")                                                                                          \
     X(BuildRemoved, "removed, %1$s back, %2$s")                                                                                     \
     X(BuildNothing, "nothing changed")                                                                                 \
+    X(BalloonThinks, "%1$s thinks: %2$s")                                                                              \
+    X(BalloonDreams, "%1$s dreams: %2$s")                                                                              \
+    X(BalloonSays, "%1$s says: %2$s")                                                                                  \
+    X(BalloonScreams, "%1$s screams: %2$s")                                                                            \
+    X(BalloonScreamsNothing, "%s screams")                                                                             \
+    X(BalloonCrossed, "no %s")                                                                                         \
+    X(BalloonRelationUp, "%s: relationship improves")                                                                  \
+    X(BalloonRelationUpMuch, "%s: relationship improves a lot")                                                        \
+    X(BalloonRelationDown, "%s: relationship worsens")                                                                 \
+    X(BalloonRelationDownMuch, "%s: relationship worsens a lot")                                                       \
+    X(BalloonRomance, "%s: romance")                                                                                   \
+    X(BalloonRomanceBroken, "%s: romance broken")                                                                      \
+    X(BalloonCrush, "%s: crush")                                                                                       \
+    X(BalloonCrushBroken, "%s: crush over")                                                                            \
+    X(BalloonMomentBad, "%s: a bad moment")                                                                            \
+    X(BalloonMomentGood, "%s: a great moment")                                                                         \
+    X(BalloonFirstKiss, "%s: first kiss")                                                                              \
+    X(BalloonFirstLove, "%s: first love")                                                                              \
+    X(BalloonInLove, "%s: in love")                                                                                    \
+    X(BalloonLoveLost, "%s: love lost")                                                                                \
+    X(BalloonFriend, "%s: new friend")                                                                                 \
+    X(BalloonFriendLost, "%s: friend lost")                                                                            \
+    X(BalloonBestFriend, "%s: new best friend")                                                                        \
+    X(BalloonBestFriendLost, "%s: best friend lost")                                                                   \
+    X(BalloonEnemy, "%s: new enemy")                                                                                   \
+    X(BalloonEnemyLost, "%s: no longer enemies")                                                                       \
+    X(BalloonMemoryGood, "%s: good memory")                                                                            \
+    X(BalloonMemoryBad, "%s: bad memory")                                                                              \
+    X(BalloonTopicLiked, "%s: likes the topic")                                                                        \
+    X(BalloonTopicDisliked, "%s: dislikes the topic")                                                                  \
+    X(BalloonPersonalityGood, "%s: personalities click")                                                               \
+    X(BalloonPersonalityBad, "%s: personalities clash")                                                                \

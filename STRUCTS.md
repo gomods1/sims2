@@ -177,14 +177,44 @@ subclass used for labels showing a value (tooltip names it).
   (cut with "..."), +0x24 the whole text (std::strings behind cRZString vtables), +0x44 a data
   object (`cTSLotInfo` in the travel dialog). A press on a row selects it, scrolled out of view too.
 
-## SimAntics (leads for the narrator's balloons)
+## SimAntics: the effects primitive and the balloons (verified)
 
-- The primitive dispatcher is 0xa0534650 (thiscall on the running thread object: (stack frame,
-  instruction)): a switch on the opcode (instruction slot 3) calling one handler per primitive.
-  Opcodes 0x69-0x6f are forwarded to another object.
-- The balloon painter `cTSUIPaintingService` slot 6 (0xa06c1092, "BalloonEffectThumbnail_0x%08x")
-  was called from the handler of opcode 0x70 (0xa05805c0, a large function; Ghidra merges it into
-  0xa0580360). That handler also runs every tick for a Sim with the same operands; it checks a
-  balloon type (`cmp [ebp-0x4c], 3`: 0 thought, 1 scream, 2 speak; error code 0x1d, the message
-  table 0xa05290e0). Its operand layout is not decoded yet.
-- `cTSUIPaintingService` slot 8 (0xa06c1917) makes headline text textures.
+- The primitive dispatcher is 0xa0534650 (thiscall on the running object, a `cTSObject`: (stack
+  frame, instruction)): a switch on the opcode calling one handler per primitive, each
+  thiscall (object, frame, instruction). The frame is a `cTSTreeStackElem`: +8 the tree id, +0x20
+  the `cTSBehavior` (the BHAV; +0xc its resource group, 0x7fd46cd0 for global trees).
+- Opcode 0x70 (handler 0xa05805c0; Ghidra merges it into 0xa0580360, `decompile.py +0xa05805c0`
+  splits it) starts and stops **effects**: fire, smoke, birds, glows, and every balloon and
+  headline. The instruction object is a vtable then the operands; in memory (+4 on):
+  - +4 mode: 0 start (0xf too), 2-4 stop, 1 and 3 refresh (the plumbob's, twice a second);
+  - +5 scope, +6 data: the variable holding the object id the effect is over;
+  - +8 the effect: an index into STR# 0x8f (flag 1: the global group's, flag 2: the object's own,
+    neither: semi-global), entry index + 1; with flag 8 it is Temp 0 instead (the object's slot 19,
+    0x4c, with 0). The global names: 0x00-0x19 relationship headlines (`uiHeadlineGroup_Romance`,
+    `SocialSinglePlus` 4 ... `SocialDoubleMinus` 7, `RelBit_MakeFriend` 0x14...), 0x27/0x28
+    `ThoughtRuntimeThumb`(`_x`), 0x2b-0x2e `ConversationRuntimeThumb_start/stop`(`_x`), 0xc3-0xc6
+    memory, 0xc9-0xcc interest, 0xd2/0xd3 `ScreamRuntimeThumb`, 0xd8-0xdb
+    `ConversationRuntime_*`, 0xdc/0xde `ThoughtRuntime`(`_x`), 0xe0/0xe2 `ScreamRuntime`, 0xe3-0xe6
+    nightmares, 0xe7-0xea personality; 0x0e `sleeping`. `_x` = the icon crossed out.
+  - +0xa an effect slot, +0xb/+0xc a per-call-site id, +0xd which attach point (0/1/2);
+  - +0xe flags: 1/2 the effect's group (above), 8 effect from Temp 0, 0x80 a timed effect, the
+    icon source (checked in this order): 0x1000 other, 0x20 a **texture sheet cell**, 0x10 a
+    **Sim** (a neighbor id), 0x2000 a want/fear list;
+  - +0x10 scope, +0x11 data: the icon variable (the cell, or the neighbor id); +0x13 the sheet:
+    entry +0x13 + 1 of STR# 0x95 ("Balloon Icon Texture Names") of the running tree's group,
+    else the global one.
+- Sheets (textures `uieffects-headlines-<name>_txtr` in `Sims3D\Objects06.package`, their big
+  mips as LIFO resources in `Objects07-09`; `tools/sims2_texture.py` saves one as PNG): cells of
+  64 px in a 1024x64 strip. `motives-thought-02` / `motives-scream-02`: 1 energy, 2 bladder,
+  3 hygiene, 4 environment, 5 fun, 6 comfort, 7 hunger, 8 social, 9 a baby bottle.
+  `conversationshared01..06`: the 18 interests in the interests panel's order (Live.package
+  STR# 0x8c), five icons each, three interests per sheet. Free Time's `converstaion-<hobby>`
+  sheets: one hobby each (Live.package STR# 0xf2). Not named yet: `conversationshared07`, misc,
+  aspirations, zodiac, turn-ons, job, wealth, pets.
+- Neighbors: `cTSNeighborManager` (globals +0x64) slot 16 (id, 1) gives a `cTSNeighbor`; its +0x14
+  is the `cTSObjectSelector` whose slots 49/51 give the first and last name.
+- The effect names per pack: each pack's `objects.package` holds only the objects it adds or
+  changes plus its version of the global tables (EP9's STR# 0x95 has 38 sheets, the base game's
+  13), so lookups go through every pack, newest first (`game::ObjectString`).
+- `cTSUIPaintingService` slot 6 (0xa06c1092) paints a balloon's thumbnail (`BalloonEffectThumbnail_%08x`),
+  slot 8 (0xa06c1917) headline text textures.

@@ -82,6 +82,12 @@ constexpr int kNeighborManager = 0x64;
 constexpr int kObjectModule = 0x78;  // cEdithObjectModule
 }  // namespace globals
 
+// cTSNeighborManager (globals +0x64).
+namespace neighbors {
+constexpr int kSlotFind = 16;  // thiscall (neighbor id, 1) -> the cTSNeighbor
+constexpr int kSelector = 0x14;  // cTSNeighbor -> cTSObjectSelector (person::kNeighborSlot*Name)
+}  // namespace neighbors
+
 // cTSNeighborhood: its lots are a std::map<int lotId, cTSLotInfo* (interface +8)> (MSVC tree:
 // node left 0, parent 4, right 8, isnil byte 0xd, key 0x10, value 0x14); head node at +0x5c.
 namespace nhood {
@@ -344,5 +350,10 @@ constexpr int kText = 0xfc;
 constexpr int kFlags = 0x160;        // cIGZWinTextEdit flags (IsFlagSet 0xa09504ec on the +0xf8
 constexpr uint32_t kFlagEditable = 1;  // interface): 1 editable, as in SimCity 4's header
 }  // namespace edit
+
+namespace simantics {
+constexpr uint32_t kBalloon = 0xa05805c0;  // opcode 0x70 handler: thiscall (thread, frame, operands)
+constexpr uint32_t kBalloonThumbnail = 0xa06c1092;  // cTSUIPaintingService slot 6
+}  // namespace simantics
 
 }  // namespace game::addr

@@ -30,8 +30,10 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
 - Game state by ear: pause and speed changes, the clock and day, funds changes; Ctrl+E the
   selected Sim's state (action, needs from the Sim's data even with the panel closed, mood);
   the action queue as a group (Enter cancels); family members (select with Ctrl+1..9, Space/N).
-- Narrator: thought and speech balloons, need warnings, what each Sim starts and finishes,
-  visitors arriving and leaving, phone calls and letters (dialogs already read), money.
+- Narrator: need warnings, what each Sim starts and finishes, visitors arriving and leaving,
+  phone calls and letters (dialogs already read), money. Balloons done (needs, interests,
+  hobbies, Sims, relationship headlines); still unnamed: the misc, zodiac, turn-on, job, wealth,
+  aspiration and pet sheets (view them with `tools/sims2_texture.py`), wants and fears balloons.
 - Rooms: the lot's rooms (Ctrl+PageUp/PageDown), room names from contents, Ctrl+L layout.
 - Walk to an object or spot (Ctrl+Enter), camera following the selected Sim (sounds come from
   what is on screen), edge scrolling off.
