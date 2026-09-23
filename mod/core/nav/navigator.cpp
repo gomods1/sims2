@@ -44,6 +44,10 @@ struct State {
     ULONGLONG pressedAt = 0;
     bool pressedWasOn = false;
     std::vector<std::pair<Ptr, std::string>> textsBefore;  // the screen's texts before the press
+    // A catalog page was turned: once the thumbnails show it, focus its first (last) product.
+    Ptr pageGroup = 0;
+    int pageDelta = 0;
+    ULONGLONG pageAt = 0;
 };
 
 using util::AppendSentence;
@@ -201,6 +205,12 @@ void Refresh(ULONGLONG now) {
 
 }  // namespace
 
+// The catalog's page buttons (window ids inside cTSWinProcCatalog).
+constexpr uint32_t kCatalogNext = 0x1005;
+constexpr uint32_t kCatalogPrevious = 0x1004;
+
+void FinishPageTurn(ULONGLONG now);
+
 void Reset() { g = State(); }
 
 void Tick() {
@@ -237,6 +247,7 @@ void Tick() {
             Relocate();
         }
     }
+    FinishPageTurn(now);
     world::Tick();
     live::Tick();
     placement::Tick();
@@ -254,6 +265,53 @@ bool TextEntryActive() {
     return typing;
 }
 
+// A visible, enabled button with this window id under w (the catalog's page buttons).
+Ptr FindButtonById(Ptr w, uint32_t id, int depth) {
+    if (!w || depth > 8) return 0;
+    for (Ptr c : game::Children(w)) {
+        if (!game::Visible(c)) continue;
+        if (game::IsButton(c) && game::WinId(c) == id && game::Enabled(c)) return c;
+        if (Ptr f = FindButtonById(c, id, depth + 1)) return f;
+    }
+    return 0;
+}
+
+// Past the catalog's last product (or before its first): its next (previous) page, if any.
+bool TurnCatalogPage(int delta) {
+    const Group& group = g.groups[g.group];
+    if (group.proc != "cTSWinProcCatalog") return false;
+    Ptr button = FindButtonById(group.key, delta > 0 ? kCatalogNext : kCatalogPrevious, 0);
+    if (!button) return false;
+    Log("catalog: %s page", delta > 0 ? "next" : "previous");
+    game::Press(button);
+    g.pageGroup = group.key;
+    g.pageDelta = delta;
+    g.pageAt = GetTickCount64();
+    return true;
+}
+
+// The turned page's first (or last) product, once the catalog has refilled its thumbnails.
+void FinishPageTurn(ULONGLONG now) {
+    if (!g.pageGroup || now - g.pageAt < 200) return;
+    Ptr key = g.pageGroup;
+    int delta = g.pageDelta;
+    g.pageGroup = 0;
+    g.groups = Collect(g.root);
+    for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+        if (g.groups[gi].key != key) continue;
+        const std::vector<Item>& items = g.groups[gi].items;
+        int pick = -1;
+        for (int i = 0; i < (int)items.size(); i++)
+            if (items[i].role == Role::Product && (pick < 0 || delta < 0)) pick = i;
+        if (pick < 0) return;
+        SetFocus(gi, pick);
+        const Item& it = items[pick];
+        buffers::SetDetails(DetailLines(it, g.groups[gi], pick));
+        speech::Say(std::string(S(delta > 0 ? Str::NextPage : Str::PreviousPage)) + ". " + Describe(it));
+        return;
+    }
+}
+
 void Move(int delta) {
     Refresh(GetTickCount64());
     if (g.group < 0) {
@@ -261,6 +319,7 @@ void Move(int delta) {
         return;
     }
     int n = (int)g.groups[g.group].items.size();
+    if ((g.index + delta >= n || g.index + delta < 0) && TurnCatalogPage(delta)) return;
     int next = g.index + delta;
     if (next < 0) next = 0;
     if (next >= n) next = n - 1;

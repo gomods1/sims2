@@ -22,7 +22,8 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   members (Ctrl+1..9), a narrator for actions, needs, selection and visitors.
 - Buy mode: catalog products (name, price, ratings, description), placing a bought object by
   keyboard (spots where it fits, nearest first, by room; arrows; facing; Enter buys), moving and
-  selling objects of the lot (Enter on the object browser, Delete sells).
+  selling objects of the lot (Enter on the object browser, Delete sells); moving past the last
+  product (or before the first) turns the catalog's page.
 
 ## Next (live mode first: it is where the game is played)
 
@@ -43,7 +44,7 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
 - Build mode: walls, fences, rooms, foundations by corners; floors and pools by tiles (a cursor,
   Space marks, Enter builds, Ctrl+Enter removes, PageUp/PageDown levels), with the cost.
 - Walking to an object (Ctrl+Enter; Ctrl+Shift+Enter runs).
-- Buy mode, still: the catalog's next pages (the scrollbar and page buttons), the game's reason
+- Buy mode, still: the game's reason
   when a spot is refused (STR# 0x89), which directions fit a spot, doors and windows, multi-tile
   objects' footprint in the spot line.
 - Build mode, still: walls' checks before building (shutting a Sim in, cutting objects off),
