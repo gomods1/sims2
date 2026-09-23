@@ -153,6 +153,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "kertoja: kaikki"},
     {Str::NarratorWarnings, "kertoja: vain varoitukset"},
     {Str::NarratorOff, "kertoja pois"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s, päivittäinen %2$s, elinikäinen %3$s"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down etsii paikat, joihin se mahtuu, nuolet siirtävät sitä, Enter asettaa sen, Escape peruu"},

@@ -150,6 +150,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "vypravěč: vše"},
     {Str::NarratorWarnings, "vypravěč: jen varování"},
     {Str::NarratorOff, "vypravěč vypnut"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s, denní %2$s, celoživotní %3$s"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down hledá místa, kam se vejde, šipky ho posouvají, Enter ho položí, Escape ruší"},
     {Str::PlaceTile, "pole %1$d, %2$d"},

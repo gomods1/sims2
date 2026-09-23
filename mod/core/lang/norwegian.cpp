@@ -151,6 +151,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "forteller: alt"},
     {Str::NarratorWarnings, "forteller: bare advarsler"},
     {Str::NarratorOff, "forteller av"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s, daglig %2$s, livslang %3$s"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down finner plasser der den får plass, piltastene flytter den, Enter setter den ned, Escape "

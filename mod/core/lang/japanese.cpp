@@ -144,6 +144,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "ナレーター：すべて"},
     {Str::NarratorWarnings, "ナレーター：警告のみ"},
     {Str::NarratorOff, "ナレーター オフ"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s、今日 %2$s、生涯 %3$s"},
     // Buy mode
     {Str::PlaceBegin, "%s：Page Downで置ける場所を探す、矢印キーで移動、Enterで置く、Escapeで取り消し"},
     {Str::PlaceTile, "マス %1$d、%2$d"},

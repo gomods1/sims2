@@ -320,6 +320,34 @@ struct Walker {
         return true;
     }
 
+    // A person of the relationships panel: the name (its button's tooltip) and the two numbers the
+    // thumbnail shows, the daily relationship above the bars and the lifetime one below.
+    bool Relationship(Ptr k, Ptr groupKey) {
+        if (game::ProcClass(k) != "cTSWinProcRelationshipThumbnail") return false;
+        Ptr button = 0;
+        std::vector<std::pair<int, std::string>> numbers;  // by height
+        for (Ptr c : game::Children(k)) {
+            if (!game::Visible(c)) continue;
+            if (game::IsButton(c)) button = c;
+            else if (game::IsText(c)) numbers.push_back({game::Area(c).top, util::CleanForSpeech(game::Caption(c))});
+        }
+        if (!button) return true;
+        std::sort(numbers.begin(), numbers.end());
+        std::string title, rest;
+        SplitTip(game::Tooltip(button), &title, &rest);
+        Item it;
+        it.widget = button;
+        it.role = Role::Button;
+        it.label = title;
+        if (numbers.size() >= 2)
+            it.label = util::Format(S(Str::RelationshipValues), title.c_str(), numbers[0].second.c_str(),
+                                    numbers[1].second.c_str());
+        it.detail = rest;
+        it.rect = game::ScreenRect(k);
+        Add(groupKey, it);
+        return true;
+    }
+
     void Walk(Ptr w, int depth) {
         if (depth > 40) return;
         std::vector<Ptr> kids = game::Children(w);
@@ -332,6 +360,7 @@ struct Walker {
             if (Product(k, motiveKids, w)) continue;
             if (Grid(k, w)) continue;
             if (ListBox(k, w)) continue;
+            if (Relationship(k, w)) continue;
             if (StepBarItem(k, w, w)) continue;
             std::vector<Ptr> grandKids = game::Children(k);
             if (!grandKids.empty() && Thumbnail(k, grandKids, w)) continue;

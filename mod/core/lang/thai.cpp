@@ -150,6 +150,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "ผู้บรรยาย: ทั้งหมด"},
     {Str::NarratorWarnings, "ผู้บรรยาย: เฉพาะคำเตือน"},
     {Str::NarratorOff, "ปิดผู้บรรยาย"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s, รายวัน %2$s, ตลอดชีวิต %3$s"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down หาที่ที่วางได้ ลูกศรเลื่อน Enter วาง Escape ยกเลิก"},
     {Str::PlaceTile, "ช่อง %1$d, %2$d"},

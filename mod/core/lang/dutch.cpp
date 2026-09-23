@@ -152,6 +152,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "verteller: alles"},
     {Str::NarratorWarnings, "verteller: alleen waarschuwingen"},
     {Str::NarratorOff, "verteller uit"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s, dagelijks %2$s, blijvend %3$s"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down zoekt plekken waar het past, de pijltjes verplaatsen het, Enter zet het neer, Escape "

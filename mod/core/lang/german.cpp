@@ -154,6 +154,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "Erzähler: alles"},
     {Str::NarratorWarnings, "Erzähler: nur Warnungen"},
     {Str::NarratorOff, "Erzähler aus"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s, täglich %2$s, dauerhaft %3$s"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Bild ab findet Plätze, an die es passt, Pfeiltasten bewegen es, Eingabe stellt es hin, Escape bricht ab"},

@@ -151,6 +151,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "narrátor: minden"},
     {Str::NarratorWarnings, "narrátor: csak figyelmeztetések"},
     {Str::NarratorOff, "narrátor ki"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s, napi %2$s, életre szóló %3$s"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: a Page Down helyet keres, ahol elfér, a nyilak mozgatják, az Enter leteszi, az Escape megszakítja"},

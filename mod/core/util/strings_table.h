@@ -137,6 +137,8 @@
     X(NarratorAll, "narrator: everything")                                                                             \
     X(NarratorWarnings, "narrator: warnings only")                                                                     \
     X(NarratorOff, "narrator off")                                                                                     \
+    /* Relationships */                                                                                                \
+    X(RelationshipValues, "%1$s, daily %2$s, lifetime %3$s")                                                           \
     /* Buy mode */                                                                                                     \
     X(PlaceBegin, "%s: PageDown finds spots where it fits, arrows move it, Enter puts it down, Escape cancels")        \
     X(PlaceTile, "tile %1$d, %2$d")                                                                                    \

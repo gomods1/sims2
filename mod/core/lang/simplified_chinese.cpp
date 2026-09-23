@@ -145,6 +145,8 @@ const Translation kEntries[] = {
     {Str::NarratorAll, "旁白：全部"},
     {Str::NarratorWarnings, "旁白：仅警告"},
     {Str::NarratorOff, "旁白关闭"},
+    // Relationships
+    {Str::RelationshipValues, "%1$s，今日 %2$s，终生 %3$s"},
     // Buy mode
     {Str::PlaceBegin, "%s：Page Down 查找能放下的位置，方向键移动，Enter 放下，Escape 取消"},
     {Str::PlaceTile, "格子 %1$d，%2$d"},
