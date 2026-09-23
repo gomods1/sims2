@@ -9,11 +9,13 @@ what has been learned about *this* game. Anything marked **hypothesis** has not 
 Status (2026-09-23): the mod runs (`mod/`). Speech through NVDA (Prism in `SpeechHost.exe`).
 Keyboard navigation covers every GZ-window screen and dialog generically (menus, neighborhood
 chooser, dialogs, tutorials, game tips, the neighborhood panel, the lot info panel, the live mode
-HUD with needs, wants and fears, speed, clock, funds), the neighborhood's lots as a list (Enter
-opens the game's lot panel, "Entrar en solar" loads the lot), interaction (pie) menus, the lot
-object browser (PageUp/PageDown by buy mode category or room, Enter opens the object's
-interactions), live state and a narrator, and buy mode (catalog products; placing, moving and
-selling objects through a list of spots where they fit).
+HUD, the Sim panel's pages read column by column), the neighborhood's lots as a list (moving
+families in), Create a Family / Sim / Pet (with the family tree by keyboard), interaction (pie)
+menus, the lot object browser (PageUp/PageDown by category or room, Enter the interactions,
+Ctrl+Enter walks there), live state and a narrator (actions, needs, visitors, money, furniture
+leaving, the balloons and relationship headlines named from the game's own texts), buy mode
+(placing, moving and selling objects through the spots where they fit, in any direction), build
+mode (walls, floors, pools, foundations, doors, windows, stairs, auto roofs), travel and saving.
 Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARGETS.md`; layouts:
 `STRUCTS.md`.
 
