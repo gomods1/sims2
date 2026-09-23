@@ -117,7 +117,8 @@ void LogModel() {
     for (const Group& group : g.groups) {
         Log("  group %p %s, %d items", (void*)group.key, GroupName(group).c_str(), (int)group.items.size());
         for (const Item& it : group.items)
-            LogVerbose("    %s %p: %s", game::ClassName(it.widget).c_str(), (void*)it.widget, Describe(it).c_str());
+            LogVerbose("    %s %p [%ld,%ld,%ld,%ld]: %s", game::ClassName(it.widget).c_str(), (void*)it.widget, it.rect.left,
+                       it.rect.top, it.rect.right, it.rect.bottom, Describe(it).c_str());
     }
 }
 
@@ -223,7 +224,8 @@ void Tick() {
         Refresh(now);
         for (const Group& group : g.groups) {
             Log("  group %p %s, %d items", (void*)group.key, GroupName(group).c_str(), (int)group.items.size());
-            for (const Item& it : group.items) Log("    %s", Describe(it).c_str());
+            for (const Item& it : group.items)
+                Log("    %s  [%ld,%ld,%ld,%ld]", Describe(it).c_str(), it.rect.left, it.rect.top, it.rect.right, it.rect.bottom);
         }
         const Item* f = Focused();
         Log("  focus: %s", f ? Describe(*f).c_str() : "none");

@@ -439,7 +439,11 @@ struct Walker {
                 }
             }
             if (value.empty()) return;
-            it.label = title.empty() ? value : util::Format(S(Str::LabelValue), title.c_str(), value.c_str());
+            // A letter standing for its tooltip (the job's workdays: "L" for Lunes) reads as the word.
+            if (!title.empty() && value.size() <= 2 && !MeterFor(k)) value.clear();
+            it.label = title.empty() ? value : value.empty() ? title : util::Format(S(Str::LabelValue), title.c_str(), value.c_str());
+            // A dimmed label (a day off among the workdays).
+            if (!game::Enabled(k)) it.label += std::string(", ") + S(Str::Unavailable);
             it.detail = rest;
             it.role = Role::Text;
             Add(parent, it);
@@ -505,6 +509,43 @@ bool TopToBottom(const Item& a, const Item& b) {
     return a.rect.left < b.rect.left;
 }
 
+// A panel in columns with a column of read-only values (the job page: the job on the left, the
+// skills on the right) reads one column after the other, not row by row across them. Columns are
+// separated by vertical gaps no item crosses; the order changes only when one column holds four
+// values or more, so grids of buttons (a catalog page) keep their rows.
+void ColumnsFirst(std::vector<Item>& items) {
+    if (items.size() < 8) return;
+    std::vector<std::pair<LONG, LONG>> spans;
+    for (const Item& it : items) spans.push_back({it.rect.left, it.rect.right});
+    std::sort(spans.begin(), spans.end());
+    std::vector<LONG> starts = {spans[0].first};  // each column's left edge
+    LONG reach = spans[0].second;
+    for (size_t i = 1; i < spans.size(); i++) {
+        if (spans[i].first >= reach + 2) starts.push_back(spans[i].first);
+        reach = std::max(reach, spans[i].second);
+    }
+    if (starts.size() < 2) return;
+    auto column = [&starts](const Item& it) {
+        int c = 0;
+        while (c + 1 < (int)starts.size() && it.rect.left >= starts[c + 1]) c++;
+        return c;
+    };
+    std::vector<int> count(starts.size()), texts(starts.size());
+    for (const Item& it : items) {
+        count[column(it)]++;
+        if (it.role == Role::Text) texts[column(it)]++;
+    }
+    bool values = false;
+    for (size_t c = 0; c < starts.size(); c++)
+        if (count[c] >= 4 && texts[c] == count[c]) values = true;
+    if (!values) return;
+    std::stable_sort(items.begin(), items.end(), [&column](const Item& a, const Item& b) {
+        int ca = column(a), cb = column(b);
+        if (ca != cb) return ca < cb;
+        return TopToBottom(a, b);
+    });
+}
+
 }  // namespace
 
 __declspec(noinline) int FirstControlOrNone(const Group& g) {
@@ -568,6 +609,7 @@ std::vector<Group> Collect(Ptr root) {
         g.items = kept;
         if (g.items.empty()) continue;
         std::stable_sort(g.items.begin(), g.items.end(), TopToBottom);
+        ColumnsFirst(g.items);
         // A text the game wrapped over several windows (the next piece starts in lowercase) is one item.
         std::vector<Item> merged;
         for (const Item& it : g.items) {
