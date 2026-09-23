@@ -236,6 +236,9 @@ const Translation kEntries[] = {
     {Str::BuildShutIn, "pas på: %2$s har ingen dør, og %1$s er derinde; Ctrl+Z fortryder væggen"},
     {Str::KeysLotMore,
      "Ctrl+L rummets indretning, Ctrl+N hvad fortælleren siger, Ctrl+F om kameraet følger simmen."},
+    {Str::GroupBusiness, "forretning"},
+    {Str::GroupSeasons, "årstider"},
+    {Str::GroupDate, "stævnemøde"},
 };
 
 }  // namespace

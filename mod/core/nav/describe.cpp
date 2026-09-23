@@ -52,6 +52,9 @@ std::string GroupName(const Group& g) {
         {"cTSWinProcBuyPanel", Str::GroupBuyPanel},
         {"cTSWinProcBuildPanel", Str::GroupBuildPanel},
         {"cTSWinProcCatalog", Str::GroupCatalog},
+        {"cTSWinProcManageBusiness", Str::GroupBusiness},
+        {"cTSWinProcSeasonProgressionCtrl", Str::GroupSeasons},
+        {"cTSWinProcDatingScoreMeter", Str::GroupDate},
     };
     for (const auto& p : kPanels)
         if (g.proc == p.proc) return S(p.name);

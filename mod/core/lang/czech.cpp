@@ -230,6 +230,9 @@ const Translation kEntries[] = {
     {Str::FurnitureGone, "%1$s zmizel z pozemku, hodnota %2$s"},
     {Str::BuildShutIn, "pozor: %2$s nemá dveře a %1$s je uvnitř; Ctrl+Z zeď vrátí"},
     {Str::KeysLotMore, "Ctrl+L uspořádání místnosti, Ctrl+N co říká vypravěč, Ctrl+F zda kamera sleduje Sima."},
+    {Str::GroupBusiness, "podnik"},
+    {Str::GroupSeasons, "roční období"},
+    {Str::GroupDate, "rande"},
 };
 
 }  // namespace

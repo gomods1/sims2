@@ -223,6 +223,9 @@ const Translation kEntries[] = {
     {Str::FurnitureGone, "%1$sが区画からなくなった（価値%2$s）"},
     {Str::BuildShutIn, "注意: %2$sにドアがなく、%1$sが中にいる。Ctrl+Zで壁を取り消せる"},
     {Str::KeysLotMore, "Ctrl+Lで部屋の間取り、Ctrl+Nでナレーターの読み上げ、Ctrl+Fでカメラがシムを追うかどうか。"},
+    {Str::GroupBusiness, "ビジネス"},
+    {Str::GroupSeasons, "季節"},
+    {Str::GroupDate, "デート"},
 };
 
 }  // namespace

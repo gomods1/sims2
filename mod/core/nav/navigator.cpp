@@ -253,7 +253,8 @@ void Tick() {
         game::g_screenDumpRequested = false;
         Refresh(now);
         for (const Group& group : g.groups) {
-            Log("  group %p %s, %d items", (void*)group.key, GroupName(group).c_str(), (int)group.items.size());
+            Log("  group %p %s, %d items %s", (void*)group.key, GroupName(group).c_str(), (int)group.items.size(),
+                group.proc.c_str());
             for (const Item& it : group.items)
                 Log("    %s  [%ld,%ld,%ld,%ld]", Describe(it).c_str(), it.rect.left, it.rect.top, it.rect.right, it.rect.bottom);
         }

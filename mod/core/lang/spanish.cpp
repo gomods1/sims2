@@ -239,6 +239,9 @@ const Translation kEntries[] = {
     {Str::KeysLotMore,
      "Control+L la distribución de la habitación, Control+N lo que dice el narrador, Control+F si la cámara "
      "sigue al Sim."},
+    {Str::GroupBusiness, "negocio"},
+    {Str::GroupSeasons, "estaciones"},
+    {Str::GroupDate, "cita"},
 };
 
 }  // namespace

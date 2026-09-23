@@ -237,6 +237,9 @@ const Translation kEntries[] = {
     {Str::BuildShutIn, "attention : %2$s n'a pas de porte et %1$s est dedans ; Ctrl+Z annule le mur"},
     {Str::KeysLotMore,
      "Ctrl+L le plan de la pièce, Ctrl+N ce que dit le narrateur, Ctrl+F si la caméra suit le Sim."},
+    {Str::GroupBusiness, "entreprise"},
+    {Str::GroupSeasons, "saisons"},
+    {Str::GroupDate, "rendez-vous"},
 };
 
 }  // namespace
