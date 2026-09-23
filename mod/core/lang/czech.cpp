@@ -16,6 +16,19 @@ const Translation kEntries[] = {
      "Šipky se pohybují ve skupině, Tab a Shift+Tab mění skupinu, Home a End jdou na začátek a konec, Enter "
      "stiskne, R zopakuje. Ctrl+šipka nahoru a Ctrl+šipka dolů čtou podrobnosti řečeného, Ctrl+šipka vlevo a "
      "Ctrl+šipka vpravo přepínají mezi podrobnostmi a událostmi."},
+    {Str::KeysLot,
+     "Pozemek: Page Down a Page Up, předměty na pozemku, nejbližší první; se Shiftem kategorie, s Ctrl "
+     "místnosti. Enter otevře interakce předmětu, v režimu nákupu ho zvedne; Ctrl+Enter pošle vybraného Sima "
+     "tam. Ctrl+E stav Sima, Ctrl+1 až 9 vyberou Sima, Tab panely, Ctrl+šipka nahoru a dolů podrobnosti."},
+    {Str::KeysPlacement,
+     "Umísťování: Page Down a Page Up místa, kam se vejde, s Ctrl místnosti, šipky o jedno pole, Home zpět k "
+     "Simovi, čárka a tečka otáčejí, Enter položí, Delete prodá, Escape ukončí."},
+    {Str::KeysBuild,
+     "Stavba: šipky posouvají roh, se Shiftem o pět, Page Up a Page Down podlaží, mezerník označí začátek, Enter "
+     "staví od značky, Ctrl+Enter odstraní, Home zpět k Simovi, R zopakuje, Escape ukončí."},
+    {Str::KeysNeighborhood,
+     "Sousedství: nejprve seznam pozemků, Enter otevře panel pozemku. Chcete-li nastěhovat rodinu, vyberte ji v "
+     "zásobníku rodin a stiskněte Enter na pozemku. Tab panely."},
     // Control state
     {Str::Checked, "zaškrtnuto"},
     {Str::NotChecked, "nezaškrtnuto"},

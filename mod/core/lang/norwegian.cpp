@@ -16,6 +16,20 @@ const Translation kEntries[] = {
      "Piltastene flytter innenfor en gruppe, Tab og Skift+Tab bytter gruppe, Home og End går til endene, Enter "
      "aktiverer, R gjentar. Kontroll+Pil opp og Kontroll+Pil ned leser detaljene om det som ble sagt, "
      "Kontroll+Venstre pil og Kontroll+Høyre pil bytter mellom detaljer og hendelser."},
+    {Str::KeysLot,
+     "Tomt: Page Down og Page Up, tomtens gjenstander, de nærmeste først; med Shift kategoriene, med Ctrl "
+     "rommene. Enter åpner en gjenstands handlinger, eller plukker den opp i kjøpemodus; Ctrl+Enter sender den "
+     "valgte simen dit. Ctrl+E simens tilstand, Ctrl+1 til 9 velger en sim, Tab panelene, Ctrl+pil opp og ned "
+     "detaljene."},
+    {Str::KeysPlacement,
+     "Plassering: Page Down og Page Up plassene der den får plass, med Ctrl rommene, piler én rute, Home tilbake "
+     "til simen, komma og punktum snur den, Enter setter den ned, Delete selger den, Escape avslutter."},
+    {Str::KeysBuild,
+     "Bygging: pilene flytter hjørnet, med Shift fem, Page Up og Page Down nivået, mellomrom markerer starten, "
+     "Enter bygger fra merket, Ctrl+Enter fjerner, Home tilbake til simen, R gjentar, Escape avslutter."},
+    {Str::KeysNeighborhood,
+     "Nabolag: først listen over tomter, Enter åpner en tomts panel. For å flytte inn en familie, velg den i "
+     "familiebeholderen og trykk Enter på en tomt. Tab panelene."},
     // Control state
     {Str::Checked, "avmerket"},
     {Str::NotChecked, "ikke avmerket"},

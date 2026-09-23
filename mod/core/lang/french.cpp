@@ -16,6 +16,22 @@ const Translation kEntries[] = {
      "Les flèches se déplacent dans un groupe, Tab et Maj+Tab changent de groupe, Origine et Fin vont aux "
      "extrémités, Entrée active, R répète. Contrôle+flèche haut et Contrôle+flèche bas lisent les détails de ce "
      "qui a été dit, Contrôle+flèche gauche et Contrôle+flèche droite passent des détails aux événements."},
+    {Str::KeysLot,
+     "Terrain : Page suivante et précédente, les objets du terrain, les plus proches d'abord ; avec Maj, les "
+     "catégories ; avec Contrôle, les pièces. Entrée ouvre les interactions d'un objet, ou le prend en mode "
+     "Achat ; Contrôle+Entrée y envoie le Sim sélectionné. Contrôle+E, l'état du Sim ; Contrôle+1 à 9 "
+     "choisissent un Sim ; Tab, les panneaux ; Contrôle+haut et bas, les détails."},
+    {Str::KeysPlacement,
+     "Placement : Page suivante et précédente, les places où il tient ; avec Contrôle, les pièces ; flèches, une "
+     "case ; Origine, retour au Sim ; virgule et point le tournent ; Entrée le pose ; Suppr le vend ; Échap "
+     "arrête."},
+    {Str::KeysBuild,
+     "Construction : les flèches déplacent le coin, avec Maj cinq ; Page précédente et suivante, le niveau ; "
+     "Espace marque le début ; Entrée construit depuis la marque ; Contrôle+Entrée supprime ; Origine retour au "
+     "Sim ; R répète ; Échap quitte."},
+    {Str::KeysNeighborhood,
+     "Quartier : d'abord la liste des terrains ; Entrée ouvre le panneau d'un terrain. Pour installer une "
+     "famille, choisissez-la dans la réserve de familles puis Entrée sur un terrain. Tab, les panneaux."},
     // Control state
     {Str::Checked, "coché"},
     {Str::NotChecked, "non coché"},

@@ -6,6 +6,7 @@
 #include "../game/hooks.h"
 #include "../nav/buffers.h"
 #include "../nav/navigator.h"
+#include "../nav/nhood_view.h"
 #include "../nav/build.h"
 #include "../nav/placement.h"
 #include "../nav/live.h"
@@ -139,7 +140,12 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         return true;
     case VK_F1:
         if (!ctrl) return false;  // F1 alone is the game's
-        speech::Say(S(Str::KeysScreen));
+        // The keys of what is in front of the player.
+        if (lot && nav::placement::Active()) speech::Say(S(Str::KeysPlacement));
+        else if (lot && nav::build::Active()) speech::Say(S(Str::KeysBuild));
+        else if (lot) speech::Say(S(Str::KeysLot));
+        else if (nav::neighborhood::ViewActive()) speech::Say(S(Str::KeysNeighborhood));
+        else speech::Say(S(Str::KeysScreen));
         return true;
     case 'R':
         if (typing || shift || ctrl) return false;

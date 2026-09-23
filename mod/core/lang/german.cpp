@@ -17,6 +17,22 @@ const Translation kEntries[] = {
      "springen zum Anfang und zum Ende, Eingabe aktiviert, R wiederholt. Strg+Pfeil nach oben und Strg+Pfeil "
      "nach unten lesen die Details des Gesagten, Strg+Pfeil nach links und Strg+Pfeil nach rechts wechseln "
      "zwischen Details und Ereignissen."},
+    {Str::KeysLot,
+     "Grundstück: Bild ab und Bild auf, die Objekte des Grundstücks, die nächsten zuerst; mit Umschalt die "
+     "Kategorien, mit Strg die Zimmer. Eingabe öffnet die Interaktionen eines Objekts oder hebt es im Kaufmodus "
+     "auf; Strg+Eingabe schickt den gewählten Sim dorthin. Strg+E der Zustand des Sims, Strg+1 bis 9 wählen "
+     "einen Sim, Tab die Leisten, Strg+Pfeil hoch und runter die Details."},
+    {Str::KeysPlacement,
+     "Platzieren: Bild ab und Bild auf die Plätze, an die es passt, mit Strg die Zimmer, Pfeiltasten ein Feld, "
+     "Pos1 zurück zum Sim, Komma und Punkt drehen es, Eingabe stellt es hin, Entf verkauft es, Escape beendet."},
+    {Str::KeysBuild,
+     "Bauen: Pfeiltasten bewegen die Ecke, mit Umschalt fünf, Bild auf und ab die Ebene, Leertaste markiert den "
+     "Anfang, Eingabe baut ab der Markierung, Strg+Eingabe entfernt, Pos1 zurück zum Sim, R wiederholt, Escape "
+     "beendet."},
+    {Str::KeysNeighborhood,
+     "Nachbarschaft: zuerst die Liste der Grundstücke, Eingabe öffnet die Leiste eines Grundstücks. Um eine "
+     "Familie einziehen zu lassen, wähle sie im Familienbehälter und drücke Eingabe auf einem Grundstück. Tab "
+     "die Leisten."},
     // Control state
     {Str::Checked, "aktiviert"},
     {Str::NotChecked, "nicht aktiviert"},

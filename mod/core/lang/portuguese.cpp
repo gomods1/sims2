@@ -16,6 +16,20 @@ const Translation kEntries[] = {
      "As setas se movem dentro de um grupo, Tab e Shift+Tab mudam de grupo, Home e End vão para os extremos, "
      "Enter aciona, R repete. Control+Seta para cima e Control+Seta para baixo leem os detalhes do que foi dito, "
      "Control+Seta para a esquerda e Control+Seta para a direita alternam entre detalhes e eventos."},
+    {Str::KeysLot,
+     "Lote: Page Down e Page Up, os objetos do lote, os mais próximos primeiro; com Shift as categorias, com "
+     "Ctrl os cômodos. Enter abre as interações de um objeto, ou o pega no modo Compra; Ctrl+Enter leva o Sim "
+     "selecionado até lá. Ctrl+E o estado do Sim, Ctrl+1 a 9 escolhem um Sim, Tab os painéis, Ctrl+seta para "
+     "cima e para baixo os detalhes."},
+    {Str::KeysPlacement,
+     "Colocando: Page Down e Page Up os lugares onde cabe, com Ctrl os cômodos, setas um quadrado, Home volta ao "
+     "Sim, vírgula e ponto o giram, Enter o coloca, Delete o vende, Esc termina."},
+    {Str::KeysBuild,
+     "Construindo: as setas movem o canto, com Shift cinco, Page Up e Page Down o nível, Espaço marca o início, "
+     "Enter constrói a partir da marca, Ctrl+Enter remove, Home volta ao Sim, R repete, Esc sai."},
+    {Str::KeysNeighborhood,
+     "Vizinhança: primeiro a lista de lotes, Enter abre o painel de um lote. Para mudar uma família, escolha-a "
+     "na caixa de famílias e pressione Enter num lote. Tab os painéis."},
     // Control state
     {Str::Checked, "marcado"},
     {Str::NotChecked, "não marcado"},

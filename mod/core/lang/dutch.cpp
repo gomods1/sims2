@@ -16,6 +16,21 @@ const Translation kEntries[] = {
      "Pijltoetsen bewegen binnen een groep, Tab en Shift+Tab wisselen van groep, Home en End gaan naar het begin "
      "en het einde, Enter activeert, R herhaalt. Control+pijl omhoog en Control+pijl omlaag lezen de details van "
      "wat er gezegd is, Control+pijl links en Control+pijl rechts wisselen tussen details en gebeurtenissen."},
+    {Str::KeysLot,
+     "Kavel: Page Down en Page Up, de objecten van de kavel, dichtstbijzijnde eerst; met Shift de categorieën, "
+     "met Ctrl de kamers. Enter opent de interacties van een object, of pakt het op in de koopmodus; Ctrl+Enter "
+     "stuurt de gekozen Sim erheen. Ctrl+E de toestand van de Sim, Ctrl+1 tot 9 kiezen een Sim, Tab de panelen, "
+     "Ctrl+pijl omhoog en omlaag de details."},
+    {Str::KeysPlacement,
+     "Plaatsen: Page Down en Page Up de plekken waar het past, met Ctrl de kamers, pijltjes één vak, Home terug "
+     "naar de Sim, komma en punt draaien het, Enter zet het neer, Delete verkoopt het, Escape stopt."},
+    {Str::KeysBuild,
+     "Bouwen: de pijltjes verplaatsen de hoek, met Shift vijf, Page Up en Page Down het niveau, spatie markeert "
+     "het begin, Enter bouwt vanaf de markering, Ctrl+Enter verwijdert, Home terug naar de Sim, R herhaalt, "
+     "Escape stopt."},
+    {Str::KeysNeighborhood,
+     "Buurt: eerst de lijst met kavels, Enter opent het paneel van een kavel. Om een gezin te laten verhuizen, "
+     "kies het in de gezinnenbak en druk Enter op een kavel. Tab de panelen."},
     // Control state
     {Str::Checked, "aangevinkt"},
     {Str::NotChecked, "niet aangevinkt"},

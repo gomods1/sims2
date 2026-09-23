@@ -16,6 +16,22 @@ const Translation kEntries[] = {
      "Las flechas se mueven dentro de un grupo, Tab y Mayúsculas+Tab cambian de grupo, Inicio y Fin van a los "
      "extremos, Intro pulsa, R repite. Control+Arriba y Control+Abajo leen los detalles de lo dicho, "
      "Control+Izquierda y Control+Derecha cambian entre detalles y eventos."},
+    {Str::KeysLot,
+     "Solar: Avance y Retroceso de página, los objetos del solar, los más cercanos primero; con Mayúsculas, las "
+     "categorías; con Control, las habitaciones. Intro abre las interacciones de un objeto, o lo coge en el modo "
+     "Comprar; Control+Intro lleva allí al Sim seleccionado. Control+E, el estado del Sim; Control+1 a 9 eligen "
+     "un Sim; Tab, los paneles; Control+flecha arriba y abajo, los detalles."},
+    {Str::KeysPlacement,
+     "Colocando: Avance y Retroceso de página, los sitios donde cabe; con Control, las habitaciones; flechas, "
+     "una casilla; Inicio, vuelve al Sim; coma y punto lo giran; Intro lo coloca; Suprimir lo vende; Escape "
+     "termina."},
+    {Str::KeysBuild,
+     "Construyendo: las flechas mueven la esquina, con Mayúsculas cinco; Retroceso y Avance de página, el nivel; "
+     "Espacio marca el inicio; Intro construye desde la marca; Control+Intro quita; Inicio vuelve al Sim; R "
+     "repite; Escape sale."},
+    {Str::KeysNeighborhood,
+     "Barrio: primero la lista de solares; Intro abre el panel del solar. Para mudar una familia, elígela en el "
+     "contenedor de familias y pulsa Intro sobre un solar. Tab, los paneles."},
     // Control state
     {Str::Checked, "marcado"},
     {Str::NotChecked, "no marcado"},

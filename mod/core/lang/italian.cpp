@@ -16,6 +16,20 @@ const Translation kEntries[] = {
      "Le frecce si spostano in un gruppo, Tab e Maiuscole+Tab cambiano gruppo, Inizio e Fine vanno agli estremi, "
      "Invio attiva, R ripete. Control+freccia su e Control+freccia giù leggono i dettagli di quanto detto, "
      "Control+freccia sinistra e Control+freccia destra passano tra dettagli ed eventi."},
+    {Str::KeysLot,
+     "Lotto: Pagina giù e su, gli oggetti del lotto, i più vicini prima; con Maiusc le categorie, con Ctrl le "
+     "stanze. Invio apre le interazioni di un oggetto, o lo prende in modalità Compra; Ctrl+Invio ci manda il "
+     "Sim selezionato. Ctrl+E lo stato del Sim, Ctrl+1 a 9 scelgono un Sim, Tab i pannelli, Ctrl+freccia su e "
+     "giù i dettagli."},
+    {Str::KeysPlacement,
+     "Posizionamento: Pagina giù e su i posti dove entra, con Ctrl le stanze, frecce una casella, Home torna al "
+     "Sim, virgola e punto lo girano, Invio lo posa, Canc lo vende, Esc termina."},
+    {Str::KeysBuild,
+     "Costruzione: le frecce spostano l'angolo, con Maiusc cinque, Pagina su e giù il livello, Spazio segna "
+     "l'inizio, Invio costruisce dal segno, Ctrl+Invio rimuove, Home torna al Sim, R ripete, Esc esce."},
+    {Str::KeysNeighborhood,
+     "Quartiere: prima la lista dei lotti, Invio apre il pannello di un lotto. Per trasferire una famiglia, "
+     "sceglila nel contenitore delle famiglie e premi Invio su un lotto. Tab i pannelli."},
     // Control state
     {Str::Checked, "selezionata"},
     {Str::NotChecked, "non selezionata"},

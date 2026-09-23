@@ -17,6 +17,21 @@ const Translation kEntries[] = {
      "alkuun ja loppuun, Enter aktivoi, R toistaa. Control+nuoli ylös ja Control+nuoli alas lukevat juuri "
      "sanotun tiedot, Control+nuoli vasemmalle ja Control+nuoli oikealle vaihtavat tietojen ja tapahtumien "
      "välillä."},
+    {Str::KeysLot,
+     "Tontti: Page Down ja Page Up, tontin esineet, lähimmät ensin; Shiftin kanssa luokat, Ctrl:n kanssa "
+     "huoneet. Enter avaa esineen toiminnot, tai nostaa sen ostotilassa; Ctrl+Enter lähettää valitun simin "
+     "sinne. Ctrl+E simin tila, Ctrl+1–9 valitsevat simin, Tab paneelit, Ctrl+nuoli ylös ja alas yksityiskohdat."},
+    {Str::KeysPlacement,
+     "Sijoittaminen: Page Down ja Page Up paikat, joihin se mahtuu, Ctrl:n kanssa huoneet, nuolet yksi ruutu, "
+     "Home takaisin simin luo, pilkku ja piste kääntävät sitä, Enter asettaa sen, Delete myy sen, Escape "
+     "lopettaa."},
+    {Str::KeysBuild,
+     "Rakentaminen: nuolet siirtävät kulmaa, Shiftin kanssa viisi, Page Up ja Page Down kerros, välilyönti "
+     "merkitsee alun, Enter rakentaa merkistä, Ctrl+Enter poistaa, Home takaisin simin luo, R toistaa, Escape "
+     "lopettaa."},
+    {Str::KeysNeighborhood,
+     "Naapurusto: ensin tonttien luettelo, Enter avaa tontin paneelin. Muuttaaksesi perheen, valitse se "
+     "perhesäiliöstä ja paina Enter tontin kohdalla. Tab paneelit."},
     // Control state
     {Str::Checked, "valittu"},
     {Str::NotChecked, "ei valittu"},

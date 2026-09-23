@@ -15,6 +15,14 @@ const Translation kEntries[] = {
     {Str::KeysScreen,
      "矢印キーでグループ内を移動、タブとシフト+タブでグループを切り替え、ホームとエンドで端へ移動、エンターで押す、Rで繰り返します。コントロール+上矢印とコントロール+下矢印で、今読んだものの詳細を読み、コントロール+"
      "左矢印とコントロール+右矢印で、詳細とイベントを切り替えます。"},
+    {Str::KeysLot,
+     "区画：Page DownとPage Upで区画のオブジェクト、近い順。Shiftと一緒でカテゴリー、Ctrlと一緒で部屋。Enterでオブジェクトの行動、購入モードでは持ち上げる。Ctrl+Enterで選択中のシム"
+     "をそこへ。Ctrl+Eでシムの状態、Ctrl+1から9でシムを選ぶ、Tabでパネル、Ctrl+上下で詳細。"},
+    {Str::KeysPlacement,
+     "配置：Page DownとPage Upで置ける場所、Ctrlと一緒で部屋、矢印で1マス、Homeでシムの所へ、コンマとピリオドで回転、Enterで置く、Deleteで売る、Escapeで終了。"},
+    {Str::KeysBuild,
+     "建築：矢印で角を移動、Shiftで5マス、Page UpとPage Downで階、スペースで始点、Enterで始点から建てる、Ctrl+Enterで撤去、Homeでシムの所へ、Rで繰り返し、Escapeで終了。"},
+    {Str::KeysNeighborhood, "近所：最初に区画の一覧、Enterで区画のパネルを開く。家族を引っ越させるには、家族一覧で家族を選び、区画でEnter。Tabでパネル。"},
     // Control state
     {Str::Checked, "チェック"},
     {Str::NotChecked, "チェックなし"},

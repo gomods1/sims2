@@ -17,6 +17,19 @@ const Translation kEntries[] = {
      "i na koniec, Enter aktywuje, R powtarza. Control+strzałka w górę i Control+strzałka w dół czytają "
      "szczegóły tego, co zostało powiedziane, Control+strzałka w lewo i Control+strzałka w prawo przełączają "
      "między szczegółami a zdarzeniami."},
+    {Str::KeysLot,
+     "Parcela: Page Down i Page Up, obiekty parceli, najbliższe najpierw; z Shift kategorie, z Ctrl pokoje. "
+     "Enter otwiera interakcje obiektu albo podnosi go w trybie kupowania; Ctrl+Enter wysyła tam wybranego Sima. "
+     "Ctrl+E stan Sima, Ctrl+1 do 9 wybierają Sima, Tab panele, Ctrl+strzałka w górę i w dół szczegóły."},
+    {Str::KeysPlacement,
+     "Ustawianie: Page Down i Page Up miejsca, gdzie się mieści, z Ctrl pokoje, strzałki o jedno pole, Home "
+     "powrót do Sima, przecinek i kropka obracają, Enter stawia, Delete sprzedaje, Escape kończy."},
+    {Str::KeysBuild,
+     "Budowanie: strzałki przesuwają narożnik, z Shift o pięć, Page Up i Page Down poziom, spacja zaznacza "
+     "początek, Enter buduje od znacznika, Ctrl+Enter usuwa, Home powrót do Sima, R powtarza, Escape kończy."},
+    {Str::KeysNeighborhood,
+     "Okolica: najpierw lista parcel, Enter otwiera panel parceli. Aby wprowadzić rodzinę, wybierz ją w "
+     "pojemniku rodzin i naciśnij Enter na parceli. Tab panele."},
     // Control state
     {Str::Checked, "zaznaczone"},
     {Str::NotChecked, "niezaznaczone"},

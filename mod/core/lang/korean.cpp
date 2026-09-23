@@ -15,6 +15,17 @@ const Translation kEntries[] = {
     {Str::KeysScreen,
      "화살표로 그룹 안을 이동하고, 탭과 시프트+탭으로 그룹을 바꾸고, 홈과 엔드로 처음과 끝으로 가고, 엔터로 누르고, R로 다시 읽습니다. 컨트롤+위쪽 화살표와 컨트롤+아래쪽 화살표로 방금 "
      "읽은 것의 세부 정보를 읽고, 컨트롤+왼쪽 화살표와 컨트롤+오른쪽 화살표로 세부 정보와 이벤트를 전환합니다."},
+    {Str::KeysLot,
+     "부지: Page Down과 Page Up으로 부지의 물건, 가까운 것부터. Shift와 함께 카테고리, Ctrl과 함께 방. Enter로 물건의 행동을 열고, 구매 모드에서는 집어 듭니다. "
+     "Ctrl+Enter로 선택한 심을 그곳으로 보냅니다. Ctrl+E 심의 상태, Ctrl+1~9 심 선택, Tab 패널, Ctrl+위아래 화살표 세부 정보."},
+    {Str::KeysPlacement,
+     "배치: Page Down과 Page Up으로 놓을 수 있는 자리, Ctrl과 함께 방, 화살표로 한 칸, Home으로 심에게, 쉼표와 마침표로 회전, Enter로 놓기, Delete로 팔기, "
+     "Escape로 종료."},
+    {Str::KeysBuild,
+     "건축: 화살표로 모서리 이동, Shift와 함께 다섯 칸, Page Up과 Page Down으로 층, 스페이스로 시작점, Enter로 시작점부터 건설, Ctrl+Enter로 철거, "
+     "Home으로 심에게, R 반복, Escape 종료."},
+    {Str::KeysNeighborhood,
+     "동네: 먼저 부지 목록, Enter로 부지 패널을 엽니다. 가족을 이사시키려면 가족 보관함에서 가족을 고르고 부지에서 Enter를 누르세요. Tab 패널."},
     // Control state
     {Str::Checked, "체크됨"},
     {Str::NotChecked, "체크 안 됨"},

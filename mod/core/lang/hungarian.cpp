@@ -16,6 +16,20 @@ const Translation kEntries[] = {
      "A nyilak egy csoporton belül mozognak, a Tab és a Shift+Tab csoportot vált, a Home és az End a végekre "
      "ugrik, az Enter megnyom, az R megismétel. A Ctrl+Fel és a Ctrl+Le felolvassa az elhangzottak részleteit, a "
      "Ctrl+Balra és a Ctrl+Jobbra a részletek és az események között vált."},
+    {Str::KeysLot,
+     "Telek: Page Down és Page Up a telek tárgyai, a legközelebbi elöl; Shifttel a kategóriák, Ctrl-lal a "
+     "szobák. Az Enter megnyitja a tárgy cselekvéseit, vásárlás módban felveszi; a Ctrl+Enter odaküldi a "
+     "kiválasztott Simet. Ctrl+E a Sim állapota, Ctrl+1–9 Sim kiválasztása, Tab a panelek, Ctrl+fel és le nyíl a "
+     "részletek."},
+    {Str::KeysPlacement,
+     "Elhelyezés: Page Down és Page Up a helyek, ahol elfér, Ctrl-lal a szobák, nyilak egy mező, Home vissza a "
+     "Simhez, vessző és pont forgat, Enter leteszi, Delete eladja, Escape befejezi."},
+    {Str::KeysBuild,
+     "Építés: a nyilak mozgatják a sarkot, Shifttel ötöt, Page Up és Page Down a szint, szóköz jelöli a "
+     "kezdetet, Enter épít a jeltől, Ctrl+Enter bont, Home vissza a Simhez, R ismétel, Escape kilép."},
+    {Str::KeysNeighborhood,
+     "Szomszédság: először a telkek listája, az Enter megnyitja a telek paneljét. Család beköltöztetéséhez "
+     "válaszd ki a családtárolóban, majd nyomj Entert egy telken. Tab a panelek."},
     // Control state
     {Str::Checked, "bejelölve"},
     {Str::NotChecked, "nincs bejelölve"},

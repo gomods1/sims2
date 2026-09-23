@@ -12,6 +12,10 @@
       "Arrows move within a group, Tab and Shift+Tab change group, Home and End go to the ends, Enter presses, R "     \
       "repeats. Control+Up and Control+Down read the details of what was said, Control+Left and Control+Right "        \
       "switch between details and events.")                                                                            \
+    X(KeysLot, "Lot: PageDown and PageUp the lot's objects, nearest first; Shift with them the categories, Control with them the rooms. Enter opens an object's interactions, or picks it up in buy mode; Control+Enter walks the selected Sim there. Control+E the Sim's state, Control+1 to 9 choose a Sim, Tab the panels, Control+Up and Down the details.")\
+    X(KeysPlacement, "Placing: PageDown and PageUp the spots where it fits, Control with them the rooms, arrows one tile, Home back to the Sim, comma and period turn it, Enter puts it down, Delete sells it, Escape stops.")\
+    X(KeysBuild, "Building: arrows move the corner, Shift five, PageUp and PageDown the level, Space marks the start, Enter builds from the mark, Control+Enter removes, Home back to the Sim, R repeats, Escape leaves.")\
+    X(KeysNeighborhood, "Neighborhood: the lots list comes first, Enter opens a lot's panel. To move a family in, choose it in the family bin, then press Enter on a lot. Tab the panels.")\
     /* Control state */                                                                                                \
     X(Checked, "checked")                                                                                              \
     X(NotChecked, "not checked")                                                                                       \

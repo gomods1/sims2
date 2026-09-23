@@ -15,6 +15,15 @@ const Translation kEntries[] = {
     {Str::KeysScreen,
      "方向键在组内移动，Tab和Shift+Tab切换组，Home和End跳到两端，回车激活，R重复朗读。Ctrl+上方向键和Ctrl+下方向键朗读刚才所说内容的详情，Ctrl+左方向键和Ctrl+右方向键在详情和事件之"
      "间切换。"},
+    {Str::KeysLot,
+     "地块：Page Down 和 Page Up 浏览地块上的物品，近的在前；加 Shift 切换类别，加 Ctrl 切换房间。Enter 打开物品的互动，在购买模式中拿起它；Ctrl+Enter "
+     "让选中的模拟市民走过去。Ctrl+E 模拟市民的状态，Ctrl+1 到 9 选择模拟市民，Tab 切换面板，Ctrl+上下查看详情。"},
+    {Str::KeysPlacement,
+     "放置：Page Down 和 Page Up 浏览能放下的位置，加 Ctrl 切换房间，方向键移动一格，Home 回到模拟市民处，逗号和句号旋转，Enter 放下，Delete 卖掉，Escape 结束。"},
+    {Str::KeysBuild,
+     "建造：方向键移动角点，加 Shift 移动五格，Page Up 和 Page Down 切换楼层，空格标记起点，Enter 从起点建造，Ctrl+Enter 拆除，Home 回到模拟市民处，R 重复，Escape "
+     "退出。"},
+    {Str::KeysNeighborhood, "街区：首先是地块列表，Enter 打开地块面板。要让家庭入住，先在家庭箱中选中家庭，再在地块上按 Enter。Tab 切换面板。"},
     // Control state
     {Str::Checked, "已勾选"},
     {Str::NotChecked, "未勾选"},
