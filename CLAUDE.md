@@ -90,6 +90,10 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     Space marks the start, Enter builds from the mark to the cursor, Ctrl+Enter removes; the cost is
     said. The mod drags the game's own tool, one mouse message per tick.
   - Ctrl+Enter on the object browser: walk the selected Sim there (Ctrl+Shift+Enter runs).
+  - Ctrl+L (lot view): the room's layout at the build cursor, else where the selected Sim stands:
+    name, floor, tiles, bounds, doors and windows (the details buffer: each with its wall and the
+    room behind). Doors and windows are objects whose parts stand on both sides of their wall
+    (OBJD type 8 / 9, sub index 0 is the lead part, facing its direction from the front tile).
   - Ctrl+N: the narrator speaks everything, warnings only (urgent needs, visitors), or nothing
     (`[mod] narrator=2/1/0` in `Sims2Access.ini`); every line still goes to the events buffer.
   - Camera: in live mode the mod presses the game's Return ("Center on active Sim") when the

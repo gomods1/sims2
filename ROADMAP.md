@@ -48,8 +48,8 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   when a spot is refused (STR# 0x89), which directions fit a spot, doors and windows, multi-tile
   objects' footprint in the spot line.
 - Build mode, still: walls' checks before building (shutting a Sim in, cutting objects off),
-  ready-made rooms, the room's layout (Ctrl+L), doors and windows (objects: buy placement's spots
-  on walls), stairs, roofs, terrain, wallpaper, the build catalog's names for groups.
+  ready-made rooms, stairs, roofs, terrain, wallpaper. (Done: Ctrl+L room layout; doors and
+  windows through buy placement's spots with the wall and the room behind.)
 - Create a Sim, still: names for heads, hair, clothes (their property sets), the family's
   relationships, pets, the CAS group names without design captions (skin, body).
 - Create a Sim / family (CAS): names, age, gender, personality, aspiration, looks (with the
