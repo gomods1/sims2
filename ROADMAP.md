@@ -35,12 +35,13 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   personality with the points left, pet trait pairs, aspiration, star sign, turn-ons; accepting;
   the family tree (pick up, drop on another); the family bin; moving in.
 - Build mode: walls, fences, rooms, foundations (corners); floors and pools (tiles); doors,
-  windows and stairs through placement's spots; the cost of each change.
+  windows and stairs through placement's spots; the cost of each change; auto roofs (the roof
+  page's buttons).
 - Travel: taxi from home to a community lot, Options > Barrio back; saving (Options > Guardar).
 
 ## Next
 
-- Build mode: wallpaper (the tool picks walls from the screen: `STRUCTS.md`), roofs, terrain;
+- Build mode: wallpaper (the tool picks walls from the screen: `STRUCTS.md`), drawn roofs, terrain;
   checks before building walls (shutting a Sim in, cutting objects off); ready-made rooms.
 - Buy mode: the game's reason when a spot is refused (STR# 0x89), which directions fit a spot,
   multi-tile objects' footprint in the spot line.
