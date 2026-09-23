@@ -60,3 +60,11 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   seasons, travel, apartments, hobbies, magic; their panels and dialogs through the generic
   navigation first, then dedicated readers where the generic one falls short.
 - Translation of every new mod string (19 languages); the key help per screen (Ctrl+F1).
+
+## Findings to follow up
+
+- Community lots: the phone booth's "Pedir un taxi" asks "¿Adónde? Casa / Otro solar"; after
+  "Casa" (2026-09-23, at ultra speed) no taxi appeared in two game days (not on the object list
+  either). Options > Barrio leaves (the game warns the lot's progress is lost). Verify the taxi at
+  normal speed.
+

@@ -136,7 +136,9 @@ namespace objmodule {
 constexpr int kById = 0x1a24;          // std::vector<cTSObject*>, index = object id - 1 (slot 29,
                                        // 0xa04281f0); multi-tile parts are cEdithMTObject
 constexpr int kSlotSelectedSim = 39;
-constexpr int kFamily = 0x1a70;        // std::vector of the family's Sims (cTSPerson interface +752)   // the selected cTSPerson (the pie builder 0xa0621f50 uses it)
+constexpr int kPeople = 0x1a70;        // std::vector of every Sim on the lot (cTSPerson interface +752)
+constexpr int kFamily = 0x1a7c;        // std::vector of the family's Sims, same interface (on a community
+                                       // lot, the visiting family's: verified with townies around)   // the selected cTSPerson (the pie builder 0xa0621f50 uses it)
 }  // namespace objmodule
 
 // cTSObject virtual slots (as Lua's GetObjectName 0xa0566100 and GetObjectLocation 0xa0566030).

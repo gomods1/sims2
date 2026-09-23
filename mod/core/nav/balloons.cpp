@@ -108,7 +108,8 @@ const Effect* FindEffect(int index) {
 // The needs sheets (uieffects-headlines-motives-thought / -scream): cell -> Live.package STR# 130
 // entry (1 energy, 2 bladder, 3 hygiene, 4 environment, 5 fun, 6 comfort, 7 hunger, 8 social,
 // 9 a baby bottle: hunger).
-const int kNeedCells[] = {-1, 9, 7, 5, 15, 11, 3, 1, 13, 1};
+// (STR# 130: 1 hunger, 3 energy, 5 comfort, 7 fun, 9 hygiene, 11 social, 13 bladder, 15 environment.)
+const int kNeedCells[] = {-1, 3, 13, 9, 15, 7, 5, 1, 11, 1};
 
 std::string Lower(std::string s) {
     for (char& c : s)
@@ -220,6 +221,7 @@ void Tick() {
             game::LotObject o;
             if (game::SimName(b.iconThing, &first, &last)) icon = first;
             else if (game::ReadLotObject(b.iconThing, &o)) icon = !o.catalogName.empty() ? o.catalogName : o.name;
+            if (!icon.empty() && icon[0] == '*') icon.clear();  // an internal part ("*Head Slots Holder")
         }
         std::string line;
         if (b.sheet >= 0 && IsRouteFailure(b.group, b.sheet, b.iconValue)) {
