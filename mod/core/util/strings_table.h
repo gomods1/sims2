@@ -155,7 +155,7 @@
     X(PlaceBlocked, "does not fit here")                                                                               \
     X(PlacePlaced, "%s placed")                                                                                        \
     X(PlaceFacing, "facing %s")                                                                                        \
-    X(PlaceNoSpot, "it fits nowhere on this lot as it is turned")                                                      \
+    X(PlaceNoSpot, "it fits nowhere on this lot, turned any way")                                                      \
     X(PlaceRoomSpots, "%1$s, %2$d spots")                                                                              \
     X(PlaceWallSide, "%s wall")                                                                                        \
     X(PlaceLeadsTo, "leads to %s")                                                                                     \

@@ -61,6 +61,9 @@ struct HeldObject {
 };
 // The object placement tool's state; false when the tool is no object tool.
 bool ReadHeldObject(Ptr tool, HeldObject* out);
+// Turns the held object to a direction (0, 2, 4, 6) as the game's , and . keys do, by the tool's
+// rotation (the next pick shows it). False when the tool holds nothing.
+bool SetHeldDirection(Ptr tool, int direction);
 
 // Moves the held object to a spot right away (the tool's own mouse-move handling, with the pick
 // answering this spot) and returns the tool's verdict: 1 fits, 0 not, -1 no verdict (the tool

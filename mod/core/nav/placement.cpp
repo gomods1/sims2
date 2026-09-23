@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <map>
 #include <set>
 #include <vector>
 
@@ -30,6 +31,7 @@ struct Spot {
     int x, y, level;
     int room;
     double distance;  // from the selected Sim (same floor first)
+    int dirs = 0;     // the directions it fits in: bit d / 2 for direction d (0 west ... 6 north)
 };
 
 struct State {
@@ -128,8 +130,9 @@ void Say(bool withFacing) {
     buffers::SetDetails({line, Facing(Direction()), world::WhereFromSim(g.x + 0.5f, g.y + 0.5f, g.level)});
 }
 
-// Every tile of the lot on every floor where the held object fits as it is turned now. The tool
-// judges each spot at once (game::CheckSpot), about 0.1 ms each.
+// Every tile of the lot on every floor where the held object fits, in each of its four directions
+// (the tool's rotation is turned for each pass and put back). The tool judges each spot at once
+// (game::CheckSpot), about 0.1 ms each.
 void Scan() {
     game::Ptr tool = game::CurrentTool();
     g.spots.clear();
@@ -160,7 +163,11 @@ void Scan() {
             depth = y + 1;
         }
     }
-    std::set<long long> seen;
+    std::map<long long, size_t> seen;  // spot -> index in g.spots
+    int original = Direction();
+    for (int pass = 0; pass < 4; pass++) {
+    int direction = (original + 2 * pass) % 8;
+    game::SetHeldDirection(tool, direction);
     for (int level = 0; level < kScanLevels; level++) {
         int onLot = 0;
         for (int x = 0; x < width; x++) {
@@ -179,8 +186,13 @@ void Scan() {
                     sy = (int)std::floor(held.y);
                 }
                 long long key = ((long long)level << 40) | ((long long)(sx & 0xfffff) << 20) | (sy & 0xfffff);
-                if (!seen.insert(key).second) continue;
-                Spot s = {sx, sy, level, game::RoomAt(sx + 0.5f, sy + 0.5f, level), 0};
+                auto known = seen.find(key);
+                if (known != seen.end()) {
+                    g.spots[known->second].dirs |= 1 << (direction / 2);
+                    continue;
+                }
+                seen[key] = g.spots.size();
+                Spot s = {sx, sy, level, game::RoomAt(sx + 0.5f, sy + 0.5f, level), 0, 1 << (direction / 2)};
                 if (haveSim) {
                     s.distance = std::hypot(sx + 0.5 - sim.x, sy + 0.5 - sim.y);
                     if (level != sim.level) s.distance += 1000.0 * std::abs(level - sim.level);
@@ -192,6 +204,8 @@ void Scan() {
         }
         if (!onLot) break;
     }
+    }
+    game::SetHeldDirection(tool, original);
     std::stable_sort(g.spots.begin(), g.spots.end(), [](const Spot& a, const Spot& b) { return a.distance < b.distance; });
     Log("placement scan: lot %dx%d, %d spots fit of %d checked, direction %d, %llu ms", width, depth,
         (int)g.spots.size(), checked, g.scanDirection, GetTickCount64() - t0);
@@ -199,7 +213,19 @@ void Scan() {
 }
 
 void EnsureScan() {
-    if (!g.scanned || g.scanDirection != Direction()) Scan();
+    if (!g.scanned) Scan();
+}
+
+// The directions a spot fits in, as the lot's compass ("mirando al norte o al este").
+std::string Directions(int dirs) {
+    static const Str kNames[] = {Str::DirWest, Str::DirSouth, Str::DirEast, Str::DirNorth};
+    std::string names;
+    for (int d = 0; d < 4; d++) {
+        if (!(dirs & (1 << d))) continue;
+        if (!names.empty()) names += ", ";
+        names += S(kNames[d]);
+    }
+    return util::Format(S(Str::PlaceFacing), names.c_str());
 }
 
 std::vector<const Spot*> CurrentList() {
@@ -213,10 +239,21 @@ void GoTo(const Spot& s, int index, int count, const std::string& prefix) {
     g.x = s.x;
     g.y = s.y;
     g.level = s.level;
+    // Turned to a direction it fits in there (the current one if it does).
+    int now = Direction();
+    if (!(s.dirs & (1 << (now / 2)))) {
+        for (int d = 0; d < 4; d++)
+            if (s.dirs & (1 << d)) {
+                game::SetHeldDirection(game::CurrentTool(), 2 * d);
+                break;
+            }
+    }
     // A room's summary names the room already.
     std::string line = prefix.empty() ? world::RoomNameAt(s.x + 0.5f, s.y + 0.5f, s.level) : "";
     std::string wall = WallPart(s.x, s.y, s.level);
     if (!wall.empty()) line += (line.empty() ? "" : ", ") + wall;
+    // The directions it fits in, unless any (doors and windows face their wall).
+    if (wall.empty() && s.dirs != 0xf) line += (line.empty() ? "" : ", ") + Directions(s.dirs);
     std::string where = world::WhereFromSim(s.x + 0.5f, s.y + 0.5f, s.level);
     if (!where.empty()) line += (line.empty() ? "" : ", ") + where;
     line += ", " + util::Format(S(Str::ValueOfMax), index + 1, count);

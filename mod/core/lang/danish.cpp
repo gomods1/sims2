@@ -171,7 +171,7 @@ const Translation kEntries[] = {
     {Str::PlaceBlocked, "kan ikke stå her"},
     {Str::PlacePlaced, "%s stillet"},
     {Str::PlaceFacing, "vendt mod %s"},
-    {Str::PlaceNoSpot, "vendt sådan kan den ikke stå nogen steder på grunden"},
+    {Str::PlaceNoSpot, "passer ingen steder på grunden, uanset retning"},
     {Str::PlaceRoomSpots, "%1$s, %2$d pladser"},
     {Str::PlaceWallSide, "væg mod %s"},
     {Str::PlaceLeadsTo, "fører til %s"},

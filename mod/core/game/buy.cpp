@@ -268,6 +268,14 @@ bool ReadHeldObject(Ptr tool, HeldObject* out) {
     return true;
 }
 
+bool SetHeldDirection(Ptr tool, int direction) {
+    if (!IsKindOf(tool, "cTSUserToolObject")) return false;
+    int r = Rd<int>(tool + addr::tool::kRotation);
+    int now = ((r % 8) + 8) % 8;
+    int turn = ((direction - now) % 8 + 8) % 8;  // the rotation is not wrapped: keep its sense
+    return WriteU32(tool + addr::tool::kRotation, (uint32_t)(r + turn));
+}
+
 int CheckSpot(Ptr tool, float x, float y, int level) {
     if (!IsKindOf(tool, "cTSUserToolObject")) return -1;
     bool wasOn = g_override;

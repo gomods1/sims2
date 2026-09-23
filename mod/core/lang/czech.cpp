@@ -168,7 +168,7 @@ const Translation kEntries[] = {
     {Str::PlaceBlocked, "sem se nevejde"},
     {Str::PlacePlaced, "%s položeno"},
     {Str::PlaceFacing, "natočeno na %s"},
-    {Str::PlaceNoSpot, "takto natočené se nikam na pozemku nevejde"},
+    {Str::PlaceNoSpot, "nevejde se nikam na pozemek, v žádném směru"},
     {Str::PlaceRoomSpots, "%1$s, míst: %2$d"},
     {Str::PlaceWallSide, "stěna: %s"},
     {Str::PlaceLeadsTo, "vede do: %s"},

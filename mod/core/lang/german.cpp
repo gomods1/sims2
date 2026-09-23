@@ -173,7 +173,7 @@ const Translation kEntries[] = {
     {Str::PlaceBlocked, "passt hier nicht"},
     {Str::PlacePlaced, "%s hingestellt"},
     {Str::PlaceFacing, "Ausrichtung: %s"},
-    {Str::PlaceNoSpot, "in dieser Ausrichtung passt es nirgends auf dieses Grundstück"},
+    {Str::PlaceNoSpot, "passt nirgends auf dieses Grundstück, egal wie gedreht"},
     {Str::PlaceRoomSpots, "%1$s, %2$d Plätze"},
     {Str::PlaceWallSide, "Wand im %s"},
     {Str::PlaceLeadsTo, "führt zu %s"},

@@ -170,7 +170,7 @@ const Translation kEntries[] = {
     {Str::PlaceBlocked, "itt nem fér el"},
     {Str::PlacePlaced, "%s letéve"},
     {Str::PlaceFacing, "irány: %s"},
-    {Str::PlaceNoSpot, "így forgatva sehol sem fér el a telken"},
+    {Str::PlaceNoSpot, "sehol sem fér el a telken, semmilyen irányban"},
     {Str::PlaceRoomSpots, "%1$s, %2$d hely"},
     {Str::PlaceWallSide, "fal: %s"},
     {Str::PlaceLeadsTo, "ide vezet: %s"},

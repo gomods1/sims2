@@ -162,7 +162,7 @@ const Translation kEntries[] = {
     {Str::PlaceBlocked, "ここには置けない"},
     {Str::PlacePlaced, "%sを置いた"},
     {Str::PlaceFacing, "%s向き"},
-    {Str::PlaceNoSpot, "この向きでは区画のどこにも置けない"},
+    {Str::PlaceNoSpot, "この区画のどこにも、どの向きでも置けない"},
     {Str::PlaceRoomSpots, "%1$s、%2$d か所"},
     {Str::PlaceWallSide, "%sの壁"},
     {Str::PlaceLeadsTo, "%sに通じる"},

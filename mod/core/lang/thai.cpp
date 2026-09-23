@@ -168,7 +168,7 @@ const Translation kEntries[] = {
     {Str::PlaceBlocked, "วางที่นี่ไม่ได้"},
     {Str::PlacePlaced, "วาง%sแล้ว"},
     {Str::PlaceFacing, "หันไปทาง%s"},
-    {Str::PlaceNoSpot, "หันแบบนี้วางที่ไหนบนที่ดินไม่ได้เลย"},
+    {Str::PlaceNoSpot, "วางไม่ได้ที่ไหนในที่ดินนี้ ไม่ว่าจะหันทางไหน"},
     {Str::PlaceRoomSpots, "%1$s, %2$d ที่"},
     {Str::PlaceWallSide, "ผนังด้าน%s"},
     {Str::PlaceLeadsTo, "ออกไปยัง%s"},

@@ -172,7 +172,7 @@ const Translation kEntries[] = {
     {Str::PlaceBlocked, "ei mahdu tähän"},
     {Str::PlacePlaced, "%s asetettu"},
     {Str::PlaceFacing, "suunta: %s"},
-    {Str::PlaceNoSpot, "näin käännettynä se ei mahdu mihinkään tontilla"},
+    {Str::PlaceNoSpot, "ei mahdu minnekään tontilla, ei mihinkään suuntaan"},
     {Str::PlaceRoomSpots, "%1$s, %2$d paikkaa"},
     {Str::PlaceWallSide, "seinä: %s"},
     {Str::PlaceLeadsTo, "johtaa: %s"},
