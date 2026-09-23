@@ -20,6 +20,8 @@ namespace nav::build {
 bool Active();
 void Begin(const std::string& toolName);
 bool OnKey(WPARAM vk, bool shift, bool ctrl);
+// The cursor's tile and level (for Ctrl+L); false when the cursor is not active.
+bool CursorTile(int* x, int* y, int* level);
 void Tick();
 
 }  // namespace nav::build

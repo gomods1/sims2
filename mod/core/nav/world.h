@@ -22,7 +22,9 @@ void Interact();
 void WalkTo(bool run);
 void Repeat();
 std::string RoomNameAt(float x, float y, int level);  // the room there, by its contents
-std::string WhereFromSim(float x, float y, int level);  // "3 tiles north" from the selected Sim
+std::string WhereFromSim(float x, float y, int level);
+// Ctrl+L: the room at a tile: its name, size, bounds, doors and windows (where each leads).
+void SayLayout(int x, int y, int level);  // "3 tiles north" from the selected Sim
 void Tick();  // says when an object's interaction menu did not open (it has none now)
 
 }  // namespace nav::world

@@ -187,6 +187,69 @@ std::string WhereFromSim(float x, float y, int level) {
     return Where(spot, &simObj);
 }
 
+void SayLayout(int x, int y, int level) {
+    int room = game::RoomAt(x + 0.5f, y + 0.5f, level);
+    if (room < 0) {
+        speech::Say(S(Str::LayoutNoRoom));
+        return;
+    }
+    std::vector<LotObject> all = game::LotObjects();
+    std::string name = RoomName(level, room, all);
+    // The room's tiles (off-lot tiles belong to no room of this level).
+    int count = 0, x0 = 1 << 20, y0 = 1 << 20, x1 = -1, y1 = -1;
+    for (int tx = 0; tx < 80; tx++)
+        for (int ty = 0; ty < 80; ty++) {
+            if (game::RoomAt(tx + 0.5f, ty + 0.5f, level) != room) continue;
+            count++;
+            x0 = std::min(x0, tx);
+            y0 = std::min(y0, ty);
+            x1 = std::max(x1, tx);
+            y1 = std::max(y1, ty);
+        }
+    // Doors and windows on its walls, and what is on their other side.
+    static const int kDx[] = {-1, 0, 1, 0}, kDy[] = {0, 1, 0, -1};           // 0 -x, 2 +y, 4 +x, 6 -y
+    static const Str kFront[] = {Str::DirWest, Str::DirSouth, Str::DirEast, Str::DirNorth};
+    static const Str kBehind[] = {Str::DirEast, Str::DirNorth, Str::DirWest, Str::DirSouth};
+    int doors = 0, windows = 0;
+    std::vector<std::string> lines;
+    for (const game::WallObject& w : game::WallObjects()) {
+        if (w.level != level) continue;
+        int d = (w.direction / 2) & 3;
+        float fx = w.x, fy = w.y, bx = w.x - kDx[d], by = w.y - kDy[d];
+        int front = game::RoomAt(fx, fy, level), behind = game::RoomAt(bx, by, level);
+        Str side;
+        int other;
+        float ox, oy;
+        if (front == room && behind != room) {
+            side = kBehind[d];
+            other = behind;
+            ox = bx;
+            oy = by;
+        } else if (behind == room && front != room) {
+            side = kFront[d];
+            other = front;
+            ox = fx;
+            oy = fy;
+        } else {
+            continue;
+        }
+        (w.type == 8 ? doors : windows)++;
+        std::string otherName = other >= 0 ? RoomName(level, other, all) : "";
+        std::string line = util::Format(S(w.type == 8 ? Str::LayoutDoor : Str::LayoutWindow), util::CleanForSpeech(w.name).c_str(),
+                                        S(side), otherName.c_str(), (int)ox, (int)oy);
+        size_t dbl = line.find("  ");
+        if (dbl != std::string::npos) line.erase(dbl, 1);  // no name: "puerta , pared" reads fine without it
+        lines.push_back(line);
+    }
+    std::string summary = util::Format(S(Str::LayoutSummary), name.c_str(), std::max(level, 1), count, x0, y0, x1, y1);
+    summary += ", " + util::Format(S(Str::LayoutOpenings), doors, windows);
+    std::vector<std::string> details = {summary};
+    for (const std::string& l : lines) details.push_back(l);
+    buffers::SetDetails(details);
+    speech::Say(summary);
+    Log("layout of room %d floor %d: %d tiles, %d doors, %d windows", room, level, count, doors, windows);
+}
+
 std::string RoomNameAt(float x, float y, int level) {
     int room = game::RoomAt(x, y, level);
     return room < 0 ? "" : RoomName(level, room, game::LotObjects());

@@ -152,6 +152,7 @@ constexpr int kPrice = 0x28;
 constexpr int kType = 0x16;            // u16 object type (OBJD field 9): 4 normal, 8 door, 9 window
                                        // (a door's parts stand on both sides of its wall: the lead
                                        // part in front, facing its direction, the other behind)
+constexpr int kSubIndex = 0x1a;        // u16 multi-tile part (OBJD field 11): (column << 8) | row, 0 the lead
 constexpr int kRoomFlags = 0x52;       // u16 buy mode rooms: 1 kitchen, 2 bedroom, 4 bathroom, 8 living,
                                        // 0x10 outside, 0x20 dining, 0x40 misc, 0x80 study, 0x100 kids
 constexpr int kRatings = 0xa8;         // s16 [7]: hunger, comfort, hygiene, bladder, energy, fun, room

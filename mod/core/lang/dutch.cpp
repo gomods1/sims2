@@ -154,6 +154,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "verteller uit"},
     // Relationships
     {Str::RelationshipValues, "%1$s, dagelijks %2$s, blijvend %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "hier is geen kamer"},
+    {Str::LayoutSummary, "%1$s, verdieping %2$d, %3$d vakken, van %4$d, %5$d tot %6$d, %7$d"},
+    {Str::LayoutOpenings, "%1$d deuren, %2$d ramen"},
+    {Str::LayoutDoor, "deur %1$s, muur aan de %2$s, komt uit op %3$s, vak %4$d, %5$d"},
+    {Str::LayoutWindow, "raam %1$s, muur aan de %2$s, kijkt uit op %3$s, vak %4$d, %5$d"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down zoekt plekken waar het past, de pijltjes verplaatsen het, Enter zet het neer, Escape "

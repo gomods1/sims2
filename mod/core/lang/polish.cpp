@@ -153,6 +153,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "narrator wyłączony"},
     // Relationships
     {Str::RelationshipValues, "%1$s, dzienna %2$s, na całe życie %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "tu nie ma pomieszczenia"},
+    {Str::LayoutSummary, "%1$s, piętro %2$d, pól: %3$d, od %4$d, %5$d do %6$d, %7$d"},
+    {Str::LayoutOpenings, "drzwi: %1$d, okna: %2$d"},
+    {Str::LayoutDoor, "drzwi %1$s, ściana od strony %2$s, prowadzą do: %3$s, pole %4$d, %5$d"},
+    {Str::LayoutWindow, "okno %1$s, ściana od strony %2$s, wychodzi na: %3$s, pole %4$d, %5$d"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down szuka miejsc, gdzie się mieści, strzałki go przesuwają, Enter go stawia, Escape anuluje"},

@@ -152,6 +152,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "ปิดผู้บรรยาย"},
     // Relationships
     {Str::RelationshipValues, "%1$s, รายวัน %2$s, ตลอดชีวิต %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "ไม่มีห้องตรงนี้"},
+    {Str::LayoutSummary, "%1$s ชั้น %2$d %3$d ช่อง จาก %4$d, %5$d ถึง %6$d, %7$d"},
+    {Str::LayoutOpenings, "ประตู %1$d บาน หน้าต่าง %2$d บาน"},
+    {Str::LayoutDoor, "ประตู %1$s ผนังด้าน%2$s ออกไปยัง%3$s ช่อง %4$d, %5$d"},
+    {Str::LayoutWindow, "หน้าต่าง %1$s ผนังด้าน%2$s มองไปยัง%3$s ช่อง %4$d, %5$d"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down หาที่ที่วางได้ ลูกศรเลื่อน Enter วาง Escape ยกเลิก"},
     {Str::PlaceTile, "ช่อง %1$d, %2$d"},

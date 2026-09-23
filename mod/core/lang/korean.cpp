@@ -149,6 +149,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "해설 끔"},
     // Relationships
     {Str::RelationshipValues, "%1$s, 일일 %2$s, 평생 %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "여기에는 방이 없음"},
+    {Str::LayoutSummary, "%1$s, %2$d층, %3$d칸, %4$d, %5$d부터 %6$d, %7$d까지"},
+    {Str::LayoutOpenings, "문 %1$d개, 창문 %2$d개"},
+    {Str::LayoutDoor, "문 %1$s, %2$s 벽, %3$s(으)로 통함, 칸 %4$d, %5$d"},
+    {Str::LayoutWindow, "창문 %1$s, %2$s 벽, %3$s 쪽, 칸 %4$d, %5$d"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down으로 놓을 수 있는 자리 찾기, 화살표로 이동, Enter로 놓기, Escape로 취소"},
     {Str::PlaceTile, "칸 %1$d, %2$d"},

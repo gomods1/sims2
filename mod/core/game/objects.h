@@ -41,6 +41,17 @@ bool SimMotive(int objectId, int index, float* value);
 // A Sim's first and last name (UTF-8); false when it is no Sim.
 bool SimName(int objectId, std::string* first, std::string* last);
 
+// The doors (type 8) and windows (type 9) of the lot, by their lead part: the tile in front of
+// the wall (the part faces its direction from there; the tile behind is one step back).
+struct WallObject {
+    int type = 0;
+    float x = 0, y = 0;  // the lead part's tile centre
+    int level = 0;
+    int direction = 0;   // 0 faces -x, 2 +y, 4 +x, 6 -y
+    std::string name;    // UTF-8 catalog name
+};
+std::vector<WallObject> WallObjects();
+
 // The room at a spot of the lot (tiles, floor 0 = ground), -1 when unknown.
 int RoomAt(float x, float y, int level);
 

@@ -153,6 +153,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "narrátor ki"},
     // Relationships
     {Str::RelationshipValues, "%1$s, napi %2$s, életre szóló %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "itt nincs szoba"},
+    {Str::LayoutSummary, "%1$s, %2$d. szint, %3$d mező, %4$d, %5$d – %6$d, %7$d"},
+    {Str::LayoutOpenings, "%1$d ajtó, %2$d ablak"},
+    {Str::LayoutDoor, "ajtó %1$s, fal: %2$s, ide vezet: %3$s, mező %4$d, %5$d"},
+    {Str::LayoutWindow, "ablak %1$s, fal: %2$s, kilátás: %3$s, mező %4$d, %5$d"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: a Page Down helyet keres, ahol elfér, a nyilak mozgatják, az Enter leteszi, az Escape megszakítja"},

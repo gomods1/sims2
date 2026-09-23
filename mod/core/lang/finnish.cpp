@@ -155,6 +155,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "kertoja pois"},
     // Relationships
     {Str::RelationshipValues, "%1$s, päivittäinen %2$s, elinikäinen %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "tässä ei ole huonetta"},
+    {Str::LayoutSummary, "%1$s, kerros %2$d, %3$d ruutua, %4$d, %5$d – %6$d, %7$d"},
+    {Str::LayoutOpenings, "%1$d ovea, %2$d ikkunaa"},
+    {Str::LayoutDoor, "ovi %1$s, seinä: %2$s, johtaa: %3$s, ruutu %4$d, %5$d"},
+    {Str::LayoutWindow, "ikkuna %1$s, seinä: %2$s, näkymä: %3$s, ruutu %4$d, %5$d"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down etsii paikat, joihin se mahtuu, nuolet siirtävät sitä, Enter asettaa sen, Escape peruu"},

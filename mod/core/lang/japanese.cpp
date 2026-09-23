@@ -146,6 +146,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "ナレーター オフ"},
     // Relationships
     {Str::RelationshipValues, "%1$s、今日 %2$s、生涯 %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "ここに部屋はない"},
+    {Str::LayoutSummary, "%1$s、%2$d階、%3$dマス、%4$d、%5$dから%6$d、%7$dまで"},
+    {Str::LayoutOpenings, "ドア%1$d、窓%2$d"},
+    {Str::LayoutDoor, "ドア %1$s、%2$sの壁、%3$sに通じる、マス %4$d、%5$d"},
+    {Str::LayoutWindow, "窓 %1$s、%2$sの壁、%3$s向き、マス %4$d、%5$d"},
     // Buy mode
     {Str::PlaceBegin, "%s：Page Downで置ける場所を探す、矢印キーで移動、Enterで置く、Escapeで取り消し"},
     {Str::PlaceTile, "マス %1$d、%2$d"},

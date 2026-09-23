@@ -91,6 +91,14 @@ void Drag(bool remove) {
 
 bool Active() { return g.active; }
 
+bool CursorTile(int* x, int* y, int* level) {
+    if (!g.active) return false;
+    *x = g.x;
+    *y = g.y;
+    *level = g.level;
+    return true;
+}
+
 void Begin(const std::string& toolName) {
     g = State();
     g.active = true;

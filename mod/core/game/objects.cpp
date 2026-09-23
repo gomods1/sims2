@@ -98,6 +98,34 @@ std::vector<LotObject> LotObjects() {
     return out;
 }
 
+std::vector<WallObject> WallObjects() {
+    std::vector<WallObject> out;
+    Ptr om = ObjectModule();
+    if (!om) return out;
+    Ptr b = Rd<Ptr>(om + addr::objmodule::kById), e = Rd<Ptr>(om + addr::objmodule::kById + 4);
+    int n = (int)((e - b) / 4);
+    for (int i = 0; i < n && i < 20000; i++) {
+        Ptr o = Rd<Ptr>(b + i * 4);
+        if (!o) continue;
+        Ptr def = Rd<Ptr>(o + addr::object::kDefinition);
+        if (!def) continue;
+        int type = Rd<uint16_t>(def + addr::objd::kType);
+        if ((type != 8 && type != 9) || Rd<uint16_t>(def + addr::objd::kSubIndex) != 0) continue;
+        LotObject lo;
+        if (!Fill(o, i + 1, &lo) || lo.x < 0) continue;
+        WallObject w;
+        w.type = type;
+        w.x = lo.x;
+        w.y = lo.y;
+        w.level = lo.level;
+        w.direction = ((Rd<int16_t>(o + addr::object::kDirection) % 8) + 8) % 8;
+        // Parts carry internal names ("*Door - 1 Tile - ..."): no name then.
+        w.name = !lo.catalogName.empty() && lo.catalogName[0] != '*' ? lo.catalogName : "";
+        out.push_back(w);
+    }
+    return out;
+}
+
 bool ReadLotObject(int id, LotObject* out) {
     Ptr om = ObjectModule();
     if (!om || id < 1) return false;

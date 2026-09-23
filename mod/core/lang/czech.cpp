@@ -152,6 +152,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "vypravěč vypnut"},
     // Relationships
     {Str::RelationshipValues, "%1$s, denní %2$s, celoživotní %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "tady není místnost"},
+    {Str::LayoutSummary, "%1$s, podlaží %2$d, polí: %3$d, od %4$d, %5$d do %6$d, %7$d"},
+    {Str::LayoutOpenings, "dveří: %1$d, oken: %2$d"},
+    {Str::LayoutDoor, "dveře %1$s, stěna: %2$s, vedou do: %3$s, pole %4$d, %5$d"},
+    {Str::LayoutWindow, "okno %1$s, stěna: %2$s, výhled na: %3$s, pole %4$d, %5$d"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down hledá místa, kam se vejde, šipky ho posouvají, Enter ho položí, Escape ruší"},
     {Str::PlaceTile, "pole %1$d, %2$d"},

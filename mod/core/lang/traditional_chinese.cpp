@@ -147,6 +147,12 @@ const Translation kEntries[] = {
     {Str::NarratorOff, "旁白關閉"},
     // Relationships
     {Str::RelationshipValues, "%1$s，今日 %2$s，終生 %3$s"},
+    // Room layout (Ctrl+L)
+    {Str::LayoutNoRoom, "這裡沒有房間"},
+    {Str::LayoutSummary, "%1$s，%2$d樓，%3$d格，從 %4$d，%5$d 到 %6$d，%7$d"},
+    {Str::LayoutOpenings, "%1$d扇門，%2$d扇窗"},
+    {Str::LayoutDoor, "門 %1$s，%2$s牆，通往%3$s，格子 %4$d，%5$d"},
+    {Str::LayoutWindow, "窗 %1$s，%2$s牆，朝向%3$s，格子 %4$d，%5$d"},
     // Buy mode
     {Str::PlaceBegin, "%s：Page Down 尋找放得下的位置，方向鍵移動，Enter 放下，Escape 取消"},
     {Str::PlaceTile, "格子 %1$d，%2$d"},

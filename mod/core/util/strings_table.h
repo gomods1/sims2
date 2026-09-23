@@ -139,6 +139,12 @@
     X(NarratorOff, "narrator off")                                                                                     \
     /* Relationships */                                                                                                \
     X(RelationshipValues, "%1$s, daily %2$s, lifetime %3$s")                                                           \
+    /* Room layout (Ctrl+L) */                                                                                         \
+    X(LayoutNoRoom, "no room here")                                                                                    \
+    X(LayoutSummary, "%1$s, floor %2$d, %3$d tiles, from %4$d, %5$d to %6$d, %7$d")                                    \
+    X(LayoutOpenings, "%1$d doors, %2$d windows")                                                                      \
+    X(LayoutDoor, "door %1$s, %2$s wall, leads to %3$s, tile %4$d, %5$d")                                              \
+    X(LayoutWindow, "window %1$s, %2$s wall, looks onto %3$s, tile %4$d, %5$d")                                        \
     /* Buy mode */                                                                                                     \
     X(PlaceBegin, "%s: PageDown finds spots where it fits, arrows move it, Enter puts it down, Escape cancels")        \
     X(PlaceTile, "tile %1$d, %2$d")                                                                                    \
