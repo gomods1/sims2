@@ -101,4 +101,9 @@
     X(StatusIdle, "doing nothing")                                                                                     \
     X(StatusNeedsLow, "low needs: %s")                                                                                 \
     X(StatusNeedsFine, "needs fine")                                                                                   \
+    /* Narrator: the family watch */                                                                                   \
+    X(ActionStarted, "%1$s: %2$s")                                                                                     \
+    X(ActionFinished, "%1$s finished %2$s")                                                                            \
+    X(NeedLow, "%1$s, low need: %2$s")                                                                                 \
+    X(NeedUrgent, "%1$s, urgent need: %2$s")                                                                           \
     X(FundsChanged, "%1$s, %2$s left")

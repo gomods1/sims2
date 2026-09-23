@@ -91,6 +91,11 @@ const Translation kEntries[] = {
     {Str::StatusIdle, "doet niets"},
     {Str::StatusNeedsLow, "lage behoeften: %s"},
     {Str::StatusNeedsFine, "behoeften in orde"},
+    // Narrator: the family watch
+    {Str::ActionStarted, "%1$s: %2$s"},
+    {Str::ActionFinished, "%1$s is klaar met: %2$s"},
+    {Str::NeedLow, "%1$s, lage behoefte: %2$s"},
+    {Str::NeedUrgent, "%1$s, dringende behoefte: %2$s"},
     {Str::FundsChanged, "%1$s, nog %2$s"},
 };
 

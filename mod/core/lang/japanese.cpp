@@ -90,6 +90,11 @@ const Translation kEntries[] = {
     {Str::StatusIdle, "何もしていない"},
     {Str::StatusNeedsLow, "低い欲求：%s"},
     {Str::StatusNeedsFine, "欲求は良好"},
+    // Narrator: the family watch
+    {Str::ActionStarted, "%1$s：%2$s"},
+    {Str::ActionFinished, "%1$s、%2$sを終了"},
+    {Str::NeedLow, "%1$s、低い欲求：%2$s"},
+    {Str::NeedUrgent, "%1$s、緊急の欲求：%2$s"},
     {Str::FundsChanged, "%1$s、残り%2$s"},
 };
 

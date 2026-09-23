@@ -74,6 +74,50 @@ Ptr FindById(Ptr w, uint32_t id, int depth) {
 int g_lastSpeed = -1;
 ULONGLONG g_lastCheck = 0;
 
+// The family watch: the selected Sim's current action and needs as they change.
+int g_watchedSim = 0;
+std::string g_lastAction;          // the queue's first entry at the last check
+std::vector<int> g_needLevels;     // 0 fine, 1 low, 2 urgent, per kNeeds entry
+constexpr int kUrgentPercent = 15;
+
+std::string SimName(int simId) {
+    game::LotObject o;
+    if (!game::ReadLotObject(simId, &o)) return "";
+    size_t dash = o.name.rfind(" - ");
+    return dash == std::string::npos ? o.name : o.name.substr(dash + 3);
+}
+
+void WatchFamily() {
+    int sim = game::SelectedSimId();
+    if (sim != g_watchedSim) {  // another Sim selected: start over quietly
+        g_watchedSim = sim;
+        g_lastAction.clear();
+        g_needLevels.clear();
+    }
+    if (!sim) return;
+    std::string name = SimName(sim);
+    Group q = QueueGroup();
+    std::string action = q.items.empty() ? "" : q.items[0].label;
+    if (action != g_lastAction) {
+        if (!g_lastAction.empty()) buffers::Record(util::Format(S(Str::ActionFinished), name.c_str(), g_lastAction.c_str()));
+        if (!action.empty()) buffers::Event(util::Format(S(Str::ActionStarted), name.c_str(), action.c_str()));
+        g_lastAction = action;
+    }
+    std::vector<NeedValue> needs = Needs(sim);
+    bool first = g_needLevels.size() != needs.size();
+    if (first) g_needLevels.assign(needs.size(), 0);
+    std::string low, urgent;
+    for (size_t i = 0; i < needs.size(); i++) {
+        int level = needs[i].percent <= kUrgentPercent ? 2 : needs[i].percent <= kLowPercent ? 1 : 0;
+        // Hysteresis: a need leaves "low" only once it is clearly back up.
+        if (level == 0 && g_needLevels[i] > 0 && needs[i].percent < kLowPercent + 10) level = g_needLevels[i];
+        if (level > g_needLevels[i] && !first) (level == 2 ? urgent : low) += (level == 2 ? (urgent.empty() ? "" : ", ") : (low.empty() ? "" : ", ")) + needs[i].name;
+        g_needLevels[i] = level;
+    }
+    if (!urgent.empty()) buffers::Event(util::Format(S(Str::NeedUrgent), name.c_str(), urgent.c_str()));
+    if (!low.empty()) buffers::Event(util::Format(S(Str::NeedLow), name.c_str(), low.c_str()));
+}
+
 }  // namespace
 
 Group NeedsGroup() {
@@ -146,8 +190,10 @@ void Tick() {
     g_lastCheck = now;
     if (!world::LotViewActive()) {
         g_lastSpeed = -1;
+        g_watchedSim = 0;
         return;
     }
+    WatchFamily();
     // 0 paused, else the chosen speed (the speed buttons show the choice, not the pause).
     Ptr main = game::MainWindow();
     int speed = -1;
@@ -170,7 +216,8 @@ void Tick() {
         std::string line = pause ? util::WithoutHotkey(util::CleanForSpeech(game::Tooltip(pause))) : "";
         Ptr clock = FindById(main, kClockId, 0), funds = FindById(main, kFundsId, 0);
         if (clock) util::AppendSentence(line, util::CleanForSpeech(game::Caption(clock)));
-        if (funds) line += ", " + util::CleanForSpeech(game::Caption(funds));
+        std::string money = funds ? util::CleanForSpeech(game::Caption(funds)) : "";
+        if (!money.empty()) line += ", " + money;
         buffers::Event(line);
     } else if (chosen) {
         buffers::Event(util::WithoutHotkey(util::CleanForSpeech(game::Tooltip(chosen))));

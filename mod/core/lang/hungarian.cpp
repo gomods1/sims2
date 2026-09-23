@@ -61,7 +61,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "előbb írj be vagy válassz egy csalást"},
     // Money
     {Str::FundsNow, "pénz %s, %s"},
-    // Lot: status (Ctrl+E) and action queue
+    // Narrator: the family watch
     {Str::FundsChanged, "%1$s, maradt %2$s"},
 };
 
