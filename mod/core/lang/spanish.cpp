@@ -149,6 +149,10 @@ const Translation kEntries[] = {
     // Camera
     {Str::CameraFree, "cámara libre"},
     {Str::CameraFollowing, "siguiendo a %s"},
+    // Narrator
+    {Str::NarratorAll, "narrador: todo"},
+    {Str::NarratorWarnings, "narrador: solo avisos"},
+    {Str::NarratorOff, "narrador desactivado"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Avance de página busca sitios donde cabe, las flechas lo mueven, Intro lo coloca, Escape cancela"},

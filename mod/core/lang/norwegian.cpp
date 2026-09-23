@@ -147,6 +147,10 @@ const Translation kEntries[] = {
     // Camera
     {Str::CameraFree, "kamera fritt"},
     {Str::CameraFollowing, "følger %s"},
+    // Narrator
+    {Str::NarratorAll, "forteller: alt"},
+    {Str::NarratorWarnings, "forteller: bare advarsler"},
+    {Str::NarratorOff, "forteller av"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Page Down finner plasser der den får plass, piltastene flytter den, Enter setter den ned, Escape "

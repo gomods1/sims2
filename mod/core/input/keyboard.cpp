@@ -135,6 +135,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         g_swallowChar = vk;
         nav::live::SelectMember((int)vk - '1');
         return true;
+    case 'N':
+        if (!ctrl || shift) return false;
+        g_swallowChar = 'n';
+        nav::live::CycleNarrator();
+        return true;
     case 'F':
         if (!ctrl || shift || !lot) return false;
         g_swallowChar = 'f';
@@ -185,7 +190,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
         return false;
     }
     bool ctrl = Held(VK_CONTROL);
-    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || vk == 'F' || (vk >= '1' && vk <= '9') ||
+    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || vk == 'F' || vk == 'N' || (vk >= '1' && vk <= '9') ||
                    vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN;
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) return false;
     g_consumed[vk] = true;

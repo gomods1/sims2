@@ -90,6 +90,8 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     Space marks the start, Enter builds from the mark to the cursor, Ctrl+Enter removes; the cost is
     said. The mod drags the game's own tool, one mouse message per tick.
   - Ctrl+Enter on the object browser: walk the selected Sim there (Ctrl+Shift+Enter runs).
+  - Ctrl+N: the narrator speaks everything, warnings only (urgent needs, visitors), or nothing
+    (`[mod] narrator=2/1/0` in `Sims2Access.ini`); every line still goes to the events buffer.
   - Camera: in live mode the mod presses the game's Return ("Center on active Sim") when the
     selected Sim has moved four tiles or another Sim is selected (never while a dialog or a text
     field is up), because the game's sounds come from what is on screen. Ctrl+F turns it off/on.

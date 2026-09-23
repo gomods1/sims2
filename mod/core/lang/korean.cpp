@@ -143,6 +143,10 @@ const Translation kEntries[] = {
     // Camera
     {Str::CameraFree, "카메라 자유"},
     {Str::CameraFollowing, "%s 따라가기"},
+    // Narrator
+    {Str::NarratorAll, "해설: 모두"},
+    {Str::NarratorWarnings, "해설: 경고만"},
+    {Str::NarratorOff, "해설 끔"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down으로 놓을 수 있는 자리 찾기, 화살표로 이동, Enter로 놓기, Escape로 취소"},
     {Str::PlaceTile, "칸 %1$d, %2$d"},

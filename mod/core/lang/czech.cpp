@@ -146,6 +146,10 @@ const Translation kEntries[] = {
     // Camera
     {Str::CameraFree, "kamera volná"},
     {Str::CameraFollowing, "sleduje: %s"},
+    // Narrator
+    {Str::NarratorAll, "vypravěč: vše"},
+    {Str::NarratorWarnings, "vypravěč: jen varování"},
+    {Str::NarratorOff, "vypravěč vypnut"},
     // Buy mode
     {Str::PlaceBegin, "%s: Page Down hledá místa, kam se vejde, šipky ho posouvají, Enter ho položí, Escape ruší"},
     {Str::PlaceTile, "pole %1$d, %2$d"},

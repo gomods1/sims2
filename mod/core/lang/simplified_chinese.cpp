@@ -141,6 +141,10 @@ const Translation kEntries[] = {
     // Camera
     {Str::CameraFree, "镜头自由"},
     {Str::CameraFollowing, "跟随%s"},
+    // Narrator
+    {Str::NarratorAll, "旁白：全部"},
+    {Str::NarratorWarnings, "旁白：仅警告"},
+    {Str::NarratorOff, "旁白关闭"},
     // Buy mode
     {Str::PlaceBegin, "%s：Page Down 查找能放下的位置，方向键移动，Enter 放下，Escape 取消"},
     {Str::PlaceTile, "格子 %1$d，%2$d"},

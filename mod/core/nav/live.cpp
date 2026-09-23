@@ -12,6 +12,7 @@
 #include "../game/rtti.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
+#include "../util/settings.h"
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "../input/keyboard.h"
@@ -106,6 +107,16 @@ struct Visitor {
 std::vector<Visitor> g_visitors;
 bool g_visitorsPrimed = false;  // the Sims already there when the lot loaded are not "arriving"
 
+// The narrator's verbosity (Ctrl+N, kept as [mod] narrator=2/1/0): everything, warnings only
+// (urgent needs, visitors), or nothing spoken; every line still goes to the events buffer.
+int Verbosity() { return util::GetSetting("narrator", 2); }
+
+void Narrate(const std::string& line, bool warning) {
+    int v = Verbosity();
+    if (v >= 2 || (v == 1 && warning)) buffers::Event(line);
+    else buffers::Record(line);
+}
+
 void WatchVisitors() {
     std::vector<int> family = game::FamilySimIds();
     std::vector<int> present;
@@ -115,7 +126,7 @@ void WatchVisitors() {
     ULONGLONG now = GetTickCount64();
     for (size_t i = g_visitors.size(); i-- > 0;) {
         if (std::find(present.begin(), present.end(), g_visitors[i].id) != present.end()) continue;
-        if (g_visitors[i].announced) buffers::Event(util::Format(S(Str::VisitorLeft), g_visitors[i].name.c_str()));
+        if (g_visitors[i].announced) Narrate(util::Format(S(Str::VisitorLeft), g_visitors[i].name.c_str()), true);
         g_visitors.erase(g_visitors.begin() + i);
     }
     for (int id : present) {
@@ -127,7 +138,7 @@ void WatchVisitors() {
             g_visitors.push_back({id, name, now, !g_visitorsPrimed});
         } else if (!it->announced && now - it->since > 1000) {
             it->announced = true;
-            buffers::Event(util::Format(S(Str::VisitorArrived), it->name.c_str()));
+            Narrate(util::Format(S(Str::VisitorArrived), it->name.c_str()), true);
         }
     }
     g_visitorsPrimed = true;
@@ -151,7 +162,7 @@ void WatchFamily() {
     std::string action = q.items.empty() ? "" : q.items[0].label;
     if (action != g_lastAction) {
         if (!g_lastAction.empty()) buffers::Record(util::Format(S(Str::ActionFinished), name.c_str(), g_lastAction.c_str()));
-        if (!action.empty()) buffers::Event(util::Format(S(Str::ActionStarted), name.c_str(), action.c_str()));
+        if (!action.empty()) Narrate(util::Format(S(Str::ActionStarted), name.c_str(), action.c_str()), false);
         g_lastAction = action;
     }
     std::vector<NeedValue> needs = Needs(sim);
@@ -165,8 +176,8 @@ void WatchFamily() {
         if (level > g_needLevels[i] && !first) (level == 2 ? urgent : low) += (level == 2 ? (urgent.empty() ? "" : ", ") : (low.empty() ? "" : ", ")) + needs[i].name;
         g_needLevels[i] = level;
     }
-    if (!urgent.empty()) buffers::Event(util::Format(S(Str::NeedUrgent), name.c_str(), urgent.c_str()));
-    if (!low.empty()) buffers::Event(util::Format(S(Str::NeedLow), name.c_str(), low.c_str()));
+    if (!urgent.empty()) Narrate(util::Format(S(Str::NeedUrgent), name.c_str(), urgent.c_str()), true);
+    if (!low.empty()) Narrate(util::Format(S(Str::NeedLow), name.c_str(), low.c_str()), false);
 }
 
 }  // namespace
@@ -266,6 +277,13 @@ void FollowTick() {
     g_followY = o.y;
     g_followAt = now;
     input::PostGameKey(VK_RETURN);  // "Center on active Sim"
+}
+
+void CycleNarrator() {
+    int v = (Verbosity() + 2) % 3;  // 2 -> 1 -> 0 -> 2
+    util::SetSetting("narrator", v);
+    static const Str kNames[] = {Str::NarratorOff, Str::NarratorWarnings, Str::NarratorAll};
+    speech::Say(S(kNames[v]));
 }
 
 void ToggleFollow() {

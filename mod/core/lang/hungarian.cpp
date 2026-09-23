@@ -147,6 +147,10 @@ const Translation kEntries[] = {
     // Camera
     {Str::CameraFree, "szabad kamera"},
     {Str::CameraFollowing, "követi: %s"},
+    // Narrator
+    {Str::NarratorAll, "narrátor: minden"},
+    {Str::NarratorWarnings, "narrátor: csak figyelmeztetések"},
+    {Str::NarratorOff, "narrátor ki"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: a Page Down helyet keres, ahol elfér, a nyilak mozgatják, az Enter leteszi, az Escape megszakítja"},

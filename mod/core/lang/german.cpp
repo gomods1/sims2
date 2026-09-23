@@ -150,6 +150,10 @@ const Translation kEntries[] = {
     // Camera
     {Str::CameraFree, "Kamera frei"},
     {Str::CameraFollowing, "folgt %s"},
+    // Narrator
+    {Str::NarratorAll, "Erzähler: alles"},
+    {Str::NarratorWarnings, "Erzähler: nur Warnungen"},
+    {Str::NarratorOff, "Erzähler aus"},
     // Buy mode
     {Str::PlaceBegin,
      "%s: Bild ab findet Plätze, an die es passt, Pfeiltasten bewegen es, Eingabe stellt es hin, Escape bricht ab"},
