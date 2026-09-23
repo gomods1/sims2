@@ -113,7 +113,8 @@ bool ButtonOn(Ptr w) {
 }
 
 bool ButtonToggles(Ptr w) {
-    return IsButton(w) && (Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) & addr::btn::kFlagToggle) != 0;
+    return IsButton(w) &&
+           (Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) & (addr::btn::kFlagToggle | addr::btn::kFlagChoice)) != 0;
 }
 
 bool CaptionShown(Ptr w) {

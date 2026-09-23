@@ -286,6 +286,9 @@ constexpr int kFlags = 0xfc;    // GetBtnFlag (0xa0936a5c): 1 on, 2 toggles on c
                                 // (radio), 0x1000 held down by the mouse
 constexpr uint32_t kFlagOn = 1;
 constexpr uint32_t kFlagToggle = 2;
+constexpr uint32_t kFlagChoice = 4;  // one of a set of options (the options pages' No / Si / Pequeno...
+                                     // 0x604 / 0x605 when chosen; check boxes 0x6d4); plain buttons
+                                     // 0x780, mode buttons 0x580 (hypothesis from the options pages)
 constexpr int kStyle = 0x160;
 constexpr int kCaptionExtent = 0x124;  // non-zero while the caption is drawn (hidden captions are
                                        // design-time names such as "video capture"; hypothesis
