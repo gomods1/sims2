@@ -47,6 +47,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "přání a obavy"},
     {Str::GroupNeeds, "potřeby"},
     {Str::GroupControls, "ovládací prvky"},
+    {Str::GroupBuyPanel, "režim nákupu"},
+    {Str::GroupCatalog, "katalog"},
     // Text fields
     {Str::TextField, "%s %s, textové pole"},
     {Str::Blank, "prázdné"},
@@ -110,8 +112,26 @@ const Translation kEntries[] = {
     {Str::ActionFinished, "%1$s dokončil %2$s"},
     {Str::NeedLow, "%1$s, nízká potřeba: %2$s"},
     {Str::NeedUrgent, "%1$s, naléhavá potřeba: %2$s"},
+    // Lot: selecting Sims
+    {Str::SimSelectedNow, "%s, vybrán"},
+    {Str::NoSuchSim, "žádný Sim %d"},
+    // Narrator: visitors
+    {Str::VisitorArrived, "%s přišel"},
+    {Str::VisitorLeft, "%s odešel"},
     // Lot: rooms
+    {Str::RoomObjects, "%s, objektů: %d"},
+    {Str::RoomObjectsOne, "%s, 1 objekt"},
     {Str::FundsChanged, "%1$s, zbývá %2$s"},
+    // Buy mode
+    {Str::PlaceBegin, "%s: Page Down hledá místa, kam se vejde, šipky ho posouvají, Enter ho položí, Escape ruší"},
+    {Str::PlaceTile, "pole %1$d, %2$d"},
+    {Str::PlaceOffLot, "mimo pozemek"},
+    {Str::PlaceFits, "vejde se"},
+    {Str::PlaceBlocked, "sem se nevejde"},
+    {Str::PlacePlaced, "%s položeno"},
+    {Str::PlaceFacing, "natočeno na %s"},
+    {Str::PlaceNoSpot, "takto natočené se nikam na pozemku nevejde"},
+    {Str::PlaceRoomSpots, "%1$s, míst: %2$d"},
 };
 
 }  // namespace

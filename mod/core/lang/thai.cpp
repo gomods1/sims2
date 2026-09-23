@@ -47,6 +47,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "ความปรารถนาและความกลัว"},
     {Str::GroupNeeds, "ความต้องการ"},
     {Str::GroupControls, "ปุ่มควบคุม"},
+    {Str::GroupBuyPanel, "โหมดซื้อ"},
+    {Str::GroupCatalog, "แคตตาล็อก"},
     // Text fields
     {Str::TextField, "%s %s, ช่องข้อความ"},
     {Str::Blank, "ว่าง"},
@@ -120,6 +122,16 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, วัตถุ %d ชิ้น"},
     {Str::RoomObjectsOne, "%s, วัตถุ 1 ชิ้น"},
     {Str::FundsChanged, "%1$s เหลือ %2$s"},
+    // Buy mode
+    {Str::PlaceBegin, "%s: Page Down หาที่ที่วางได้ ลูกศรเลื่อน Enter วาง Escape ยกเลิก"},
+    {Str::PlaceTile, "ช่อง %1$d, %2$d"},
+    {Str::PlaceOffLot, "นอกที่ดิน"},
+    {Str::PlaceFits, "วางได้"},
+    {Str::PlaceBlocked, "วางที่นี่ไม่ได้"},
+    {Str::PlacePlaced, "วาง%sแล้ว"},
+    {Str::PlaceFacing, "หันไปทาง%s"},
+    {Str::PlaceNoSpot, "หันแบบนี้วางที่ไหนบนที่ดินไม่ได้เลย"},
+    {Str::PlaceRoomSpots, "%1$s, %2$d ที่"},
 };
 
 }  // namespace

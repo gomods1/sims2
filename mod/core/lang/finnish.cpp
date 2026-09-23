@@ -48,6 +48,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "toiveet ja pelot"},
     {Str::GroupNeeds, "tarpeet"},
     {Str::GroupControls, "ohjaimet"},
+    {Str::GroupBuyPanel, "ostotila"},
+    {Str::GroupCatalog, "luettelo"},
     // Text fields
     {Str::TextField, "%s %s, tekstikenttä"},
     {Str::Blank, "tyhjä"},
@@ -121,6 +123,17 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, %d esinettä"},
     {Str::RoomObjectsOne, "%s, 1 esine"},
     {Str::FundsChanged, "%1$s, jäljellä %2$s"},
+    // Buy mode
+    {Str::PlaceBegin,
+     "%s: Page Down etsii paikat, joihin se mahtuu, nuolet siirtävät sitä, Enter asettaa sen, Escape peruu"},
+    {Str::PlaceTile, "ruutu %1$d, %2$d"},
+    {Str::PlaceOffLot, "tontin ulkopuolella"},
+    {Str::PlaceFits, "mahtuu"},
+    {Str::PlaceBlocked, "ei mahdu tähän"},
+    {Str::PlacePlaced, "%s asetettu"},
+    {Str::PlaceFacing, "suunta: %s"},
+    {Str::PlaceNoSpot, "näin käännettynä se ei mahdu mihinkään tontilla"},
+    {Str::PlaceRoomSpots, "%1$s, %2$d paikkaa"},
 };
 
 }  // namespace

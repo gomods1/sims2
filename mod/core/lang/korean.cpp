@@ -46,6 +46,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "소망과 두려움"},
     {Str::GroupNeeds, "욕구"},
     {Str::GroupControls, "제어판"},
+    {Str::GroupBuyPanel, "구매 모드"},
+    {Str::GroupCatalog, "카탈로그"},
     // Text fields
     {Str::TextField, "%s %s, 편집창"},
     {Str::Blank, "빈칸"},
@@ -119,6 +121,16 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, 물건 %d개"},
     {Str::RoomObjectsOne, "%s, 물건 1개"},
     {Str::FundsChanged, "%1$s, 남은 돈 %2$s"},
+    // Buy mode
+    {Str::PlaceBegin, "%s: Page Down으로 놓을 수 있는 자리 찾기, 화살표로 이동, Enter로 놓기, Escape로 취소"},
+    {Str::PlaceTile, "칸 %1$d, %2$d"},
+    {Str::PlaceOffLot, "부지 밖"},
+    {Str::PlaceFits, "놓을 수 있음"},
+    {Str::PlaceBlocked, "여기에는 놓을 수 없음"},
+    {Str::PlacePlaced, "%s 놓음"},
+    {Str::PlaceFacing, "방향: %s"},
+    {Str::PlaceNoSpot, "이 방향으로는 부지 어디에도 놓을 수 없음"},
+    {Str::PlaceRoomSpots, "%1$s, 자리 %2$d개"},
 };
 
 }  // namespace

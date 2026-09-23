@@ -47,6 +47,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "желания и страхи"},
     {Str::GroupNeeds, "потребности"},
     {Str::GroupControls, "элементы управления"},
+    {Str::GroupBuyPanel, "режим покупки"},
+    {Str::GroupCatalog, "каталог"},
     // Text fields
     {Str::TextField, "%s %s, текстовое поле"},
     {Str::Blank, "пусто"},
@@ -110,8 +112,27 @@ const Translation kEntries[] = {
     {Str::ActionFinished, "%1$s закончил: %2$s"},
     {Str::NeedLow, "%1$s, низкая потребность: %2$s"},
     {Str::NeedUrgent, "%1$s, срочная потребность: %2$s"},
+    // Lot: selecting Sims
+    {Str::SimSelectedNow, "%s, выбран"},
+    {Str::NoSuchSim, "нет сима %d"},
+    // Narrator: visitors
+    {Str::VisitorArrived, "%s пришёл"},
+    {Str::VisitorLeft, "%s ушёл"},
     // Lot: rooms
+    {Str::RoomObjects, "%s, объектов: %d"},
+    {Str::RoomObjectsOne, "%s, 1 объект"},
     {Str::FundsChanged, "%1$s, осталось %2$s"},
+    // Buy mode
+    {Str::PlaceBegin,
+     "%s: Page Down ищет места, куда он встанет, стрелки двигают его, Enter ставит, Escape отменяет"},
+    {Str::PlaceTile, "клетка %1$d, %2$d"},
+    {Str::PlaceOffLot, "за пределами участка"},
+    {Str::PlaceFits, "встаёт"},
+    {Str::PlaceBlocked, "сюда не встаёт"},
+    {Str::PlacePlaced, "%s поставлен"},
+    {Str::PlaceFacing, "направление: %s"},
+    {Str::PlaceNoSpot, "так повёрнутый он никуда на участке не встаёт"},
+    {Str::PlaceRoomSpots, "%1$s, мест: %2$d"},
 };
 
 }  // namespace

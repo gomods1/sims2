@@ -47,6 +47,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "ønsker og frygt"},
     {Str::GroupNeeds, "behov"},
     {Str::GroupControls, "kontroller"},
+    {Str::GroupBuyPanel, "købetilstand"},
+    {Str::GroupCatalog, "katalog"},
     // Text fields
     {Str::TextField, "%s %s, tekstfelt"},
     {Str::Blank, "tomt"},
@@ -120,6 +122,18 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, %d objekter"},
     {Str::RoomObjectsOne, "%s, 1 objekt"},
     {Str::FundsChanged, "%1$s, tilbage %2$s"},
+    // Buy mode
+    {Str::PlaceBegin,
+     "%s: Page Down finder pladser, hvor den kan stå, piletasterne flytter den, Enter stiller den, Escape "
+     "annullerer"},
+    {Str::PlaceTile, "felt %1$d, %2$d"},
+    {Str::PlaceOffLot, "uden for grunden"},
+    {Str::PlaceFits, "kan stå her"},
+    {Str::PlaceBlocked, "kan ikke stå her"},
+    {Str::PlacePlaced, "%s stillet"},
+    {Str::PlaceFacing, "vendt mod %s"},
+    {Str::PlaceNoSpot, "vendt sådan kan den ikke stå nogen steder på grunden"},
+    {Str::PlaceRoomSpots, "%1$s, %2$d pladser"},
 };
 
 }  // namespace

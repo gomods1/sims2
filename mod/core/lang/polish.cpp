@@ -48,6 +48,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "pragnienia i lęki"},
     {Str::GroupNeeds, "potrzeby"},
     {Str::GroupControls, "sterowanie"},
+    {Str::GroupBuyPanel, "tryb kupowania"},
+    {Str::GroupCatalog, "katalog"},
     // Text fields
     {Str::TextField, "%s %s, pole tekstowe"},
     {Str::Blank, "puste"},
@@ -121,6 +123,17 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, obiektów: %d"},
     {Str::RoomObjectsOne, "%s, 1 obiekt"},
     {Str::FundsChanged, "%1$s, zostało %2$s"},
+    // Buy mode
+    {Str::PlaceBegin,
+     "%s: Page Down szuka miejsc, gdzie się mieści, strzałki go przesuwają, Enter go stawia, Escape anuluje"},
+    {Str::PlaceTile, "pole %1$d, %2$d"},
+    {Str::PlaceOffLot, "poza parcelą"},
+    {Str::PlaceFits, "mieści się"},
+    {Str::PlaceBlocked, "tu się nie mieści"},
+    {Str::PlacePlaced, "%s postawiony"},
+    {Str::PlaceFacing, "skierowany w stronę %s"},
+    {Str::PlaceNoSpot, "tak obrócony nie mieści się nigdzie na tej parceli"},
+    {Str::PlaceRoomSpots, "%1$s, miejsc: %2$d"},
 };
 
 }  // namespace

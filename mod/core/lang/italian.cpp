@@ -47,6 +47,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "desideri e paure"},
     {Str::GroupNeeds, "bisogni"},
     {Str::GroupControls, "controlli"},
+    {Str::GroupBuyPanel, "modalità Compra"},
+    {Str::GroupCatalog, "catalogo"},
     // Text fields
     {Str::TextField, "%s %s, campo di testo"},
     {Str::Blank, "vuoto"},
@@ -120,6 +122,16 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, %d oggetti"},
     {Str::RoomObjectsOne, "%s, 1 oggetto"},
     {Str::FundsChanged, "%1$s, restano %2$s"},
+    // Buy mode
+    {Str::PlaceBegin, "%s: Pagina giù trova i posti dove entra, le frecce lo spostano, Invio lo posa, Esc annulla"},
+    {Str::PlaceTile, "casella %1$d, %2$d"},
+    {Str::PlaceOffLot, "fuori dal lotto"},
+    {Str::PlaceFits, "ci sta"},
+    {Str::PlaceBlocked, "qui non ci sta"},
+    {Str::PlacePlaced, "%s posato"},
+    {Str::PlaceFacing, "rivolto a %s"},
+    {Str::PlaceNoSpot, "così girato non ci sta da nessuna parte in questo lotto"},
+    {Str::PlaceRoomSpots, "%1$s, %2$d posti"},
 };
 
 }  // namespace

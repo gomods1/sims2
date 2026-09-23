@@ -47,6 +47,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "önskningar och rädslor"},
     {Str::GroupNeeds, "behov"},
     {Str::GroupControls, "kontroller"},
+    {Str::GroupBuyPanel, "köpläge"},
+    {Str::GroupCatalog, "katalog"},
     // Text fields
     {Str::TextField, "%s %s, textfält"},
     {Str::Blank, "tomt"},
@@ -120,6 +122,17 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s, %d föremål"},
     {Str::RoomObjectsOne, "%s, 1 föremål"},
     {Str::FundsChanged, "%1$s, kvar %2$s"},
+    // Buy mode
+    {Str::PlaceBegin,
+     "%s: Page Down hittar platser där den får plats, pilarna flyttar den, Enter ställer ner den, Escape avbryter"},
+    {Str::PlaceTile, "ruta %1$d, %2$d"},
+    {Str::PlaceOffLot, "utanför tomten"},
+    {Str::PlaceFits, "får plats"},
+    {Str::PlaceBlocked, "får inte plats här"},
+    {Str::PlacePlaced, "%s placerad"},
+    {Str::PlaceFacing, "vänd mot %s"},
+    {Str::PlaceNoSpot, "vänd så får den inte plats någonstans på tomten"},
+    {Str::PlaceRoomSpots, "%1$s, %2$d platser"},
 };
 
 }  // namespace

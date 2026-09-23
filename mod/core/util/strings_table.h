@@ -119,7 +119,7 @@
     X(RoomObjectsOne, "%s, 1 object")                                                                                  \
     X(FundsChanged, "%1$s, %2$s left")                                                                                 \
     /* Buy mode */                                                                                                     \
-    X(PlaceBegin, "%s: arrows move it, Enter puts it down, Escape cancels")                                            \
+    X(PlaceBegin, "%s: PageDown finds spots where it fits, arrows move it, Enter puts it down, Escape cancels")        \
     X(PlaceTile, "tile %1$d, %2$d")                                                                                    \
     X(PlaceOffLot, "off the lot")                                                                                      \
     X(PlaceFits, "fits")                                                                                               \

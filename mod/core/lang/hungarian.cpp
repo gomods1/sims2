@@ -47,6 +47,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "vágyak és félelmek"},
     {Str::GroupNeeds, "szükségletek"},
     {Str::GroupControls, "vezérlők"},
+    {Str::GroupBuyPanel, "vásárlás mód"},
+    {Str::GroupCatalog, "katalógus"},
     // Text fields
     {Str::TextField, "%s %s, szövegmező"},
     {Str::Blank, "üres"},
@@ -110,8 +112,27 @@ const Translation kEntries[] = {
     {Str::ActionFinished, "%1$s befejezte: %2$s"},
     {Str::NeedLow, "%1$s, alacsony szükséglet: %2$s"},
     {Str::NeedUrgent, "%1$s, sürgős szükséglet: %2$s"},
+    // Lot: selecting Sims
+    {Str::SimSelectedNow, "%s, kiválasztva"},
+    {Str::NoSuchSim, "nincs %d. Sim"},
+    // Narrator: visitors
+    {Str::VisitorArrived, "%s megérkezett"},
+    {Str::VisitorLeft, "%s elment"},
     // Lot: rooms
+    {Str::RoomObjects, "%s, %d tárgy"},
+    {Str::RoomObjectsOne, "%s, 1 tárgy"},
     {Str::FundsChanged, "%1$s, maradt %2$s"},
+    // Buy mode
+    {Str::PlaceBegin,
+     "%s: a Page Down helyet keres, ahol elfér, a nyilak mozgatják, az Enter leteszi, az Escape megszakítja"},
+    {Str::PlaceTile, "mező %1$d, %2$d"},
+    {Str::PlaceOffLot, "a telken kívül"},
+    {Str::PlaceFits, "elfér"},
+    {Str::PlaceBlocked, "itt nem fér el"},
+    {Str::PlacePlaced, "%s letéve"},
+    {Str::PlaceFacing, "irány: %s"},
+    {Str::PlaceNoSpot, "így forgatva sehol sem fér el a telken"},
+    {Str::PlaceRoomSpots, "%1$s, %2$d hely"},
 };
 
 }  // namespace

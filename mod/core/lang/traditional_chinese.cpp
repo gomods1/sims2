@@ -46,6 +46,8 @@ const Translation kEntries[] = {
     {Str::GroupWantsFears, "願望與恐懼"},
     {Str::GroupNeeds, "需求"},
     {Str::GroupControls, "控制按鈕"},
+    {Str::GroupBuyPanel, "購買模式"},
+    {Str::GroupCatalog, "目錄"},
     // Text fields
     {Str::TextField, "%s %s，文字方塊"},
     {Str::Blank, "空白"},
@@ -119,6 +121,16 @@ const Translation kEntries[] = {
     {Str::RoomObjects, "%s，%d件物品"},
     {Str::RoomObjectsOne, "%s，1件物品"},
     {Str::FundsChanged, "%1$s，剩餘%2$s"},
+    // Buy mode
+    {Str::PlaceBegin, "%s：Page Down 尋找放得下的位置，方向鍵移動，Enter 放下，Escape 取消"},
+    {Str::PlaceTile, "格子 %1$d，%2$d"},
+    {Str::PlaceOffLot, "在地段外"},
+    {Str::PlaceFits, "放得下"},
+    {Str::PlaceBlocked, "這裡放不下"},
+    {Str::PlacePlaced, "已放置%s"},
+    {Str::PlaceFacing, "朝%s"},
+    {Str::PlaceNoSpot, "照這個方向，地段上哪裡都放不下"},
+    {Str::PlaceRoomSpots, "%1$s，%2$d 個位置"},
 };
 
 }  // namespace

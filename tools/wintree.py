@@ -17,8 +17,14 @@ for r in csv.DictReader(open(os.path.join(ROOT, "re", "classes.tsv"), encoding="
 
 
 def find_wm():
-    hits = rpc.scan_u32(va(_wm_vt))
-    return int(hits[0], 16) if hits else None
+    # Stale copies of the vtable pointer lie around in freed memory: the live manager is the one
+    # whose main window (+0x44) is a window.
+    for h in rpc.scan_u32(va(_wm_vt)):
+        wm = int(h, 16)
+        main = u32(wm + 0x44)
+        if main and (cls(main) or "").startswith("cGZWin"):
+            return wm
+    return None
 
 
 def children(w):
