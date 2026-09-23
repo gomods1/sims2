@@ -177,6 +177,16 @@ subclass used for labels showing a value (tooltip names it).
   (cut with "..."), +0x24 the whole text (std::strings behind cRZString vtables), +0x44 a data
   object (`cTSLotInfo` in the travel dialog). A press on a row selects it, scrolled out of view too.
 
+## Build mode: wallpaper (lead, not done)
+
+- `cTSUserToolWallpaper` overrides the mouse handlers (slot 42 0xa0693104, slot 45 0xa069324e);
+  its hover update 0xa06932db picks the wall under the cursor with 0xa0692cb7 / 0xa0692e80, which
+  call the static wall picks 0xa079c660 / 0xa079c6ba (screen position at tool +0x54, result at
+  tool +0x60) through the scene manager (0xa0212e61, slots 0x9c, 0xc8-0xd0), not the tool picks
+  the mod overrides (slots 31/32). A keyboard wallpaper needs either that pick overridden or the
+  virtual mouse moved to the wall's screen position. (A test click at the screen centre painted
+  one wall by chance.)
+
 ## SimAntics: the effects primitive and the balloons (verified)
 
 - The primitive dispatcher is 0xa0534650 (thiscall on the running object, a `cTSObject`: (stack

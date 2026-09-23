@@ -59,7 +59,8 @@ Tested live unless marked **not yet seen**.
 | Walls, fences, rooms, foundations | dedicated corner cursor (`nav/build.cpp`) |
 | Floors, pools | dedicated tile cursor |
 | Doors, windows | dedicated: buy placement's spots (the tool snaps them to walls; duplicates dropped), each with the wall side and the room behind ("Cocina, pared sur, da a Exterior") |
-| Stairs, roofs, terrain, wallpaper | **not yet** |
+| Stairs | buy placement's spots (verified: a straight staircase found its one spot and was placed) |
+| Roofs, terrain, wallpaper | **not yet** (wallpaper: the tool picks walls from the screen position, `STRUCTS.md`) |
 
 ## Other
 

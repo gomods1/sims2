@@ -401,6 +401,7 @@ void Tick() {
         g_watchedSim = 0;
         g_visitors.clear();
         g_visitorsPrimed = false;
+        g_lastFunds = -1;  // another lot, another family: its funds are not a payment
         return;
     }
     WatchFamily();
