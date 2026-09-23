@@ -31,6 +31,12 @@ std::string CatalogName(uint32_t guid);
 Ptr SelectedSim();
 int SelectedSimId();
 
+// Motive n (0..15) of a Sim (object id), -100..100; false when it is no Sim.
+bool SimMotive(int objectId, int index, float* value);
+
+// The game is paused (the Pause command's state); false also when no lot is loaded.
+bool GamePaused();
+
 // Opens the interaction menu of an object for the selected Sim, as a click on it does: posts the
 // message the live mode tool sends to the main toolbar (type 0xC0, data 1 = the object id).
 bool ShowInteractions(int objectId);

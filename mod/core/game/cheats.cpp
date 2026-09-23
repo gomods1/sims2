@@ -44,6 +44,13 @@ void DevCommand(const std::string& line) {
     else if (!strcmp(name, "move")) MouseMove(a, b);
     else if (!strcmp(name, "release")) MouseRelease();
     else if (!strcmp(name, "pie")) ShowInteractions(a);
+    else if (!strcmp(name, "motives")) {
+        int sim = a ? a : SelectedSimId();
+        for (int i = 0; i < 16; i++) {
+            float v = 0;
+            if (SimMotive(sim, i, &v)) Log("  motive %d of %d: %.1f", i, sim, v);
+        }
+    }
     else if (!strcmp(name, "objects")) {
         Log("selected Sim: object %d", SelectedSimId());
         for (const LotObject& o : LotObjects())

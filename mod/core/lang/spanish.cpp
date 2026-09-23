@@ -86,6 +86,11 @@ const Translation kEntries[] = {
     {Str::NoSimSelected, "ningún Sim seleccionado"},
     // Needs
     {Str::MotiveValue, "%s, %d por ciento"},
+    // Lot: status (Ctrl+E) and action queue
+    {Str::GroupActionQueue, "cola de acciones"},
+    {Str::StatusIdle, "sin hacer nada"},
+    {Str::StatusNeedsLow, "necesidades bajas: %s"},
+    {Str::StatusNeedsFine, "necesidades bien"},
     {Str::FundsChanged, "%1$s, quedan %2$s"},
 };
 

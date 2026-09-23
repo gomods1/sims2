@@ -85,6 +85,11 @@ const Translation kEntries[] = {
     {Str::NoSimSelected, "선택된 심 없음"},
     // Needs
     {Str::MotiveValue, "%s, %d퍼센트"},
+    // Lot: status (Ctrl+E) and action queue
+    {Str::GroupActionQueue, "행동 대기열"},
+    {Str::StatusIdle, "아무것도 안 함"},
+    {Str::StatusNeedsLow, "낮은 욕구: %s"},
+    {Str::StatusNeedsFine, "욕구 양호"},
     {Str::FundsChanged, "%1$s, 남은 돈 %2$s"},
 };
 

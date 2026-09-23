@@ -12,6 +12,7 @@
 #include "collect.h"
 #include "describe.h"
 #include "nhood_view.h"
+#include "live.h"
 #include "world.h"
 
 namespace nav {
@@ -220,6 +221,7 @@ void Tick() {
         }
     }
     world::Tick();
+    live::Tick();
     if (now - g.lastCollect < kRefreshMs) return;
     g.lastCollect = now;
     Refresh(now);
@@ -278,6 +280,10 @@ void Activate() {
     }
     if (IsReadOnly(*it)) {
         AnnounceFocus(false);
+        return;
+    }
+    if (it->role == Role::QueuedAction) {
+        live::CancelQueued(*it);
         return;
     }
     if (it->role == Role::PieItem) {

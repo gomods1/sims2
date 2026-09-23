@@ -5,6 +5,7 @@
 #include "../game/hooks.h"
 #include "../nav/buffers.h"
 #include "../nav/navigator.h"
+#include "../nav/live.h"
 #include "../nav/world.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -73,6 +74,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         if (g_worldFocus && lot) nav::world::Interact();
         else nav::Activate();
         return true;
+    case 'E':
+        if (!ctrl || shift || !lot) return false;
+        g_swallowChar = 'e';
+        nav::live::SayStatus();
+        return true;
     case VK_F1:
         if (!ctrl) return false;  // F1 alone is the game's
         speech::Say(S(Str::KeysScreen));
@@ -102,7 +108,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
         return false;
     }
     bool ctrl = Held(VK_CONTROL);
-    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT;
+    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E';
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) return false;
     g_consumed[vk] = true;
     if (Dispatch(vk, Held(VK_SHIFT), ctrl)) return true;

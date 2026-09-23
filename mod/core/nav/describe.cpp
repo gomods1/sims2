@@ -14,6 +14,7 @@ std::string Describe(const Item& it) {
     case Role::Text: return label;
     case Role::Lot: return label;
     case Role::PieItem: return label;
+    case Role::QueuedAction: return label + ", " + S(Str::RoleButton);
     case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
     case Role::Toggle: {
         std::string s = label + ", " + S(Str::RoleButton);
@@ -24,7 +25,6 @@ std::string Describe(const Item& it) {
     case Role::Button:
     default: {
         std::string s = label + ", " + S(Str::RoleButton);
-        if (game::ButtonOn(it.widget)) s += std::string(", ") + S(Str::Selected);  // the current speed...
         if (!game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
         return s;
     }

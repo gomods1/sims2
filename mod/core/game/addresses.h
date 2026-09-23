@@ -62,6 +62,15 @@ constexpr int kMin = 0x74;
 constexpr int kMax = 0x78;
 }  // namespace fillbar
 
+// The simulator's interface (cTSSimulator +4) cached at [0xa10cc2ac] (getter 0xa020df9a): +0x3e
+// a word, non-zero while the game is paused (slot 26; the Pause command toggles it); slot 15 reads
+// the SimAntics globals (words at +0x1c: 0 hour, 5 minute...).
+namespace sim {
+constexpr uintptr_t kInstance = 0xa10cc2ac;
+constexpr int kPaused = 0x3e;
+constexpr int kGlobals = 0x1c;
+}  // namespace sim
+
 // cTSGlobals: the game's hub of managers ([0xa10cc288], created by 0xa020ddfb).
 namespace globals {
 constexpr uintptr_t kInstance = 0xa10cc288;
@@ -149,6 +158,14 @@ constexpr int kFolderSlotByGuid = 14;
 constexpr int kEntrySlotName = 48;
 constexpr int kStringSlotText = 5;
 }  // namespace catalog
+
+// A Sim's motives, as Lua's GetPersonMotive (0xa0574040): the object's QueryInterface (slot 0)
+// for this iid gives the person interface; its slot 13 returns motive n (0..15) as a float.
+namespace person {
+constexpr uint32_t kIid = 0x5a69d3d5;
+constexpr int kSlotMotive = 13;
+constexpr int kMotiveCount = 16;
+}  // namespace person
 
 // Messages (cRZMessage2Standard, 0x2c bytes, constructor 0xa01c033d) posted to the game's message
 // server ([0xa10f519c], cGZMessageServer2, slot 4 = post(msg, 0)). The main toolbar

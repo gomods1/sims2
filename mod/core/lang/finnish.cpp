@@ -87,6 +87,11 @@ const Translation kEntries[] = {
     {Str::NoSimSelected, "simiä ei ole valittu"},
     // Needs
     {Str::MotiveValue, "%s, %d prosenttia"},
+    // Lot: status (Ctrl+E) and action queue
+    {Str::GroupActionQueue, "toimintojono"},
+    {Str::StatusIdle, "ei tee mitään"},
+    {Str::StatusNeedsLow, "matalat tarpeet: %s"},
+    {Str::StatusNeedsFine, "tarpeet kunnossa"},
     {Str::FundsChanged, "%1$s, jäljellä %2$s"},
 };
 

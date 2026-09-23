@@ -8,7 +8,9 @@
 #include "../game/rtti.h"
 #include "../util/strings.h"
 #include "../util/text.h"
+#include "live.h"
 #include "nhood_view.h"
+#include "world.h"
 
 namespace nav {
 namespace {
@@ -257,6 +259,13 @@ std::vector<Group> Collect(Ptr root) {
         if (a.bounds.top / 16 != b.bounds.top / 16) return a.bounds.top < b.bounds.top;
         return a.bounds.left < b.bounds.left;
     });
+    // The lot view: the selected Sim's needs and action queue first (from the Sim's data).
+    if (root == game::MainWindow() && world::LotViewActive()) {
+        Group queue = live::QueueGroup();
+        if (!queue.items.empty()) out.insert(out.begin(), std::move(queue));
+        Group needs = live::NeedsGroup();
+        if (!needs.items.empty()) out.insert(out.begin(), std::move(needs));
+    }
     // The neighborhood view: its lots first (the map is 3D, the houses are no windows).
     if (root == game::MainWindow() && neighborhood::ViewActive()) {
         Group lots = neighborhood::LotsGroup();

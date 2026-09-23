@@ -85,6 +85,11 @@ const Translation kEntries[] = {
     {Str::NoSimSelected, "未选中模拟市民"},
     // Needs
     {Str::MotiveValue, "%s，百分之%d"},
+    // Lot: status (Ctrl+E) and action queue
+    {Str::GroupActionQueue, "动作队列"},
+    {Str::StatusIdle, "无所事事"},
+    {Str::StatusNeedsLow, "需求偏低：%s"},
+    {Str::StatusNeedsFine, "需求良好"},
     {Str::FundsChanged, "%1$s，剩余%2$s"},
 };
 

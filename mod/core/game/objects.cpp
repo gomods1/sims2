@@ -124,6 +124,28 @@ int SelectedSimId() {
     return 0;
 }
 
+bool GamePaused() {
+    Ptr sim = Rd<Ptr>(Va(addr::sim::kInstance));
+    return sim && Rd<int16_t>(sim + addr::sim::kPaused) != 0;
+}
+
+bool SimMotive(int objectId, int index, float* value) {
+    LotObject o;
+    if (!ReadLotObject(objectId, &o) || !o.person) return false;
+    typedef bool(__thiscall * QueryFn)(Ptr, uint32_t, Ptr*);
+    typedef float(__thiscall * MotiveFn)(Ptr, int);
+    typedef uint32_t(__thiscall * ReleaseFn)(Ptr);
+    Ptr iface = 0;
+    bool ok = false;
+    Guarded([&] {
+        if (!Slot<QueryFn>(o.ptr, 0)(o.ptr, addr::person::kIid, &iface) || !iface) return;
+        *value = Slot<MotiveFn>(iface, addr::person::kSlotMotive)(iface, index);
+        Slot<ReleaseFn>(iface, 2)(iface);
+        ok = true;
+    });
+    return ok;
+}
+
 bool ShowInteractions(int objectId) {
     typedef void*(__cdecl * AllocFn)(size_t);
     typedef Ptr(__thiscall * CtorFn)(Ptr);

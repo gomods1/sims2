@@ -19,6 +19,7 @@ enum class Role {
     TextField,  // a text field the player types into
     Lot,        // a lot on the neighborhood map (number = lot id): Enter opens its info panel
     PieItem,    // an entry of the interaction (pie) menu: Enter chooses it
+    QueuedAction,  // an action in the selected Sim's queue: Enter cancels it
 };
 
 struct Item {
@@ -42,6 +43,8 @@ struct Group {
 // Groups the mod builds from game state rather than from windows.
 constexpr Ptr kLotsGroup = 1;
 constexpr Ptr kPieGroup = 2;
+constexpr Ptr kNeedsGroup = 3;
+constexpr Ptr kQueueGroup = 4;
 
 inline bool IsReadOnly(const Item& it) { return it.role == Role::Text; }
 

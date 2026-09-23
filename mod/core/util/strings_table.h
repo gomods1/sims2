@@ -96,4 +96,9 @@
     X(NoSimSelected, "no Sim selected")                                                                                \
     /* Needs */                                                                                                        \
     X(MotiveValue, "%s, %d percent")                                                                                   \
+    /* Lot: status (Ctrl+E) and action queue */                                                                        \
+    X(GroupActionQueue, "action queue")                                                                                \
+    X(StatusIdle, "doing nothing")                                                                                     \
+    X(StatusNeedsLow, "low needs: %s")                                                                                 \
+    X(StatusNeedsFine, "needs fine")                                                                                   \
     X(FundsChanged, "%1$s, %2$s left")

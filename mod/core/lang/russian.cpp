@@ -61,7 +61,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "сначала введите или выберите код"},
     // Money
     {Str::FundsNow, "деньги %s, %s"},
-    // Needs
+    // Lot: status (Ctrl+E) and action queue
     {Str::FundsChanged, "%1$s, осталось %2$s"},
 };
 
