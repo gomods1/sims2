@@ -1,6 +1,8 @@
 #include "hooks.h"
 
+#include <cstdio>
 #include <cstring>
+#include <string>
 
 #include "../util/log.h"
 #include "MinHook.h"
@@ -20,15 +22,37 @@ std::vector<Ptr> g_modals;
 // Closed modals are dropped by ModalStack() against the manager's nesting count.
 void* g_doModal = nullptr;
 
-void __stdcall RecordModal(Ptr win) {
+// Return addresses on the stack that point into the game (a rough call chain for the log).
+std::string GameReturnAddresses(const void* stack, int words, int max) {
+    std::string out;
+    int found = 0;
+    for (int i = 0; i < words && found < max; i++) {
+        Ptr v = Rd<Ptr>((Ptr)stack + i * 4);
+        if (!InImage(v)) continue;
+        // A return address follows a call: E8 rel32 (5 bytes back) or FF /2 (2..6 bytes back).
+        uint8_t b5 = Rd<uint8_t>(v - 5), b2 = Rd<uint8_t>(v - 2), b3 = Rd<uint8_t>(v - 3), b6 = Rd<uint8_t>(v - 6);
+        if (b5 != 0xE8 && b2 != 0xFF && b3 != 0xFF && b6 != 0xFF) continue;
+        char buf[16];
+        sprintf_s(buf, " %08x", (unsigned)(v - Va(0xa0000000) + 0xa0000000));
+        out += buf;
+        found++;
+    }
+    return out;
+}
+
+void __stdcall RecordModal(Ptr win, Ptr caller) {
     g_modals.push_back(win);
-    Log("modal window %p (%s) opens", (void*)win, ClassName(win).c_str());
+    int marker = 0;
+    Log("modal window %p (%s) opens, stack:%s", (void*)win, ClassName(win).c_str(),
+        GameReturnAddresses(&marker, 400, 12).c_str());
+    (void)caller;
 }
 
 __declspec(naked) void DoModalDetour() {
     __asm {
         push ecx
-        push dword ptr [esp + 8]
+        push dword ptr [esp + 4]
+        push dword ptr [esp + 0xc]
         call RecordModal
         pop ecx
         jmp dword ptr [g_doModal]

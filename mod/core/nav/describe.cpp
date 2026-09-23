@@ -13,6 +13,7 @@ std::string Describe(const Item& it) {
     switch (it.role) {
     case Role::Text: return label;
     case Role::Lot: return label;
+    case Role::PieItem: return label;
     case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
     case Role::Toggle: {
         std::string s = label + ", " + S(Str::RoleButton);
@@ -31,6 +32,19 @@ std::string Describe(const Item& it) {
 
 std::string GroupName(const Group& g) {
     if (!g.name.empty()) return g.name;
+    // Panels known by their proc.
+    static const struct {
+        const char* proc;
+        Str name;
+    } kPanels[] = {
+        {"cTSWinProcUCP", Str::GroupControlPanel},
+        {"cTSWinProcLivePanel", Str::GroupLivePanel},
+        {"cTSWinProcSimChooser", Str::GroupFamily},
+        {"cTSWinProcPanelWantsAndFears", Str::GroupWantsFears},
+        {"cTSWinProcNeighborhoodUCP", Str::GroupControlPanel},
+    };
+    for (const auto& p : kPanels)
+        if (g.proc == p.proc) return S(p.name);
     for (const Item& it : g.items)
         if (it.role == Role::Text && it.label.size() < 60) return it.label;
     return S(IsTextOnly(g) ? Str::GroupText : Str::GroupButtons);

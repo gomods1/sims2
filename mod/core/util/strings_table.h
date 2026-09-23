@@ -37,6 +37,10 @@
     X(GroupSummaryOne, "%s, 1 item")                                                                                   \
     X(GroupButtons, "buttons")                                                                                         \
     X(GroupText, "text")                                                                                               \
+    X(GroupControlPanel, "control panel")                                                                              \
+    X(GroupLivePanel, "Sim panel")                                                                                     \
+    X(GroupFamily, "family")                                                                                           \
+    X(GroupWantsFears, "wants and fears")                                                                              \
     X(GroupControls, "controls")                                                                                       \
     /* Text fields */                                                                                                  \
     X(TextField, "%s %s, text field")                                                                                  \

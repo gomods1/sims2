@@ -109,6 +109,52 @@ constexpr int kMembersBegin = 0x7c;  // 4 bytes per member
 constexpr int kMembersEnd = 0x80;
 }  // namespace family
 
+// cEdithObjectModule (globals +0x78): the lot's objects.
+namespace objmodule {
+constexpr int kById = 0x1a24;          // std::vector<cTSObject*>, index = object id - 1 (slot 29,
+                                       // 0xa04281f0); multi-tile parts are cEdithMTObject
+constexpr int kSlotSelectedSim = 39;   // the selected cTSPerson (the pie builder 0xa0621f50 uses it)
+}  // namespace objmodule
+
+// cTSObject virtual slots (as Lua's GetObjectName 0xa0566100 and GetObjectLocation 0xa0566030).
+namespace object {
+constexpr int kSlotName = 92;          // const char* name
+constexpr int kSlotLocation = 33;      // -> {int x, int y}, 16.16 fixed point, in tiles
+constexpr int kSlotLevel = 36;         // short, 1 = ground floor
+constexpr int kDefinition = 0x238;     // -> cTSPersistResourceT<cEdithObjectDefinition> (OBJD)
+}  // namespace object
+
+// The object definition (OBJD, parsed), from the resource above.
+namespace objd {
+constexpr int kGuid = 0x20;
+constexpr int kPrice = 0x28;
+}  // namespace objd
+
+// The catalog's names by GUID, as Lua's GetCatalogName (0xa0561640): cTSGlobals slot 24 gives the
+// object folder, its slot 14 the entry for a GUID, the entry's slot 48 fills a cIGZString* with
+// the catalog name (in the game's language); the string's slot 5 is its text.
+namespace catalog {
+constexpr int kGlobalsSlotFolder = 24;
+constexpr int kFolderSlotByGuid = 14;
+constexpr int kEntrySlotName = 48;
+constexpr int kStringSlotText = 5;
+}  // namespace catalog
+
+// Messages (cRZMessage2Standard, 0x2c bytes, constructor 0xa01c033d) posted to the game's message
+// server ([0xa10f519c], cGZMessageServer2, slot 4 = post(msg, 0)). The main toolbar
+// (cTSMainToolbar, handler 0xa061b99c) opens the interaction menu of the object in data 1 for
+// type 0xC0 (0xa0621f50 builds it).
+namespace message {
+constexpr uintptr_t kAlloc = 0xa01be3b0;  // the game's operator new (cdecl, size)
+constexpr uintptr_t kCtor = 0xa01c033d;
+constexpr size_t kSize = 0x2c;
+constexpr uintptr_t kServer = 0xa10f519c;
+constexpr int kSlotPost = 4;
+constexpr int kSlotSetType = 5;
+constexpr int kSlotSetData1 = 11;
+constexpr uint32_t kShowPieMenu = 0xC0;
+}  // namespace message
+
 // The neighborhood's lot info dialog (cTSWinProcLotInfoDialog): the window with this id holds
 // the proc; its cITSWinProcLotInfoDialog interface (+12) has Show(lotId, ?, mode) in slot 4.
 namespace lotinfo {
@@ -124,12 +170,17 @@ constexpr int kFlags = 0xfc;    // GetBtnFlag (0xa0936a5c): 1 on, 2 toggles on c
 constexpr uint32_t kFlagOn = 1;
 constexpr uint32_t kFlagToggle = 2;
 constexpr int kStyle = 0x160;
+constexpr int kCaptionExtent = 0x124;  // non-zero while the caption is drawn (hidden captions are
+                                       // design-time names such as "video capture"; hypothesis
+                                       // from comparing shown and hidden captions)
 constexpr int kTip = 0x188;     // cRZString tooltip ("Title|Description"), std::string at +0x18c
 }  // namespace btn
 
 // cGZWinTextEdit, from the cIGZWin pointer: the text as a cRZString (std::string at +0x100).
 namespace edit {
 constexpr int kText = 0xfc;
+constexpr int kFlags = 0x160;        // cIGZWinTextEdit flags (IsFlagSet 0xa09504ec on the +0xf8
+constexpr uint32_t kFlagEditable = 1;  // interface): 1 editable, as in SimCity 4's header
 }  // namespace edit
 
 }  // namespace game::addr

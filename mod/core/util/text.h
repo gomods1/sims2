@@ -19,6 +19,10 @@ std::string LastGameCharacter(const std::string& s);
 // Line breaks become a spoken pause (". " unless the line already ends in punctuation), runs of
 // whitespace collapse to one space, control characters are dropped. UTF-8 in and out.
 std::string CleanForSpeech(const std::string& utf8);
+// Appends a piece of text: a continuation (it starts in lowercase: the game wraps long texts
+// over several text windows) joins with a space, anything else with a stop.
+void AppendSentence(std::string& out, const std::string& piece);
+bool StartsLowercase(const std::string& utf8);
 
 // Drops a trailing hotkey hint from a game label: "Velocidad normal - 1" -> "Velocidad normal",
 // "Pausa - P" -> "Pausa". Labels without one ("Ver de cerca +") are returned unchanged.

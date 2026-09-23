@@ -18,6 +18,7 @@ enum class Role {
     Text,       // read-only text: titles, messages, names
     TextField,  // a text field the player types into
     Lot,        // a lot on the neighborhood map (number = lot id): Enter opens its info panel
+    PieItem,    // an entry of the interaction (pie) menu: Enter chooses it
 };
 
 struct Item {
@@ -33,12 +34,14 @@ struct Item {
 struct Group {
     Ptr key = 0;         // the container window, or a kind of virtual group (below)
     std::string name;    // virtual groups: their name
+    std::string proc;    // the panel's window proc class (names the group), empty if none
     std::vector<Item> items;
     RECT bounds = {};
 };
 
 // Groups the mod builds from game state rather than from windows.
 constexpr Ptr kLotsGroup = 1;
+constexpr Ptr kPieGroup = 2;
 
 inline bool IsReadOnly(const Item& it) { return it.role == Role::Text; }
 

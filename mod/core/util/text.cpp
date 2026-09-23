@@ -71,6 +71,20 @@ std::string CollapseSpaces(const std::string& line) {
 
 }  // namespace
 
+bool StartsLowercase(const std::string& s) {
+    if (s.empty()) return false;
+    unsigned char c = (unsigned char)s[0];
+    if (c >= 'a' && c <= 'z') return true;
+    // Latin-1 lowercase letters (U+00DF..U+00FF: à, é, ñ...) are 0xC3 0x9F..0xBF in UTF-8.
+    return c == 0xC3 && s.size() > 1 && (unsigned char)s[1] >= 0x9F;
+}
+
+void AppendSentence(std::string& out, const std::string& piece) {
+    if (piece.empty()) return;
+    if (!out.empty()) out += EndsWithPunctuation(out) || StartsLowercase(piece) ? " " : ". ";
+    out += piece;
+}
+
 std::string CleanForSpeech(const std::string& raw) {
     std::string in = raw;
     static const std::string kSimoleon = "\xc2\xa7";  // U+00A7, drawn as the simoleon sign
@@ -79,6 +93,8 @@ std::string CleanForSpeech(const std::string& raw) {
         in.replace(at, kSimoleon.size(), word);
         at += word.size();
     }
+    static const std::string kNbsp = "\xc2\xa0";
+    for (size_t at = in.find(kNbsp); at != std::string::npos; at = in.find(kNbsp, at)) in.replace(at, kNbsp.size(), " ");
     std::vector<std::string> lines(1);
     for (char c : in) {
         if (c == '\r' || c == '\n') lines.emplace_back();
@@ -88,7 +104,7 @@ std::string CleanForSpeech(const std::string& raw) {
     for (const std::string& raw : lines) {
         std::string line = CollapseSpaces(raw);
         if (line.empty()) continue;
-        if (!out.empty()) out += EndsWithPunctuation(out) ? " " : ". ";
+        if (!out.empty()) out += EndsWithPunctuation(out) || StartsLowercase(line) ? " " : ". ";
         out += line;
     }
     return out;

@@ -38,15 +38,7 @@ struct State {
     std::vector<std::pair<Ptr, std::string>> textsBefore;  // the screen's texts before the press
 };
 
-// Joins texts into one line, with a stop between them unless one is already there.
-void AppendSentence(std::string& out, const std::string& s) {
-    if (s.empty()) return;
-    if (!out.empty()) {
-        char last = out.back();
-        out += (last == '.' || last == '!' || last == '?' || last == ':') ? " " : ". ";
-    }
-    out += s;
-}
+using util::AppendSentence;
 
 State g;
 
@@ -231,15 +223,12 @@ void Tick() {
     Refresh(now);
 }
 
-// Typing goes to a text field: the focus window is one, or holds one (the cheat console keeps
-// the focus on its container, which forwards keys to its input line).
+// Typing goes to a text field: the focus window is one the player can edit.
 bool TextEntryActive() {
     Ptr focus = game::FocusWindow();
-    if (!focus || !game::ShownOnScreen(focus)) return false;
-    if (game::IsTextEdit(focus)) return true;
-    for (Ptr child : game::Children(focus))
-        if (game::IsTextEdit(child) && game::Visible(child) && game::Enabled(child)) return true;
-    return false;
+    bool typing = focus && game::TextEditEditable(focus) && game::ShownOnScreen(focus);
+    LogVerbose("focus %s %p: %s", game::ClassName(focus).c_str(), (void*)focus, typing ? "typing" : "not typing");
+    return typing;
 }
 
 void Move(int delta) {
@@ -287,6 +276,11 @@ void Activate() {
     }
     if (IsReadOnly(*it)) {
         AnnounceFocus(false);
+        return;
+    }
+    if (it->role == Role::PieItem) {
+        Log("choose \"%s\" in the interaction menu", it->label.c_str());
+        game::ClickWindow(it->widget);
         return;
     }
     if (it->role == Role::Lot) {

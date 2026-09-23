@@ -25,15 +25,52 @@ bool Overlaps(const RECT& a, const RECT& b) {
     return IntersectRect(&r, &a, &b) != 0;
 }
 
+// Procs that make a window a panel of its own: everything else (thumbnails, meters, the scene
+// view, the main window) groups with the panel around it.
+bool IsPanelProc(const std::string& proc) {
+    if (proc.empty()) return false;
+    static const char* const kNotPanels[] = {"Thumbnail", "FillBar", "Dummy", "SceneGraph", "cTSWinProcMain",
+                                             "MotiveBar", "Grid"};
+    for (const char* k : kNotPanels)
+        if (proc.find(k) != std::string::npos) return false;
+    return true;
+}
+
+// The group an item belongs to: the nearest panel around it, else its container.
+Ptr GroupOf(Ptr parent, Ptr root) {
+    int depth = 0;
+    for (Ptr p = parent; p && depth < 40; p = game::Parent(p), depth++) {
+        if (IsPanelProc(game::ProcClass(p))) return p;
+        if (p == root) break;
+    }
+    return parent;
+}
+
+// A visible text or text field next to w shows this text.
+bool SiblingShows(Ptr w, const std::string& text) {
+    if (text.empty()) return false;
+    for (Ptr s : game::Children(game::Parent(w))) {
+        if (s == w || !game::Visible(s)) continue;
+        std::string t = game::IsTextEdit(s) ? game::TextEditText(s) : game::IsText(s) ? game::Caption(s) : "";
+        if (util::CleanForSpeech(t) == text) return true;
+    }
+    return false;
+}
+
 struct Walker {
+    Ptr root = 0;
     std::map<Ptr, Group> groups;
     std::vector<Ptr> order;  // group keys in discovery order
 
-    void Add(Ptr groupKey, Item it) {
+    void Add(Ptr container, Item it) {
+        Ptr groupKey = GroupOf(container, root);
         auto found = groups.find(groupKey);
         if (found == groups.end()) {
             order.push_back(groupKey);
-            found = groups.emplace(groupKey, Group{groupKey, {}, {}}).first;
+            Group g;
+            g.key = groupKey;
+            g.proc = game::ProcClass(groupKey);
+            found = groups.emplace(groupKey, g).first;
         }
         found->second.items.push_back(std::move(it));
     }
@@ -94,14 +131,23 @@ struct Walker {
         } else if (game::IsButton(k)) {
             std::string title, rest;
             SplitTip(game::Tooltip(k), &title, &rest);
-            it.label = util::WithoutHotkey(title.empty() ? util::CleanForSpeech(game::Caption(k)) : title);
+            std::string caption = util::CleanForSpeech(game::Caption(k));
+            // No tooltip and a caption that is not drawn: the caption is a design-time name
+            // ("influence popup / button"), unless a text beside the button shows it.
+            if (title.empty() && !game::CaptionShown(k) && !SiblingShows(k, caption)) return;
+            it.label = util::WithoutHotkey(title.empty() ? caption : title);
             it.detail = it.label != title && !title.empty() ? title + (rest.empty() ? "" : ". " + rest) : rest;
+            // A value drawn on the button (the funds, the clock): "Fondos: 83.947 simoleones".
+            if (game::CaptionShown(k) && !caption.empty() && !title.empty() && caption != title)
+                it.label = util::Format(S(Str::LabelValue), it.label.c_str(), caption.c_str());
+            // A value drawn on a disabled button (the clock, the funds) is text to read.
+            if (game::CaptionShown(k) && !game::Enabled(k)) it.role = Role::Text;
             it.role = game::ButtonToggles(k) ? Role::Toggle : Role::Button;
             if (it.label.empty()) return;  // icon without a name: logged by the navigator later
             Add(parent, it);
         } else if (game::IsTextEdit(k)) {
             it.label = util::CleanForSpeech(game::TextEditText(k));
-            it.role = game::FocusWindow() == k ? Role::TextField : Role::Text;
+            it.role = game::TextEditEditable(k) ? Role::TextField : Role::Text;
             if (it.label.empty() && it.role == Role::Text) return;
             Add(parent, it);
         } else if (game::IsText(k)) {
@@ -134,10 +180,38 @@ Ptr InputRoot() {
     return game::MainWindow();
 }
 
+// The interaction menu: its entries (cPieMenuItemWinProc windows, ids 1000 + n in the game's
+// order), each named by its text.
+Group PieGroup(Ptr menu) {
+    Group g;
+    g.key = kPieGroup;
+    g.name = S(Str::PieMenu);
+    std::vector<std::pair<uint32_t, Item>> entries;
+    for (Ptr k : game::Children(menu)) {
+        if (!game::Visible(k) || game::ProcClass(k) != "cPieMenuItemWinProc") continue;
+        Item it;
+        it.widget = k;
+        it.role = Role::PieItem;
+        it.rect = game::ScreenRect(k);
+        for (Ptr c : game::Children(k))
+            if (game::IsText(c)) it.label = util::CleanForSpeech(game::Caption(c));
+        if (!it.label.empty()) entries.push_back({game::WinId(k), it});
+    }
+    std::sort(entries.begin(), entries.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
+    for (auto& e : entries) g.items.push_back(e.second);
+    return g;
+}
+
 std::vector<Group> Collect(Ptr root) {
     std::vector<Group> out;
     if (!root || !game::Visible(root)) return out;
+    if (game::IsKindOf(root, "cTSWinPieMenu")) {
+        Group pie = PieGroup(root);
+        if (!pie.items.empty()) out.push_back(std::move(pie));
+        return out;
+    }
     Walker walker;
+    walker.root = root;
     walker.Walk(root, 0);
     for (Ptr key : walker.order) {
         Group g = walker.groups[key];

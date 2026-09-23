@@ -2,6 +2,7 @@
 
 #include "../util/log.h"
 #include "addresses.h"
+#include "mouse.h"
 #include "rtti.h"
 
 namespace game {
@@ -115,8 +116,22 @@ bool ButtonToggles(Ptr w) {
     return IsButton(w) && (Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) & addr::btn::kFlagToggle) != 0;
 }
 
+bool CaptionShown(Ptr w) {
+    return IsButton(w) && Rd<uint32_t>(CompleteObject(w) + addr::btn::kCaptionExtent) != 0;
+}
+
+std::string ProcClass(Ptr w) {
+    Ptr proc = Rd<Ptr>(w + addr::win::kProc);
+    std::string c = ClassName(proc);
+    return c.find("WinProc") != std::string::npos ? c : std::string();
+}
+
 bool IsText(Ptr w) { return IsKindOf(w, "cGZWinText"); }
 bool IsTextEdit(Ptr w) { return IsKindOf(w, "cGZWinTextEdit"); }
+
+bool TextEditEditable(Ptr w) {
+    return IsTextEdit(w) && (Rd<uint32_t>(w + addr::edit::kFlags) & addr::edit::kFlagEditable) != 0;
+}
 
 std::string TextEditText(Ptr w) { return IsTextEdit(w) ? ReadStdString(w + addr::edit::kText + 4) : ""; }
 
@@ -132,6 +147,22 @@ bool PressAt(Ptr w, int x, int y) {
     ok = ok && Guarded([&] { up(w, x, y, 0); });
     if (!ok) Log("press of %s %p crashed", ClassName(w).c_str(), (void*)w);
     return ok;
+}
+
+POINT UiToClient(int x, int y) {
+    RECT ui = Area(MainWindow());
+    RECT client = {};
+    GetClientRect(GameWindow(), &client);
+    int uw = ui.right - ui.left, uh = ui.bottom - ui.top;
+    if (uw <= 0 || uh <= 0 || client.right <= 0) return {x, y};
+    return {(int)((long long)x * client.right / uw), (int)((long long)y * client.bottom / uh)};
+}
+
+bool ClickWindow(Ptr w) {
+    RECT r = ScreenRect(w);
+    POINT p = UiToClient((r.left + r.right) / 2, (r.top + r.bottom) / 2);
+    MouseClick(p.x, p.y);
+    return true;
 }
 
 bool Press(Ptr w) {

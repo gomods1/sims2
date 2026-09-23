@@ -17,6 +17,7 @@
 #include "game/gz.h"
 #include "game/hooks.h"
 #include "game/memory.h"
+#include "game/mouse.h"
 #include "game/rtti.h"
 #include "input/keyboard.h"
 #include "nav/navigator.h"
@@ -121,6 +122,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     }
     game::InitMemory(api->game);
     game::InitHooks();
+    game::InitMouse(api->hwnd);
     if (dev) game::InitCapture(api->mod_dir);
     nav::Reset();
     g_active = true;

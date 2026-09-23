@@ -38,15 +38,23 @@ bool IsButton(Ptr w);
 std::string Tooltip(Ptr w);          // UTF-8, "Title|Description" as the game stores it
 bool ButtonOn(Ptr w);                // a toggle or radio button that is on
 bool ButtonToggles(Ptr w);
+bool CaptionShown(Ptr w);            // the button draws its caption (a value such as the funds)
+std::string ProcClass(Ptr w);        // the class of the window's proc (cTSWinProc*), empty if none
 
 // Text (cGZWinText, cGZWinTextEdit)
 bool IsText(Ptr w);
 bool IsTextEdit(Ptr w);
 std::string TextEditText(Ptr w);    // UTF-8
+bool TextEditEditable(Ptr w);        // the player can type into it
 
 // Presses a window the way a left click at its centre does: mouse enter, left down, left up,
 // through its own handlers, so sounds, notifications and state changes all run.
 bool Press(Ptr w);
+// Clicks the centre of a window with the virtual mouse (game/mouse.h): for windows whose proc
+// takes the click from the window manager's mouse messages (pie menu entries).
+bool ClickWindow(Ptr w);
+// UI coordinates (the main window's, 1478x924 on a 2560x1600 client) to client pixels.
+POINT UiToClient(int x, int y);
 bool PressAt(Ptr w, int x, int y);   // window coordinates
 
 }  // namespace game
