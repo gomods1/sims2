@@ -83,7 +83,9 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         }
         if (vk == VK_ESCAPE) return false;
     }
-    if (vk != VK_PRIOR && vk != VK_NEXT && vk != VK_RETURN && vk != 'R') g_worldFocus = false;
+    // Escape (closing an object's interaction menu) keeps the object browser: Enter opens the menu
+    // again, R repeats the object.
+    if (vk != VK_PRIOR && vk != VK_NEXT && vk != VK_RETURN && vk != 'R' && vk != VK_ESCAPE) g_worldFocus = false;
     if (vk == VK_UP || vk == VK_DOWN || vk == VK_TAB || (!typing && (vk == VK_LEFT || vk == VK_RIGHT)))
         g_typedSinceNav = false;
     switch (vk) {

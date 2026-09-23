@@ -44,6 +44,7 @@ struct State {
     std::set<Ptr> announcedGroups; // groups whose texts were read since the last screen change
     Ptr pressed = 0;               // the last pressed widget, for its new state
     Ptr dragFrom = 0;              // the family tree: the Sim picked up to drop on another
+    bool hadPie = false;           // the interaction menu was up at the last refresh
     ULONGLONG pressedAt = 0;
     bool pressedWasOn = false;
     std::vector<std::pair<Ptr, std::string>> textsBefore;  // the screen's texts before the press
@@ -94,8 +95,13 @@ bool Relocate() {
 }
 
 void FocusDefault() {
-    for (int gi = 0; gi < (int)g.groups.size(); gi++)
-        if (!IsTextOnly(g.groups[gi])) {
+    // The mod's own groups (the needs, the action queue: Enter there cancels an action) only when
+    // nothing else has a control; the interaction menu is the exception.
+    for (int pass = 0; pass < 2; pass++)
+        for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+            Ptr key = g.groups[gi].key;
+            bool own = key < 0x10000 && key != kPieGroup;
+            if (IsTextOnly(g.groups[gi]) || (pass == 0 && own)) continue;
             SetFocus(gi, FirstControl(g.groups[gi]));
             return;
         }
@@ -167,6 +173,16 @@ void Refresh(ULONGLONG now) {
     g.groups = Collect(root);
     std::set<Ptr> keys;
     for (const Group& group : g.groups) keys.insert(group.key);
+    // The interaction menu closed: the panels it hid are back, no news (the object browser, where
+    // it was opened from, keeps the keys).
+    bool hasPie = keys.count(kPieGroup) != 0;
+    if (g.hadPie && !hasPie) {
+        for (Ptr k : keys) {
+            g.knownGroups.insert(k);
+            g.announcedGroups.insert(k);
+        }
+    }
+    g.hadPie = hasPie;
     // The mod's own groups (needs, action queue, lots) come and go with the game's state: they
     // are no new panel, and never take the focus; the interaction menu is one (it is news).
     int appeared = 0;
