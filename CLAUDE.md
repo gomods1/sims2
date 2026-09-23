@@ -88,7 +88,9 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
   - Build mode (`nav/build.cpp`): Enter on a wall, floor, foundation or pool style starts a cursor;
     arrows move it (Shift five), PageUp/PageDown change level (0 terrain, 1 a foundation's floor),
     Space marks the start, Enter builds from the mark to the cursor, Ctrl+Enter removes; the cost is
-    said. The mod drags the game's own tool, one mouse message per tick.
+    said. The mod drags the game's own tool, one mouse message per tick. After a wall is built, a
+    family Sim indoors in a room without a door is announced ("cuidado: Carmen queda encerrado...
+    Control+Z deshace la pared"; dev command `!shutin` runs the check).
   - Ctrl+Enter on the object browser: walk the selected Sim there (Ctrl+Shift+Enter runs).
   - Ctrl+L (lot view): the room's layout at the build cursor, else where the selected Sim stands:
     name, floor, tiles, bounds, doors and windows (the details buffer: each with its wall and the

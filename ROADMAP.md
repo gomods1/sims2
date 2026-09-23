@@ -42,7 +42,8 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
 ## Next
 
 - Build mode: wallpaper (the tool picks walls from the screen: `STRUCTS.md`), drawn roofs, terrain;
-  checks before building walls (shutting a Sim in, cutting objects off); ready-made rooms.
+  checks before building walls (done after: a Sim shut in is announced; still: objects cut off);
+  ready-made rooms.
 - Buy mode: the game's reason when a spot is refused (STR# 0x89), which directions fit a spot,
   multi-tile objects' footprint in the spot line.
 - Create a Sim: names for heads, hair, clothes (no

@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "../game/buy.h"
+#include "../game/cheats.h"
 #include "../game/hooks.h"
 #include "../game/objects.h"
 #include "../game/rtti.h"
@@ -87,9 +88,44 @@ void Drag(bool remove) {
     Log("build: drag from %d,%d to %d,%d floor %d%s", g.markX, g.markY, g.x, g.y, g.level, remove ? " (remove)" : "");
 }
 
+// After a wall is built: a Sim of the family indoors in a room with no door is shut in (the
+// game lets it happen; Ctrl+Z undoes the wall).
+void CheckShutIn() {
+    std::vector<game::WallObject> walls = game::WallObjects();
+    static const int kDx[] = {-1, 0, 1, 0}, kDy[] = {0, 1, 0, -1};  // 0 -x, 2 +y, 4 +x, 6 -y
+    for (int id : game::FamilySimIds()) {
+        game::LotObject sim;
+        if (!game::ReadLotObject(id, &sim) || sim.x < 0) continue;
+        int room = game::RoomAt(sim.x, sim.y, sim.level);
+        if (room < 0) continue;
+        std::string outside = world::RoomNameAt(sim.x, sim.y, sim.level);
+        bool door = false;
+        for (const game::WallObject& w : walls) {
+            if (w.type != 8 || w.level != sim.level) continue;
+            int d = (w.direction / 2) & 3;
+            if (game::RoomAt(w.x, w.y, w.level) == room || game::RoomAt(w.x - kDx[d], w.y - kDy[d], w.level) == room) door = true;
+        }
+        LogVerbose("shut-in check: sim %d in room %d (%s), door %d", id, room, outside.c_str(), door ? 1 : 0);
+        if (door) continue;
+        // A room open to the outside (no walls all round) is the lot itself: RoomAt gives the
+        // outdoors a room of its own, which never has doors of its own either; skip rooms
+        // bigger than a house could be.
+        int tiles = 0;
+        for (int tx = 0; tx < 80 && tiles < 400; tx++)
+            for (int ty = 0; ty < 80; ty++)
+                if (game::RoomAt(tx + 0.5f, ty + 0.5f, sim.level) == room) tiles++;
+        if (tiles >= 400) continue;
+        std::string first, last;
+        game::SimName(id, &first, &last);
+        buffers::Event(util::Format(S(Str::BuildShutIn), first.c_str(), outside.c_str()));
+    }
+}
+
 }  // namespace
 
 bool Active() { return g.active; }
+
+void CheckShutInNow() { CheckShutIn(); }
 
 bool CursorTile(int* x, int* y, int* level) {
     if (!g.active) return false;
@@ -164,6 +200,10 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
 }
 
 void Tick() {
+    if (game::g_shutInCheckRequested) {
+        game::g_shutInCheckRequested = false;
+        CheckShutIn();
+    }
     if (!g.active) return;
     if (!world::LotViewActive()) {
         g = State();
@@ -207,6 +247,7 @@ void Tick() {
             // What it cost (or what came back), then the funds left.
             std::string change = util::Money((int)std::llabs(after - before));
             buffers::Event(util::Format(S(after < before ? Str::BuildDone : Str::BuildRemoved), change.c_str(), funds.c_str()));
+            if (KindOf(game::CurrentTool()) == Kind::Corners) CheckShutIn();
         }
     }
 }

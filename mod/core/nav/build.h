@@ -22,6 +22,7 @@ void Begin(const std::string& toolName);
 bool OnKey(WPARAM vk, bool shift, bool ctrl);
 // The cursor's tile and level (for Ctrl+L); false when the cursor is not active.
 bool CursorTile(int* x, int* y, int* level);
+void CheckShutInNow();  // the check made after a wall is built (dev command !shutin)
 void Tick();
 
 }  // namespace nav::build

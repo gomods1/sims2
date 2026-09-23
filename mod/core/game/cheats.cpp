@@ -19,6 +19,7 @@
 namespace game {
 
 bool g_screenDumpRequested = false;
+bool g_shutInCheckRequested = false;
 namespace {
 
 template <class Fn>
@@ -75,6 +76,7 @@ void DevCommand(const std::string& line) {
     }
     else if (!strcmp(name, "movein")) ClickLotWithTool(a);
     else if (!strcmp(name, "screen")) g_screenDumpRequested = true;
+    else if (!strcmp(name, "shutin")) g_shutInCheckRequested = true;
     else if (!strcmp(name, "press")) Press((Ptr)(unsigned)a);  // !press <window pointer in decimal>
     else if (!strcmp(name, "wall")) DragTool(CurrentTool(), (float)a, (float)b, (float)c, (float)d, e, false);
     else if (!strcmp(name, "families")) {

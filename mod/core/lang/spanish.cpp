@@ -235,6 +235,7 @@ const Translation kEntries[] = {
     {Str::FamilyTreePicked,
      "%s seleccionado: Intro sobre otro Sim para relacionarlos, Intro otra vez para soltarlo"},
     {Str::FurnitureGone, "%1$s ya no está en el solar, valor %2$s"},
+    {Str::BuildShutIn, "cuidado: %1$s queda encerrado, %2$s no tiene puerta; Control+Z deshace la pared"},
 };
 
 }  // namespace

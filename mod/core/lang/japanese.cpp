@@ -221,6 +221,7 @@ const Translation kEntries[] = {
     {Str::IconBabyQuestion, "赤ちゃん？"},
     {Str::FamilyTreePicked, "%sを選択: 別のシムでEnterで関係を作成、もう一度Enterで解除"},
     {Str::FurnitureGone, "%1$sが区画からなくなった（価値%2$s）"},
+    {Str::BuildShutIn, "注意: %1$sが閉じ込められた（%2$sにドアがない）。Ctrl+Zで壁を取り消せる"},
 };
 
 }  // namespace
