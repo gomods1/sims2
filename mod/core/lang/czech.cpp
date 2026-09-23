@@ -68,6 +68,7 @@ const Translation kEntries[] = {
     {Str::GroupSteps, "kroky"},
     {Str::GroupAge, "věk"},
     {Str::GroupSex, "pohlaví"},
+    {Str::GroupTraits, "vlastnosti"},
     // Text fields
     {Str::TextField, "%s %s, textové pole"},
     {Str::Blank, "prázdné"},
@@ -75,6 +76,7 @@ const Translation kEntries[] = {
     // Values
     {Str::ValueOfMax, "%d z %d"},
     {Str::SliderRange, "od %1$s po %2$s"},
+    {Str::RadioBetween, "mezi: %1$s a %2$s"},
     {Str::PointsLeft, "zbývá bodů: %d"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "další stránka"},

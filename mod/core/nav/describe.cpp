@@ -63,6 +63,7 @@ std::string GroupName(const Group& g) {
         {"Zodiac", Str::GroupStarSign},   {"TAE Aspirations", Str::GroupAspiration},
         {"full wizard", Str::GroupSteps}, {"Age", Str::GroupAge},
         {"Gender", Str::GroupSex},        {"CAS PUC", Str::GroupControlPanel},
+        {"Traits", Str::GroupTraits},
     };
     if (g.key > 0x10000) {
         std::string caption = game::Caption(g.key);

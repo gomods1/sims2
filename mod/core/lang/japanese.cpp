@@ -62,6 +62,7 @@ const Translation kEntries[] = {
     {Str::GroupSteps, "ステップ"},
     {Str::GroupAge, "年齢"},
     {Str::GroupSex, "性別"},
+    {Str::GroupTraits, "特徴"},
     // Text fields
     {Str::TextField, "%s %s、入力欄"},
     {Str::Blank, "空欄"},
@@ -69,6 +70,7 @@ const Translation kEntries[] = {
     // Values
     {Str::ValueOfMax, "%2$d段階中%1$d"},
     {Str::SliderRange, "%1$sから%2$s"},
+    {Str::RadioBetween, "%1$sと%2$sの間"},
     {Str::PointsLeft, "残り%dポイント"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "次のページ"},

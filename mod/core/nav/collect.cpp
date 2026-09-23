@@ -348,6 +348,39 @@ struct Walker {
         return true;
     }
 
+    // A row of unnamed choices between two trait names (a pet's personality: Genio ... Bobo,
+    // cTSWinProcRadioGroup): the ends take the names, the others lie "between" them.
+    bool RadioRow(Ptr k, Ptr groupKey) {
+        if (game::ProcClass(k) != "cTSWinProcRadioGroup") return false;
+        std::vector<Ptr> buttons;
+        std::vector<std::pair<int, std::string>> names;
+        for (Ptr c : game::Children(k)) {
+            if (!game::Visible(c)) continue;
+            if (game::IsKindOf(c, "cTSWinTextLabel")) {
+                std::string title, rest;
+                SplitTip(game::Tooltip(c), &title, &rest);
+                if (title.empty()) title = util::CleanForSpeech(game::Caption(c));
+                names.push_back({game::Area(c).left, title});
+            } else if (game::IsButton(c) && game::Tooltip(c).empty()) {
+                buttons.push_back(c);
+            }
+        }
+        if (names.size() != 2 || buttons.size() < 2) return false;
+        std::sort(names.begin(), names.end());
+        std::sort(buttons.begin(), buttons.end(), [](Ptr a, Ptr b) { return game::Area(a).left < game::Area(b).left; });
+        for (size_t i = 0; i < buttons.size(); i++) {
+            Item it;
+            it.widget = buttons[i];
+            it.role = Role::Toggle;
+            it.rect = game::ScreenRect(buttons[i]);
+            if (i == 0) it.label = names[0].second;
+            else if (i + 1 == buttons.size()) it.label = names[1].second;
+            else it.label = util::Format(S(Str::RadioBetween), names[0].second.c_str(), names[1].second.c_str());
+            Add(groupKey, it);
+        }
+        return true;
+    }
+
     void Walk(Ptr w, int depth) {
         if (depth > 40) return;
         std::vector<Ptr> kids = game::Children(w);
@@ -361,6 +394,7 @@ struct Walker {
             if (Grid(k, w)) continue;
             if (ListBox(k, w)) continue;
             if (Relationship(k, w)) continue;
+            if (RadioRow(k, w)) continue;
             if (StepBarItem(k, w, w)) continue;
             std::vector<Ptr> grandKids = game::Children(k);
             if (!grandKids.empty() && Thumbnail(k, grandKids, w)) continue;

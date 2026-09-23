@@ -55,6 +55,7 @@
     X(GroupSteps, "steps")                                                                                             \
     X(GroupAge, "age")                                                                                                 \
     X(GroupSex, "sex")                                                                                                 \
+    X(GroupTraits, "traits")                                                                                           \
     /* Text fields */                                                                                                  \
     X(TextField, "%s %s, text field")                                                                                  \
     X(Blank, "blank")                                                                                                  \
@@ -62,6 +63,7 @@
     /* Values */                                                                                                       \
     X(ValueOfMax, "%d of %d")                                                                                          \
     X(SliderRange, "%1$s to %2$s")                                                                                     \
+    X(RadioBetween, "between %1$s and %2$s")                                                                           \
     X(PointsLeft, "%d points left")                                                                                    \
     X(LabelValue, "%s: %s")                                                                                            \
     X(NextPage, "next page")                                                                                           \

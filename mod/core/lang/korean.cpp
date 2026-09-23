@@ -65,6 +65,7 @@ const Translation kEntries[] = {
     {Str::GroupSteps, "단계"},
     {Str::GroupAge, "나이"},
     {Str::GroupSex, "성별"},
+    {Str::GroupTraits, "특성"},
     // Text fields
     {Str::TextField, "%s %s, 편집창"},
     {Str::Blank, "빈칸"},
@@ -72,6 +73,7 @@ const Translation kEntries[] = {
     // Values
     {Str::ValueOfMax, "%2$d 중 %1$d"},
     {Str::SliderRange, "%1$s에서 %2$s"},
+    {Str::RadioBetween, "%1$s와 %2$s 사이"},
     {Str::PointsLeft, "남은 포인트 %d"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "다음 페이지"},

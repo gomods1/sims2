@@ -69,6 +69,7 @@ const Translation kEntries[] = {
     {Str::GroupSteps, "lépések"},
     {Str::GroupAge, "életkor"},
     {Str::GroupSex, "nem"},
+    {Str::GroupTraits, "tulajdonságok"},
     // Text fields
     {Str::TextField, "%s %s, szövegmező"},
     {Str::Blank, "üres"},
@@ -76,6 +77,7 @@ const Translation kEntries[] = {
     // Values
     {Str::ValueOfMax, "%d / %d"},
     {Str::SliderRange, "%1$s – %2$s"},
+    {Str::RadioBetween, "%1$s és %2$s között"},
     {Str::PointsLeft, "%d pont maradt"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "következő oldal"},

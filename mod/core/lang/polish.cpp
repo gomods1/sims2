@@ -69,6 +69,7 @@ const Translation kEntries[] = {
     {Str::GroupSteps, "kroki"},
     {Str::GroupAge, "wiek"},
     {Str::GroupSex, "płeć"},
+    {Str::GroupTraits, "cechy"},
     // Text fields
     {Str::TextField, "%s %s, pole tekstowe"},
     {Str::Blank, "puste"},
@@ -76,6 +77,7 @@ const Translation kEntries[] = {
     // Values
     {Str::ValueOfMax, "%d z %d"},
     {Str::SliderRange, "od %1$s do %2$s"},
+    {Str::RadioBetween, "między: %1$s i %2$s"},
     {Str::PointsLeft, "pozostało punktów: %d"},
     {Str::LabelValue, "%s: %s"},
     {Str::NextPage, "następna strona"},
