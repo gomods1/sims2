@@ -106,7 +106,8 @@ void InitNeighborhoodHooks() {
 
 bool ClickLotWithTool(int lotId) {
     Ptr tool = CurrentTool();
-    if (!IsKindOf(tool, "cTSUserToolNeighborhoodMoveIn")) return false;
+    // The neighborhood's tool is always this one; it moves a family only once one is chosen.
+    if (!IsKindOf(tool, "cTSUserToolNeighborhoodMoveIn") || !Rd<int>(tool + addr::nhoodtool::kChosenFamily)) return false;
     typedef void(__thiscall * DispatchFn)(Ptr, int, int, int*);
     Ptr vt = Rd<Ptr>(tool);
     auto dispatch = InImage(vt) ? (DispatchFn)Rd<Ptr>(vt + addr::nhoodtool::kSlotDispatch * 4) : nullptr;

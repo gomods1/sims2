@@ -222,6 +222,7 @@ namespace nhoodtool {
 constexpr uint32_t kLotAtScreen = 0xa079a5a4;  // slot 24: thiscall (int pos[2], int* lot, cIGZString* name)
                                                // -> bool; a ray against the scene's "LotData" nodes
 constexpr int kSlotDispatch = 8;
+constexpr int kChosenFamily = 0x7c;            // the move-in tool: the family chosen in the bin, 0 none
 }  // namespace nhoodtool
 
 // Scene graph nodes (nTSSG::cObject and subclasses): what the tools' object pick returns.
