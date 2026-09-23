@@ -27,6 +27,8 @@ std::vector<LotObject> LotObjects();
 bool ReadLotObject(int id, LotObject* out);
 // The catalog's name of an object definition (in the game's language), empty when none.
 std::string CatalogName(uint32_t guid);
+// The object ids of the Sims of the lot's family.
+std::vector<int> FamilySimIds();
 // The Sim the player controls now, 0 when none.
 Ptr SelectedSim();
 int SelectedSimId();

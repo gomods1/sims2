@@ -113,6 +113,9 @@ const Translation kEntries[] = {
     // Lot: selecting Sims
     {Str::SimSelectedNow, "%s, seleccionado"},
     {Str::NoSuchSim, "no hay Sim %d"},
+    // Narrator: visitors
+    {Str::VisitorArrived, "%s ha llegado"},
+    {Str::VisitorLeft, "%s se ha ido"},
     {Str::FundsChanged, "%1$s, quedan %2$s"},
 };
 

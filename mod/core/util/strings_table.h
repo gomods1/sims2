@@ -109,4 +109,7 @@
     /* Lot: selecting Sims */                                                                                          \
     X(SimSelectedNow, "%s, selected")                                                                                  \
     X(NoSuchSim, "no Sim %d")                                                                                          \
+    /* Narrator: visitors */                                                                                           \
+    X(VisitorArrived, "%s arrived")                                                                                    \
+    X(VisitorLeft, "%s left")                                                                                          \
     X(FundsChanged, "%1$s, %2$s left")

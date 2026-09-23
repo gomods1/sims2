@@ -110,7 +110,7 @@ const Translation kEntries[] = {
     {Str::ActionFinished, "%1$s dokončil %2$s"},
     {Str::NeedLow, "%1$s, nízká potřeba: %2$s"},
     {Str::NeedUrgent, "%1$s, naléhavá potřeba: %2$s"},
-    // Lot: selecting Sims
+    // Narrator: visitors
     {Str::FundsChanged, "%1$s, zbývá %2$s"},
 };
 

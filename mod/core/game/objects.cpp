@@ -104,6 +104,20 @@ bool ReadLotObject(int id, LotObject* out) {
     return Fill(Rd<Ptr>(b + (id - 1) * 4), id, out);
 }
 
+std::vector<int> FamilySimIds() {
+    std::vector<int> ids;
+    Ptr om = ObjectModule();
+    if (!om) return ids;
+    Ptr fb = Rd<Ptr>(om + addr::objmodule::kFamily), fe = Rd<Ptr>(om + addr::objmodule::kFamily + 4);
+    Ptr b = Rd<Ptr>(om + addr::objmodule::kById), e = Rd<Ptr>(om + addr::objmodule::kById + 4);
+    for (Ptr p = fb; p && p < fe && ids.size() < 64; p += 4) {
+        Ptr sim = CompleteObject(Rd<Ptr>(p));
+        for (int i = 0; i < (int)((e - b) / 4) && i < 20000; i++)
+            if (Rd<Ptr>(b + i * 4) == sim) ids.push_back(i + 1);
+    }
+    return ids;
+}
+
 Ptr SelectedSim() {
     Ptr om = ObjectModule();
     if (!om) return 0;

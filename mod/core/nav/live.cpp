@@ -90,6 +90,44 @@ std::string SimName(int simId) {
     return dash == std::string::npos ? o.name : o.name.substr(dash + 3);
 }
 
+// Visitors: Sims on the lot from outside the family, announced once they have stayed a second
+// (some are created and removed at once).
+struct Visitor {
+    int id;
+    std::string name;
+    ULONGLONG since;
+    bool announced;
+};
+std::vector<Visitor> g_visitors;
+bool g_visitorsPrimed = false;  // the Sims already there when the lot loaded are not "arriving"
+
+void WatchVisitors() {
+    std::vector<int> family = game::FamilySimIds();
+    std::vector<int> present;
+    for (const game::LotObject& o : game::LotObjects())
+        if (o.person && o.x >= 0 && std::find(family.begin(), family.end(), o.id) == family.end())
+            present.push_back(o.id);
+    ULONGLONG now = GetTickCount64();
+    for (size_t i = g_visitors.size(); i-- > 0;) {
+        if (std::find(present.begin(), present.end(), g_visitors[i].id) != present.end()) continue;
+        if (g_visitors[i].announced) buffers::Event(util::Format(S(Str::VisitorLeft), g_visitors[i].name.c_str()));
+        g_visitors.erase(g_visitors.begin() + i);
+    }
+    for (int id : present) {
+        auto it = std::find_if(g_visitors.begin(), g_visitors.end(), [&](const Visitor& v) { return v.id == id; });
+        if (it == g_visitors.end()) {
+            std::string first, last;
+            std::string name = game::SimName(id, &first, &last) ? (last.empty() ? first : first + " " + last) : "";
+            if (name.empty()) continue;
+            g_visitors.push_back({id, name, now, !g_visitorsPrimed});
+        } else if (!it->announced && now - it->since > 1000) {
+            it->announced = true;
+            buffers::Event(util::Format(S(Str::VisitorArrived), it->name.c_str()));
+        }
+    }
+    g_visitorsPrimed = true;
+}
+
 void WatchFamily() {
     int sim = game::SelectedSimId();
     if (sim != g_watchedSim) {  // another Sim selected: say who, start over quietly
@@ -235,9 +273,12 @@ void Tick() {
     if (!world::LotViewActive()) {
         g_lastSpeed = -1;
         g_watchedSim = 0;
+        g_visitors.clear();
+        g_visitorsPrimed = false;
         return;
     }
     WatchFamily();
+    WatchVisitors();
     // 0 paused, else the chosen speed (the speed buttons show the choice, not the pause).
     Ptr main = game::MainWindow();
     int speed = -1;
