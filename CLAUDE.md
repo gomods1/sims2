@@ -113,7 +113,12 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     relación mejora", "nuevo amigo", "primer beso"...). Names are the game's own (Live.package STR#
     130 needs, 0x8c interests, 0xf2 hobbies), so every language works. The family's are spoken, a
     visitor's only kept in the events buffer; the same line over the same Sim once in 15 s.
-    Topics the mod cannot name yet (misc, zodiac, turn-ons, job, pets sheets) are skipped.
+    Sheets named so far: needs, the 18 interests, hobbies, aspirations, misc (route failures:
+    "Carlos no puede llegar"), star signs, turn-ons, money, pet topics; others (job, professor)
+    are skipped. A thought repeats at most once a minute, a conversation topic every 15 s.
+  - Furniture leaving the lot in live mode (a burglar, the repo man): "Sofá ... ya no está en el
+    solar, valor $150" (`live.cpp` WatchFurniture: catalog objects worth $50 or more, every 2 s;
+    buy and build mode start the list over).
   - Camera: in live mode the mod presses the game's Return ("Center on active Sim") when the
     selected Sim has moved four tiles or another Sim is selected (never while a dialog or a text
     field is up), because the game's sounds come from what is on screen. Ctrl+F turns it off/on.
