@@ -209,8 +209,15 @@ subclass used for labels showing a value (tooltip names it).
   3 hygiene, 4 environment, 5 fun, 6 comfort, 7 hunger, 8 social, 9 a baby bottle.
   `conversationshared01..06`: the 18 interests in the interests panel's order (Live.package
   STR# 0x8c), five icons each, three interests per sheet. Free Time's `converstaion-<hobby>`
-  sheets: one hobby each (Live.package STR# 0xf2). Not named yet: `conversationshared07`, misc,
-  aspirations, zodiac, turn-ons, job, wealth, pets.
+  sheets: one hobby each (Live.package STR# 0xf2). `conversation-aspirations01`: 0 family,
+  2 fortune, 3 reputation, 4 romance, 5 knowledge, 6 grow up (CAS.package STR# 0x8b), +8 the same
+  in red. `conversation-misc01`: ambulance, phone, pool ladder, question mark, fingerprint,
+  pacifier, a panel, "baby?", 8 crossed-out footsteps (the route failure feedback). Expansion
+  sheets (in `<pack>\TSData\ResD\Objects06.package`, LIFOs in `Objects09`): `zodiac01` the 12
+  signs (CAS STR# 0x8a), `turnonoff01` turn-ons 0-13 / `02` hair colors 14-19 / `03` robot,
+  PlantSim, zombie (UIText STR# 0xe1), `wealth01` $/$$/$$$, `petsconversation01-03` the pet
+  interests (Live STR# 0x8c 21-29, five icons each), `job01` career icons, `aspirations02`
+  pleasure and grilled cheese. Not named: job, professor (University), EP8's thought bubbles.
 - Neighbors: `cTSNeighborManager` (globals +0x64) slot 16 (id, 1) gives a `cTSNeighbor`; its +0x14
   is the `cTSObjectSelector` whose slots 49/51 give the first and last name.
 - The effect names per pack: each pack's `objects.package` holds only the objects it adds or

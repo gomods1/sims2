@@ -58,7 +58,7 @@ def main(argv):
             else:
                 ln = d[i]; i += 1
                 ref = d[i:i + ln].lower(); i += ln
-                lf = lifos.get(ref)
+                lf = lifos.get(ref) or next((v for k, v in lifos.items() if k.endswith(ref) or ref.endswith(k)), None)
                 if lf:
                     j = lf.index(b"_lifo") + 5
                     lw, lh, z, sz = struct.unpack_from("<4I", lf, j)

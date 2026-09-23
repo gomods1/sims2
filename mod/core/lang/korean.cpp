@@ -213,6 +213,15 @@ const Translation kEntries[] = {
     {Str::BalloonTopicDisliked, "%s: 이 주제를 싫어함"},
     {Str::BalloonPersonalityGood, "%s: 성격이 잘 맞음"},
     {Str::BalloonPersonalityBad, "%s: 성격이 충돌함"},
+    {Str::BalloonRouteFailed, "%s 갈 수 없음"},
+    {Str::IconAmbulance, "구급차"},
+    {Str::IconPhone, "전화"},
+    {Str::IconPoolLadder, "수영장 사다리"},
+    {Str::IconQuestion, "물음표"},
+    {Str::IconFingerprint, "지문"},
+    {Str::IconBaby, "아기"},
+    {Str::IconDoor, "문"},
+    {Str::IconBabyQuestion, "아기?"},
 };
 
 }  // namespace

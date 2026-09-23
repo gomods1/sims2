@@ -220,6 +220,15 @@ const Translation kEntries[] = {
     {Str::BalloonTopicDisliked, "%s: nie lubi tego tematu"},
     {Str::BalloonPersonalityGood, "%s: pasujące osobowości"},
     {Str::BalloonPersonalityBad, "%s: sprzeczne osobowości"},
+    {Str::BalloonRouteFailed, "%s nie może tam dojść"},
+    {Str::IconAmbulance, "karetka"},
+    {Str::IconPhone, "telefon"},
+    {Str::IconPoolLadder, "drabinka basenowa"},
+    {Str::IconQuestion, "znak zapytania"},
+    {Str::IconFingerprint, "odcisk palca"},
+    {Str::IconBaby, "dziecko"},
+    {Str::IconDoor, "drzwi"},
+    {Str::IconBabyQuestion, "dziecko?"},
 };
 
 }  // namespace

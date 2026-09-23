@@ -223,6 +223,15 @@ const Translation kEntries[] = {
     {Str::BalloonTopicDisliked, "%s: vindt het onderwerp niet leuk"},
     {Str::BalloonPersonalityGood, "%s: persoonlijkheden klikken"},
     {Str::BalloonPersonalityBad, "%s: persoonlijkheden botsen"},
+    {Str::BalloonRouteFailed, "%s kan er niet komen"},
+    {Str::IconAmbulance, "ambulance"},
+    {Str::IconPhone, "telefoon"},
+    {Str::IconPoolLadder, "zwembadtrap"},
+    {Str::IconQuestion, "vraagteken"},
+    {Str::IconFingerprint, "vingerafdruk"},
+    {Str::IconBaby, "baby"},
+    {Str::IconDoor, "deur"},
+    {Str::IconBabyQuestion, "een baby?"},
 };
 
 }  // namespace

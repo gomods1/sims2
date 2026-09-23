@@ -203,3 +203,12 @@
     X(BalloonTopicDisliked, "%s: dislikes the topic")                                                                  \
     X(BalloonPersonalityGood, "%s: personalities click")                                                               \
     X(BalloonPersonalityBad, "%s: personalities clash")                                                                \
+    X(BalloonRouteFailed, "%s cannot get there")                                                                       \
+    X(IconAmbulance, "ambulance")                                                                                      \
+    X(IconPhone, "phone")                                                                                              \
+    X(IconPoolLadder, "pool ladder")                                                                                   \
+    X(IconQuestion, "question mark")                                                                                   \
+    X(IconFingerprint, "fingerprint")                                                                                  \
+    X(IconBaby, "baby")                                                                                                \
+    X(IconDoor, "door")                                                                                                \
+    X(IconBabyQuestion, "a baby?")                                                                                     \

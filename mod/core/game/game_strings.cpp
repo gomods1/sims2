@@ -18,7 +18,8 @@ constexpr uint32_t kTypeStr = 0x53545223;  // STR#
 
 std::vector<uint8_t> ReadFileBytes(const std::wstring& path) {
     std::vector<uint8_t> out;
-    HANDLE f = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+    HANDLE f = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0,
+                           nullptr);
     if (f == INVALID_HANDLE_VALUE) return out;
     LARGE_INTEGER size = {};
     GetFileSizeEx(f, &size);
@@ -190,8 +191,11 @@ struct ObjectPackage {
         if (tried) return file != INVALID_HANDLE_VALUE;
         tried = true;
         file = CreateFileW((InstallDir() + L"\\" + pack + L"\\TSData\\Res\\Objects\\objects.package").c_str(),
-                           GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
-        if (file == INVALID_HANDLE_VALUE) return false;
+                           GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0, nullptr);
+        if (file == INVALID_HANDLE_VALUE) {  // the game keeps some packages open with write access
+            Log("objects package %ls: cannot open (%lu)", pack, GetLastError());
+            return false;
+        }
         std::vector<uint8_t> head(0x60);
         if (!ReadAt(0, head.data(), 0x60) || memcmp(head.data(), "DBPF", 4) != 0) return false;
         uint32_t count = U32(head, 0x24), index = U32(head, 0x28), minor = U32(head, 0x3c);

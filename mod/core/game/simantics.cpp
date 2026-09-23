@@ -27,14 +27,14 @@ short ReadVariable(Ptr thread, int scope, int data) {
     return value;
 }
 
-// The thread's slot 19 (0x4c) with 0: Temp 0, where a tree passes the effect when flag 8 says so.
-short ReadTemp0(Ptr thread) {
+// The object's slot 19 (0x4c): Temp n (the effect when flag 8 says so, an icon's GUID in 4/5).
+short ReadTemp(Ptr thread, int n) {
     typedef short(__thiscall * TempFn)(Ptr, int);
     Ptr vt = Rd<Ptr>(thread);
     if (!InImage(vt)) return -1;
     auto fn = (TempFn)Rd<Ptr>(vt + 0x4c);
     short value = -1;
-    Guarded([&] { value = fn(thread, 0); });
+    Guarded([&] { value = fn(thread, n); });
     return value;
 }
 
@@ -70,9 +70,19 @@ int __fastcall BalloonDetour(Ptr thread, void* edx, Ptr frame, const uint8_t* op
         b.objectId = ReadVariable(thread, o[5], *(uint16_t*)(o + 6));
         b.mode = o[4];
         b.flags = *(uint16_t*)(o + 0xe);
-        if (b.flags & 1) b.effect = (b.flags & 8) ? ReadTemp0(thread) : *(int16_t*)(o + 8);
-        // The icon (the handler's order): 0x1000 other, 0x20 a sheet cell, 0x10 an object.
-        if (!(b.flags & 0x1000) && (b.flags & 0x30)) {
+        if (b.flags & 1) b.effect = (b.flags & 8) ? ReadTemp(thread, 0) : *(int16_t*)(o + 8);
+        // The icon, in the handler's order: 0x1000 other; 0x4 an object's thumbnail (0x100 the
+        // running object, 0x400 a GUID in Temps 4/5, else the object id in the icon variable);
+        // 0x20 a sheet cell; 0x10 a Sim (neighbor id).
+        if (b.flags & 0x1000) {
+        } else if (b.flags & 0x4) {
+            if (b.flags & 0x100)
+                b.iconThing = ReadVariable(thread, 3, 11);  // My object's data 11: its id
+            else if (b.flags & 0x400)
+                b.iconGuid = (uint16_t)ReadTemp(thread, 4) | (uint32_t)(uint16_t)ReadTemp(thread, 5) << 16;
+            else
+                b.iconThing = ReadVariable(thread, o[0x10], *(uint16_t*)(o + 0x11));
+        } else if (b.flags & 0x30) {
             b.iconValue = ReadVariable(thread, o[0x10], *(uint16_t*)(o + 0x11));
             if (b.flags & 0x20) b.sheet = o[0x13];
             else b.iconObject = true;
@@ -93,7 +103,7 @@ int __fastcall ThumbDetour(Ptr self, void* edx, Ptr builder, Ptr thing, int a, i
         Ptr vt = Rd<Ptr>(thing);
         if (InImage(vt)) Guarded([&] { id = ((IdFn)Rd<Ptr>(vt + 0x70))(thing); });
     }
-    Log("thumbnail of %s %08x (%d, %d)", ClassName(thing).c_str(), id, a, b);
+    LogVerbose("thumbnail of %s %08x (%d, %d)", ClassName(thing).c_str(), id, a, b);
     return g_thumb(self, edx, builder, thing, a, b);
 }
 

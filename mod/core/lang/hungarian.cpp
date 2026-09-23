@@ -221,6 +221,15 @@ const Translation kEntries[] = {
     {Str::BalloonTopicDisliked, "%s: nem tetszik a téma"},
     {Str::BalloonPersonalityGood, "%s: összeillő személyiségek"},
     {Str::BalloonPersonalityBad, "%s: ütköző személyiségek"},
+    {Str::BalloonRouteFailed, "%s nem jut oda"},
+    {Str::IconAmbulance, "mentőautó"},
+    {Str::IconPhone, "telefon"},
+    {Str::IconPoolLadder, "medencelétra"},
+    {Str::IconQuestion, "kérdőjel"},
+    {Str::IconFingerprint, "ujjlenyomat"},
+    {Str::IconBaby, "baba"},
+    {Str::IconDoor, "ajtó"},
+    {Str::IconBabyQuestion, "egy baba?"},
 };
 
 }  // namespace

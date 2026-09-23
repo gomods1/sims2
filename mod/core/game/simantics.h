@@ -17,6 +17,8 @@ struct Balloon {
     int sheet = -1;             // icon texture sheet (STR# 0x95 index, 0-based) when the icon is a sheet cell
     int iconValue = 0;          // the icon variable's value: a sheet cell or an object id
     bool iconObject = false;    // the icon is a thumbnail of the Sim with neighbor id iconValue
+    int iconThing = 0;          // the icon is a thumbnail of this lot object (object id)...
+    uint32_t iconGuid = 0;      // ...or of this object definition
     uint32_t group = 0;         // the running tree's resource group (its own string tables)
     uint8_t operands[24] = {};  // the instruction object: a vtable, then the operands
 };

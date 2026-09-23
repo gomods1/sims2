@@ -24,6 +24,15 @@ constexpr unsigned kSheetNames = 0x95;     // STR# of a balloon's icon texture s
 constexpr unsigned kNeedNames = 130;       // Live.package: the needs panel's names
 constexpr unsigned kInterestNames = 0x8c;  // Live.package: the interests (conversation topics)
 constexpr unsigned kHobbyNames = 0xf2;     // Live.package: the hobbies (Free Time)
+constexpr unsigned kAspirationNames = 0x8b;  // CAS.package: the aspirations
+
+// A route failure: the misc sheet's crossed-out footsteps (the global "Route Failure Feedback").
+bool IsRouteFailure(uint32_t group, int sheet, int cell) {
+    if (cell != 8) return false;
+    std::string name = game::ObjectString(group, 0x95, sheet, true);
+    if (name.empty() || name == "-") name = game::ObjectString(0x7fd46cd0, 0x95, sheet, true);
+    return name.find("misc01") != std::string::npos;
+}
 
 // The global effects (STR# 0x8f of the global group, by index) the narrator knows.
 enum class Kind { Thought, Scream, Talk, Headline };
@@ -135,6 +144,41 @@ std::string IconName(uint32_t group, int sheet, int cell) {
                     {"sports", 3},     {"games", 4},        {"nature", 5},            {"birdwatching", 5},
                     {"engineering", 6}, {"fitness", 7},     {"science", 8},           {"stars", 8},
                     {"planets", 8},    {"consteallations", 8}, {"music", 9}};
+    // The aspirations sheet: cells 0-6 blue, 8-14 the same in red; named as Create a Sim does
+    // (CAS.package STR# 0x8b).
+    if (name.find("conversation-aspirations01") != std::string::npos) {
+        static const int kAspirations[] = {5, -1, 2, 4, 6, 7, 3, -1};
+        int a = cell >= 0 && cell < 16 ? kAspirations[cell % 8] : -1;
+        return a < 0 ? "" : util::CleanForSpeech(game::GameString("CAS.package", kAspirationNames, a));
+    }
+    // Nightlife's sheets: the star signs (CAS.package STR# 0x8a, in order), the turn-ons (UIText
+    // STR# 0xe1: sheet 01 is entries 0-13, 02 the hair colors 14-19, 03 robots, PlantSims and
+    // zombies), money ($, $$, $$$: the Money interest).
+    if (name.find("conversation-zodiac01") != std::string::npos)
+        return cell >= 0 && cell < 12 ? util::CleanForSpeech(game::GameString("CAS.package", 0x8a, cell)) : "";
+    if (name.find("conversation-turnonoff0") != std::string::npos) {
+        char n = name[name.find("turnonoff0") + 10];
+        int t = n == '1' ? (cell < 14 ? cell : -1) : n == '2' ? (cell < 6 ? 14 + cell : -1)
+              : n == '3' ? (cell == 0 ? 30 : cell == 1 ? 31 : cell == 2 ? 29 : -1) : -1;
+        return t < 0 || cell < 0 ? "" : util::CleanForSpeech(game::GameString("UIText.package", 0xe1, t));
+    }
+    if (name.find("conversation-wealth01") != std::string::npos)
+        return util::CleanForSpeech(game::GameString("Live.package", kInterestNames, 1));
+    // Pets' sheets: the pet interests (Live.package STR# 0x8c, 21-29), five icons each: 01 toys,
+    // weather, animals; 02 outside, food, playtime; 03 scary things, pets, sleeping.
+    size_t pets = name.find("petsconversation0");
+    if (pets != std::string::npos && cell >= 0 && cell < 15) {
+        static const int kPetTopics[3][3] = {{28, 27, 29}, {24, 23, 26}, {22, 21, 25}};
+        int n = name[pets + 17] - '1';
+        if (n >= 0 && n < 3) return util::CleanForSpeech(game::GameString("Live.package", kInterestNames, kPetTopics[n][cell / 5]));
+    }
+    // The misc sheet: pictures the mod names itself (8, footsteps crossed out, is a route failure,
+    // said on its own line).
+    if (name.find("conversation-misc01") != std::string::npos) {
+        static const Str kMisc[] = {Str::IconAmbulance, Str::IconPhone,   Str::IconPoolLadder, Str::IconQuestion,
+                                    Str::IconFingerprint, Str::IconBaby, Str::IconDoor,       Str::IconBabyQuestion};
+        return cell >= 0 && cell < 8 ? S(kMisc[cell]) : "";
+    }
     at = name.find("converstaion-");
     if (at != std::string::npos) {
         std::string word = name.substr(at + 13);
@@ -157,17 +201,30 @@ void Tick() {
     for (int i = 0; i < n; i++) {
         const game::Balloon& b = got[i];
         if (b.mode != 0 && b.mode != 0xf) continue;  // starts only: 2-4 stop effects, 1 and 3 refresh them
-        LogVerbose("balloon: over %d, effect 0x%x, flags %04x, group %08x, sheet %d, icon %d%s", b.objectId, b.effect,
-                   b.flags, b.group, b.sheet, b.iconValue, b.iconObject ? " (a Sim)" : "");
+        LogVerbose("balloon: over %d, effect 0x%x, flags %04x, group %08x, sheet %d, icon %d%s, thing %d, guid %08x",
+                   b.objectId, b.effect, b.flags, b.group, b.sheet, b.iconValue, b.iconObject ? " (a Sim)" : "",
+                   b.iconThing, b.iconGuid);
         const Effect* e = FindEffect(b.effect);
         if (!e) continue;
         std::string who, last;
         if (!game::SimName(b.objectId, &who, &last)) continue;  // over an object
         std::string icon;
-        if (b.iconObject) game::NeighborName(b.iconValue, &icon, nullptr);
-        else if (b.sheet >= 0) icon = IconName(b.group, b.sheet, b.iconValue);
+        if (b.iconObject) {
+            game::NeighborName(b.iconValue, &icon, nullptr);
+        } else if (b.sheet >= 0) {
+            icon = IconName(b.group, b.sheet, b.iconValue);
+        } else if (b.iconGuid) {
+            icon = game::CatalogName(b.iconGuid);
+        } else if (b.iconThing > 0) {
+            std::string first, last;
+            game::LotObject o;
+            if (game::SimName(b.iconThing, &first, &last)) icon = first;
+            else if (game::ReadLotObject(b.iconThing, &o)) icon = !o.catalogName.empty() ? o.catalogName : o.name;
+        }
         std::string line;
-        if (e->kind == Kind::Headline) {
+        if (b.sheet >= 0 && IsRouteFailure(b.group, b.sheet, b.iconValue)) {
+            line = util::Format(S(Str::BalloonRouteFailed), who.c_str());
+        } else if (e->kind == Kind::Headline) {
             line = util::Format(S(e->headline), who.c_str());
         } else if (!icon.empty()) {
             if (e->crossed) icon = util::Format(S(Str::BalloonCrossed), icon.c_str());
@@ -175,8 +232,11 @@ void Tick() {
         } else if (e->kind == Kind::Scream) {
             line = util::Format(S(Str::BalloonScreamsNothing), who.c_str());
         } else {
+            LogVerbose("balloon: no name for sheet %d cell %d (%s)", b.sheet, b.iconValue,
+                       b.sheet >= 0 ? game::ObjectString(b.group, kSheetNames, b.sheet, true).c_str() : "");
             continue;  // a topic the mod cannot name
         }
+        LogVerbose("balloon line: %s", line.c_str());
         // The same line over the same Sim once in 15 s (a conversation cycles its topics).
         std::string key = std::to_string(b.objectId) + "|" + line;
         auto said = g_said.find(key);
