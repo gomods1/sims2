@@ -58,7 +58,8 @@ Tested live unless marked **not yet seen**.
 | Build panel and its tool pages | generic ("Atrás" goes back to the categories) |
 | Walls, fences, rooms, foundations | dedicated corner cursor (`nav/build.cpp`) |
 | Floors, pools | dedicated tile cursor |
-| Doors, windows, stairs, roofs, terrain, wallpaper | **not yet** (doors and windows are objects: buy placement may place them; untested) |
+| Doors, windows | dedicated: buy placement's spots (the tool snaps them to walls; duplicates dropped), each with the wall side and the room behind ("Cocina, pared sur, da a Exterior") |
+| Stairs, roofs, terrain, wallpaper | **not yet** |
 
 ## Other
 

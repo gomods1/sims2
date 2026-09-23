@@ -57,6 +57,7 @@ struct HeldObject {
     float x = 0, y = 0;  // the snapped spot (tile centres)
     int level = 0;       // 1 = ground floor
     bool overLot = false;
+    int objectType = 0;  // OBJD type of the held object: 8 door, 9 window (objd::kType)
 };
 // The object placement tool's state; false when the tool is no object tool.
 bool ReadHeldObject(Ptr tool, HeldObject* out);

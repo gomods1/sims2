@@ -262,6 +262,8 @@ bool ReadHeldObject(Ptr tool, HeldObject* out) {
             out->holding = ((BoolFn)Va(addr::tool::kIsHolding))(tool) != 0;
             out->object = out->holding ? ((PtrFn)Va(addr::tool::kHeldObject))(tool) : 0;
         });
+        Ptr objd = out->object ? Rd<Ptr>(out->object + addr::object::kDefinition) : 0;
+        if (objd) out->objectType = Rd<uint16_t>(objd + addr::objd::kType);
     }
     return true;
 }

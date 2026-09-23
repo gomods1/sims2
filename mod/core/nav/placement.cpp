@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <set>
 #include <vector>
 
 #include "../game/buy.h"
@@ -87,6 +88,25 @@ std::string Facing(int direction) {
     return util::Format(S(Str::PlaceFacing), S(kNames[(direction / 2) & 3]));
 }
 
+// A door or window: which wall of its room it is on and the room behind it. The object faces its
+// direction from the tile in front of the wall; behind it is the tile one step back.
+std::string WallPart(int x, int y, int level) {
+    game::HeldObject held;
+    if (!game::ReadHeldObject(game::CurrentTool(), &held) || (held.objectType != 8 && held.objectType != 9)) return "";
+    static const int kDx[] = {-1, 0, 1, 0}, kDy[] = {0, 1, 0, -1};  // 0 -x, 2 +y, 4 +x, 6 -y
+    static const Str kSides[] = {Str::DirEast, Str::DirNorth, Str::DirWest, Str::DirSouth};  // behind
+    int d = (held.direction / 2) & 3;
+    float bx = x + 0.5f - kDx[d], by = y + 0.5f - kDy[d];
+    std::string behind = world::RoomNameAt(bx, by, level);
+    std::string line = util::Format(S(Str::PlaceWallSide), S(kSides[d]));
+    int frontId = game::RoomAt(x + 0.5f, y + 0.5f, level), behindId = game::RoomAt(bx, by, level);
+    if (behind.empty() || frontId == behindId) return line;
+    // Rooms are named from their contents: two rooms can share a name.
+    bool sameName = behind == world::RoomNameAt(x + 0.5f, y + 0.5f, level);
+    line += ", " + util::Format(S(sameName ? Str::PlaceLeadsToAnother : Str::PlaceLeadsTo), behind.c_str());
+    return line;
+}
+
 std::string SpotLine(bool withFacing) {
     game::HeldObject held;
     bool tool = game::ReadHeldObject(game::CurrentTool(), &held);
@@ -94,7 +114,9 @@ std::string SpotLine(bool withFacing) {
     if (tool && !held.overLot) return line + ", " + S(Str::PlaceOffLot);
     std::string room = world::RoomNameAt(g.x + 0.5f, g.y + 0.5f, g.level);
     if (!room.empty()) line += ", " + room;
-    if (withFacing) line += ", " + Facing(held.direction);
+    std::string wall = WallPart(g.x, g.y, g.level);
+    if (!wall.empty()) line += ", " + wall;
+    else if (withFacing) line += ", " + Facing(held.direction);
     int verdict = game::PlacementVerdict();
     if (verdict >= 0) line += ", " + std::string(S(verdict == 1 ? Str::PlaceFits : Str::PlaceBlocked));
     return line;
@@ -138,6 +160,7 @@ void Scan() {
             depth = y + 1;
         }
     }
+    std::set<long long> seen;
     for (int level = 0; level < kScanLevels; level++) {
         int onLot = 0;
         for (int x = 0; x < width; x++) {
@@ -147,12 +170,22 @@ void Scan() {
                 if (v == -2) continue;
                 onLot++;
                 if (v != 1) continue;
-                Spot s = {x, y, level, game::RoomAt(x + 0.5f, y + 0.5f, level), 0};
+                // Where the tool put it (a door snaps to the nearest wall): several tiles can give
+                // the same spot, kept once.
+                game::HeldObject held;
+                int sx = x, sy = y;
+                if (game::ReadHeldObject(tool, &held) && held.x >= 0) {
+                    sx = (int)std::floor(held.x);
+                    sy = (int)std::floor(held.y);
+                }
+                long long key = ((long long)level << 40) | ((long long)(sx & 0xfffff) << 20) | (sy & 0xfffff);
+                if (!seen.insert(key).second) continue;
+                Spot s = {sx, sy, level, game::RoomAt(sx + 0.5f, sy + 0.5f, level), 0};
                 if (haveSim) {
-                    s.distance = std::hypot(x + 0.5 - sim.x, y + 0.5 - sim.y);
+                    s.distance = std::hypot(sx + 0.5 - sim.x, sy + 0.5 - sim.y);
                     if (level != sim.level) s.distance += 1000.0 * std::abs(level - sim.level);
                 } else {
-                    s.distance = x + y;
+                    s.distance = sx + sy;
                 }
                 g.spots.push_back(s);
             }
@@ -182,6 +215,8 @@ void GoTo(const Spot& s, int index, int count, const std::string& prefix) {
     g.level = s.level;
     // A room's summary names the room already.
     std::string line = prefix.empty() ? world::RoomNameAt(s.x + 0.5f, s.y + 0.5f, s.level) : "";
+    std::string wall = WallPart(s.x, s.y, s.level);
+    if (!wall.empty()) line += (line.empty() ? "" : ", ") + wall;
     std::string where = world::WhereFromSim(s.x + 0.5f, s.y + 0.5f, s.level);
     if (!where.empty()) line += (line.empty() ? "" : ", ") + where;
     line += ", " + util::Format(S(Str::ValueOfMax), index + 1, count);
