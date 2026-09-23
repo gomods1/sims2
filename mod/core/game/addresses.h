@@ -145,10 +145,22 @@ constexpr int kDefinition = 0x238;     // -> cTSPersistResourceT<cEdithObjectDef
 namespace objd {
 constexpr int kGuid = 0x20;
 constexpr int kPrice = 0x28;
+constexpr int kRoomFlags = 0x52;       // u16 buy mode rooms: 1 kitchen, 2 bedroom, 4 bathroom, 8 living,
+                                       // 0x10 outside, 0x20 dining, 0x40 misc, 0x80 study, 0x100 kids
 constexpr int kFunctionFlags = 0x54;   // u16 buy mode categories: 1 comfort, 2 surfaces, 4 appliances,
                                        // 8 electronics, 0x10 plumbing, 0x20 decorative, 0x40 misc,
                                        // 0x80 lighting, 0x100 hobbies (checked on known objects)
 }  // namespace objd
+
+// Rooms, as Lua's GetRoomAtLocation (0xa05673c0): the world service (framework GetSystemService
+// 0x4a037ee3 / iid 0x49ff7d6f, cached by the game at [0xa10cc45c]); its slot 39 gives the room
+// manager, whose slot 80 takes ({float x, float y, int level}, 2, 1) and returns the room id (short).
+namespace world {
+constexpr uint32_t kServiceId = 0x4a037ee3;
+constexpr uint32_t kIid = 0x49ff7d6f;
+constexpr int kSlotRoomManager = 39;
+constexpr int kRoomManagerSlotRoomAt = 80;
+}  // namespace world
 
 // The catalog's names by GUID, as Lua's GetCatalogName (0xa0561640): cTSGlobals slot 24 gives the
 // object folder, its slot 14 the entry for a GUID, the entry's slot 48 fills a cIGZString* with

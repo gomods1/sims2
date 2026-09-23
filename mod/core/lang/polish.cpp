@@ -117,6 +117,9 @@ const Translation kEntries[] = {
     // Narrator: visitors
     {Str::VisitorArrived, "przybywa: %s"},
     {Str::VisitorLeft, "odchodzi: %s"},
+    // Lot: rooms
+    {Str::RoomObjects, "%s, obiektów: %d"},
+    {Str::RoomObjectsOne, "%s, 1 obiekt"},
     {Str::FundsChanged, "%1$s, zostało %2$s"},
 };
 

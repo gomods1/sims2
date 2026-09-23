@@ -19,6 +19,8 @@ struct LotObject {
     uint32_t guid = 0;     // its definition's GUID
     int price = 0;
     uint16_t functionFlags = 0;  // buy mode categories (game/addresses.h objd::kFunctionFlags)
+    uint16_t roomFlags = 0;      // buy mode rooms (objd::kRoomFlags)
+    int room = -1;               // the room the object stands in (RoomAt), -1 unknown
     std::string catalogName;  // UTF-8, the name the catalog shows (empty for objects outside it)
 };
 
@@ -38,6 +40,9 @@ bool SimMotive(int objectId, int index, float* value);
 
 // A Sim's first and last name (UTF-8); false when it is no Sim.
 bool SimName(int objectId, std::string* first, std::string* last);
+
+// The room at a spot of the lot (tiles, floor 0 = ground), -1 when unknown.
+int RoomAt(float x, float y, int level);
 
 // The game is paused (the Pause command's state); false also when no lot is loaded.
 bool GamePaused();

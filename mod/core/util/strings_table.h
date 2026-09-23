@@ -112,4 +112,7 @@
     /* Narrator: visitors */                                                                                           \
     X(VisitorArrived, "%s arrived")                                                                                    \
     X(VisitorLeft, "%s left")                                                                                          \
+    /* Lot: rooms */                                                                                                   \
+    X(RoomObjects, "%s, %d objects")                                                                                   \
+    X(RoomObjectsOne, "%s, 1 object")                                                                                  \
     X(FundsChanged, "%1$s, %2$s left")

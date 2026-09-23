@@ -46,6 +46,8 @@ constexpr unsigned kCategoryNames = 150;
 
 int g_category = 0;
 int g_focusId = -1;
+bool g_roomMode = false;          // PageUp/PageDown walk a room instead of a category
+int g_roomLevel = 0, g_roomId = -1;
 ULONGLONG g_menuAskedAt = 0;  // Interact() posted a menu request at this time
 
 std::string CategoryName(int c) {
@@ -74,6 +76,7 @@ bool Listed(const LotObject& o) {
     if (o.x < 0 || o.y < 0) return false;  // controllers and other objects kept off the lot
     if (o.person) return true;
     if (o.catalogName.empty() || o.catalogName[0] == '*') return false;  // internal objects
+    if (o.name == "PlumbBob") return false;  // the selected Sim's marker
     return true;
 }
 
@@ -84,6 +87,35 @@ bool InCategory(const LotObject& o, int c) {
     if (flag == 0xFFFF) return o.functionFlags == 0;
     return (o.functionFlags & flag) != 0;
 }
+
+// A room's name from what stands in it: each object votes for the buy mode rooms it is sold for
+// (an object meant for many rooms votes less), the most votes wins. Room 0 is outside.
+std::string RoomName(int level, int room, const std::vector<LotObject>& all) {
+    static const struct {
+        uint16_t flag;
+        int nameIndex;  // UIText.package STR# 150
+    } kRooms[] = {{0x0004, 5}, {0x0001, 4}, {0x0002, 2}, {0x0100, 17}, {0x0080, 3},
+                  {0x0020, 1}, {0x0008, 0}, {0x0010, 6}, {0x0040, 7}};
+    if (room == 0) return game::GameString("UIText.package", kCategoryNames, 6);
+    double best = 0;
+    int bestIndex = 0;  // living room when nothing tells
+    for (const auto& r : kRooms) {
+        double votes = 0;
+        for (const LotObject& o : all) {
+            if (o.person || o.level != level || o.room != room || !(o.roomFlags & r.flag)) continue;
+            int bits = 0;
+            for (uint16_t f = o.roomFlags; f; f &= f - 1) bits++;
+            votes += 1.0 / bits;
+        }
+        if (votes > best + 1e-9) {
+            best = votes;
+            bestIndex = r.nameIndex;
+        }
+    }
+    return game::GameString("UIText.package", kCategoryNames, bestIndex);
+}
+
+bool InRoom(const LotObject& o) { return o.level == g_roomLevel && o.room == g_roomId; }
 
 bool SimPosition(LotObject* sim) {
     int id = game::SelectedSimId();
@@ -112,7 +144,7 @@ std::string Where(const LotObject& o, const LotObject* sim) {
 std::vector<LotObject> ObjectsIn(int c, const LotObject* sim) {
     std::vector<LotObject> out;
     for (const LotObject& o : game::LotObjects())
-        if (Listed(o) && InCategory(o, c)) out.push_back(o);
+        if (Listed(o) && (g_roomMode ? InRoom(o) : InCategory(o, c))) out.push_back(o);
     std::stable_sort(out.begin(), out.end(), [&](const LotObject& a, const LotObject& b) {
         if (!sim) return a.id < b.id;
         bool sa = a.level == sim->level, sb = b.level == sim->level;
@@ -125,6 +157,7 @@ std::vector<LotObject> ObjectsIn(int c, const LotObject* sim) {
 void Speak(const LotObject& o, const LotObject* sim, const std::string& prefix) {
     std::string where = Where(o, sim);
     std::string line = DisplayName(o);
+    if (!g_roomMode && o.room >= 0) line += ", " + RoomName(o.level, o.room, game::LotObjects());
     if (o.person && sim && o.id == sim->id) line += std::string(", ") + S(Str::SelectedSimSuffix);
     if (!where.empty()) line += ", " + where;
     std::vector<std::string> details = {line};
@@ -176,7 +209,48 @@ void NextObject(int delta) {
     Speak(list[next], sim, "");
 }
 
+void NextRoom(int delta) {
+    LotObject simObj;
+    const LotObject* sim = SimPosition(&simObj) ? &simObj : nullptr;
+    std::vector<LotObject> all = game::LotObjects();
+    // The rooms with something listed in them: the Sim's own first, then by floor and id.
+    std::vector<std::pair<int, int>> rooms;
+    for (const LotObject& o : all)
+        if (Listed(o) && o.room >= 0) {
+            std::pair<int, int> r = {o.level, o.room};
+            if (std::find(rooms.begin(), rooms.end(), r) == rooms.end()) rooms.push_back(r);
+        }
+    if (rooms.empty()) {
+        speech::Say(S(Str::NoObjects));
+        return;
+    }
+    std::sort(rooms.begin(), rooms.end());
+    if (sim && sim->room >= 0) {
+        auto own = std::find(rooms.begin(), rooms.end(), std::make_pair(sim->level, sim->room));
+        if (own != rooms.end()) std::rotate(rooms.begin(), own, own + 1);
+    }
+    int at = -1;
+    for (int i = 0; i < (int)rooms.size(); i++)
+        if (g_roomMode && rooms[i] == std::make_pair(g_roomLevel, g_roomId)) at = i;
+    int next = at < 0 ? 0 : (at + delta + (int)rooms.size()) % (int)rooms.size();
+    g_roomMode = true;
+    g_roomLevel = rooms[next].first;
+    g_roomId = rooms[next].second;
+    std::vector<LotObject> list = ObjectsIn(0, sim);
+    std::string name = RoomName(g_roomLevel, g_roomId, all);
+    std::string summary = name + ", " + util::Format(S(Str::FloorNumber), g_roomLevel + 1) + ", " +
+                          (list.size() == 1 ? util::Format(S(Str::RoomObjectsOne), "").substr(2)
+                                            : util::Format(S(Str::RoomObjects), "", (int)list.size()).substr(2));
+    if (list.empty()) {
+        speech::Say(summary);
+        return;
+    }
+    g_focusId = list[0].id;
+    Speak(list[0], sim, summary);
+}
+
 void NextCategory(int delta) {
+    g_roomMode = false;
     LotObject simObj;
     const LotObject* sim = SimPosition(&simObj) ? &simObj : nullptr;
     // Skip empty categories.

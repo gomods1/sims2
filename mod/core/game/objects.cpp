@@ -74,8 +74,10 @@ bool Fill(Ptr o, int id, LotObject* out) {
         out->guid = Rd<uint32_t>(def + addr::objd::kGuid);
         out->price = Rd<int>(def + addr::objd::kPrice);
         out->functionFlags = Rd<uint16_t>(def + addr::objd::kFunctionFlags);
+        out->roomFlags = Rd<uint16_t>(def + addr::objd::kRoomFlags);
     }
     if (out->guid && !out->person) out->catalogName = CatalogName(out->guid);
+    if (out->x >= 0) out->room = RoomAt(out->x, out->y, out->level);
     return true;
 }
 
@@ -183,6 +185,32 @@ bool SimName(int objectId, std::string* first, std::string* last) {
     *first = Text(a);
     *last = Text(b);
     return !first->empty() || !last->empty();
+}
+
+int RoomAt(float x, float y, int level) {
+    static Ptr s_world = 0;
+    if (!s_world) {
+        Ptr fw = Va(addr::kFramework);
+        typedef bool(__thiscall * GetServiceFn)(Ptr, uint32_t, uint32_t, void**);
+        void* out = nullptr;
+        bool ok = false;
+        if (auto get = Slot<GetServiceFn>(fw, addr::kFrameworkGetSystemService))
+            Guarded([&] { ok = get(fw, addr::world::kServiceId, addr::world::kIid, &out); });
+        if (!ok || !out) return -1;
+        s_world = (Ptr)out;  // a service: it outlives the mod's use (the reference is kept)
+    }
+    struct Spot {
+        float x, y;
+        int level;
+    } spot = {x, y, level};
+    typedef Ptr(__thiscall * GetFn)(Ptr);
+    typedef short(__thiscall * RoomFn)(Ptr, Spot*, int, int);
+    short room = -1;
+    bool ok = Guarded([&] {
+        Ptr rm = Slot<GetFn>(s_world, addr::world::kSlotRoomManager)(s_world);
+        if (rm) room = Slot<RoomFn>(rm, addr::world::kRoomManagerSlotRoomAt)(rm, &spot, 2, 1);
+    });
+    return ok ? room : -1;
 }
 
 bool GamePaused() {

@@ -45,9 +45,10 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     switch (vk) {
     case VK_PRIOR: case VK_NEXT:
         // The lot's objects (the game's own keys change floor; the control panel has buttons for that).
-        if (!lot || ctrl) return false;
+        if (!lot) return false;
         g_worldFocus = true;
-        if (shift) nav::world::NextCategory(vk == VK_NEXT ? +1 : -1);
+        if (ctrl) nav::world::NextRoom(vk == VK_NEXT ? +1 : -1);
+        else if (shift) nav::world::NextCategory(vk == VK_NEXT ? +1 : -1);
         else nav::world::NextObject(vk == VK_NEXT ? +1 : -1);
         return true;
     case VK_UP: if (ctrl) nav::buffers::Deeper(); else nav::Move(-1); return true;
@@ -113,7 +114,8 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
         return false;
     }
     bool ctrl = Held(VK_CONTROL);
-    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || (vk >= '1' && vk <= '9');
+    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || (vk >= '1' && vk <= '9') ||
+                   vk == VK_PRIOR || vk == VK_NEXT;
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) return false;
     g_consumed[vk] = true;
     if (Dispatch(vk, Held(VK_SHIFT), ctrl)) return true;
