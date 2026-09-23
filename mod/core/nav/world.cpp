@@ -237,8 +237,10 @@ void SayLayout(int x, int y, int level) {
         std::string otherName = other >= 0 ? RoomName(level, other, all) : "";
         std::string line = util::Format(S(w.type == 8 ? Str::LayoutDoor : Str::LayoutWindow), util::CleanForSpeech(w.name).c_str(),
                                         S(side), otherName.c_str(), (int)ox, (int)oy);
-        size_t dbl = line.find("  ");
-        if (dbl != std::string::npos) line.erase(dbl, 1);  // no name: "puerta , pared" reads fine without it
+        if (w.name.empty()) {  // no name: "puerta , pared" -> "puerta, pared"
+            size_t gap = line.find(" ,");
+            if (gap != std::string::npos) line.erase(gap, 1);
+        }
         lines.push_back(line);
     }
     std::string summary = util::Format(S(Str::LayoutSummary), name.c_str(), std::max(level, 1), count, x0, y0, x1, y1);
