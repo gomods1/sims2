@@ -1,0 +1,70 @@
+// Korean: the game's language 15. Written by tools/mod_strings.py from a translation of
+// util/strings_table.h; keep the order and groups of the English table.
+#include "translations.h"
+
+#include <iterator>
+
+namespace lang {
+namespace {
+
+const Translation kEntries[] = {
+    // Startup
+    {Str::ModLoaded, "심즈 2 접근성 기능을 불러왔습니다"},
+    {Str::UnsupportedBuild, "심즈 2 접근성: 지원하지 않는 게임 버전이므로 모드를 껐습니다"},
+    // Key help (Ctrl+F1)
+    {Str::KeysScreen,
+     "화살표로 그룹 안을 이동하고, 탭과 시프트+탭으로 그룹을 바꾸고, 홈과 엔드로 처음과 끝으로 가고, 엔터로 누르고, R로 다시 읽습니다. 컨트롤+위쪽 화살표와 컨트롤+아래쪽 화살표로 방금 "
+     "읽은 것의 세부 정보를 읽고, 컨트롤+왼쪽 화살표와 컨트롤+오른쪽 화살표로 세부 정보와 이벤트를 전환합니다."},
+    // Control state
+    {Str::Checked, "체크됨"},
+    {Str::NotChecked, "체크 안 됨"},
+    {Str::Selected, "선택됨"},
+    {Str::TabSelected, "선택됨"},
+    {Str::Unavailable, "사용 불가"},
+    {Str::UnlabeledButton, "이름 없는 버튼"},
+    {Str::Unnamed, "이름 없음"},
+    // Control roles: what a control is, said after its name
+    {Str::RoleButton, "버튼"},
+    {Str::RoleTab, "탭"},
+    {Str::RoleCheckBox, "체크 박스"},
+    {Str::RoleSlider, "슬라이더"},
+    {Str::RolePicker, "선택기"},
+    {Str::NothingHere, "여기에는 이동할 항목이 없습니다"},
+    // Review buffers
+    {Str::BufferDetails, "세부 정보"},
+    {Str::BufferEvents, "이벤트"},
+    {Str::BufferEmpty, "%s, 비어 있음"},
+    {Str::PositionInGroup, "%2$d개 중 %1$d번째, %3$s"},
+    // Groups
+    {Str::GroupSummary, "%s, 항목 %d개"},
+    {Str::GroupSummaryOne, "%s, 항목 1개"},
+    {Str::GroupButtons, "버튼"},
+    {Str::GroupText, "텍스트"},
+    {Str::GroupControls, "제어판"},
+    // Text fields
+    {Str::TextField, "%s %s, 편집창"},
+    {Str::Blank, "빈칸"},
+    {Str::Space, "스페이스"},
+    // Values
+    {Str::ValueOfMax, "%2$d 중 %1$d"},
+    {Str::LabelValue, "%s: %s"},
+    {Str::NextPage, "다음 페이지"},
+    {Str::PreviousPage, "이전 페이지"},
+    // Interaction menu
+    {Str::PieMenu, "상호작용"},
+    {Str::NoInteractions, "상호작용 없음"},
+    {Str::Cancelled, "취소됨"},
+    // Cheat console
+    {Str::CheatConsole, "치트 콘솔"},
+    {Str::CheatRan, "치트: %s"},
+    {Str::CheatEmpty, "먼저 치트를 입력하거나 고르세요"},
+    // Money
+    {Str::FundsNow, "자금 %s, %s"},
+    {Str::FundsChanged, "%1$s, 남은 돈 %2$s"},
+};
+
+}  // namespace
+
+extern const Translations kKorean = {kEntries, std::size(kEntries)};
+
+}  // namespace lang

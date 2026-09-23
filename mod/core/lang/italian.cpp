@@ -1,0 +1,71 @@
+// Italian: the game's language 4. Written by tools/mod_strings.py from a translation of
+// util/strings_table.h; keep the order and groups of the English table.
+#include "translations.h"
+
+#include <iterator>
+
+namespace lang {
+namespace {
+
+const Translation kEntries[] = {
+    // Startup
+    {Str::ModLoaded, "Accessibilità per The Sims 2 caricata"},
+    {Str::UnsupportedBuild, "Accessibilità per The Sims 2: versione del gioco non supportata, mod disattivata"},
+    // Key help (Ctrl+F1)
+    {Str::KeysScreen,
+     "Le frecce si spostano in un gruppo, Tab e Maiuscole+Tab cambiano gruppo, Inizio e Fine vanno agli estremi, "
+     "Invio attiva, R ripete. Control+freccia su e Control+freccia giù leggono i dettagli di quanto detto, "
+     "Control+freccia sinistra e Control+freccia destra passano tra dettagli ed eventi."},
+    // Control state
+    {Str::Checked, "selezionata"},
+    {Str::NotChecked, "non selezionata"},
+    {Str::Selected, "selezionato"},
+    {Str::TabSelected, "selezionata"},
+    {Str::Unavailable, "non disponibile"},
+    {Str::UnlabeledButton, "pulsante senza nome"},
+    {Str::Unnamed, "senza nome"},
+    // Control roles: what a control is, said after its name
+    {Str::RoleButton, "pulsante"},
+    {Str::RoleTab, "scheda"},
+    {Str::RoleCheckBox, "casella di controllo"},
+    {Str::RoleSlider, "cursore"},
+    {Str::RolePicker, "selettore"},
+    {Str::NothingHere, "qui non c'è niente da esplorare"},
+    // Review buffers
+    {Str::BufferDetails, "dettagli"},
+    {Str::BufferEvents, "eventi"},
+    {Str::BufferEmpty, "%s, vuoto"},
+    {Str::PositionInGroup, "%d di %d, %s"},
+    // Groups
+    {Str::GroupSummary, "%s, %d elementi"},
+    {Str::GroupSummaryOne, "%s, 1 elemento"},
+    {Str::GroupButtons, "pulsanti"},
+    {Str::GroupText, "testo"},
+    {Str::GroupControls, "controlli"},
+    // Text fields
+    {Str::TextField, "%s %s, campo di testo"},
+    {Str::Blank, "vuoto"},
+    {Str::Space, "spazio"},
+    // Values
+    {Str::ValueOfMax, "%d su %d"},
+    {Str::LabelValue, "%s: %s"},
+    {Str::NextPage, "pagina successiva"},
+    {Str::PreviousPage, "pagina precedente"},
+    // Interaction menu
+    {Str::PieMenu, "interazioni"},
+    {Str::NoInteractions, "nessuna interazione"},
+    {Str::Cancelled, "annullato"},
+    // Cheat console
+    {Str::CheatConsole, "console dei trucchi"},
+    {Str::CheatRan, "trucco: %s"},
+    {Str::CheatEmpty, "prima scrivi o scegli un trucco"},
+    // Money
+    {Str::FundsNow, "denaro %s, %s"},
+    {Str::FundsChanged, "%1$s, restano %2$s"},
+};
+
+}  // namespace
+
+extern const Translations kItalian = {kEntries, std::size(kEntries)};
+
+}  // namespace lang

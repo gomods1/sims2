@@ -1,0 +1,72 @@
+// Polish: the game's language 20. Written by tools/mod_strings.py from a translation of
+// util/strings_table.h; keep the order and groups of the English table.
+#include "translations.h"
+
+#include <iterator>
+
+namespace lang {
+namespace {
+
+const Translation kEntries[] = {
+    // Startup
+    {Str::ModLoaded, "Moduł dostępności The Sims 2 wczytany"},
+    {Str::UnsupportedBuild, "Moduł dostępności The Sims 2: nieobsługiwana wersja gry, mod wyłączony"},
+    // Key help (Ctrl+F1)
+    {Str::KeysScreen,
+     "Strzałki poruszają się w obrębie grupy, Tab i Shift+Tab zmieniają grupę, Home i End przechodzą na początek "
+     "i na koniec, Enter aktywuje, R powtarza. Control+strzałka w górę i Control+strzałka w dół czytają "
+     "szczegóły tego, co zostało powiedziane, Control+strzałka w lewo i Control+strzałka w prawo przełączają "
+     "między szczegółami a zdarzeniami."},
+    // Control state
+    {Str::Checked, "zaznaczone"},
+    {Str::NotChecked, "niezaznaczone"},
+    {Str::Selected, "wybrany"},
+    {Str::TabSelected, "wybrana"},
+    {Str::Unavailable, "niedostępny"},
+    {Str::UnlabeledButton, "przycisk bez nazwy"},
+    {Str::Unnamed, "bez nazwy"},
+    // Control roles: what a control is, said after its name
+    {Str::RoleButton, "przycisk"},
+    {Str::RoleTab, "karta"},
+    {Str::RoleCheckBox, "pole wyboru"},
+    {Str::RoleSlider, "suwak"},
+    {Str::RolePicker, "selektor"},
+    {Str::NothingHere, "nie ma tu nic do przeglądania"},
+    // Review buffers
+    {Str::BufferDetails, "szczegóły"},
+    {Str::BufferEvents, "zdarzenia"},
+    {Str::BufferEmpty, "%s, puste"},
+    {Str::PositionInGroup, "%d z %d, %s"},
+    // Groups
+    {Str::GroupSummary, "%s, elementów: %d"},
+    {Str::GroupSummaryOne, "%s, 1 element"},
+    {Str::GroupButtons, "przyciski"},
+    {Str::GroupText, "tekst"},
+    {Str::GroupControls, "sterowanie"},
+    // Text fields
+    {Str::TextField, "%s %s, pole tekstowe"},
+    {Str::Blank, "puste"},
+    {Str::Space, "spacja"},
+    // Values
+    {Str::ValueOfMax, "%d z %d"},
+    {Str::LabelValue, "%s: %s"},
+    {Str::NextPage, "następna strona"},
+    {Str::PreviousPage, "poprzednia strona"},
+    // Interaction menu
+    {Str::PieMenu, "działania"},
+    {Str::NoInteractions, "brak działań"},
+    {Str::Cancelled, "anulowano"},
+    // Cheat console
+    {Str::CheatConsole, "konsola kodów"},
+    {Str::CheatRan, "kod: %s"},
+    {Str::CheatEmpty, "najpierw wpisz lub wybierz kod"},
+    // Money
+    {Str::FundsNow, "fundusze %s, %s"},
+    {Str::FundsChanged, "%1$s, zostało %2$s"},
+};
+
+}  // namespace
+
+extern const Translations kPolish = {kEntries, std::size(kEntries)};
+
+}  // namespace lang

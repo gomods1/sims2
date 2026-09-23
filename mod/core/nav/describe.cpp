@@ -1,0 +1,50 @@
+#include "describe.h"
+
+#include "../game/gz.h"
+#include "../util/strings.h"
+#include "../util/text.h"
+#include "buffers.h"
+
+namespace nav {
+
+std::string Describe(const Item& it) {
+    std::string label = it.label.empty() ? S(Str::UnlabeledButton) : it.label;
+    switch (it.role) {
+    case Role::Text: return label;
+    case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
+    case Role::Toggle: {
+        std::string s = label + ", " + S(Str::RoleButton);
+        if (game::ButtonOn(it.widget)) s += std::string(", ") + S(Str::Selected);
+        if (!game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
+        return s;
+    }
+    case Role::Button:
+    default: {
+        std::string s = label + ", " + S(Str::RoleButton);
+        if (!game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
+        return s;
+    }
+    }
+}
+
+std::string GroupName(const Group& g) {
+    for (const Item& it : g.items)
+        if (it.role == Role::Text && it.label.size() < 60) return it.label;
+    return S(IsTextOnly(g) ? Str::GroupText : Str::GroupButtons);
+}
+
+std::string GroupSummary(const Group& g) {
+    std::string name = GroupName(g);
+    return g.items.size() == 1 ? util::Format(S(Str::GroupSummaryOne), name.c_str())
+                               : util::Format(S(Str::GroupSummary), name.c_str(), (int)g.items.size());
+}
+
+std::vector<std::string> DetailLines(const Item& it, const Group& g, int index) {
+    std::vector<std::string> lines;
+    lines.push_back(Describe(it));
+    for (const std::string& s : buffers::Sentences(it.detail)) lines.push_back(s);
+    lines.push_back(util::Format(S(Str::PositionInGroup), index + 1, (int)g.items.size(), GroupName(g).c_str()));
+    return lines;
+}
+
+}  // namespace nav
