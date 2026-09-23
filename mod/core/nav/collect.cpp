@@ -21,6 +21,11 @@ void SplitTip(const std::string& tip, std::string* title, std::string* rest) {
     size_t bar = tip.find('|');
     *title = util::CleanForSpeech(bar == std::string::npos ? tip : tip.substr(0, bar));
     *rest = bar == std::string::npos ? "" : util::CleanForSpeech(tip.substr(bar + 1));
+    // Some tooltips carry resource ids after the text ("Moda||0xab203135||0x4906502e").
+    size_t ids = rest->find("0x");
+    if (ids != std::string::npos) rest->erase(ids);
+    while (!rest->empty() && (rest->back() == '|' || rest->back() == ' ')) rest->pop_back();
+    while (!rest->empty() && (rest->front() == '|' || rest->front() == ' ')) rest->erase(0, 1);
 }
 
 bool Overlaps(const RECT& a, const RECT& b) {
@@ -69,6 +74,20 @@ bool SiblingShows(Ptr w, const std::string& text) {
         if (util::CleanForSpeech(t) == text) return true;
     }
     return false;
+}
+
+// The trait names on a step bar's row (personality bars have two), empty for a plain meter.
+std::string StepBarLabels(Ptr bar) {
+    RECT r = game::Area(bar);
+    std::string left, right;
+    for (Ptr s : game::Children(game::Parent(bar))) {
+        if (!game::Visible(s) || !game::IsKindOf(s, "cTSWinTextLabel")) continue;
+        RECT l = game::Area(s);
+        if (l.bottom <= r.top || l.top >= r.bottom) continue;
+        if (l.right <= r.left + 4) left = game::Caption(s);
+        else if (l.left >= r.right - 4) right = game::Caption(s);
+    }
+    return left.empty() || right.empty() ? "" : left + right;
 }
 
 // The nearest text above a window, overlapping it horizontally, among the windows beside it or
@@ -301,6 +320,12 @@ struct Walker {
             std::string title, rest;
             SplitTip(game::Tooltip(k), &title, &rest);
             std::string value = util::CleanForSpeech(game::Caption(k));
+            // A label beside a meter of steps (an interest, a skill): the meter is its value.
+            for (Ptr s : game::Children(parent)) {
+                int step, steps;
+                if (s != k && game::Visible(s) && game::StepBar(s, &step, &steps) && StepBarLabels(s).empty())
+                    value = util::Format(S(Str::ValueOfMax), step, steps);
+            }
             if (value.empty()) return;
             it.label = title.empty() ? value : util::Format(S(Str::LabelValue), title.c_str(), value.c_str());
             it.detail = rest;
