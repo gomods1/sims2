@@ -16,7 +16,8 @@ Group QueueGroup();        // kQueueGroup: the selected Sim's queued actions, cu
 void CancelQueued(const Item& it);  // Enter on a queued action: the game's cancel (a click)
 void SayStatus();                   // Ctrl+E
 void Tick();                        // speed and pause changes, the family watch
-void SelectMember(int index);
-std::string RatingName(int rating);  // a catalog rating (game::Product::ratings index): the need's name       // Ctrl+1..9: the n-th Sim of the family (its portrait)
+void SelectMember(int index);       // Ctrl+1..9: the n-th Sim of the family (its portrait)
+std::string RatingName(int rating);  // a catalog rating (game::Product::ratings index): the need's name
+std::string FundsText();  // the control panel's funds as shown ("83.787 simoleones"), empty if none
 
 }  // namespace nav::live

@@ -115,8 +115,15 @@ bool ButtonOn(Ptr w) {
 uint32_t ButtonFlags(Ptr w) { return IsButton(w) ? Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) : 0; }
 
 bool ButtonToggles(Ptr w) {
-    return IsButton(w) &&
-           (Rd<uint32_t>(CompleteObject(w) + addr::btn::kFlags) & (addr::btn::kFlagToggle | addr::btn::kFlagChoice)) != 0;
+    if (!IsButton(w)) return false;
+    uint32_t f = ButtonFlags(w);
+    if (f & addr::btn::kFlagToggle) return true;
+    if ((f & addr::btn::kCheckBoxBits) == addr::btn::kCheckBoxBits) return true;
+    if (!(f & addr::btn::kFlagChoice)) return false;
+    // One of a set of options only beside another alike (a lone dialog button has the bit too).
+    for (Ptr s : Children(Parent(w)))
+        if (s != w && Visible(s) && IsButton(s) && (ButtonFlags(s) | 1) == (f | 1)) return true;
+    return false;
 }
 
 bool CaptionShown(Ptr w) {

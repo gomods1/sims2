@@ -39,8 +39,8 @@ ULONGLONG g_lastPoll = 0;
 // Development commands (tools/game.py cheat "!name args"): calls into the game to test them.
 void DevCommand(const std::string& line) {
     char name[64] = {};
-    int a = 0, b = 0, c = 0;
-    int n = sscanf_s(line.c_str(), "%63s %d %d %d", name, (unsigned)sizeof name, &a, &b, &c);
+    int a = 0, b = 0, c = 0, d = 0, e = 0;
+    int n = sscanf_s(line.c_str(), "%63s %d %d %d %d %d", name, (unsigned)sizeof name, &a, &b, &c, &d, &e);
     Log("dev command %s (%d args)", name, n - 1);
     if (!strcmp(name, "lotinfo")) ShowLotInfo(a, b, c);
     else if (!strcmp(name, "click")) MouseClick(a, b, c != 0);
@@ -57,6 +57,7 @@ void DevCommand(const std::string& line) {
     }
     else if (!strcmp(name, "pie")) ShowInteractions(a);
     else if (!strcmp(name, "movein")) ClickLotWithTool(a);
+    else if (!strcmp(name, "wall")) DragTool(CurrentTool(), (float)a, (float)b, (float)c, (float)d, e, false);
     else if (!strcmp(name, "families")) {
         for (const FamilyEntry& f : Families())
             Log("  family %d \"%s\" lot %d members %d funds %d", f.id, f.name.c_str(), f.lot, f.members, f.funds);

@@ -15,6 +15,7 @@
 #include "collect.h"
 #include "describe.h"
 #include "nhood_view.h"
+#include "build.h"
 #include "placement.h"
 #include "live.h"
 #include "world.h"
@@ -134,6 +135,7 @@ void Announce() {
         if (g.announcedGroups.count(group.key)) continue;
         g.announcedGroups.insert(group.key);
         if (g.knownGroups.count(group.key)) continue;
+        if (group.key < 0x10000) continue;  // the mod's own groups (needs, queue, lots) are no news
         for (const Item& it : group.items)
             if (it.role == Role::Text && IsTextOnly(group)) buffers::Event(it.label);
     }
@@ -227,6 +229,7 @@ void Tick() {
     world::Tick();
     live::Tick();
     placement::Tick();
+    build::Tick();
     if (now - g.lastCollect < kRefreshMs) return;
     g.lastCollect = now;
     Refresh(now);
@@ -314,7 +317,8 @@ void Activate() {
     g.pressedAt = GetTickCount64();
     g.pressedWasOn = game::ButtonOn(it->widget);
     game::Press(it->widget);
-    if (it->role == Role::Product) placement::Begin(it->label);
+    if (it->role == Role::Product && it->buyObject) placement::Begin(it->label);
+    else if (it->role == Role::Product) build::Begin(it->label);
 }
 
 void RepeatFocus() {

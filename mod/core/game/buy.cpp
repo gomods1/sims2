@@ -33,6 +33,20 @@ char __fastcall PickDetour(Ptr self, void* edx, int sx, int sy, float* out, int 
     return g_pick(self, edx, sx, sy, out, flag);
 }
 
+// cTSUserToolBase::slot32 (thiscall: screen x, y, int level, float out[3]) -> bool: the pick at a
+// fixed level, which the tools use once a pick is stored (a wall's drag).
+typedef char(__fastcall* PickLevelFn)(Ptr self, void* edx, int sx, int sy, int level, float* out);
+PickLevelFn g_pickLevel = nullptr;
+char __fastcall PickLevelDetour(Ptr self, void* edx, int sx, int sy, int level, float* out) {
+    if (g_override && out) {
+        out[0] = g_x;
+        out[1] = g_y;
+        ((int*)out)[2] = g_level;
+        return 1;
+    }
+    return g_pickLevel(self, edx, sx, sy, level, out);
+}
+
 // cTSUserToolObject::slot86 (thiscall: bool fits): tints the held object.
 typedef void(__fastcall* VerdictFn)(Ptr self, void* edx, uint32_t fits);
 VerdictFn g_verdictFn = nullptr;
@@ -152,13 +166,16 @@ bool ReadProduct(Ptr thumbnail, Product* out) {
     if (!IsKindOf(proc, "cTSWinProcCatalogThumbnail")) return false;
     Ptr iface = Rd<Ptr>(proc + addr::product::kThumbnailProduct);
     if (!iface) return false;
-    Ptr p = iface - addr::product::kInterfaceOffset;
-    if (!IsKindOf(p, "cTSProductObject")) return false;
+    // Every catalog product (objects, walls, floors, roofs...) is a cTSProduct: name,
+    // description and price where cTSProduct keeps them; ratings only for objects.
+    Ptr p = CompleteObject(iface);
+    if (!IsKindOf(p, "cTSProduct")) return false;
+    out->isObject = IsKindOf(p, "cTSProductObject");
     out->name = ReadStdStringUtf8(p + addr::product::kName);
     out->description = ReadStdStringUtf8(p + addr::product::kDescription);
     out->internalName = ReadStdString(p + addr::product::kInternalName);
     out->price = Rd<int>(p + addr::product::kPrice);
-    Ptr selector = Rd<Ptr>(p + addr::product::kSelector);
+    Ptr selector = out->isObject ? Rd<Ptr>(p + addr::product::kSelector) : 0;
     Ptr objd = selector ? Rd<Ptr>(selector + addr::product::kSelectorObjd) : 0;
     if (objd) {
         out->guid = Rd<uint32_t>(objd + addr::objd::kGuid);
@@ -169,6 +186,7 @@ bool ReadProduct(Ptr thumbnail, Product* out) {
 
 void InitBuyHooks() {
     HookGame("cTSUserToolBase::Pick", addr::tool::kPick, (void*)PickDetour, (void**)&g_pick);
+    HookGame("cTSUserToolBase::PickAtLevel", addr::tool::kPickAtLevel, (void*)PickLevelDetour, (void**)&g_pickLevel);
     HookGame("cTSUserToolObject::SetFits", addr::tool::kObjectVerdict, (void*)VerdictDetour, (void**)&g_verdictFn);
     HookGame("cTSUserToolBase::ObjectPick", addr::tool::kObjectPick, (void*)ObjectPickDetour, (void**)&g_objectPick);
     HookGame("cTSUserToolBase::MouseLeave", addr::tool::kMouseLeave, (void*)LeaveDetour, (void**)&g_leave);
@@ -187,6 +205,46 @@ Ptr PickTool() { return g_tool; }
 int PlacementVerdict(uint32_t* counter) {
     if (counter) *counter = g_verdicts;
     return g_verdict;
+}
+
+bool ToolMessage(Ptr tool, int buttons, int message, int x, int y) {
+    typedef char(__thiscall * DispatchFn)(Ptr, int, int, int*, int);
+    Ptr vt = Rd<Ptr>(tool);
+    auto dispatch = InImage(vt) ? (DispatchFn)Rd<Ptr>(vt + addr::tool::kSlotDispatch * 4) : nullptr;
+    if (!dispatch) return false;
+    int pos[2] = {x, y};
+    return Guarded([&] { dispatch(tool, buttons, message, pos, 0); });
+}
+
+bool DragTool(Ptr tool, float x0, float y0, float x1, float y1, int level, bool ctrl) {
+    typedef char(__thiscall * DispatchFn)(Ptr, int, int, int*, int);
+    Ptr vt = Rd<Ptr>(tool);
+    auto dispatch = InImage(vt) ? (DispatchFn)Rd<Ptr>(vt + addr::tool::kSlotDispatch * 4) : nullptr;
+    if (!dispatch) return false;
+    bool wasOn = g_override;
+    float ox = g_x, oy = g_y;
+    int ol = g_level;
+    int pos[2] = {1280, 640};
+    if (ctrl) SetSyntheticModifier(VK_CONTROL, true);
+    g_override = true;
+    g_level = level;
+    g_x = x0;
+    g_y = y0;
+    bool ok = Guarded([&] { dispatch(tool, 0, 3, pos, 0); });
+    ok = ok && Guarded([&] { dispatch(tool, 1, 4, pos, 0); });
+    g_x = x1;
+    g_y = y1;
+    pos[0] += 2;  // a move the tool notices
+    ok = ok && Guarded([&] { dispatch(tool, 1, 3, pos, 0); });
+    ok = ok && Guarded([&] { dispatch(tool, 1, 5, pos, 0); });
+    if (ctrl) SetSyntheticModifier(VK_CONTROL, false);
+    g_override = wasOn;
+    g_x = ox;
+    g_y = oy;
+    g_level = ol;
+    Log("drag %s from %.1f,%.1f to %.1f,%.1f floor %d%s: %s", ClassName(tool).c_str(), x0, y0, x1, y1, level,
+        ctrl ? " (Ctrl)" : "", ok ? "ok" : "crashed");
+    return ok;
 }
 
 bool ReadHeldObject(Ptr tool, HeldObject* out) {

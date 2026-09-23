@@ -236,6 +236,11 @@ std::string RatingName(int rating) {
     return game::GameString("Live.package", kNeedNames, kNameIndex[rating]);
 }
 
+std::string FundsText() {
+    Ptr funds = FindById(game::MainWindow(), kFundsId, 0);
+    return funds ? util::CleanForSpeech(game::Caption(funds)) : "";
+}
+
 void SelectMember(int index) {
     // The family's portraits: buttons of the Sim chooser, top to bottom.
     std::vector<Ptr> buttons;

@@ -137,4 +137,12 @@
     X(PlaceRoomSpots, "%1$s, %2$d spots")                                                                              \
     X(PlaceMoving, "moving %s: PageDown finds spots, Enter puts it down, Delete sells it, Escape puts it back")        \
     X(PlaceCannotPick, "%s cannot be picked up")                                                                       \
-    X(PlaceSold, "%s sold")
+    X(PlaceSold, "%s sold")                                                                                            \
+    /* Build mode */                                                                                                   \
+    X(BuildBegin, "%s: arrows move the corner, Space marks the start, Enter builds, Control+Enter removes, Escape leaves")\
+    X(BuildCorner, "corner %1$d, %2$d")                                                                                \
+    X(BuildMarked, "start marked at %1$d, %2$d")                                                                       \
+    X(BuildNoMark, "mark the start with Space first")                                                                  \
+    X(BuildDone, "built, %s")                                                                                          \
+    X(BuildRemoved, "removed, %s")                                                                                     \
+    X(BuildNothing, "nothing changed")                                                                                 \

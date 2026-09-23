@@ -189,6 +189,7 @@ struct Walker {
         for (int i = 0; i < game::kRatingCount; i++)
             if (p.ratings[i]) it.value += ", " + live::RatingName(i) + " " + std::to_string(p.ratings[i]);
         it.detail = util::CleanForSpeech(p.description);
+        it.buyObject = p.isObject;
         it.rect = game::ScreenRect(w);
         Add(groupKey, it);
         return true;

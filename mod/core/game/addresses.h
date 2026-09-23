@@ -162,7 +162,8 @@ constexpr int kFunctionFlags = 0x54;   // u16 buy mode categories: 1 comfort, 2 
 // the cTSProductObject it shows; the product's strings are cRZStrings (vtable, then std::string).
 namespace product {
 constexpr int kThumbnailProduct = 0x14;  // thumbnail proc -> product interface
-constexpr int kInterfaceOffset = 0x10c;  // that interface inside the cTSProductObject
+constexpr int kInterfaceOffset = 0x10c;  // that interface inside a cTSProductObject (other products:
+                                         // other offsets; the mod finds the object through RTTI)
 constexpr int kInternalName = 0x10;      // std::string ("Chair - Dining - Patio Plastic")
 constexpr int kName = 0x30;              // std::string, the catalog name in the game's language
 constexpr int kDescription = 0x50;       // std::string
@@ -189,7 +190,12 @@ constexpr int kHandlerTool = 0x28;           // the handler's current tool (cTSU
 namespace tool {
 constexpr uint32_t kPick = 0xa078d6c3;          // cTSUserToolBase slot 31: thiscall (sx, sy, float out[3], flag)
                                             // -> bool; out = {x, y, level (1 = ground)} in tiles
+constexpr uint32_t kPickAtLevel = 0xa078d6f0;    // slot 32: thiscall (sx, sy, int level, float out[3]) -> bool;
+                                                 // used instead of slot 31 once a pick is stored
 constexpr uint32_t kObjectVerdict = 0xa067f31a;  // cTSUserToolObject slot 86: thiscall (bool fits)
+constexpr int kSlotDispatch = 8;             // thiscall (int buttons, int message, int pos[2], bool handled):
+                                             // the message dispatcher 0xa078dc91 (buttons: 1 left,
+                                             // checked against the tool's +0x20 on a down)
 constexpr uint32_t kObjectPick = 0xa078d789;     // cTSUserToolBase slot 29: thiscall (sx, sy, 1, a, b)
                                                  // -> the scene node under the cursor (the node's
                                                  // 135-slot interface, see scenenode::), or 0
@@ -295,6 +301,7 @@ constexpr int kFlags = 0xfc;    // GetBtnFlag (0xa0936a5c): 1 on, 2 toggles on c
                                 // (radio), 0x1000 held down by the mouse
 constexpr uint32_t kFlagOn = 1;
 constexpr uint32_t kFlagToggle = 2;
+constexpr uint32_t kCheckBoxBits = 0xd4;  // check boxes (0x6d4): "Forzar reloj 12 hr."
 constexpr uint32_t kFlagChoice = 4;  // one of a set of options (the options pages' No / Si / Pequeno...
                                      // 0x604 / 0x605 when chosen; check boxes 0x6d4); plain buttons
                                      // 0x780, mode buttons 0x580 (hypothesis from the options pages)

@@ -31,6 +31,7 @@ struct Item {
     std::string detail;  // the rest of a tooltip ("Title|Description": the description)
     std::string value;   // Role::Product: price and ratings, spoken after the role
     int step = 0, steps = 0;  // Role::Slider
+    bool buyObject = false;   // Role::Product: an object (placed with nav::placement), not a wall or floor
     RECT rect = {};      // main window coordinates
     int number = 0;      // Role::Lot: the lot id
     int family = 0;      // Role::Lot: the family living there (its id), 0 when none

@@ -18,6 +18,7 @@ struct Product {
     std::string description;  // UTF-8
     std::string internalName;
     int price = 0;
+    bool isObject = false;  // a buy mode object (cTSProductObject); else a wall, floor, roof...
     uint32_t guid = 0;
     int ratings[kRatingCount] = {};  // what the hover popup shows ("Comodidad: 2")
 };
@@ -65,5 +66,12 @@ bool ReadHeldObject(Ptr tool, HeldObject* out);
 // only judges a spot that differs from the last one; the caller keeps the last verdict then),
 // -2 off the lot.
 int CheckSpot(Ptr tool, float x, float y, int level);
+
+// Drags a ground tool (walls, fences, rooms, floors) from one spot to another as the mouse does:
+// down at the first, a move to the second, up. With ctrl the game sees Ctrl held (removal).
+bool DragTool(Ptr tool, float x0, float y0, float x1, float y1, int level, bool ctrl);
+// One mouse message to a user tool's dispatcher (3 move, 4 down, 5 up; buttons 1 = left), at a
+// screen position (the ground pick decides where it lands while the override is on).
+bool ToolMessage(Ptr tool, int buttons, int message, int x, int y);
 
 }  // namespace game
