@@ -432,7 +432,11 @@ struct Walker {
             // A label beside a meter of steps (an interest, a skill): the meter is its value.
             if (Ptr bar = MeterFor(k)) {
                 int step, steps;
-                if (game::StepBar(bar, &step, &steps)) value = util::Format(S(Str::ValueOfMax), step, steps);
+                if (game::StepBar(bar, &step, &steps)) {
+                    // Without a tooltip the label's own text names the meter (a hobby's enthusiasm).
+                    if (title.empty()) title = value;
+                    value = util::Format(S(Str::ValueOfMax), step, steps);
+                }
             }
             if (value.empty()) return;
             it.label = title.empty() ? value : util::Format(S(Str::LabelValue), title.c_str(), value.c_str());
