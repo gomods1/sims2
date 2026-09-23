@@ -168,10 +168,10 @@ void Refresh(ULONGLONG now) {
     std::set<Ptr> keys;
     for (const Group& group : g.groups) keys.insert(group.key);
     // The mod's own groups (needs, action queue, lots) come and go with the game's state: they
-    // are no new panel, and never take the focus.
+    // are no new panel, and never take the focus; the interaction menu is one (it is news).
     int appeared = 0;
     for (Ptr k : keys)
-        if (!g.knownGroups.count(k) && k >= 0x10000) appeared++;
+        if (!g.knownGroups.count(k) && (k >= 0x10000 || k == kPieGroup)) appeared++;
     if (appeared > 0 && !g.announcePending) {
         g.announcePending = true;
         g.changedAt = now;
