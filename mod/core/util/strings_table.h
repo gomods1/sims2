@@ -41,6 +41,7 @@
     X(GroupLivePanel, "Sim panel")                                                                                     \
     X(GroupFamily, "family")                                                                                           \
     X(GroupWantsFears, "wants and fears")                                                                              \
+    X(GroupNeeds, "needs")                                                                                             \
     X(GroupControls, "controls")                                                                                       \
     /* Text fields */                                                                                                  \
     X(TextField, "%s %s, text field")                                                                                  \
@@ -93,4 +94,6 @@
     X(WalkingThere, "walking there")                                                                                   \
     X(CannotWalk, "cannot walk there")                                                                                 \
     X(NoSimSelected, "no Sim selected")                                                                                \
+    /* Needs */                                                                                                        \
+    X(MotiveValue, "%s, %d percent")                                                                                   \
     X(FundsChanged, "%1$s, %2$s left")

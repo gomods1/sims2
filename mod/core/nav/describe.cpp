@@ -24,6 +24,7 @@ std::string Describe(const Item& it) {
     case Role::Button:
     default: {
         std::string s = label + ", " + S(Str::RoleButton);
+        if (game::ButtonOn(it.widget)) s += std::string(", ") + S(Str::Selected);  // the current speed...
         if (!game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
         return s;
     }
@@ -41,6 +42,7 @@ std::string GroupName(const Group& g) {
         {"cTSWinProcLivePanel", Str::GroupLivePanel},
         {"cTSWinProcSimChooser", Str::GroupFamily},
         {"cTSWinProcPanelWantsAndFears", Str::GroupWantsFears},
+        {"cTSWinProcPanelMotives", Str::GroupNeeds},
         {"cTSWinProcNeighborhoodUCP", Str::GroupControlPanel},
     };
     for (const auto& p : kPanels)

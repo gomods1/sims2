@@ -83,6 +83,8 @@ const Translation kEntries[] = {
     {Str::WalkingThere, "正在走过去"},
     {Str::CannotWalk, "无法走到那里"},
     {Str::NoSimSelected, "未选中模拟市民"},
+    // Needs
+    {Str::MotiveValue, "%s，百分之%d"},
     {Str::FundsChanged, "%1$s，剩余%2$s"},
 };
 

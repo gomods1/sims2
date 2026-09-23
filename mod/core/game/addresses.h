@@ -55,6 +55,13 @@ constexpr uint32_t kIid = 0x4a490e00;
 constexpr int kSlotExecute = 7;
 }  // namespace cheat
 
+// cTSWinProcGradientFillBar: a meter (needs, aspiration). Value and range, ints.
+namespace fillbar {
+constexpr int kValue = 0x70;
+constexpr int kMin = 0x74;
+constexpr int kMax = 0x78;
+}  // namespace fillbar
+
 // cTSGlobals: the game's hub of managers ([0xa10cc288], created by 0xa020ddfb).
 namespace globals {
 constexpr uintptr_t kInstance = 0xa10cc288;

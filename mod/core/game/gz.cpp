@@ -126,6 +126,23 @@ std::string ProcClass(Ptr w) {
     return c.find("WinProc") != std::string::npos ? c : std::string();
 }
 
+Ptr Proc(Ptr w) {
+    Ptr proc = Rd<Ptr>(w + addr::win::kProc);
+    return ClassName(proc).find("WinProc") != std::string::npos ? proc : 0;
+}
+
+bool MeterPercent(Ptr w, int* percent) {
+    Ptr proc = Proc(w);
+    if (!IsKindOf(proc, "cTSWinProcGradientFillBar")) return false;
+    int v = Rd<int>(proc + addr::fillbar::kValue), lo = Rd<int>(proc + addr::fillbar::kMin),
+        hi = Rd<int>(proc + addr::fillbar::kMax);
+    if (hi <= lo) return false;
+    if (v < lo) v = lo;
+    if (v > hi) v = hi;
+    *percent = (int)((long long)(v - lo) * 100 / (hi - lo));
+    return true;
+}
+
 bool IsText(Ptr w) { return IsKindOf(w, "cGZWinText"); }
 bool IsTextEdit(Ptr w) { return IsKindOf(w, "cGZWinTextEdit"); }
 

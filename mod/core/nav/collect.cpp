@@ -101,11 +101,33 @@ struct Walker {
         return true;
     }
 
+    // A need on the needs panel (cTSWinProcMotiveBar): its label and its meter's fill.
+    bool Motive(Ptr w, const std::vector<Ptr>& kids, Ptr groupKey) {
+        if (game::ProcClass(w) != "cTSWinProcMotiveBar") return false;
+        std::string name;
+        int percent = -1;
+        for (Ptr k : kids) {
+            if (game::IsKindOf(k, "cTSWinTextLabel")) name = util::CleanForSpeech(game::Caption(k));
+            int p;
+            if (game::MeterPercent(k, &p)) percent = p;
+        }
+        if (name.empty() || percent < 0) return false;
+        Item it;
+        it.widget = w;
+        it.role = Role::Text;
+        it.label = util::Format(S(Str::MotiveValue), name.c_str(), percent);
+        it.rect = game::ScreenRect(w);
+        Add(groupKey, it);
+        return true;
+    }
+
     void Walk(Ptr w, int depth) {
         if (depth > 40) return;
         std::vector<Ptr> kids = game::Children(w);
         for (Ptr k : kids) {
             if (!game::Visible(k)) continue;
+            std::vector<Ptr> motiveKids = game::Children(k);
+            if (Motive(k, motiveKids, w)) continue;
             std::vector<Ptr> grandKids = game::Children(k);
             if (!grandKids.empty() && Thumbnail(k, grandKids, w)) continue;
             Visit(k, w);

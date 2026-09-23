@@ -61,7 +61,7 @@ const Translation kEntries[] = {
     {Str::CheatEmpty, "nejdřív napiš nebo vyber cheat"},
     // Money
     {Str::FundsNow, "peníze %s, %s"},
-    // Lot: object browser (PageUp/PageDown)
+    // Needs
     {Str::FundsChanged, "%1$s, zbývá %2$s"},
 };
 

@@ -40,6 +40,9 @@ bool ButtonOn(Ptr w);                // a toggle or radio button that is on
 bool ButtonToggles(Ptr w);
 bool CaptionShown(Ptr w);            // the button draws its caption (a value such as the funds)
 std::string ProcClass(Ptr w);        // the class of the window's proc (cTSWinProc*), empty if none
+Ptr Proc(Ptr w);                     // the window's proc object, 0 if none
+// A meter (a window with a cTSWinProcGradientFillBar): its fill as 0..100; false if none.
+bool MeterPercent(Ptr w, int* percent);
 
 // Text (cGZWinText, cGZWinTextEdit)
 bool IsText(Ptr w);

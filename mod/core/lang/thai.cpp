@@ -84,6 +84,8 @@ const Translation kEntries[] = {
     {Str::WalkingThere, "กำลังเดินไปที่นั่น"},
     {Str::CannotWalk, "เดินไปที่นั่นไม่ได้"},
     {Str::NoSimSelected, "ไม่ได้เลือกซิม"},
+    // Needs
+    {Str::MotiveValue, "%s, %d เปอร์เซ็นต์"},
     {Str::FundsChanged, "%1$s เหลือ %2$s"},
 };
 
