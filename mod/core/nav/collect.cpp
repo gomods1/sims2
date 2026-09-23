@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 
+#include "../game/buy.h"
 #include "../game/gz.h"
 #include "../game/hooks.h"
 #include "../game/rtti.h"
@@ -123,13 +124,37 @@ struct Walker {
         return true;
     }
 
+    // A catalog product (a thumbnail of the buy mode catalog): its name, price and ratings; the
+    // description goes to the details. Enter presses its button (picks it up).
+    bool Product(Ptr w, const std::vector<Ptr>& kids, Ptr groupKey) {
+        if (game::ProcClass(w) != "cTSWinProcCatalogThumbnail") return false;
+        game::Product p;
+        if (!game::ReadProduct(w, &p)) return true;
+        Item it;
+        it.role = Role::Product;
+        for (Ptr k : kids)
+            if (game::Visible(k) && game::IsButton(k)) it.widget = k;
+        if (!it.widget) return true;
+        it.label = util::CleanForSpeech(p.name.empty() ? p.internalName : p.name);
+        it.value = util::CleanForSpeech(game::Tooltip(it.widget));
+        for (int i = 0; i < game::kRatingCount; i++)
+            if (p.ratings[i]) it.value += ", " + live::RatingName(i) + " " + std::to_string(p.ratings[i]);
+        it.detail = util::CleanForSpeech(p.description);
+        it.rect = game::ScreenRect(w);
+        Add(groupKey, it);
+        return true;
+    }
+
     void Walk(Ptr w, int depth) {
         if (depth > 40) return;
         std::vector<Ptr> kids = game::Children(w);
         for (Ptr k : kids) {
             if (!game::Visible(k)) continue;
+            // The needs panel repeats the lot view's own needs group (from the Sim's data).
+            if (game::ProcClass(k) == "cTSWinProcPanelMotives") continue;
             std::vector<Ptr> motiveKids = game::Children(k);
             if (Motive(k, motiveKids, w)) continue;
+            if (Product(k, motiveKids, w)) continue;
             std::vector<Ptr> grandKids = game::Children(k);
             if (!grandKids.empty() && Thumbnail(k, grandKids, w)) continue;
             Visit(k, w);
@@ -251,6 +276,18 @@ std::vector<Group> Collect(Ptr root) {
         g.items = kept;
         if (g.items.empty()) continue;
         std::stable_sort(g.items.begin(), g.items.end(), TopToBottom);
+        // A text the game wrapped over several windows (the next piece starts in lowercase) is one item.
+        std::vector<Item> merged;
+        for (const Item& it : g.items) {
+            if (!merged.empty() && it.role == Role::Text && merged.back().role == Role::Text &&
+                util::StartsLowercase(it.label)) {
+                util::AppendSentence(merged.back().label, it.label);
+                UnionRect(&merged.back().rect, &merged.back().rect, &it.rect);
+            } else {
+                merged.push_back(it);
+            }
+        }
+        g.items = merged;
         g.bounds = g.items[0].rect;
         for (const Item& it : g.items) UnionRect(&g.bounds, &g.bounds, &it.rect);
         out.push_back(std::move(g));

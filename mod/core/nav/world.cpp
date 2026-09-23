@@ -168,6 +168,21 @@ void Speak(const LotObject& o, const LotObject* sim, const std::string& prefix) 
 
 }  // namespace
 
+std::string WhereFromSim(float x, float y, int level) {
+    LotObject simObj;
+    if (!SimPosition(&simObj)) return "";
+    LotObject spot;
+    spot.x = x;
+    spot.y = y;
+    spot.level = level;
+    return Where(spot, &simObj);
+}
+
+std::string RoomNameAt(float x, float y, int level) {
+    int room = game::RoomAt(x, y, level);
+    return room < 0 ? "" : RoomName(level, room, game::LotObjects());
+}
+
 bool LotViewActive() {
     // The live panel's proc or the buy/build panels: the lot view is up.
     Ptr main = game::MainWindow();

@@ -43,6 +43,8 @@
     X(GroupWantsFears, "wants and fears")                                                                              \
     X(GroupNeeds, "needs")                                                                                             \
     X(GroupControls, "controls")                                                                                       \
+    X(GroupBuyPanel, "buy mode")                                                                                       \
+    X(GroupCatalog, "catalog")                                                                                         \
     /* Text fields */                                                                                                  \
     X(TextField, "%s %s, text field")                                                                                  \
     X(Blank, "blank")                                                                                                  \
@@ -115,4 +117,14 @@
     /* Lot: rooms */                                                                                                   \
     X(RoomObjects, "%s, %d objects")                                                                                   \
     X(RoomObjectsOne, "%s, 1 object")                                                                                  \
-    X(FundsChanged, "%1$s, %2$s left")
+    X(FundsChanged, "%1$s, %2$s left")                                                                                 \
+    /* Buy mode */                                                                                                     \
+    X(PlaceBegin, "%s: arrows move it, Enter puts it down, Escape cancels")                                            \
+    X(PlaceTile, "tile %1$d, %2$d")                                                                                    \
+    X(PlaceOffLot, "off the lot")                                                                                      \
+    X(PlaceFits, "fits")                                                                                               \
+    X(PlaceBlocked, "does not fit here")                                                                               \
+    X(PlacePlaced, "%s placed")                                                                                        \
+    X(PlaceFacing, "facing %s")                                                                                        \
+    X(PlaceNoSpot, "it fits nowhere on this lot as it is turned")                                                      \
+    X(PlaceRoomSpots, "%1$s, %2$d spots")

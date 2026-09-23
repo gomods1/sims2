@@ -137,7 +137,11 @@ constexpr int kFamily = 0x1a70;        // std::vector of the family's Sims (cTSP
 namespace object {
 constexpr int kSlotName = 92;          // const char* name
 constexpr int kSlotLocation = 33;      // -> {int x, int y}, 16.16 fixed point, in tiles
-constexpr int kSlotLevel = 36;         // short, 1 = ground floor
+constexpr int kSlotLevel = 36;         // short: 0 the terrain, 1 the ground floor of a house on a
+                                       // foundation (a patio set outside reads 0, the rooms 1)
+constexpr int kDirection = 0xa8;       // short, SimAntics direction: 0 faces -x, 2 +y, 4 +x, 6 -y (a
+                                       // dining set: each chair faces its table); the object tool's
+                                       // rotation is the same number for the held object
 constexpr int kDefinition = 0x238;     // -> cTSPersistResourceT<cEdithObjectDefinition> (OBJD)
 }  // namespace object
 
@@ -147,10 +151,58 @@ constexpr int kGuid = 0x20;
 constexpr int kPrice = 0x28;
 constexpr int kRoomFlags = 0x52;       // u16 buy mode rooms: 1 kitchen, 2 bedroom, 4 bathroom, 8 living,
                                        // 0x10 outside, 0x20 dining, 0x40 misc, 0x80 study, 0x100 kids
+constexpr int kRatings = 0xa8;         // s16 [7]: hunger, comfort, hygiene, bladder, energy, fun, room
+                                       // (OBJD fields 82..88; the data's u16 fields start at +4)
 constexpr int kFunctionFlags = 0x54;   // u16 buy mode categories: 1 comfort, 2 surfaces, 4 appliances,
                                        // 8 electronics, 0x10 plumbing, 0x20 decorative, 0x40 misc,
                                        // 0x80 lighting, 0x100 hobbies (checked on known objects)
 }  // namespace objd
+
+// Buy mode catalog: each cTSWinProcCatalogThumbnail (a thumbnail window's proc, win::kProc) holds
+// the cTSProductObject it shows; the product's strings are cRZStrings (vtable, then std::string).
+namespace product {
+constexpr int kThumbnailProduct = 0x14;  // thumbnail proc -> product interface
+constexpr int kInterfaceOffset = 0x10c;  // that interface inside the cTSProductObject
+constexpr int kInternalName = 0x10;      // std::string ("Chair - Dining - Patio Plastic")
+constexpr int kName = 0x30;              // std::string, the catalog name in the game's language
+constexpr int kDescription = 0x50;       // std::string
+constexpr int kPrice = 0xac;             // int
+constexpr int kSelector = 0xfc;          // cTSObjectSelector
+constexpr int kSelectorObjd = 0x60;      // selector -> the OBJD resource (objd:: offsets apply)
+constexpr int kThumbnailButton = 0x10;   // thumbnail proc -> its cGZWinBtn interface (the click)
+}  // namespace product
+
+// The main toolbar (cTSMainToolbar), a system service: the current UI mode and the current user tool.
+namespace toolbar {
+constexpr uint32_t kServiceId = 0xe92db716;  // (kept by the service at +0xc)
+constexpr uint32_t kIidUnknown = 1;          // cIGZUnknown: the service object itself
+constexpr int kMode = 0x74;                  // cTSUIModeLive / cTSUIModeBuy / cTSUIModeBuild ...
+constexpr int kToolHandler = 0x90;           // cTSUserToolHandler, its interface at +8
+constexpr int kHandlerInterface = 8;
+constexpr int kHandlerTool = 0x28;           // the handler's current tool (cTSUserTool*)
+}  // namespace toolbar
+
+// User tools (cTSUserToolBase and subclasses: the object placement tool cTSUserToolObject, walls,
+// floors...). Mouse moves reach the tool's handler (0xa078eb62), which picks the ground under the
+// cursor through slot 31 and keeps the spot; the object tool then moves the held object there,
+// checks it (slot 71) and tints it (slot 86: fits or not).
+namespace tool {
+constexpr uint32_t kPick = 0xa078d6c3;          // cTSUserToolBase slot 31: thiscall (sx, sy, float out[3], flag)
+                                            // -> bool; out = {x, y, level (1 = ground)} in tiles
+constexpr uint32_t kObjectVerdict = 0xa067f31a;  // cTSUserToolObject slot 86: thiscall (bool fits)
+constexpr uint32_t kMouseLeave = 0xa078ec6d;     // cTSUserToolBase slot 48: thiscall (); tool message 6,
+                                                 // the cursor left the 3D view: clears kOverLot
+constexpr int kOverLot = 0x50;              // u8: the last pick is on the lot (slots 59/60)
+constexpr int kPicked = 0x54;               // float x, y, int level: the last pick
+constexpr int kSnapped = 0x80;              // float x, y, int level: where the held object stands
+constexpr int kHeldGuid = 0xa4;             // the held object's GUID
+constexpr int kRotation = 0xa0;             // int, the held object's direction: steps of 2 (8 = a turn),
+                                            // not wrapped (the game's , and . add -2 / +2)
+constexpr int kSlotMouseMessage = 42;       // thiscall (int message, int pos[2] screen): 3 = move; runs
+                                            // the pick (slot 31) and keeps it
+constexpr int kSlotMouseMove = 45;          // thiscall (int pos[2]): after 42 for a move; the object
+                                            // tool moves the held object to the pick and judges it
+}  // namespace tool
 
 // Rooms, as Lua's GetRoomAtLocation (0xa05673c0): the world service (framework GetSystemService
 // 0x4a037ee3 / iid 0x49ff7d6f, cached by the game at [0xa10cc45c]); its slot 39 gives the room

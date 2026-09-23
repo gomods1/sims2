@@ -4,6 +4,8 @@
 
 #include "../util/log.h"
 #include "addresses.h"
+#include "buy.h"
+#include "rtti.h"
 #include "memory.h"
 #include "mouse.h"
 #include "objects.h"
@@ -11,6 +13,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <string>
 
 namespace game {
 namespace {
@@ -44,6 +47,17 @@ void DevCommand(const std::string& line) {
     else if (!strcmp(name, "move")) MouseMove(a, b);
     else if (!strcmp(name, "release")) MouseRelease();
     else if (!strcmp(name, "pie")) ShowInteractions(a);
+    else if (!strcmp(name, "check")) {
+        // !check x y n: time n spot checks along x from (x, y)
+        LARGE_INTEGER f, t0, t1;
+        QueryPerformanceFrequency(&f);
+        QueryPerformanceCounter(&t0);
+        std::string verdicts;
+        for (int i = 0; i < (c ? c : 1); i++)
+            verdicts += std::to_string(CheckSpot(CurrentTool(), a + i + 0.5f, b + 0.5f, 1)) + " ";
+        QueryPerformanceCounter(&t1);
+        Log("check: tool %p (%s): %s in %.1f ms", (void*)CurrentTool(), (ClassName(CurrentTool()) + " mode " + CurrentModeClass()).c_str(), verdicts.c_str(), (t1.QuadPart - t0.QuadPart) * 1000.0 / f.QuadPart);
+    }
     else if (!strcmp(name, "rooms")) {
         for (const LotObject& o : LotObjects())
             if (o.x >= 0) Log("  object %d \"%s\" floor %d room %d flags %x", o.id, o.catalogName.c_str(), o.level, o.room, o.roomFlags);

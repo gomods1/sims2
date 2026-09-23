@@ -12,6 +12,7 @@
 #include "collect.h"
 #include "describe.h"
 #include "nhood_view.h"
+#include "placement.h"
 #include "live.h"
 #include "world.h"
 
@@ -222,6 +223,7 @@ void Tick() {
     }
     world::Tick();
     live::Tick();
+    placement::Tick();
     if (now - g.lastCollect < kRefreshMs) return;
     g.lastCollect = now;
     Refresh(now);
@@ -309,6 +311,7 @@ void Activate() {
     g.pressedAt = GetTickCount64();
     g.pressedWasOn = game::ButtonOn(it->widget);
     game::Press(it->widget);
+    if (it->role == Role::Product) placement::Begin(it->label);
 }
 
 void RepeatFocus() {

@@ -5,6 +5,7 @@
 #include "../game/hooks.h"
 #include "../nav/buffers.h"
 #include "../nav/navigator.h"
+#include "../nav/placement.h"
 #include "../nav/live.h"
 #include "../nav/world.h"
 #include "../speech/speech.h"
@@ -41,6 +42,14 @@ bool IsModifier(WPARAM vk) { return vk == VK_SHIFT || vk == VK_CONTROL || vk == 
 bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     bool typing = nav::TextEntryActive();
     bool lot = !typing && nav::world::LotViewActive();
+    if (lot && nav::placement::Active()) {
+        if (nav::placement::OnKey(vk, shift, ctrl)) {
+            if (vk == 'R') g_swallowChar = 'r';
+            if (vk == VK_RETURN) g_swallowChar = '\r';
+            return true;
+        }
+        if (vk == VK_ESCAPE || vk == VK_OEM_COMMA || vk == VK_OEM_PERIOD) return false;
+    }
     if (vk != VK_PRIOR && vk != VK_NEXT && vk != VK_RETURN && vk != 'R') g_worldFocus = false;
     switch (vk) {
     case VK_PRIOR: case VK_NEXT:

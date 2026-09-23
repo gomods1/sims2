@@ -13,6 +13,9 @@ namespace game {
 void InitHooks();
 void ShutdownHooks();
 
+// Hooks a game function (preferred VA) whose prologue matched at startup; logs the outcome.
+bool HookGame(const char* name, Ptr preferredVa, void* detour, void** original);
+
 // Modal windows the game is running (cGZWinMgrW32::DoModalWin), innermost last. Their loops run
 // inside the game's message pump, so the mod keeps ticking while one is open.
 const std::vector<Ptr>& ModalStack();

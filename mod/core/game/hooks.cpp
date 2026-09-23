@@ -7,6 +7,7 @@
 #include "../util/log.h"
 #include "MinHook.h"
 #include "addresses.h"
+#include "buy.h"
 #include "gz.h"
 #include "rtti.h"
 
@@ -96,20 +97,20 @@ void HookApi(const char* name, void* detour, KeyStateFn* original) {
     Log("hook %s: %s", name, MH_StatusToString(st));
 }
 
-template <class T>
-bool TryHook(const char* name, Ptr preferredVa, void* detour, T* original) {
+}  // namespace
+
+bool HookGame(const char* name, Ptr preferredVa, void* detour, void** original) {
+    if (!g_minhookReady) return false;
     if (!FunctionOk(preferredVa)) {
         Log("hook %s skipped: signature mismatch", name);
         return false;
     }
     void* target = (void*)Va(preferredVa);
-    MH_STATUS st = MH_CreateHook(target, detour, (void**)original);
+    MH_STATUS st = MH_CreateHook(target, detour, original);
     if (st == MH_OK) st = MH_EnableHook(target);
     Log("hook %s at %p: %s", name, target, MH_StatusToString(st));
     return st == MH_OK;
 }
-
-}  // namespace
 
 void InitHooks() {
     MH_STATUS st = MH_Initialize();
@@ -118,7 +119,8 @@ void InitHooks() {
         Log("MinHook init failed: %s", MH_StatusToString(st));
         return;
     }
-    TryHook("cGZWinMgrW32::DoModalWin", 0xa0972f48, (void*)DoModalDetour, &g_doModal);
+    HookGame("cGZWinMgrW32::DoModalWin", 0xa0972f48, (void*)DoModalDetour, &g_doModal);
+    InitBuyHooks();
     HookApi("GetAsyncKeyState", (void*)GetAsyncKeyStateDetour, &g_getAsyncKeyState);
     HookApi("GetKeyState", (void*)GetKeyStateDetour, &g_getKeyState);
 }

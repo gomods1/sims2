@@ -15,6 +15,7 @@ std::string Describe(const Item& it) {
     case Role::Lot: return label;
     case Role::PieItem: return label;
     case Role::QueuedAction: return label + ", " + S(Str::RoleButton);
+    case Role::Product: return label + ", " + S(Str::RoleButton) + (it.value.empty() ? "" : ", " + it.value);
     case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
     case Role::Toggle: {
         std::string s = label + ", " + S(Str::RoleButton);
@@ -44,6 +45,8 @@ std::string GroupName(const Group& g) {
         {"cTSWinProcPanelWantsAndFears", Str::GroupWantsFears},
         {"cTSWinProcPanelMotives", Str::GroupNeeds},
         {"cTSWinProcNeighborhoodUCP", Str::GroupControlPanel},
+        {"cTSWinProcBuyPanel", Str::GroupBuyPanel},
+        {"cTSWinProcCatalog", Str::GroupCatalog},
     };
     for (const auto& p : kPanels)
         if (g.proc == p.proc) return S(p.name);

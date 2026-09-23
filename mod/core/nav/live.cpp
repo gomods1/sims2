@@ -229,6 +229,13 @@ void SayStatus() {
     speech::Say(line);
 }
 
+std::string RatingName(int rating) {
+    // hunger, comfort, hygiene, bladder, energy, fun, room -> Live.package STR# 130
+    static const int kNameIndex[] = {1, 5, 9, 13, 3, 7, 15};
+    if (rating < 0 || rating >= 7) return "";
+    return game::GameString("Live.package", kNeedNames, kNameIndex[rating]);
+}
+
 void SelectMember(int index) {
     // The family's portraits: buttons of the Sim chooser, top to bottom.
     std::vector<Ptr> buttons;
