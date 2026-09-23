@@ -222,6 +222,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "아기"},
     {Str::IconDoor, "문"},
     {Str::IconBabyQuestion, "아기?"},
+    {Str::FamilyTreePicked, "%s 선택됨: 다른 심에서 Enter로 관계 연결, 다시 Enter로 내려놓기"},
 };
 
 }  // namespace

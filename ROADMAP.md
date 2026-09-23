@@ -33,7 +33,7 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   skills, personality, interests, hobby enthusiasm, memories, chemistry, rewards and inventory.
 - Create a Family / Sim / Pet: names, age, sex, skin, body, grids ("3 of 6"; pet breeds by name),
   personality with the points left, pet trait pairs, aspiration, star sign, turn-ons; accepting;
-  the family bin; moving in.
+  the family tree (pick up, drop on another); the family bin; moving in.
 - Build mode: walls, fences, rooms, foundations (corners); floors and pools (tiles); doors,
   windows and stairs through placement's spots; the cost of each change.
 - Travel: taxi from home to a community lot, Options > Barrio back; saving (Options > Guardar).
@@ -44,7 +44,7 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   checks before building walls (shutting a Sim in, cutting objects off); ready-made rooms.
 - Buy mode: the game's reason when a spot is refused (STR# 0x89), which directions fit a spot,
   multi-tile objects' footprint in the spot line.
-- Create a Sim: the family's relationships (the drag screen), names for heads, hair, clothes (no
+- Create a Sim: names for heads, hair, clothes (no
   names in the game: perhaps colors and categories), group names without design captions.
 - Balloons still unnamed: job, University's professor sheet, wants and fears (flag 0x2000).
 - Expansion content, checked one by one through the generic navigation, dedicated readers where

@@ -226,6 +226,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "miminko"},
     {Str::IconDoor, "dveře"},
     {Str::IconBabyQuestion, "miminko?"},
+    {Str::FamilyTreePicked, "%s vybrán: Enter na jiném Simovi je propojí, znovu Enter pustí"},
 };
 
 }  // namespace

@@ -229,6 +229,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "малыш"},
     {Str::IconDoor, "дверь"},
     {Str::IconBabyQuestion, "малыш?"},
+    {Str::FamilyTreePicked, "%s выбран: Enter на другом симе связывает их, снова Enter отпускает"},
 };
 
 }  // namespace

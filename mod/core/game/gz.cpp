@@ -248,6 +248,14 @@ bool ClickWindow(Ptr w) {
     return true;
 }
 
+bool DragWindow(Ptr from, Ptr to) {
+    RECT a = ScreenRect(from), b = ScreenRect(to);
+    POINT p = UiToClient((a.left + a.right) / 2, (a.top + a.bottom) / 2);
+    POINT q = UiToClient((b.left + b.right) / 2, (b.top + b.bottom) / 2);
+    MouseDrag(p.x, p.y, q.x, q.y);
+    return true;
+}
+
 bool Press(Ptr w) {
     RECT r = Area(w);
     return PressAt(w, (r.right - r.left) / 2, (r.bottom - r.top) / 2);

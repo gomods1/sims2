@@ -233,6 +233,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "Baby"},
     {Str::IconDoor, "Tür"},
     {Str::IconBabyQuestion, "ein Baby?"},
+    {Str::FamilyTreePicked, "%s aufgenommen: Eingabe auf einem anderen Sim verbindet sie, erneut Eingabe legt ab"},
 };
 
 }  // namespace

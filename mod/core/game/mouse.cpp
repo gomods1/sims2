@@ -82,6 +82,42 @@ void MouseClick(int x, int y, bool right) {
 
 void MouseRelease() { g_active = false; }
 
+namespace {
+// A drag in progress, one message per tick (the game reads the cursor between its frames).
+struct Drag {
+    int step = 0;  // 0 none
+    POINT from = {}, to = {};
+} g_drag;
+constexpr int kDragMoves = 5;
+}  // namespace
+
+void MouseDrag(int x0, int y0, int x1, int y1) {
+    g_drag.step = 1;
+    g_drag.from = {x0, y0};
+    g_drag.to = {x1, y1};
+}
+
+bool MouseDragging() { return g_drag.step != 0; }
+
+void MouseTick() {
+    if (!g_drag.step || !g_hwnd) return;
+    int step = g_drag.step++;
+    POINT a = g_drag.from, b = g_drag.to;
+    if (step == 1) {
+        MouseMove(a.x, a.y);
+    } else if (step == 2) {
+        PostMessageA(g_hwnd, WM_LBUTTONDOWN, MK_LBUTTON, Coords(a.x, a.y));
+    } else if (step <= 2 + kDragMoves) {
+        int k = step - 2;  // 1..kDragMoves: along the way to the end
+        int x = a.x + (b.x - a.x) * k / kDragMoves, y = a.y + (b.y - a.y) * k / kDragMoves;
+        g_client = {x, y};
+        PostMessageA(g_hwnd, WM_MOUSEMOVE, MK_LBUTTON, Coords(x, y));
+    } else {
+        PostMessageA(g_hwnd, WM_LBUTTONUP, 0, Coords(b.x, b.y));
+        g_drag.step = 0;
+    }
+}
+
 bool MouseActive() { return g_active; }
 
 HWND GameWindow() { return g_hwnd; }

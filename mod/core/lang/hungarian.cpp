@@ -230,6 +230,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "baba"},
     {Str::IconDoor, "ajtó"},
     {Str::IconBabyQuestion, "egy baba?"},
+    {Str::FamilyTreePicked, "%s kiválasztva: Enter egy másik simen összeköti őket, újra Enter elengedi"},
 };
 
 }  // namespace

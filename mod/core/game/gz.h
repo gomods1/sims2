@@ -73,6 +73,8 @@ bool Press(Ptr w);
 // Clicks the centre of a window with the virtual mouse (game/mouse.h): for windows whose proc
 // takes the click from the window manager's mouse messages (pie menu entries).
 bool ClickWindow(Ptr w);
+// Drags one window onto another with the virtual mouse (over the next ticks: game::MouseTick).
+bool DragWindow(Ptr from, Ptr to);
 // UI coordinates (the main window's, 1478x924 on a 2560x1600 client) to client pixels.
 POINT UiToClient(int x, int y);
 bool PressAt(Ptr w, int x, int y);   // window coordinates

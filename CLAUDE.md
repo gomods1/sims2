@@ -99,6 +99,10 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     typing is echoed; Enter runs the line (Enter goes to a game field after typing into it since the
     last navigation key); what the command writes to the output is spoken (`nav/console.cpp`; the
     output grows past 40 KB with the game's log lines, read by offset).
+  - Family tree (Create a Family > Relaciones de familia): Enter on a Sim picks it up ("ana
+    seleccionado: Intro sobre otro Sim..."), Enter on another drags it there with the virtual mouse
+    (`game::DragWindow`, one message per tick), Enter on the same one puts it down; the game then asks
+    how they are related.
   - Ctrl+N: the narrator speaks everything, warnings only (urgent needs, visitors), or nothing
     (`[mod] narrator=2/1/0` in `Sims2Access.ini`); every line still goes to the events buffer.
   - Balloons (`nav/balloons.cpp`, `game/simantics.cpp`; layouts in `STRUCTS.md` "SimAntics"): the

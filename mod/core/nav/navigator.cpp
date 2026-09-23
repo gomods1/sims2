@@ -7,6 +7,7 @@
 #include "../game/addresses.h"
 #include "../game/cheats.h"
 #include "../game/gz.h"
+#include "../game/mouse.h"
 #include "../game/rtti.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -42,6 +43,7 @@ struct State {
     ULONGLONG changedAt = 0;
     std::set<Ptr> announcedGroups; // groups whose texts were read since the last screen change
     Ptr pressed = 0;               // the last pressed widget, for its new state
+    Ptr dragFrom = 0;              // the family tree: the Sim picked up to drop on another
     ULONGLONG pressedAt = 0;
     bool pressedWasOn = false;
     std::vector<std::pair<Ptr, std::string>> textsBefore;  // the screen's texts before the press
@@ -217,7 +219,19 @@ void FinishPageTurn(ULONGLONG now);
 
 void Reset() { g = State(); }
 
+// Create a Family's family tree ("drag a Sim onto another"): its instruction text has this id,
+// its Sims are buttons with id 3.
+constexpr uint32_t kFamilyTreeText = 0x8cdd9478;
+bool InFamilyTree(Ptr w) {
+    if (game::WinId(w) != 3 || !game::IsButton(w)) return false;
+    for (Ptr p = game::Parent(w); p; p = game::Parent(p))
+        for (Ptr c : game::Children(p))
+            if (game::WinId(c) == kFamilyTreeText) return true;
+    return false;
+}
+
 void Tick() {
+    game::MouseTick();
     ULONGLONG now = GetTickCount64();
     if (game::g_screenDumpRequested) {
         game::g_screenDumpRequested = false;
@@ -388,6 +402,22 @@ void Activate() {
     }
     if (!game::Enabled(it->widget)) {
         speech::Say(Describe(*it));
+        return;
+    }
+    // The family tree: Enter picks a Sim up, Enter on another drops it there (the game then asks
+    // how they are related); Enter on the same one again puts it down.
+    if (InFamilyTree(it->widget)) {
+        if (!g.dragFrom || !game::Visible(g.dragFrom)) {
+            g.dragFrom = it->widget;
+            speech::Say(util::Format(S(Str::FamilyTreePicked), it->label.c_str()));
+        } else if (g.dragFrom == it->widget) {
+            g.dragFrom = 0;
+            speech::Say(S(Str::Cancelled));
+        } else {
+            Log("family tree: drag %s onto %s", game::Caption(g.dragFrom).c_str(), it->label.c_str());
+            game::DragWindow(g.dragFrom, it->widget);
+            g.dragFrom = 0;
+        }
         return;
     }
     Log("press %s %p (%s)", game::ClassName(it->widget).c_str(), (void*)it->widget, it->label.c_str());

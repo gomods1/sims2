@@ -220,6 +220,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "嬰兒"},
     {Str::IconDoor, "門"},
     {Str::IconBabyQuestion, "嬰兒？"},
+    {Str::FamilyTreePicked, "已選取%s：在另一個模擬市民上按Enter建立關係，再按Enter放下"},
 };
 
 }  // namespace

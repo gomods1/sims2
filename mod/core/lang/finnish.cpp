@@ -231,6 +231,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "vauva"},
     {Str::IconDoor, "ovi"},
     {Str::IconBabyQuestion, "vauva?"},
+    {Str::FamilyTreePicked, "%s valittu: Enter toisen simin kohdalla yhdistää heidät, Enter uudelleen peruu"},
 };
 
 }  // namespace

@@ -15,6 +15,11 @@ void MouseClick(int x, int y, bool right = false);
 // The virtual cursor stays in place until released (the game polls it between messages).
 void MouseRelease();
 bool MouseActive();
+// A drag with the left button from one client point to another, over the next ticks (MouseTick,
+// once per tick): press, a few moves on the way, release.
+void MouseDrag(int x0, int y0, int x1, int y1);
+bool MouseDragging();
+void MouseTick();
 HWND GameWindow();
 
 }  // namespace game
