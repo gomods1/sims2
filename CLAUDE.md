@@ -79,8 +79,17 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     the "cursor left the view" handler is skipped, the virtual mouse sits in the 3D view and
     moves a pixel to make the tool re-pick; picking up an object hooks the object pick to answer
     with that object's scene node (STRUCTS.md "Buy mode").
-  - A text field the player can edit takes letters, Space, Enter, Home/End, Left/Right and Tab
-    (the cheat console runs its line on Enter).
+  - A text field the player can edit takes letters, Space and Backspace (each echoed); Enter,
+    Home/End and Left/Right go to it only while the mod's focus is on the field (Create a Family
+    keeps its surname field focused all along). A field's name is the prompt it first showed.
+  - Sliders (Create a Sim's personality): Left/Right change them, with the points left.
+  - Neighborhood: choose a family in the family bin (F1 panel), then Enter on a lot in the lots
+    list: the game asks whether to move the family in and at what cost.
+  - Build mode (`nav/build.cpp`): Enter on a wall, floor, foundation or pool style starts a cursor;
+    arrows move it (Shift five), PageUp/PageDown change level (0 terrain, 1 a foundation's floor),
+    Space marks the start, Enter builds from the mark to the cursor, Ctrl+Enter removes; the cost is
+    said. The mod drags the game's own tool, one mouse message per tick.
+  - Ctrl+Enter on the object browser: walk the selected Sim there (Ctrl+Shift+Enter runs).
 - Game key bindings: `extracted/accelerators.txt` (from `ui.package`, type 0xA2E3D533). Lot view:
   F1-F5 modes, P/Pause/`/NumPad0 pause, 1-3 speeds, Space/N next Sim, PageUp/PageDown floors,
   Home/End wall mode, Return centers on the Sim, H/E/R/F/J/M build tools, L day/night, Tab/Y camera

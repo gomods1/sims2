@@ -36,10 +36,21 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   what is on screen), edge scrolling off.
 - Sim names in full (neighbor data), relationships, skills, job, aspiration, personality,
   interests, inventory.
+- Create a Family / Create a Sim: names (typing echoed), age, sex, skin tone, body shape, heads
+  and other grids ("3 of 6"), personality sliders with the points left, aspiration, star sign,
+  turn-ons; accept the Sim and the family; the family bin; moving a family in (Enter on a lot
+  with the family chosen: the game's own question and cost).
+- Build mode: walls, fences, rooms, foundations by corners; floors and pools by tiles (a cursor,
+  Space marks, Enter builds, Ctrl+Enter removes, PageUp/PageDown levels), with the cost.
+- Walking to an object (Ctrl+Enter; Ctrl+Shift+Enter runs).
 - Buy mode, still: the catalog's next pages (the scrollbar and page buttons), the game's reason
   when a spot is refused (STR# 0x89), which directions fit a spot, doors and windows, multi-tile
   objects' footprint in the spot line.
-- Build mode: walls, floors, doors and windows, stairs, pools, terrain (the Sims 1 mod's cursor).
+- Build mode, still: walls' checks before building (shutting a Sim in, cutting objects off),
+  ready-made rooms, the room's layout (Ctrl+L), doors and windows (objects: buy placement's spots
+  on walls), stairs, roofs, terrain, wallpaper, the build catalog's names for groups.
+- Create a Sim, still: names for heads, hair, clothes (their property sets), the family's
+  relationships, pets, the CAS group names without design captions (skin, body).
 - Create a Sim / family (CAS): names, age, gender, personality, aspiration, looks (with the
   game's own names where they exist), and the family bin, moving families in and out.
 - Expansion content: university (dorms, classes), nightlife (dates, cars), business, pets,

@@ -14,6 +14,9 @@ startup are in `mod/core/game/memory.cpp`.
 | 0xa078d6c3 | `cTSUserToolBase` slot 31: ground pick (sx, sy, float out[3], flag) -> bool | thiscall, 4 args | answers with the mod's spot while it places (every ground tool) | Frida: the move handler 0xa078eb62 calls it with the cursor, then stores the spot |
 | 0xa067f31a | `cTSUserToolObject` slot 86: set fits (bool) | thiscall, 1 arg | records the tool's verdict on the held object's spot | Frida: 1 / 0 as the object turns green / red |
 | 0xa078ec6d | `cTSUserToolBase` slot 48: the cursor left the view | thiscall, 0 args (a thunk to slot 60) | skipped while the mod places (the real cursor is elsewhere) | Frida: it cleared +0x50 every time |
+| 0xa078d6f0 | `cTSUserToolBase` slot 32: pick at a level (sx, sy, level, float out[3]) -> bool | thiscall, 4 args | answers with the mod's spot too (the tools switch to it once a pick is stored: walls) | Frida: the wall tool's down got the real pick until it was hooked |
+| 0xa079a5a4 | neighborhood tools' slot 24: lot under the cursor (int pos[2], int* lot, cIGZString* name) -> bool | thiscall, 3 args | answers with the lot the player chose (move in) | decompiled; live (the move-in question) |
+| user32 `GetCursorInfo` | cursor shown? | stdcall | reports the virtual cursor as shown (the neighborhood's tools ignore the mouse otherwise) | live |
 | 0xa078d789 | `cTSUserToolBase` slot 29: object pick (sx, sy, 1, a, b) -> scene node interface | thiscall, 5 args | answers with a lot object's node while the mod clicks to pick it up | Frida: returns the node under the cursor (Sims, furniture) |
 
 ## Called

@@ -120,3 +120,51 @@ subclass used for labels showing a value (tooltip names it).
 - Placement errors: UIText.package STR# 0x89 ("Can't intersect other objects", "Must be against
   wall" ...), the tooltip the game shows while a spot is refused. Where the tool keeps the
   current error was not found yet.
+
+## Build mode
+
+- The dragged build tools (`cTSUserToolWall` for walls, fences and rooms, `cTSUserToolFloorPattern`,
+  `cTSUserToolDeckFoundation`, `cTSUserToolCurvedPool`) share the object tool's dispatcher (slot 8,
+  0xa078dc91: thiscall (int buttons, int message, int pos[2], bool handled); buttons 1 = left, checked
+  on a down against the tool's +0x20). Messages: 3 move, 4 down, 5 up. The first pick goes through
+  slot 31; once a pick is stored the tools use slot 32 (0xa078d6f0, the pick at a fixed level):
+  both must answer for a drag. The wall tool rounds a pick to the nearest corner (0xa07dd870), keeps
+  the drag start at +0x84 and the end at +0x110 (floats x, y, int level), +0x78 its mode (0 wall; 1
+  is set while Ctrl is held: removal), +0x11c "dragging". Its handlers: slot 55 position, 56 down,
+  58 drag, 57 up (the up builds). A real drag spans frames: the mod sends one message per tick.
+- Pick levels: 0 is the terrain, 1 the floor of a house on a foundation (the same numbers as the
+  objects' level).
+- Every catalog product derives from `cTSProduct` (the complete object through RTTI; interface
+  offsets differ: `cTSProductObject` +0x10c, `cTSProductWall` +360...): +0x30 name, +0x50
+  description (std::strings behind cRZString vtables), +0xac price.
+
+## Neighborhood tools
+
+- Choosing a family in the family bin makes `cTSUserToolNeighborhoodMoveIn` the toolbar's tool (the
+  same `cTSMainToolbar` handler as on lots). Its dispatcher (slot 8, 0xa079a1d5, thiscall (0,
+  message, int pos[2])) handles 3/4/5 only while the Windows cursor shows (`cRZCursorManager`
+  slot 16 asks `GetCursorInfo`); on a down it asks slot 24 (0xa079a5a4: thiscall (int pos[2], int*
+  lot, cIGZString* name) -> bool, a ray against the scene's "LotData"/"LotId" nodes) for the lot,
+  then asks "move the family here, cost ..." in a `cTSWinPictureDialog` that runs its loop inside
+  the call.
+- The lot info dialog (`Show(lot, family, mode)`, 0xa07b7b27) keeps mode +0x54, family +0x58, lot
+  +0x5c; it offers no move-in button ("select a family to move in").
+- Cheats: `familyFunds <surname> <amount>` works in the neighborhood.
+
+## Create a Sim
+
+- No panel procs: containers keep design-time English captions ('Name / Genetics Step 1', 'Age',
+  'Gender', 'full wizard', 'TAE Aspirations', 'Zodiac', 'CAS PUC', 'CreateSim Controls').
+- Heads, hair, clothes: `cGZWinGrid` cells of buttons captioned with resource keys
+  ('ac598eac-7f61f940-1'); no names.
+- Personality: `cTSWinProcStepFillBar` procs ('nice', 'playful', 'active', 'outgoing', 'sloppy
+  neat', 'total'): +0x6c value (100 a point), +0x74 max (1000), +0x80 steps (10); the proc's +8
+  interface slot 8 is SetValue(value, notify, 0) (what its step message calls); the 'total' bar's
+  value is the points left, updated a moment later. The traits' names are `cTSWinTextLabel`s on
+  the bar's row.
+- Buttons: bit 0 of the flags is "on". Options (No/Si, sizes) 0x604/0x605; check boxes 0x6d4;
+  plain buttons 0x780/0x781 (a chosen aspiration or star sign is 0x781 among 0x780s; Accept and
+  Cancel are 0x781 at times too); mode buttons 0x580/0x581; a lone dialog button can be 0x605.
+- Text fields show their prompt as their text ("Ponle un nombre"); the first key replaces it.
+- Turn-ons (Nightlife): three unnamed slot buttons under the texts "Me pone" / "Me corta"; each opens
+  a modal list ("Haz una selección") of traits.
