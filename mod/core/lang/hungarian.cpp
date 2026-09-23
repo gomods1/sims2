@@ -233,6 +233,8 @@ const Translation kEntries[] = {
     {Str::FamilyTreePicked, "%s kiválasztva: Enter egy másik simen összeköti őket, újra Enter elengedi"},
     {Str::FurnitureGone, "%1$s eltűnt a telekről, érték %2$s"},
     {Str::BuildShutIn, "vigyázat: %2$s helyiségnek nincs ajtaja, és %1$s bent van; Ctrl+Z visszavonja a falat"},
+    {Str::KeysLotMore,
+     "Ctrl+L a szoba elrendezése, Ctrl+N mit mond a narrátor, Ctrl+F kövesse-e a kamera a simet."},
 };
 
 }  // namespace

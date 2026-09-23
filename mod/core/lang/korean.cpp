@@ -225,6 +225,7 @@ const Translation kEntries[] = {
     {Str::FamilyTreePicked, "%s 선택됨: 다른 심에서 Enter로 관계 연결, 다시 Enter로 내려놓기"},
     {Str::FurnitureGone, "%1$s이(가) 부지에서 사라짐, 가치 %2$s"},
     {Str::BuildShutIn, "주의: %2$s에 문이 없고 %1$s이(가) 안에 있음; Ctrl+Z로 벽 취소"},
+    {Str::KeysLotMore, "Ctrl+L 방 구조, Ctrl+N 내레이터가 말하는 내용, Ctrl+F 카메라가 심을 따라갈지."},
 };
 
 }  // namespace

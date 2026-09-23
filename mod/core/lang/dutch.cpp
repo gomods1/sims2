@@ -236,6 +236,8 @@ const Translation kEntries[] = {
      "%s opgepakt: Enter op een andere Sim om ze te verbinden, nogmaals Enter om los te laten"},
     {Str::FurnitureGone, "%1$s is van het perceel verdwenen, waarde %2$s"},
     {Str::BuildShutIn, "let op: %2$s heeft geen deur en %1$s is binnen; Ctrl+Z maakt de muur ongedaan"},
+    {Str::KeysLotMore,
+     "Ctrl+L de indeling van de kamer, Ctrl+N wat de verteller zegt, Ctrl+F of de camera de Sim volgt."},
 };
 
 }  // namespace

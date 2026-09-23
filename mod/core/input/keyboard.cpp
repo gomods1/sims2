@@ -183,7 +183,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         // The keys of what is in front of the player.
         if (lot && nav::placement::Active()) speech::Say(S(Str::KeysPlacement));
         else if (lot && nav::build::Active()) speech::Say(S(Str::KeysBuild));
-        else if (lot) speech::Say(S(Str::KeysLot));
+        else if (lot) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysLotMore));
         else if (nav::neighborhood::ViewActive()) speech::Say(S(Str::KeysNeighborhood));
         else speech::Say(S(Str::KeysScreen));
         return true;

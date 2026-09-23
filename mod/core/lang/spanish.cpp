@@ -236,6 +236,9 @@ const Translation kEntries[] = {
      "%s seleccionado: Intro sobre otro Sim para relacionarlos, Intro otra vez para soltarlo"},
     {Str::FurnitureGone, "%1$s ya no está en el solar, valor %2$s"},
     {Str::BuildShutIn, "cuidado: %2$s no tiene puerta y %1$s está dentro; Control+Z deshace la pared"},
+    {Str::KeysLotMore,
+     "Control+L la distribución de la habitación, Control+N lo que dice el narrador, Control+F si la cámara "
+     "sigue al Sim."},
 };
 
 }  // namespace

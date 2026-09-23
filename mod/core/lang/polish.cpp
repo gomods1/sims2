@@ -232,6 +232,7 @@ const Translation kEntries[] = {
     {Str::FamilyTreePicked, "%s wybrany: Enter na innym Simie łączy ich, ponowny Enter odkłada"},
     {Str::FurnitureGone, "%1$s zniknął z działki, wartość %2$s"},
     {Str::BuildShutIn, "uwaga: %2$s nie ma drzwi, a %1$s jest w środku; Ctrl+Z cofa ścianę"},
+    {Str::KeysLotMore, "Ctrl+L układ pokoju, Ctrl+N co mówi narrator, Ctrl+F czy kamera podąża za Simem."},
 };
 
 }  // namespace

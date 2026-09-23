@@ -234,6 +234,7 @@ const Translation kEntries[] = {
     {Str::FamilyTreePicked, "%s valittu: Enter toisen simin kohdalla yhdistää heidät, Enter uudelleen peruu"},
     {Str::FurnitureGone, "%1$s on poissa tontilta, arvo %2$s"},
     {Str::BuildShutIn, "varo: huoneessa %2$s ei ole ovea ja %1$s on sisällä; Ctrl+Z peruu seinän"},
+    {Str::KeysLotMore, "Ctrl+L huoneen pohjapiirros, Ctrl+N mitä kertoja sanoo, Ctrl+F seuraako kamera simiä."},
 };
 
 }  // namespace

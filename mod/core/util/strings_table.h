@@ -215,3 +215,4 @@
     X(FamilyTreePicked, "%s picked up: Enter on another Sim to join them, Enter again to put down")                    \
     X(FurnitureGone, "%1$s has left the lot, worth %2$s")                                                              \
     X(BuildShutIn, "careful: %2$s has no door and %1$s is inside; Ctrl+Z undoes the wall")                             \
+    X(KeysLotMore, "Control+L the room's layout, Control+N what the narrator says, Control+F whether the camera follows the Sim.")\
