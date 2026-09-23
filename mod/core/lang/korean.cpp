@@ -40,6 +40,11 @@ const Translation kEntries[] = {
     {Str::GroupSummaryOne, "%s, 항목 1개"},
     {Str::GroupButtons, "버튼"},
     {Str::GroupText, "텍스트"},
+    {Str::GroupControlPanel, "제어판"},
+    {Str::GroupLivePanel, "심 패널"},
+    {Str::GroupFamily, "가족"},
+    {Str::GroupWantsFears, "소망과 두려움"},
+    {Str::GroupNeeds, "욕구"},
     {Str::GroupControls, "제어판"},
     // Text fields
     {Str::TextField, "%s %s, 편집창"},
@@ -58,7 +63,16 @@ const Translation kEntries[] = {
     {Str::CheatConsole, "치트 콘솔"},
     {Str::CheatRan, "치트: %s"},
     {Str::CheatEmpty, "먼저 치트를 입력하거나 고르세요"},
+    // Neighborhood: lots and families
+    {Str::GroupLots, "부지"},
+    {Str::LotFamily, "%s 가족"},
+    {Str::LotForSale, "매물"},
+    {Str::LotCommunity, "공공 부지"},
+    {Str::LotApartmentsEmpty, "아파트 건물, 입주자 없음"},
+    {Str::LotApartmentsWith, "아파트 건물: %s"},
+    {Str::FamilySummary, "%1$s: 구성원 %2$d명, 자금 %3$s"},
     // Money
+    {Str::Simoleons, "시몰레온"},
     {Str::FundsNow, "자금 %s, %s"},
     // Lot: object browser (PageUp/PageDown)
     {Str::CategorySims, "심즈"},

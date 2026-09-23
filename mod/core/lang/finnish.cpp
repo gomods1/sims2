@@ -42,6 +42,11 @@ const Translation kEntries[] = {
     {Str::GroupSummaryOne, "%s, 1 kohde"},
     {Str::GroupButtons, "painikkeet"},
     {Str::GroupText, "teksti"},
+    {Str::GroupControlPanel, "ohjauspaneeli"},
+    {Str::GroupLivePanel, "Sim-paneeli"},
+    {Str::GroupFamily, "perhe"},
+    {Str::GroupWantsFears, "toiveet ja pelot"},
+    {Str::GroupNeeds, "tarpeet"},
     {Str::GroupControls, "ohjaimet"},
     // Text fields
     {Str::TextField, "%s %s, tekstikenttä"},
@@ -60,7 +65,16 @@ const Translation kEntries[] = {
     {Str::CheatConsole, "huijauskonsoli"},
     {Str::CheatRan, "huijaus: %s"},
     {Str::CheatEmpty, "kirjoita tai valitse ensin huijaus"},
+    // Neighborhood: lots and families
+    {Str::GroupLots, "tontit"},
+    {Str::LotFamily, "perhe %s"},
+    {Str::LotForSale, "myytävänä"},
+    {Str::LotCommunity, "yleinen tontti"},
+    {Str::LotApartmentsEmpty, "kerrostalo, ei asukkaita"},
+    {Str::LotApartmentsWith, "kerrostalo: %s"},
+    {Str::FamilySummary, "%1$s: %2$d jäsentä, rahaa %3$s"},
     // Money
+    {Str::Simoleons, "simoleonia"},
     {Str::FundsNow, "rahat %s, %s"},
     // Lot: object browser (PageUp/PageDown)
     {Str::CategorySims, "simit"},

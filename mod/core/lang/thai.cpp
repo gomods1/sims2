@@ -41,6 +41,11 @@ const Translation kEntries[] = {
     {Str::GroupSummaryOne, "%s, 1 รายการ"},
     {Str::GroupButtons, "ปุ่ม"},
     {Str::GroupText, "ข้อความ"},
+    {Str::GroupControlPanel, "แผงควบคุม"},
+    {Str::GroupLivePanel, "แผงซิม"},
+    {Str::GroupFamily, "ครอบครัว"},
+    {Str::GroupWantsFears, "ความปรารถนาและความกลัว"},
+    {Str::GroupNeeds, "ความต้องการ"},
     {Str::GroupControls, "ปุ่มควบคุม"},
     // Text fields
     {Str::TextField, "%s %s, ช่องข้อความ"},
@@ -59,7 +64,16 @@ const Translation kEntries[] = {
     {Str::CheatConsole, "คอนโซลสูตรโกง"},
     {Str::CheatRan, "สูตรโกง: %s"},
     {Str::CheatEmpty, "พิมพ์หรือเลือกสูตรโกงก่อน"},
+    // Neighborhood: lots and families
+    {Str::GroupLots, "ที่ดิน"},
+    {Str::LotFamily, "ครอบครัว %s"},
+    {Str::LotForSale, "ประกาศขาย"},
+    {Str::LotCommunity, "ที่ดินสาธารณะ"},
+    {Str::LotApartmentsEmpty, "อาคารอพาร์ตเมนต์ ไม่มีผู้เช่า"},
+    {Str::LotApartmentsWith, "อาคารอพาร์ตเมนต์: %s"},
+    {Str::FamilySummary, "%1$s: สมาชิก %2$d คน, เงิน %3$s"},
     // Money
+    {Str::Simoleons, "ซิโมเลียน"},
     {Str::FundsNow, "เงินสำรอง %s, %s"},
     // Lot: object browser (PageUp/PageDown)
     {Str::CategorySims, "ชาวซิม"},

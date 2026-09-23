@@ -40,6 +40,11 @@ const Translation kEntries[] = {
     {Str::GroupSummaryOne, "%s，1項"},
     {Str::GroupButtons, "按鈕"},
     {Str::GroupText, "文字"},
+    {Str::GroupControlPanel, "控制面板"},
+    {Str::GroupLivePanel, "市民面板"},
+    {Str::GroupFamily, "家庭"},
+    {Str::GroupWantsFears, "願望與恐懼"},
+    {Str::GroupNeeds, "需求"},
     {Str::GroupControls, "控制按鈕"},
     // Text fields
     {Str::TextField, "%s %s，文字方塊"},
@@ -58,7 +63,16 @@ const Translation kEntries[] = {
     {Str::CheatConsole, "密技控制台"},
     {Str::CheatRan, "密技：%s"},
     {Str::CheatEmpty, "請先輸入或選擇一個密技"},
+    // Neighborhood: lots and families
+    {Str::GroupLots, "地段"},
+    {Str::LotFamily, "%s家"},
+    {Str::LotForSale, "待售"},
+    {Str::LotCommunity, "公共地段"},
+    {Str::LotApartmentsEmpty, "公寓大樓，無住戶"},
+    {Str::LotApartmentsWith, "公寓大樓：%s"},
+    {Str::FamilySummary, "%1$s：%2$d名成員，資金%3$s"},
     // Money
+    {Str::Simoleons, "西莫幣"},
     {Str::FundsNow, "資金%s，%s"},
     // Lot: object browser (PageUp/PageDown)
     {Str::CategorySims, "模擬人物"},

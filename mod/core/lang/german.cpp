@@ -42,6 +42,11 @@ const Translation kEntries[] = {
     {Str::GroupSummaryOne, "%s, 1 Element"},
     {Str::GroupButtons, "Schalter"},
     {Str::GroupText, "Text"},
+    {Str::GroupControlPanel, "Steuerleiste"},
+    {Str::GroupLivePanel, "Sim-Leiste"},
+    {Str::GroupFamily, "Familie"},
+    {Str::GroupWantsFears, "Wünsche und Ängste"},
+    {Str::GroupNeeds, "Bedürfnisse"},
     {Str::GroupControls, "Steuerung"},
     // Text fields
     {Str::TextField, "%s %s, Eingabefeld"},
@@ -60,7 +65,16 @@ const Translation kEntries[] = {
     {Str::CheatConsole, "Cheat-Konsole"},
     {Str::CheatRan, "Cheat: %s"},
     {Str::CheatEmpty, "gib zuerst einen Cheat ein oder wähle einen aus"},
+    // Neighborhood: lots and families
+    {Str::GroupLots, "Grundstücke"},
+    {Str::LotFamily, "Familie %s"},
+    {Str::LotForSale, "zu verkaufen"},
+    {Str::LotCommunity, "Gemeinschaftsgrundstück"},
+    {Str::LotApartmentsEmpty, "Wohnhaus, keine Mieter"},
+    {Str::LotApartmentsWith, "Wohnhaus: %s"},
+    {Str::FamilySummary, "%1$s: %2$d Mitglieder, Vermögen %3$s"},
     // Money
+    {Str::Simoleons, "Simoleons"},
     {Str::FundsNow, "Vermögen %s, %s"},
     // Lot: object browser (PageUp/PageDown)
     {Str::CategorySims, "Sims"},

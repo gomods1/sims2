@@ -40,6 +40,11 @@ const Translation kEntries[] = {
     {Str::GroupSummaryOne, "%s、1項目"},
     {Str::GroupButtons, "ボタン"},
     {Str::GroupText, "テキスト"},
+    {Str::GroupControlPanel, "コントロールパネル"},
+    {Str::GroupLivePanel, "シムのパネル"},
+    {Str::GroupFamily, "家族"},
+    {Str::GroupWantsFears, "願望と恐怖"},
+    {Str::GroupNeeds, "欲求"},
     {Str::GroupControls, "コントロールパネル"},
     // Text fields
     {Str::TextField, "%s %s、入力欄"},
@@ -58,7 +63,16 @@ const Translation kEntries[] = {
     {Str::CheatConsole, "チートコンソール"},
     {Str::CheatRan, "チート: %s"},
     {Str::CheatEmpty, "先にチートを入力するか選んでください"},
+    // Neighborhood: lots and families
+    {Str::GroupLots, "区画"},
+    {Str::LotFamily, "%s家"},
+    {Str::LotForSale, "売り出し中"},
+    {Str::LotCommunity, "コミュニティ区画"},
+    {Str::LotApartmentsEmpty, "アパート、入居者なし"},
+    {Str::LotApartmentsWith, "アパート: %s"},
+    {Str::FamilySummary, "%1$s: %2$d人、資金 %3$s"},
     // Money
+    {Str::Simoleons, "シモリオン"},
     {Str::FundsNow, "予算 %s、%s"},
     // Lot: object browser (PageUp/PageDown)
     {Str::CategorySims, "シム"},
