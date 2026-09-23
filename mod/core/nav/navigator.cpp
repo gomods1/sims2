@@ -237,7 +237,7 @@ void Tick() {
             std::string changed;
             for (const Group& group : g.groups)
                 for (const Item& t : group.items) {
-                    if (t.role != Role::Text) continue;
+                    if (t.role != Role::Text || group.key < 0x10000) continue;  // not the mod's own groups
                     bool same = false;
                     for (const auto& before : g.textsBefore)
                         if (before.first == t.widget && before.second == t.label) same = true;

@@ -5,6 +5,7 @@
 #include "../util/log.h"
 #include "addresses.h"
 #include "buy.h"
+#include "gz.h"
 #include "rtti.h"
 #include "memory.h"
 #include "mouse.h"
@@ -60,6 +61,7 @@ void DevCommand(const std::string& line) {
     else if (!strcmp(name, "pie")) ShowInteractions(a);
     else if (!strcmp(name, "movein")) ClickLotWithTool(a);
     else if (!strcmp(name, "screen")) g_screenDumpRequested = true;
+    else if (!strcmp(name, "press")) Press((Ptr)(unsigned)a);  // !press <window pointer in decimal>
     else if (!strcmp(name, "wall")) DragTool(CurrentTool(), (float)a, (float)b, (float)c, (float)d, e, false);
     else if (!strcmp(name, "families")) {
         for (const FamilyEntry& f : Families())

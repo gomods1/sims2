@@ -22,6 +22,7 @@ enum class Role {
     QueuedAction,  // an action in the selected Sim's queue: Enter cancels it
     Product,    // a buy mode catalog product: Enter picks it up to place it
     Slider,     // a value in steps (Create a Sim's personality bars): Left/Right change it
+    ListRow,    // a row of a list box: Enter selects it
 };
 
 struct Item {
@@ -31,6 +32,7 @@ struct Item {
     std::string detail;  // the rest of a tooltip ("Title|Description": the description)
     std::string value;   // Role::Product: price and ratings, spoken after the role
     int step = 0, steps = 0;  // Role::Slider
+    bool on = false;          // Role::ListRow: selected
     bool buyObject = false;   // Role::Product: an object (placed with nav::placement), not a wall or floor
     RECT rect = {};      // main window coordinates
     int number = 0;      // Role::Lot: the lot id

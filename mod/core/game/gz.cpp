@@ -162,6 +162,32 @@ bool TextEditEditable(Ptr w) {
 
 std::string TextEditText(Ptr w) { return IsTextEdit(w) ? ReadStdString(w + addr::edit::kText + 4) : ""; }
 
+bool ListBoxRows(Ptr w, std::vector<ListRow>* rows) {
+    Ptr lb = CompleteObject(w);
+    if (!IsKindOf(lb, "cTSWinListBox")) return false;
+    rows->clear();
+    Ptr rb = Rd<Ptr>(lb + addr::listbox::kRows), re = Rd<Ptr>(lb + addr::listbox::kRows + 4);
+    Ptr sb = Rd<Ptr>(lb + addr::listbox::kSelected), se = Rd<Ptr>(lb + addr::listbox::kSelected + 4);
+    for (Ptr p = rb; p && p < re && rows->size() < 500; p += 4) {
+        ListRow row;
+        row.window = Rd<Ptr>(p);
+        Ptr cb = Rd<Ptr>(row.window + addr::listbox::kRowCells), ce = Rd<Ptr>(row.window + addr::listbox::kRowCells + 4);
+        for (Ptr c = cb; c && c + addr::listbox::kCellSize <= ce && c - cb < 20 * addr::listbox::kCellSize;
+             c += addr::listbox::kCellSize) {
+            std::string t = ReadStdStringUtf8(c + addr::listbox::kCellFullText);
+            if (t.empty()) t = ReadStdStringUtf8(c + addr::listbox::kCellText);
+            if (t.empty()) continue;
+            if (!row.text.empty()) row.text += ", ";
+            row.text += t;
+        }
+        int index = (int)((p - rb) / 4);
+        for (Ptr s = sb; s && s < se && s - sb < 4000; s += 4)
+            if (Rd<int>(s) == index) row.selected = true;
+        rows->push_back(row);
+    }
+    return true;
+}
+
 bool StepBar(Ptr w, int* value, int* steps) {
     Ptr proc = Rd<Ptr>(w + addr::win::kProc);
     if (ProcClass(w) != "cTSWinProcStepFillBar") return false;

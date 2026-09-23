@@ -322,6 +322,17 @@ constexpr int kValueInterface = 8;  // the interface whose slot 8 is SetValue(in
 constexpr int kSlotSetValue = 8;
 }  // namespace stepbar
 
+// cTSWinListBox (from the complete object; the cIGZWin interface is at +4): rows are
+// cWinListBoxRow windows (a press selects one), each with cells of 0x68 bytes.
+namespace listbox {
+constexpr int kRows = 0xfc;        // std::vector<cWinListBoxRow*>, in order (all rows, scrolled out too)
+constexpr int kSelected = 0x13c;   // std::vector<int>: the selected rows' indices
+constexpr int kRowCells = 0xf8;    // row: std::vector of cells, 0x68 bytes each
+constexpr int kCellSize = 0x68;
+constexpr int kCellText = 0x04;    // cell: std::string (behind a cRZString vtable) as drawn (may be cut "...")
+constexpr int kCellFullText = 0x24;  // cell: std::string, the whole text
+}  // namespace listbox
+
 // cGZWinTextEdit, from the cIGZWin pointer: the text as a cRZString (std::string at +0x100).
 namespace edit {
 constexpr int kText = 0xfc;

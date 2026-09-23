@@ -302,6 +302,24 @@ struct Walker {
         return true;
     }
 
+    // A list box (destinations, saved games...): every row, scrolled out of view too; Enter
+    // selects one (a press on its row, as a click).
+    bool ListBox(Ptr k, Ptr groupKey) {
+        std::vector<game::ListRow> rows;
+        if (!game::ListBoxRows(k, &rows)) return false;
+        for (const game::ListRow& r : rows) {
+            if (r.text.empty()) continue;
+            Item it;
+            it.widget = r.window;
+            it.role = Role::ListRow;
+            it.label = util::CleanForSpeech(r.text);
+            it.on = r.selected;
+            it.rect = game::ScreenRect(k);  // all rows share it: the stable sort keeps their order
+            Add(groupKey, it);
+        }
+        return true;
+    }
+
     void Walk(Ptr w, int depth) {
         if (depth > 40) return;
         std::vector<Ptr> kids = game::Children(w);
@@ -313,6 +331,7 @@ struct Walker {
             if (Motive(k, motiveKids, w)) continue;
             if (Product(k, motiveKids, w)) continue;
             if (Grid(k, w)) continue;
+            if (ListBox(k, w)) continue;
             if (StepBarItem(k, w, w)) continue;
             std::vector<Ptr> grandKids = game::Children(k);
             if (!grandKids.empty() && Thumbnail(k, grandKids, w)) continue;

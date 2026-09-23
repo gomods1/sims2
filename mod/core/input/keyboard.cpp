@@ -118,7 +118,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         nav::NextGroup(shift ? -1 : +1);
         return true;
     case VK_RETURN:
-        if (ctrl && lot && g_worldFocus) {
+        if (ctrl && lot && g_worldFocus && !game::ModalWindow()) {
             g_swallowChar = '\n';  // Ctrl+Enter's character is a line feed
             nav::world::WalkTo(shift);
             return true;
@@ -127,7 +127,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         // focus is on another item (Create a Family keeps its surname field focused throughout).
         if (ctrl || (typing && nav::FocusedIsTextField())) return false;
         g_swallowChar = '\r';
-        if (g_worldFocus && lot) nav::world::Interact();
+        if (g_worldFocus && lot && !game::ModalWindow()) nav::world::Interact();
         else nav::Activate();
         return true;
     case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
@@ -157,7 +157,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     case 'R':
         if (typing || shift || ctrl) return false;
         g_swallowChar = 'r';
-        if (g_worldFocus && lot) nav::world::Repeat();
+        if (g_worldFocus && lot && !game::ModalWindow()) nav::world::Repeat();
         else nav::RepeatFocus();
         return true;
     default:
