@@ -232,7 +232,7 @@ const Translation kEntries[] = {
     {Str::IconBabyQuestion, "egy baba?"},
     {Str::FamilyTreePicked, "%s kiválasztva: Enter egy másik simen összeköti őket, újra Enter elengedi"},
     {Str::FurnitureGone, "%1$s eltűnt a telekről, érték %2$s"},
-    {Str::BuildShutIn, "vigyázat: %1$s be van zárva, %2$s helyiségnek nincs ajtaja; Ctrl+Z visszavonja a falat"},
+    {Str::BuildShutIn, "vigyázat: %2$s helyiségnek nincs ajtaja, és %1$s bent van; Ctrl+Z visszavonja a falat"},
 };
 
 }  // namespace
