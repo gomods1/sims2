@@ -4,6 +4,7 @@
   python game.py pid                print the running Sims2EP9.exe PID
   python game.py windows            list the game's top-level windows (hwnd, class, title, rect, style)
   python game.py shot [name]        screenshot the game's main window to shots/<name>.png
+  python game.py cheat <line>       run a cheat console line through the mod (dev build)
   python game.py kill               terminate Sims2EP9.exe (by PID)
 """
 
@@ -111,20 +112,36 @@ def capture_window(hwnd: int, cw: int, ch: int) -> bytes:
     return buf.raw
 
 
+MOD_DIR = r"S:\steam\steamapps\common\The Sims 2 Legacy Collection\EP9\TSBin\Sims2Access"
+
+
 def shot(name: str) -> str:
-    pid = find_pid()
-    if not pid:
+    """Asks the mod (dev build) to save the next frame's back buffer, then converts it to PNG.
+
+    PrintWindow cannot see the game's D3D9 output, and the screen shows the user's windows.
+    """
+    if not find_pid():
         raise SystemExit("not running")
-    w = main_window(pid)
-    if not w:
-        raise SystemExit("no visible window")
-    _, _, cw, ch = w["client"]
-    bgra = capture_window(w["hwnd"], cw, ch)
     os.makedirs(SHOT_DIR, exist_ok=True)
-    path = os.path.join(SHOT_DIR, f"{name}.png")
+    bmp = os.path.join(SHOT_DIR, f"{name}.bmp")
+    if os.path.exists(bmp):
+        os.remove(bmp)
+    with open(os.path.join(MOD_DIR, "shot_request.txt"), "w", encoding="utf-8") as f:
+        f.write(bmp)
+    deadline = time.time() + 10
+    while time.time() < deadline and not os.path.exists(bmp):
+        time.sleep(0.2)
+    time.sleep(0.3)
+    if not os.path.exists(bmp):
+        raise SystemExit("no capture (is the game drawing? is dev.txt present?)")
     from PIL import Image
-    Image.frombuffer("RGBA", (cw, ch), bgra, "raw", "BGRA", 0, 1).convert("RGB").save(path)
-    print(path, f"{cw}x{ch}")
+    path = os.path.join(SHOT_DIR, f"{name}.png")
+    im = Image.open(bmp).convert("RGB")
+    im.save(path)
+    os.remove(bmp)
+    small = os.path.join(SHOT_DIR, f"{name}_small.png")
+    im.resize((im.width // 2, im.height // 2)).save(small)
+    print(path, f"{im.width}x{im.height}", "(half size:", small + ")")
     return path
 
 
@@ -141,6 +158,10 @@ def main(argv: list[str]) -> int:
                   f"client={w['client']} class={w['class']!r} title={w['title']!r}")
     elif cmd == "shot":
         shot(argv[1] if len(argv) > 1 else time.strftime("%H%M%S"))
+    elif cmd == "cheat":
+        # The mod (dev build) runs the line through the game's cheat system on its next tick.
+        with open(os.path.join(MOD_DIR, "cheat_request.txt"), "w", encoding="utf-8") as f:
+            f.write(" ".join(argv[1:]))
     elif cmd == "kill":
         pid = find_pid()
         if pid:

@@ -4,6 +4,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "nhood_view.h"
 
 namespace nav {
 
@@ -11,6 +12,7 @@ std::string Describe(const Item& it) {
     std::string label = it.label.empty() ? S(Str::UnlabeledButton) : it.label;
     switch (it.role) {
     case Role::Text: return label;
+    case Role::Lot: return label;
     case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
     case Role::Toggle: {
         std::string s = label + ", " + S(Str::RoleButton);
@@ -28,6 +30,7 @@ std::string Describe(const Item& it) {
 }
 
 std::string GroupName(const Group& g) {
+    if (!g.name.empty()) return g.name;
     for (const Item& it : g.items)
         if (it.role == Role::Text && it.label.size() < 60) return it.label;
     return S(IsTextOnly(g) ? Str::GroupText : Str::GroupButtons);
@@ -41,6 +44,11 @@ std::string GroupSummary(const Group& g) {
 
 std::vector<std::string> DetailLines(const Item& it, const Group& g, int index) {
     std::vector<std::string> lines;
+    if (it.role == Role::Lot) {
+        lines = neighborhood::LotDetails(it);
+        lines.push_back(util::Format(S(Str::PositionInGroup), index + 1, (int)g.items.size(), GroupName(g).c_str()));
+        return lines;
+    }
     lines.push_back(Describe(it));
     for (const std::string& s : buffers::Sentences(it.detail)) lines.push_back(s);
     lines.push_back(util::Format(S(Str::PositionInGroup), index + 1, (int)g.items.size(), GroupName(g).c_str()));

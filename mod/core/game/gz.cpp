@@ -42,6 +42,7 @@ Ptr WinMgr() {
 Ptr MainWindow() { return WinMgr() ? Rd<Ptr>(WinMgr() + addr::wm::kMainWindow) : 0; }
 Ptr FocusWindow() { return WinMgr() ? Rd<Ptr>(WinMgr() + addr::wm::kFocus) : 0; }
 Ptr CaptureWindow() { return WinMgr() ? Rd<Ptr>(WinMgr() + addr::wm::kCapture) : 0; }
+Ptr ModalWindow() { return WinMgr() ? Rd<Ptr>(WinMgr() + addr::wm::kModal) : 0; }
 int ModalCount() { return WinMgr() ? Rd<int>(WinMgr() + addr::wm::kModalCount) : 0; }
 
 std::vector<Ptr> Children(Ptr w) {

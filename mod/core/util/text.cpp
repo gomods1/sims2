@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "language.h"
+#include "strings.h"
 
 namespace util {
 namespace {
@@ -70,7 +71,14 @@ std::string CollapseSpaces(const std::string& line) {
 
 }  // namespace
 
-std::string CleanForSpeech(const std::string& in) {
+std::string CleanForSpeech(const std::string& raw) {
+    std::string in = raw;
+    static const std::string kSimoleon = "\xc2\xa7";  // U+00A7, drawn as the simoleon sign
+    for (size_t at = in.find(kSimoleon); at != std::string::npos; at = in.find(kSimoleon, at)) {
+        std::string word = std::string(" ") + S(Str::Simoleons);
+        in.replace(at, kSimoleon.size(), word);
+        at += word.size();
+    }
     std::vector<std::string> lines(1);
     for (char c : in) {
         if (c == '\r' || c == '\n') lines.emplace_back();

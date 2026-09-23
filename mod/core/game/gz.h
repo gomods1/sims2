@@ -19,6 +19,7 @@ Ptr MainWindow();
 Ptr FocusWindow();    // where keys go (a text field while typing)
 Ptr CaptureWindow();  // the window holding the mouse capture
 int ModalCount();     // nesting of DoModalWin loops (dialogs that run their own loop)
+Ptr ModalWindow();    // the innermost modal dialog, 0 when none
 
 // Windows (cIGZWin*)
 std::vector<Ptr> Children(Ptr w);   // front to back

@@ -1,5 +1,7 @@
 #include "hooks.h"
 
+#include <cstring>
+
 #include "../util/log.h"
 #include "MinHook.h"
 #include "addresses.h"
@@ -33,6 +35,43 @@ __declspec(naked) void DoModalDetour() {
     }
 }
 
+// ---- GetKeyState / GetAsyncKeyState ----------------------------------------------------------
+// The game reads Ctrl, Shift and Alt from the keyboard state, which posted test keys
+// (tools/keys.py) do not change. While the mod has seen such a posted modifier go down, the
+// game is told it is held too. Real keys are untouched.
+typedef SHORT(WINAPI* KeyStateFn)(int);
+KeyStateFn g_getAsyncKeyState = nullptr;
+KeyStateFn g_getKeyState = nullptr;
+bool g_syntheticHeld[256] = {};
+
+bool SyntheticHeld(int vk) {
+    if (vk < 0 || vk > 255) return false;
+    if (g_syntheticHeld[vk]) return true;
+    switch (vk) {
+    case VK_LCONTROL: case VK_RCONTROL: return g_syntheticHeld[VK_CONTROL];
+    case VK_LSHIFT: case VK_RSHIFT: return g_syntheticHeld[VK_SHIFT];
+    case VK_LMENU: case VK_RMENU: return g_syntheticHeld[VK_MENU];
+    }
+    return false;
+}
+
+SHORT WINAPI GetAsyncKeyStateDetour(int vk) {
+    SHORT r = g_getAsyncKeyState(vk);
+    return SyntheticHeld(vk) ? (SHORT)(r | 0x8000) : r;
+}
+
+SHORT WINAPI GetKeyStateDetour(int vk) {
+    SHORT r = g_getKeyState(vk);
+    return SyntheticHeld(vk) ? (SHORT)(r | 0xff80) : r;
+}
+
+void HookApi(const char* name, void* detour, KeyStateFn* original) {
+    void* target = (void*)GetProcAddress(GetModuleHandleA("user32.dll"), name);
+    MH_STATUS st = target ? MH_CreateHook(target, detour, (void**)original) : MH_ERROR_FUNCTION_NOT_FOUND;
+    if (st == MH_OK) st = MH_EnableHook(target);
+    Log("hook %s: %s", name, MH_StatusToString(st));
+}
+
 template <class T>
 bool TryHook(const char* name, Ptr preferredVa, void* detour, T* original) {
     if (!FunctionOk(preferredVa)) {
@@ -56,6 +95,12 @@ void InitHooks() {
         return;
     }
     TryHook("cGZWinMgrW32::DoModalWin", 0xa0972f48, (void*)DoModalDetour, &g_doModal);
+    HookApi("GetAsyncKeyState", (void*)GetAsyncKeyStateDetour, &g_getAsyncKeyState);
+    HookApi("GetKeyState", (void*)GetKeyStateDetour, &g_getKeyState);
+}
+
+void SetSyntheticModifier(int vk, bool down) {
+    if (vk >= 0 && vk < 256) g_syntheticHeld[vk] = down;
 }
 
 void ShutdownHooks() {
@@ -65,14 +110,22 @@ void ShutdownHooks() {
     MH_Uninitialize();
     g_minhookReady = false;
     g_modals.clear();
+    g_getAsyncKeyState = nullptr;
+    g_getKeyState = nullptr;
+    memset(g_syntheticHeld, 0, sizeof g_syntheticHeld);
 }
 
+// A dialog can open right after another's loop returned (Aceptar on one welcome dialog opens
+// the next), so closed ones are recognised by their window: gone or hidden. Past that, more
+// entries than the manager's nesting count are the oldest.
 const std::vector<Ptr>& ModalStack() {
+    for (size_t i = g_modals.size(); i-- > 0;)
+        if (!IsKindOf(g_modals[i], "cGZWin") || !Visible(g_modals[i])) g_modals.erase(g_modals.begin() + i);
     int open = ModalCount();
-    while ((int)g_modals.size() > open && open >= 0) g_modals.pop_back();
+    while ((int)g_modals.size() > open && open >= 0) g_modals.erase(g_modals.begin());
     return g_modals;
 }
 
-short RealGetAsyncKeyState(int vk) { return GetAsyncKeyState(vk); }
+short RealGetAsyncKeyState(int vk) { return g_getAsyncKeyState ? g_getAsyncKeyState(vk) : GetAsyncKeyState(vk); }
 
 }  // namespace game

@@ -17,7 +17,10 @@ void ShutdownHooks();
 // inside the game's message pump, so the mod keeps ticking while one is open.
 const std::vector<Ptr>& ModalStack();
 
-// The real GetAsyncKeyState (the game's import may be hooked).
+// Posted test keys (tools/keys.py): the game sees their modifiers as held.
+void SetSyntheticModifier(int vk, bool down);
+
+// The real GetAsyncKeyState (without the test keys' modifiers).
 short RealGetAsyncKeyState(int vk);
 
 }  // namespace game

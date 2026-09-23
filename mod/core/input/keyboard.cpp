@@ -57,7 +57,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         nav::NextGroup(shift ? -1 : +1);
         return true;
     case VK_RETURN:
-        if (ctrl) return false;
+        if (ctrl || typing) return false;  // a text field's Enter is the game's (the cheat console runs its line)
         g_swallowChar = '\r';
         nav::Activate();
         return true;
@@ -82,7 +82,10 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     LogVerbose("key down vk=0x%02x lparam=0x%08lx", (unsigned)vk, (unsigned long)lp);
     g_synthetic = (lp & kSyntheticKey) != 0;
     if (IsModifier(vk)) {
-        if (g_synthetic) g_syntheticDown[vk] = true;
+        if (g_synthetic) {
+            g_syntheticDown[vk] = true;
+            game::SetSyntheticModifier((int)vk, true);
+        }
         return false;
     }
     bool ctrl = Held(VK_CONTROL);
@@ -97,7 +100,10 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
 bool OnKeyUp(WPARAM vk, LPARAM lp) {
     if (vk >= 256) return false;
     if (IsModifier(vk)) {
-        if (lp & kSyntheticKey) g_syntheticDown[vk] = false;
+        if (lp & kSyntheticKey) {
+            g_syntheticDown[vk] = false;
+            game::SetSyntheticModifier((int)vk, false);
+        }
         return false;
     }
     if (!g_consumed[vk]) return false;

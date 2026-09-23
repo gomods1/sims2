@@ -3,7 +3,7 @@
 // reorder them as %1$s, %2$d); tools/mod_strings.py checks that and lists missing translations.
 #pragma once
 
-#define SA_STRINGS(X) \
+#define SA_STRINGS(X)                                                                                                  \
     /* Startup */                                                                                                      \
     X(ModLoaded, "Sims 2 accessibility loaded")                                                                        \
     X(UnsupportedBuild, "Sims 2 accessibility: unsupported game version, mod disabled")                                \
@@ -55,6 +55,15 @@
     X(CheatConsole, "cheat console")                                                                                   \
     X(CheatRan, "cheat: %s")                                                                                           \
     X(CheatEmpty, "type or pick a cheat first")                                                                        \
+    /* Neighborhood: lots and families */                                                                              \
+    X(GroupLots, "lots")                                                                                               \
+    X(LotFamily, "%s family")                                                                                          \
+    X(LotForSale, "for sale")                                                                                          \
+    X(LotCommunity, "community lot")                                                                                   \
+    X(LotApartmentsEmpty, "apartment building, no tenants")                                                            \
+    X(LotApartmentsWith, "apartment building: %s")                                                                     \
+    X(FamilySummary, "%1$s: %2$d members, funds %3$s")                                                                 \
     /* Money */                                                                                                        \
+    X(Simoleons, "simoleons")                                                                                          \
     X(FundsNow, "funds %s, %s")                                                                                        \
     X(FundsChanged, "%1$s, %2$s left")

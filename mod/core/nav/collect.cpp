@@ -6,7 +6,9 @@
 #include "../game/gz.h"
 #include "../game/hooks.h"
 #include "../game/rtti.h"
+#include "../util/strings.h"
 #include "../util/text.h"
+#include "nhood_view.h"
 
 namespace nav {
 namespace {
@@ -79,11 +81,21 @@ struct Walker {
         it.widget = k;
         it.rect = game::ScreenRect(k);
         if (it.rect.right <= it.rect.left || it.rect.bottom <= it.rect.top) return;
-        if (game::IsButton(k)) {
+        if (game::IsKindOf(k, "cTSWinTextLabel")) {
+            // A value shown as a label (net worth, funds): its tooltip names it.
             std::string title, rest;
             SplitTip(game::Tooltip(k), &title, &rest);
-            it.label = title.empty() ? util::CleanForSpeech(game::Caption(k)) : title;
+            std::string value = util::CleanForSpeech(game::Caption(k));
+            if (value.empty()) return;
+            it.label = title.empty() ? value : util::Format(S(Str::LabelValue), title.c_str(), value.c_str());
             it.detail = rest;
+            it.role = Role::Text;
+            Add(parent, it);
+        } else if (game::IsButton(k)) {
+            std::string title, rest;
+            SplitTip(game::Tooltip(k), &title, &rest);
+            it.label = util::WithoutHotkey(title.empty() ? util::CleanForSpeech(game::Caption(k)) : title);
+            it.detail = it.label != title && !title.empty() ? title + (rest.empty() ? "" : ". " + rest) : rest;
             it.role = game::ButtonToggles(k) ? Role::Toggle : Role::Button;
             if (it.label.empty()) return;  // icon without a name: logged by the navigator later
             Add(parent, it);
@@ -117,8 +129,8 @@ __declspec(noinline) int FirstControlOrNone(const Group& g) {
 }
 
 Ptr InputRoot() {
-    const auto& modals = game::ModalStack();
-    if (!modals.empty()) return modals.back();
+    Ptr modal = game::ModalWindow();
+    if (modal && game::Visible(modal)) return modal;
     return game::MainWindow();
 }
 
@@ -149,6 +161,11 @@ std::vector<Group> Collect(Ptr root) {
         if (a.bounds.top / 16 != b.bounds.top / 16) return a.bounds.top < b.bounds.top;
         return a.bounds.left < b.bounds.left;
     });
+    // The neighborhood view: its lots first (the map is 3D, the houses are no windows).
+    if (root == game::MainWindow() && neighborhood::ViewActive()) {
+        Group lots = neighborhood::LotsGroup();
+        if (!lots.items.empty()) out.insert(out.begin(), std::move(lots));
+    }
     return out;
 }
 

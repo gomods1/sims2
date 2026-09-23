@@ -37,7 +37,7 @@ function exportOf(moduleName, name) {
 function readStdString(p) {
     const size = p.add(0x10).readU32();
     const cap = p.add(0x14).readU32();
-    if (size > 4096 || cap < 15 || size > cap) return null;
+    if (size > 4000000 || cap < 15 || size > cap) return null;
     const data = cap > 15 ? p.readPointer() : p;
     return size === 0 ? "" : data.readUtf8String(size);
 }

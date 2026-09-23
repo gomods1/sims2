@@ -12,6 +12,8 @@
 #include <string>
 
 #include "../loader/loader_api.h"
+#include "game/capture.h"
+#include "game/cheats.h"
 #include "game/gz.h"
 #include "game/hooks.h"
 #include "game/memory.h"
@@ -29,6 +31,8 @@ using game::Ptr;
 namespace {
 
 bool g_active = false;       // false on an unsupported build: speech only, no hooks, no keys
+bool g_dev = false;
+std::wstring g_modDir;
 
 bool ModFileExists(const SaLoaderApi* api, const wchar_t* name) {
     std::wstring path = std::wstring(api->mod_dir) + L"\\" + name;
@@ -101,6 +105,8 @@ void GuardedTick() {
 extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     if (!api || api->version != SA_LOADER_API_VERSION) return 0;
     bool dev = ModFileExists(api, L"dev.txt");
+    g_dev = dev;
+    g_modDir = api->mod_dir;
     util::InitLog(api, dev);
     Log("Sims2Access core init (built %s %s)", __DATE__, __TIME__);
     util::InitSettings(api->mod_dir);
@@ -115,6 +121,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     }
     game::InitMemory(api->game);
     game::InitHooks();
+    if (dev) game::InitCapture(api->mod_dir);
     nav::Reset();
     g_active = true;
     if (!api->reloaded) speech::Say(S(Str::ModLoaded));
@@ -148,5 +155,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_OnMessage(HWND, UINT msg, WPARAM
 extern "C" __declspec(dllexport) void __cdecl SA_OnTick() {
     ReturnFocus();
     if (!g_active) return;
+    game::PollCapture();
+    if (g_dev) game::PollCheatRequest(g_modDir.c_str());
     GuardedTick();
 }

@@ -3,15 +3,11 @@
 const getCursorPos = exportOf('user32.dll', 'GetCursorPos');
 const postMessageA = new NativeFunction(exportOf('user32.dll', 'PostMessageA'), 'int', ['pointer', 'uint', 'uint', 'pointer']);
 const findWindowA2 = new NativeFunction(exportOf('user32.dll', 'FindWindowA'), 'pointer', ['pointer', 'pointer']);
-const gameHwnd = findWindowA2(Memory.allocAnsiString('Gonzo'), ptr(0));
+const gameHwnd = findWindowA2(Memory.allocAnsiString('{0xdb637c87}'), ptr(0));
 
 let fake = null; // {x, y} in screen coordinates (the game window is at 0,0)
 
-// The game drops all input while its "app active" byte is 0 (set from WM_ACTIVATEAPP in the
-// message handler at 0x6f1699; checked by the input dispatcher 0x6dae40). The user keeps other
-// windows in front during sessions, so force it on while driving.
-const APP_ACTIVE = va(0xa52074);
-function forceActive() { APP_ACTIVE.writeU8(1); }
+function forceActive() { }  // The Sims 2 keeps taking input in the background
 
 Interceptor.attach(getCursorPos, {
     onEnter(args) { this.pt = args[0]; this.fromGame = GAME.base.compare(this.returnAddress) <= 0 && this.returnAddress.compare(GAME.base.add(GAME.size)) < 0; },

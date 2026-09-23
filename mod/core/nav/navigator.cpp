@@ -11,6 +11,7 @@
 #include "buffers.h"
 #include "collect.h"
 #include "describe.h"
+#include "nhood_view.h"
 
 namespace nav {
 namespace {
@@ -23,6 +24,7 @@ struct State {
     Ptr root = 0;
     std::vector<Group> groups;
     Ptr focusWidget = 0;
+    int focusNumber = 0;           // virtual items (lots) have no widget: their number
     std::string focusLabel;
     int group = -1, index = -1;
     std::set<Ptr> knownGroups;     // group keys at the last announcement
@@ -33,7 +35,18 @@ struct State {
     Ptr pressed = 0;               // the last pressed widget, for its new state
     ULONGLONG pressedAt = 0;
     bool pressedWasOn = false;
+    std::vector<std::pair<Ptr, std::string>> textsBefore;  // the screen's texts before the press
 };
+
+// Joins texts into one line, with a stop between them unless one is already there.
+void AppendSentence(std::string& out, const std::string& s) {
+    if (s.empty()) return;
+    if (!out.empty()) {
+        char last = out.back();
+        out += (last == '.' || last == '!' || last == '?' || last == ':') ? " " : ". ";
+    }
+    out += s;
+}
 
 State g;
 
@@ -48,6 +61,7 @@ void SetFocus(int group, int index) {
     g.index = index;
     const Item* it = Focused();
     g.focusWidget = it ? it->widget : 0;
+    g.focusNumber = it ? it->number : 0;
     g.focusLabel = it ? it->label : "";
 }
 
@@ -55,7 +69,8 @@ bool Relocate() {
     for (int gi = 0; gi < (int)g.groups.size(); gi++)
         for (int ii = 0; ii < (int)g.groups[gi].items.size(); ii++) {
             const Item& it = g.groups[gi].items[ii];
-            if (it.widget == g.focusWidget && (it.label == g.focusLabel || it.role == Role::TextField)) {
+            if (it.widget == g.focusWidget && it.number == g.focusNumber &&
+                (it.label == g.focusLabel || it.role == Role::TextField || !it.widget)) {
                 g.group = gi;
                 g.index = ii;
                 return true;
@@ -64,7 +79,7 @@ bool Relocate() {
     // Same widget with a new label (a value that changed): keep it.
     for (int gi = 0; gi < (int)g.groups.size(); gi++)
         for (int ii = 0; ii < (int)g.groups[gi].items.size(); ii++)
-            if (g.groups[gi].items[ii].widget == g.focusWidget) {
+            if (g.groups[gi].items[ii].widget == g.focusWidget && g.groups[gi].items[ii].number == g.focusNumber) {
                 SetFocus(gi, ii);
                 return true;
             }
@@ -105,6 +120,18 @@ void LogModel() {
 // the focus. Called once the change has settled.
 void Announce() {
     LogModel();
+    // A dialog: its texts (title, message) first, in reading order.
+    if (g.root != game::MainWindow() && !g.announcedGroups.count(g.root)) {
+        std::string texts;
+        for (const Group& group : g.groups)
+            for (const Item& it : group.items)
+                if (it.role == Role::Text) AppendSentence(texts, it.label);
+        if (!texts.empty()) buffers::Event(texts);
+        for (const Group& group : g.groups) g.announcedGroups.insert(group.key);
+        g.announcedGroups.insert(g.root);
+        AnnounceFocus(false);
+        return;
+    }
     for (const Group& group : g.groups) {
         if (g.announcedGroups.count(group.key)) continue;
         g.announcedGroups.insert(group.key);
@@ -138,7 +165,7 @@ void Refresh(ULONGLONG now) {
         g.announcePending = true;
         g.changedAt = now;
     }
-    bool focusKept = g.focusWidget && Relocate();
+    bool focusKept = (g.focusWidget || g.focusNumber) && Relocate();
     if (!focusKept) FocusDefault();
     if (g.announcePending && now - g.changedAt >= kSettleMs) {
         g.announcePending = false;
@@ -146,15 +173,28 @@ void Refresh(ULONGLONG now) {
             if (appeared * 2 >= (int)keys.size()) FocusDefault();
             Announce();
         } else {
-            // A panel appeared beside the focus: read what it says without moving focus.
-            for (const Group& group : g.groups)
-                if (!g.knownGroups.count(group.key) && IsTextOnly(group))
-                    for (const Item& it : group.items) buffers::Event(it.label);
+            // A panel appeared beside the focus (the lot panel, a subpanel): its texts are read,
+            // and focus moves to it when it has controls.
+            int panel = -1;
+            std::string texts;
+            for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+                const Group& group = g.groups[gi];
+                if (g.knownGroups.count(group.key)) continue;
+                for (const Item& it : group.items)
+                    if (it.role == Role::Text) AppendSentence(texts, it.label);
+                if (panel < 0 && !IsTextOnly(group)) panel = gi;
+            }
+            if (!texts.empty()) buffers::Event(texts);
+            if (panel >= 0) {
+                SetFocus(panel, FirstControl(g.groups[panel]));
+                AnnounceFocus(false);
+            }
         }
         g.knownGroups = keys;
     } else if (!g.announcePending) {
         g.knownGroups = keys;
-        if (!focusKept && g.focusWidget) AnnounceFocus(true);
+        const Item* it = Focused();
+        if (!focusKept && it && !IsReadOnly(*it)) AnnounceFocus(true);
     }
 }
 
@@ -170,13 +210,37 @@ void Tick() {
         const Item* it = Focused();
         if (it && it->widget == w && it->role == Role::Toggle && game::ButtonOn(w) != g.pressedWasOn)
             speech::Say(game::ButtonOn(w) ? S(Str::Selected) : S(Str::NotChecked));
+        // Texts the press changed on the same screen (the next page of a story, a new value).
+        if (InputRoot() == g.root) {
+            g.groups = Collect(g.root);
+            std::string changed;
+            for (const Group& group : g.groups)
+                for (const Item& t : group.items) {
+                    if (t.role != Role::Text) continue;
+                    bool same = false;
+                    for (const auto& before : g.textsBefore)
+                        if (before.first == t.widget && before.second == t.label) same = true;
+                    if (!same) AppendSentence(changed, t.label);
+                }
+            if (!changed.empty()) buffers::Event(changed);
+            Relocate();
+        }
     }
     if (now - g.lastCollect < kRefreshMs) return;
     g.lastCollect = now;
     Refresh(now);
 }
 
-bool TextEntryActive() { return game::IsTextEdit(game::FocusWindow()) && game::ShownOnScreen(game::FocusWindow()); }
+// Typing goes to a text field: the focus window is one, or holds one (the cheat console keeps
+// the focus on its container, which forwards keys to its input line).
+bool TextEntryActive() {
+    Ptr focus = game::FocusWindow();
+    if (!focus || !game::ShownOnScreen(focus)) return false;
+    if (game::IsTextEdit(focus)) return true;
+    for (Ptr child : game::Children(focus))
+        if (game::IsTextEdit(child) && game::Visible(child) && game::Enabled(child)) return true;
+    return false;
+}
 
 void Move(int delta) {
     Refresh(GetTickCount64());
@@ -225,11 +289,20 @@ void Activate() {
         AnnounceFocus(false);
         return;
     }
+    if (it->role == Role::Lot) {
+        Log("open lot %d (family %d)", it->number, it->family);
+        neighborhood::OpenLot(*it);
+        return;
+    }
     if (!game::Enabled(it->widget)) {
         speech::Say(Describe(*it));
         return;
     }
     Log("press %s %p (%s)", game::ClassName(it->widget).c_str(), (void*)it->widget, it->label.c_str());
+    g.textsBefore.clear();
+    for (const Group& group : g.groups)
+        for (const Item& t : group.items)
+            if (t.role == Role::Text) g.textsBefore.push_back({t.widget, t.label});
     g.pressed = it->widget;
     g.pressedAt = GetTickCount64();
     g.pressedWasOn = game::ButtonOn(it->widget);

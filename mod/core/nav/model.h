@@ -17,6 +17,7 @@ enum class Role {
     Toggle,     // a button that stays on or off (a tab, a check box, an option)
     Text,       // read-only text: titles, messages, names
     TextField,  // a text field the player types into
+    Lot,        // a lot on the neighborhood map (number = lot id): Enter opens its info panel
 };
 
 struct Item {
@@ -25,13 +26,19 @@ struct Item {
     std::string label;   // UTF-8, what is spoken first
     std::string detail;  // the rest of a tooltip ("Title|Description": the description)
     RECT rect = {};      // main window coordinates
+    int number = 0;      // Role::Lot: the lot id
+    int family = 0;      // Role::Lot: the family living there (its id), 0 when none
 };
 
 struct Group {
-    Ptr key = 0;         // the container window
+    Ptr key = 0;         // the container window, or a kind of virtual group (below)
+    std::string name;    // virtual groups: their name
     std::vector<Item> items;
     RECT bounds = {};
 };
+
+// Groups the mod builds from game state rather than from windows.
+constexpr Ptr kLotsGroup = 1;
 
 inline bool IsReadOnly(const Item& it) { return it.role == Role::Text; }
 

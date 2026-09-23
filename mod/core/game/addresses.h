@@ -19,6 +19,7 @@ constexpr uint32_t kWinMgrIid = 0x5a4;
 namespace wm {
 constexpr int kCapture = 0x34;     // GZGetCapture (slot 29)
 constexpr int kFocus = 0x38;       // GZGetFocus (slot 37): the window keys go to
+constexpr int kModal = 0x3c;       // the innermost modal window (DoModalWin saves and restores it); 0 when none
 constexpr int kMouseWin = 0x40;    // the window under the mouse (slot 25)
 constexpr int kMainWindow = 0x44;  // GetMainWindow (slot 3)
 constexpr int kModalCount = 0x190; // GetModalNestCount (slot 44)
@@ -34,6 +35,7 @@ constexpr int kParent = 0x58;
 constexpr int kCaption = 0x60;     // cRZString: vtable, then std::string (UTF-8) at +0x64
 constexpr int kArea = 0xc8;        // l, t, r, b in the parent's coordinates
 constexpr int kFlags = 0xe8;       // 1 visible, 2 enabled
+constexpr int kProc = 0x12c;       // the window proc (a cTSWinProc*), for windows that have one
 constexpr uint32_t kFlagVisible = 1;
 constexpr uint32_t kFlagEnabled = 2;
 // Virtual slots (cIGZWin, matching SimCity 4's gzcom headers from GetWindowManager on; verified
@@ -44,6 +46,76 @@ constexpr int kSlotMouseEnter = 161;
 constexpr int kSlotMouseExit = 162;
 constexpr int kSlotKeyDown = 151;     // (vk, modifiers)
 }  // namespace win
+
+// The cheat system service (cTSCheatSystem), as the console gets it (0xa01d0979); slot 7 of that
+// interface runs a line (const char*) and returns bool (0xa0cbe460).
+namespace cheat {
+constexpr uint32_t kServiceId = 0x2a4915ea;
+constexpr uint32_t kIid = 0x4a490e00;
+constexpr int kSlotExecute = 7;
+}  // namespace cheat
+
+// cTSGlobals: the game's hub of managers ([0xa10cc288], created by 0xa020ddfb).
+namespace globals {
+constexpr uintptr_t kInstance = 0xa10cc288;
+constexpr int kSimulator = 0x20;     // cTSSimulator (interface +4)
+constexpr int kLot = 0x2c;           // cTSLot
+constexpr int kNeighborhood = 0x30;  // cTSNeighborhood (the current one)
+constexpr int kFamilyManager = 0x60; // cTSFamilyManager
+constexpr int kNeighborManager = 0x64;
+constexpr int kObjectModule = 0x78;  // cEdithObjectModule
+}  // namespace globals
+
+// cTSNeighborhood: its lots are a std::map<int lotId, cTSLotInfo* (interface +8)> (MSVC tree:
+// node left 0, parent 4, right 8, isnil byte 0xd, key 0x10, value 0x14); head node at +0x5c.
+namespace nhood {
+constexpr int kLotMap = 0x5c;
+}  // namespace nhood
+
+// cTSLotInfo (from the object start): position on the neighborhood grid, its base info.
+namespace lot {
+constexpr int kInterface = 8;        // what the neighborhood's map holds
+constexpr int kX = 0x18;
+constexpr int kY = 0x1c;
+constexpr int kBase = 0x80;          // -> cTSBaseLotInfo (interface +8)
+}  // namespace lot
+
+// cTSBaseLotInfo (from the object start).
+namespace baselot {
+constexpr int kInterface = 8;
+constexpr int kWidth = 0x18;         // lot size in 10-tile units (hypothesis)
+constexpr int kDepth = 0x1c;
+constexpr int kType = 0x20;          // 0 residential, 1 community, 8 apartment building, 9 apartment
+                                     // unit (the getter 0xa04c9c20; order as changeLotZoning's list)
+constexpr int kName = 0x28;          // cRZString (std::string at +0x2c)
+constexpr int kDescription = 0x48;   // cRZString (std::string at +0x4c)
+constexpr int kFlags = 0x68;         // 0x1000/0x2000/0x4000 lot class low/middle/high (hypothesis)
+}  // namespace baselot
+
+// cTSFamilyManager: std::vector<cTSFamily*> at +0x14.
+namespace familymgr {
+constexpr int kBegin = 0x14;
+constexpr int kEnd = 0x18;
+}  // namespace familymgr
+
+// cTSFamily.
+namespace family {
+constexpr int kName = 0x14;          // cRZString (std::string at +0x18)
+constexpr int kDescription = 0x34;   // cRZString (std::string at +0x38)
+constexpr int kId = 0x54;
+constexpr int kLot = 0x58;           // home lot id, 0 when not moved in
+constexpr int kFunds = 0x70;
+constexpr int kMembersBegin = 0x7c;  // 4 bytes per member
+constexpr int kMembersEnd = 0x80;
+}  // namespace family
+
+// The neighborhood's lot info dialog (cTSWinProcLotInfoDialog): the window with this id holds
+// the proc; its cITSWinProcLotInfoDialog interface (+12) has Show(lotId, ?, mode) in slot 4.
+namespace lotinfo {
+constexpr uint32_t kWindowId = 0xcdc02de3;
+constexpr int kInterface = 12;
+constexpr uintptr_t kShow = 0xa07b7b27;
+}  // namespace lotinfo
 
 // cGZWinBtn, from the complete object (the cIGZWinBtn interface is at +0, cGZWin at +4).
 namespace btn {
