@@ -348,6 +348,31 @@ void SelectMember(int index) {
     game::Press(buttons[index]);
 }
 
+// Money paid or received in live mode (bills, wages, purchases by phone): "-$40, 8.415 left".
+// Buy and build mode say their own costs.
+long long g_lastFunds = -1;
+void WatchFunds() {
+    if (game::CurrentModeClass() != "cTSUIModeLive") {
+        g_lastFunds = -1;
+        return;
+    }
+    std::string text = FundsText();
+    long long v = 0;
+    bool any = false;
+    for (char c : text)
+        if (c >= '0' && c <= '9') {
+            v = v * 10 + (c - '0');
+            any = true;
+        }
+    if (!any) return;
+    if (g_lastFunds >= 0 && v != g_lastFunds) {
+        long long diff = v - g_lastFunds;
+        std::string amount = (diff > 0 ? "+" : "-") + util::Money((int)(diff > 0 ? diff : -diff));
+        Narrate(util::Format(S(Str::FundsChanged), amount.c_str(), text.c_str()), true);
+    }
+    g_lastFunds = v;
+}
+
 void Tick() {
     ULONGLONG now = GetTickCount64();
     if (now - g_lastCheck < 300) return;
@@ -361,6 +386,7 @@ void Tick() {
     }
     WatchFamily();
     WatchVisitors();
+    WatchFunds();
     FollowTick();
     // 0 paused, else the chosen speed (the speed buttons show the choice, not the pause).
     Ptr main = game::MainWindow();
