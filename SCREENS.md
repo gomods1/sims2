@@ -67,4 +67,6 @@ Tested live unless marked **not yet seen**.
 | Options (graphics, audio, game, camera) | generic plus: option buttons say which is chosen, check boxes |
 | Main menu, save / quit dialogs | generic |
 | Cheat console | typing echoed; the game's own console |
-| Travel, university, business, vacations, apartments, hobbies, magic | **not yet seen** |
+| Travel: phone > Llamar... > Pedir taxi, the taxi, "¿Adónde te gustaría ir?" | generic plus: the destination lists (list boxes) read and selectable, Aceptar travels; arrival works |
+| List boxes anywhere (cTSWinListBox) | dedicated: every row (scrolled out too), selected ones said, Enter selects |
+| University, business, vacations, apartments, hobbies, magic | **not yet seen** |

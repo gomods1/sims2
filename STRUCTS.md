@@ -168,3 +168,11 @@ subclass used for labels showing a value (tooltip names it).
 - Text fields show their prompt as their text ("Ponle un nombre"); the first key replaces it.
 - Turn-ons (Nightlife): three unnamed slot buttons under the texts "Me pone" / "Me corta"; each opens
   a modal list ("Haz una selección") of traits.
+
+## List boxes
+
+- `cTSWinListBox` (complete object; `cIGZWin` at +4): +0xfc `std::vector<cWinListBoxRow*>` all rows in
+  order (5 shown at a time in the travel dialog), +0x13c `std::vector<int>` the selected indices.
+  A row (`cWinListBoxRow`, a window) +0xf8 is a vector of 0x68-byte cells: +0x04 the drawn text
+  (cut with "..."), +0x24 the whole text (std::strings behind cRZString vtables), +0x44 a data
+  object (`cTSLotInfo` in the travel dialog). A press on a row selects it, scrolled out of view too.
