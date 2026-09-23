@@ -16,7 +16,13 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
 - Live mode HUD: control panel, Sim panel (clock, speed, age, panels), wants and fears, needs
   with their levels (when the needs panel is open), family portraits.
 - Interaction menus as lists, chosen by Enter (sub-levels too).
-- Object browser: PageUp/PageDown, Shift for the buy categories, Enter for the interactions.
+- Object browser: PageUp/PageDown, Shift for the buy categories, Enter for the interactions;
+  Ctrl for rooms (named from their contents).
+- Live state: pause and speed, clock and funds, Ctrl+E, needs and action queue groups, family
+  members (Ctrl+1..9), a narrator for actions, needs, selection and visitors.
+- Buy mode: catalog products (name, price, ratings, description), placing a bought object by
+  keyboard (spots where it fits, nearest first, by room; arrows; facing; Enter buys), moving and
+  selling objects of the lot (Enter on the object browser, Delete sells).
 
 ## Next (live mode first: it is where the game is played)
 
@@ -30,8 +36,9 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   what is on screen), edge scrolling off.
 - Sim names in full (neighbor data), relationships, skills, job, aspiration, personality,
   interests, inventory.
-- Buy mode: catalog by category, product details, placing through a list of legal spots
-  (the Sims 1 mod's placement model, rebuilt on this engine's placement checks), selling.
+- Buy mode, still: the catalog's next pages (the scrollbar and page buttons), the game's reason
+  when a spot is refused (STR# 0x89), which directions fit a spot, doors and windows, multi-tile
+  objects' footprint in the spot line.
 - Build mode: walls, floors, doors and windows, stairs, pools, terrain (the Sims 1 mod's cursor).
 - Create a Sim / family (CAS): names, age, gender, personality, aspiration, looks (with the
   game's own names where they exist), and the family bin, moving families in and out.

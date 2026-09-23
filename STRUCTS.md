@@ -80,10 +80,43 @@ subclass used for labels showing a value (tooltip names it).
   (slot 29, 0xa04281f0); +0x1a70 the family's Sims (cTSPerson interface at +752); slot 39 the
   selected Sim (first with flag 2), as that interface. Multi-tile parts are `cEdithMTObject`.
 - `cTSObject` slots: 92 name (const char*, internal English), 33 -> {x, y} 16.16 tiles, 36 floor
-  (1 = ground) [Lua GetObjectName 0xa0566100, GetObjectLocation 0xa0566030]. +0x238 -> OBJD
-  resource: +0x20 GUID, +0x28 price, +0x54 function flags (buy categories, u16).
+  [Lua GetObjectName 0xa0566100, GetObjectLocation 0xa0566030]: 0 the terrain, 1 the ground floor
+  of a house on a foundation (a patio set reads 0, the rooms 1). +0xa8 short SimAntics direction:
+  0 faces -x, 2 +y, 4 +x, 6 -y (a dining set: each chair faces its table; +0x98 held the same on
+  loaded objects but not on new ones). +0x238 -> OBJD resource: +0x20 GUID, +0x28 price, +0x52
+  room flags, +0x54 function flags (buy categories, u16), +0xa8 s16[7] ratings (OBJD fields 82..88:
+  hunger, comfort, hygiene, bladder, energy, fun, room; the data's u16 fields start at +4).
 - Catalog name by GUID [Lua GetCatalogName 0xa0561640]: globals slot 24 (object folder) -> slot 14
   (guid) -> entry; entry slot 48 fills a `cIGZString*`; its slot 5 is the text. Internal objects'
   names start with `*`.
+- Scene graph nodes (`nTSSG::cObject`, `cAnimatable`, `cLocomotable`, `cPerson`): +0x88 the lot
+  object. The tools' object pick returns the node's 135-slot interface, at +324 / +432 / +860 /
+  +912 by class. No pointer back from the object was found: the mod scans memory for a node
+  whose +0x88 is the object (about 0.4 s) and caches it.
 - Interaction menu builder 0xa0621f50 (thiscall(objectId, second)): the main toolbar calls it for
   message 0xC0 (handler 0xa061b99c) with the object in data 1, the second id in data 2.
+
+## Buy mode
+
+- The main toolbar (`cTSMainToolbar`, system service 0xe92db716, iid 1 gives its +4 interface):
+  +0x74 the UI mode (`cTSUIModeLive` / `cTSUIModeBuy` / ...), +0x90 the `cTSUserToolHandler` (its
+  interface at +8), whose +0x28 is the current user tool. The object tool is replaced when a
+  catalog product is pressed: read it there each time.
+- Catalog: `cTSWinProcCatalog` (+0x10 vector of thumbnail windows and procs; +0x11c..+0x128 the
+  previous/next page buttons) holds `cTSWinProcCatalogThumbnail` windows; a thumbnail proc +0x14
+  -> `cTSProductObject` interface (+0x10c into the object). The product: cRZStrings (vtable, then
+  std::string) at +0x0c internal name, +0x2c catalog name, +0x4c description; +0xac price;
+  +0xfc `cTSObjectSelector`, whose +0x60 is the OBJD resource. The thumbnail's button (child id 3)
+  has the price as tooltip. While a product or lot object is held, `cTSWinProcSellPanel` (the sell
+  button, with the game's "click or press Delete to sell for ..." text) replaces the buy panel.
+- `cTSUserToolObject` (the buy mode hand and placement tool): +0x50 u8 the last pick is on the
+  lot; +0x54 float x, y, int level: the last pick; +0x60 u8 a pick is stored; +0x80 float x, y,
+  int level: where the held object stands (tile centres); +0xa0 int rotation (steps of 2, not
+  wrapped; the game's , and . add -2 / +2; the object's direction); +0xa4 the last held GUID;
+  +0xd0 the held object's scene node. 0xa067be89 (thiscall) is "holding", 0xa067cb69 the held
+  cTSObject. Mouse messages reach the tool's dispatcher 0xa078dc91: 3 move (slot 42 pick, then
+  slot 45 move: the held object goes to the pick and is judged, slot 71; the verdict tints it
+  through slot 86), 4 down, 5 up, 6 the cursor left the view (slot 48 clears +0x50).
+- Placement errors: UIText.package STR# 0x89 ("Can't intersect other objects", "Must be against
+  wall" ...), the tooltip the game shows while a spot is refused. Where the tool keeps the
+  current error was not found yet.

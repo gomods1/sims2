@@ -10,8 +10,10 @@ Status (2026-09-23): the mod runs (`mod/`). Speech through NVDA (Prism in `Speec
 Keyboard navigation covers every GZ-window screen and dialog generically (menus, neighborhood
 chooser, dialogs, tutorials, game tips, the neighborhood panel, the lot info panel, the live mode
 HUD with needs, wants and fears, speed, clock, funds), the neighborhood's lots as a list (Enter
-opens the game's lot panel, "Entrar en solar" loads the lot), interaction (pie) menus, and the lot
-object browser (PageUp/PageDown by buy mode category, Enter opens the object's interactions).
+opens the game's lot panel, "Entrar en solar" loads the lot), interaction (pie) menus, the lot
+object browser (PageUp/PageDown by buy mode category or room, Enter opens the object's
+interactions), live state and a narrator, and buy mode (catalog products; placing, moving and
+selling objects through a list of spots where they fit).
 Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARGETS.md`; layouts:
 `STRUCTS.md`.
 
@@ -48,7 +50,7 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
   `tools/game.py cheat "<line>"` (a cheat console line through the game's cheat system) and
   `tools/game.py cheat "!<command> args"` (mod test commands in `game/cheats.cpp`: `!objects` logs
   the lot's objects, `!pie <id>` opens an object's interaction menu, `!lotinfo <lot> <family> 0`,
-  `!click x y`, `!move x y`, `!release`).
+  `!click x y`, `!move x y`, `!release`, `!rooms`, `!check x y n` times n placement checks).
 - A crash in the core is logged as `CRASH in tick: ... at <addr> (Sims2Access_<pid>_<n>.dll+0x....)`
   and swallowed; `python tools/symbolize.py --log` names function, file and line from the PDB.
   **MSVC 14.44 /O2 miscompiled an inlined helper once** (`FirstControl` in a loop read an unwritten
@@ -64,8 +66,19 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     Ctrl+F1 the key help. Ctrl+Up/Down read the review buffers, Ctrl+Left/Right switch them.
   - Lot view: PageDown/PageUp the lot's objects (nearest the selected Sim first), Shift+PageUp/
     PageDown the category (Sims, then the buy mode categories with the game's names, then other
-    objects); Enter opens the object's interaction menu, R repeats. (The game's PageUp/PageDown
-    change floor; the control panel's floor buttons still do.)
+    objects), Ctrl+PageUp/PageDown the rooms; Enter opens the object's interaction menu (in buy
+    mode: picks it up to move it), R repeats. (The game's PageUp/PageDown change floor; the
+    control panel's floor buttons still do.) Ctrl+E the selected Sim's state, Ctrl+1..9 select a
+    family member.
+  - Buy mode (`nav/placement.cpp`): Enter on a catalog product picks it up; then PageDown/PageUp
+    the spots where it fits (nearest the Sim first; a scan of the whole lot through the tool's own
+    check, about 0.1 ms a tile), Ctrl+PageDown/PageUp by room, arrows move a tile (Shift five),
+    Home back to the Sim, `,` `.` turn it (the game's keys; the facing is said), Enter buys (the
+    game hands over another copy until Escape), Delete sells a picked-up object, Escape drops it
+    or puts it back. How it works: the tools' ground pick is hooked to answer with the mod's tile,
+    the "cursor left the view" handler is skipped, the virtual mouse sits in the 3D view and
+    moves a pixel to make the tool re-pick; picking up an object hooks the object pick to answer
+    with that object's scene node (STRUCTS.md "Buy mode").
   - A text field the player can edit takes letters, Space, Enter, Home/End, Left/Right and Tab
     (the cheat console runs its line on Enter).
 - Game key bindings: `extracted/accelerators.txt` (from `ui.package`, type 0xA2E3D533). Lot view:
