@@ -53,6 +53,10 @@ void DevCommand(const std::string& line) {
     }
     else if (!strcmp(name, "objects")) {
         Log("selected Sim: object %d", SelectedSimId());
+        for (const LotObject& o : LotObjects()) {
+            std::string f, l;
+            if (o.person && SimName(o.id, &f, &l)) Log("  Sim %d: %s %s", o.id, f.c_str(), l.c_str());
+        }
         for (const LotObject& o : LotObjects())
             if (o.x >= 0)
                 Log("  object %d %s \"%s\" \"%s\" guid %08x $%d at %.1f, %.1f level %d", o.id, o.person ? "Sim" : "",

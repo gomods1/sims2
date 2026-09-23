@@ -110,6 +110,9 @@ const Translation kEntries[] = {
     {Str::ActionFinished, "%1$s terminó: %2$s"},
     {Str::NeedLow, "%1$s, necesidad baja: %2$s"},
     {Str::NeedUrgent, "%1$s, necesidad urgente: %2$s"},
+    // Lot: selecting Sims
+    {Str::SimSelectedNow, "%s, seleccionado"},
+    {Str::NoSuchSim, "no hay Sim %d"},
     {Str::FundsChanged, "%1$s, quedan %2$s"},
 };
 

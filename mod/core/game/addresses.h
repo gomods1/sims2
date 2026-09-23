@@ -162,6 +162,15 @@ constexpr int kStringSlotText = 5;
 // A Sim's motives, as Lua's GetPersonMotive (0xa0574040): the object's QueryInterface (slot 0)
 // for this iid gives the person interface; its slot 13 returns motive n (0..15) as a float.
 namespace person {
+// The Sim's name (as the interaction menu's title, 0xa0622163): on the person interface at
+// +752 of the object, slot 8 gives an object whose slot 61 is the neighbor; the neighbor's slot 49
+// fills a cRZString with the first name, slot 51 with the last name.
+constexpr int kInterface = 752;
+constexpr int kSlotSim = 8;
+constexpr int kSimSlotNeighbor = 61;
+constexpr int kNeighborSlotFirstName = 49;
+constexpr int kNeighborSlotLastName = 51;
+constexpr uintptr_t kRZStringVtable = 0xa0d9b470;
 constexpr uint32_t kIid = 0x5a69d3d5;
 constexpr int kSlotMotive = 13;
 constexpr int kMotiveCount = 16;

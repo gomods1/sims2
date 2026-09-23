@@ -74,6 +74,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         if (g_worldFocus && lot) nav::world::Interact();
         else nav::Activate();
         return true;
+    case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+        if (!ctrl || shift || !lot) return false;  // plain digits are the game's speeds
+        g_swallowChar = vk;
+        nav::live::SelectMember((int)vk - '1');
+        return true;
     case 'E':
         if (!ctrl || shift || !lot) return false;
         g_swallowChar = 'e';
@@ -108,7 +113,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
         return false;
     }
     bool ctrl = Held(VK_CONTROL);
-    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E';
+    bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || (vk >= '1' && vk <= '9');
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) return false;
     g_consumed[vk] = true;
     if (Dispatch(vk, Held(VK_SHIFT), ctrl)) return true;

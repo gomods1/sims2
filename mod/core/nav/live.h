@@ -15,6 +15,7 @@ Group QueueGroup();        // kQueueGroup: the selected Sim's queued actions, cu
 
 void CancelQueued(const Item& it);  // Enter on a queued action: the game's cancel (a click)
 void SayStatus();                   // Ctrl+E
-void Tick();                        // speed and pause changes
+void Tick();                        // speed and pause changes, the family watch
+void SelectMember(int index);       // Ctrl+1..9: the n-th Sim of the family (its portrait)
 
 }  // namespace nav::live

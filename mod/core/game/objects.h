@@ -34,6 +34,9 @@ int SelectedSimId();
 // Motive n (0..15) of a Sim (object id), -100..100; false when it is no Sim.
 bool SimMotive(int objectId, int index, float* value);
 
+// A Sim's first and last name (UTF-8); false when it is no Sim.
+bool SimName(int objectId, std::string* first, std::string* last);
+
 // The game is paused (the Pause command's state); false also when no lot is loaded.
 bool GamePaused();
 

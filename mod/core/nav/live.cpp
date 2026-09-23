@@ -80,7 +80,10 @@ std::string g_lastAction;          // the queue's first entry at the last check
 std::vector<int> g_needLevels;     // 0 fine, 1 low, 2 urgent, per kNeeds entry
 constexpr int kUrgentPercent = 15;
 
+// A Sim's first name (what the narrator says), else its internal name's end.
 std::string SimName(int simId) {
+    std::string first, last;
+    if (game::SimName(simId, &first, &last) && !first.empty()) return first;
     game::LotObject o;
     if (!game::ReadLotObject(simId, &o)) return "";
     size_t dash = o.name.rfind(" - ");
@@ -89,7 +92,12 @@ std::string SimName(int simId) {
 
 void WatchFamily() {
     int sim = game::SelectedSimId();
-    if (sim != g_watchedSim) {  // another Sim selected: start over quietly
+    if (sim != g_watchedSim) {  // another Sim selected: say who, start over quietly
+        if (g_watchedSim && sim) {
+            std::string first, last;
+            std::string who = game::SimName(sim, &first, &last) ? first : SimName(sim);
+            buffers::Event(util::Format(S(Str::SimSelectedNow), who.c_str()));
+        }
         g_watchedSim = sim;
         g_lastAction.clear();
         g_needLevels.clear();
@@ -168,8 +176,7 @@ void SayStatus() {
         speech::Say(S(Str::NoSimSelected));
         return;
     }
-    size_t dash = o.name.rfind(" - ");
-    std::string line = dash == std::string::npos ? o.name : o.name.substr(dash + 3);
+    std::string line = SimName(sim);
     Group q = QueueGroup();
     line += ", " + (q.items.empty() ? std::string(S(Str::StatusIdle)) : q.items[0].label);
     std::vector<NeedValue> needs = Needs(sim);
@@ -182,6 +189,43 @@ void SayStatus() {
     for (const NeedValue& n : needs) details.push_back(util::Format(S(Str::MotiveValue), n.name.c_str(), n.percent));
     buffers::SetDetails(details);
     speech::Say(line);
+}
+
+void SelectMember(int index) {
+    // The family's portraits: buttons of the Sim chooser, top to bottom.
+    std::vector<Ptr> buttons;
+    std::vector<Ptr> stack = {game::MainWindow()};
+    int visited = 0;
+    while (!stack.empty() && visited < 600) {
+        Ptr w = stack.back();
+        stack.pop_back();
+        visited++;
+        if (!game::Visible(w)) continue;
+        if (game::ProcClass(w) == "cTSWinProcSimChooser") {
+            std::vector<Ptr> inner = {w};
+            while (!inner.empty()) {
+                Ptr x = inner.back();
+                inner.pop_back();
+                for (Ptr c : game::Children(x)) {
+                    if (!game::Visible(c)) continue;
+                    if (game::IsButton(c) && !game::Tooltip(c).empty()) buttons.push_back(c);
+                    else inner.push_back(c);
+                }
+            }
+            break;
+        }
+        for (Ptr c : game::Children(w)) stack.push_back(c);
+    }
+    std::sort(buttons.begin(), buttons.end(), [](Ptr a, Ptr b) {
+        RECT ra = game::ScreenRect(a), rb = game::ScreenRect(b);
+        return ra.top != rb.top ? ra.top < rb.top : ra.left < rb.left;
+    });
+    if (index < 0 || index >= (int)buttons.size()) {
+        speech::Say(util::Format(S(Str::NoSuchSim), index + 1));
+        return;
+    }
+    Log("select family member %d: %s", index + 1, game::Tooltip(buttons[index]).c_str());
+    game::Press(buttons[index]);
 }
 
 void Tick() {

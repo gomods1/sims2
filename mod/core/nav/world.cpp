@@ -55,8 +55,10 @@ std::string CategoryName(int c) {
     return n.empty() ? S(Str::CategoryOther) : n;
 }
 
-// A Sim's name from its internal one ("E001_User00013 - Carlos" -> "Carlos").
+// A Sim's full name; else from its internal one ("E001_User00013 - Carlos" -> "Carlos").
 std::string SimName(const LotObject& o) {
+    std::string first, last;
+    if (game::SimName(o.id, &first, &last)) return last.empty() ? first : first + " " + last;
     size_t dash = o.name.rfind(" - ");
     return dash == std::string::npos ? o.name : o.name.substr(dash + 3);
 }

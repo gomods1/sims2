@@ -124,6 +124,53 @@ int SelectedSimId() {
     return 0;
 }
 
+namespace {
+
+// A cRZString the game can write into: vtable, std::string (16-byte buffer, size, capacity 15),
+// reference count. A name longer than 15 bytes makes the game allocate: that block is left (a
+// few bytes per call), since only the game's allocator may free it.
+struct RZString {
+    Ptr vtable;
+    char buf[16];
+    uint32_t size;
+    uint32_t cap;
+    uint32_t refs;
+    uint32_t pad[4];
+};
+
+std::string Text(const RZString& s) {
+    if (s.size == 0 || s.size > 4096) return "";
+    Ptr data = s.cap > 15 ? *(const Ptr*)s.buf : (Ptr)s.buf;
+    std::string out(s.size, '\0');
+    return Read(data, out.data(), s.size) ? out : "";
+}
+
+}  // namespace
+
+bool SimName(int objectId, std::string* first, std::string* last) {
+    LotObject o;
+    if (!ReadLotObject(objectId, &o) || !o.person) return false;
+    Ptr iface = o.ptr + addr::person::kInterface;
+    if (!IsKindOf(iface, "cTSPerson")) return false;
+    typedef Ptr(__thiscall * GetFn)(Ptr);
+    typedef void(__thiscall * NameFn)(Ptr, RZString*);
+    RZString a = {}, b = {};
+    a.vtable = b.vtable = Va(addr::person::kRZStringVtable);
+    a.cap = b.cap = 15;
+    bool ok = Guarded([&] {
+        Ptr sim = Slot<GetFn>(iface, addr::person::kSlotSim)(iface);
+        if (!sim) return;
+        Ptr nb = Slot<GetFn>(sim, addr::person::kSimSlotNeighbor)(sim);
+        if (!nb) return;
+        Slot<NameFn>(nb, addr::person::kNeighborSlotFirstName)(nb, &a);
+        Slot<NameFn>(nb, addr::person::kNeighborSlotLastName)(nb, &b);
+    });
+    if (!ok) return false;
+    *first = Text(a);
+    *last = Text(b);
+    return !first->empty() || !last->empty();
+}
+
 bool GamePaused() {
     Ptr sim = Rd<Ptr>(Va(addr::sim::kInstance));
     return sim && Rd<int16_t>(sim + addr::sim::kPaused) != 0;
