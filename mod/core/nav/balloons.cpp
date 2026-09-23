@@ -239,10 +239,12 @@ void Tick() {
             continue;  // a topic the mod cannot name
         }
         LogVerbose("balloon line: %s", line.c_str());
-        // The same line over the same Sim once in 15 s (a conversation cycles its topics).
+        // The same line over the same Sim once in 15 s in a conversation (it cycles its topics),
+        // once a minute for a thought (a Sim keeps thinking of what it wants).
         std::string key = std::to_string(b.objectId) + "|" + line;
         auto said = g_said.find(key);
-        if (said != g_said.end() && now - said->second < 15000) continue;
+        ULONGLONG quiet = e->kind == Kind::Talk ? 15000 : 60000;
+        if (said != g_said.end() && now - said->second < quiet) continue;
         g_said[key] = now;
         // The family's balloons are spoken (a Sim on the phone with them counts); a visitor's only
         // kept in the events buffer, as the small relationship steps each social gives.

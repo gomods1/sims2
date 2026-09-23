@@ -234,6 +234,7 @@ const Translation kEntries[] = {
     {Str::IconDoor, "Tür"},
     {Str::IconBabyQuestion, "ein Baby?"},
     {Str::FamilyTreePicked, "%s aufgenommen: Eingabe auf einem anderen Sim verbindet sie, erneut Eingabe legt ab"},
+    {Str::FurnitureGone, "%1$s ist vom Grundstück verschwunden, Wert %2$s"},
 };
 
 }  // namespace

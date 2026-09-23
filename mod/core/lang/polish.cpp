@@ -230,6 +230,7 @@ const Translation kEntries[] = {
     {Str::IconDoor, "drzwi"},
     {Str::IconBabyQuestion, "dziecko?"},
     {Str::FamilyTreePicked, "%s wybrany: Enter na innym Simie łączy ich, ponowny Enter odkłada"},
+    {Str::FurnitureGone, "%1$s zniknął z działki, wartość %2$s"},
 };
 
 }  // namespace

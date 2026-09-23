@@ -213,3 +213,4 @@
     X(IconDoor, "door")                                                                                                \
     X(IconBabyQuestion, "a baby?")                                                                                     \
     X(FamilyTreePicked, "%s picked up: Enter on another Sim to join them, Enter again to put down")                    \
+    X(FurnitureGone, "%1$s has left the lot, worth %2$s")                                                              \

@@ -221,6 +221,7 @@ const Translation kEntries[] = {
     {Str::IconDoor, "门"},
     {Str::IconBabyQuestion, "婴儿？"},
     {Str::FamilyTreePicked, "已选中%s：在另一个模拟市民上按Enter建立关系，再按Enter放下"},
+    {Str::FurnitureGone, "%1$s已不在这块地上，价值%2$s"},
 };
 
 }  // namespace

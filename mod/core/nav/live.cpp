@@ -163,6 +163,35 @@ void WatchVisitors() {
     g_visitorsPrimed = true;
 }
 
+// Furniture that leaves the lot in live mode (a burglar, the repo man, a fire): the lot's catalog
+// objects worth something, compared every two seconds. Buy and build mode move and sell objects
+// on purpose: the list starts over there.
+struct Furniture {
+    std::string name;
+    int price;
+};
+std::map<int, Furniture> g_furniture;
+bool g_furniturePrimed = false;
+ULONGLONG g_furnitureAt = 0;
+void WatchFurniture() {
+    ULONGLONG now = GetTickCount64();
+    if (game::CurrentModeClass() != "cTSUIModeLive") {
+        g_furniturePrimed = false;
+        return;
+    }
+    if (now - g_furnitureAt < 2000) return;
+    g_furnitureAt = now;
+    std::map<int, Furniture> seen;
+    for (const game::LotObject& o : game::LotObjects())
+        if (!o.person && o.price >= 50 && !o.catalogName.empty()) seen[o.id] = {util::CleanForSpeech(o.catalogName), o.price};
+    if (g_furniturePrimed)
+        for (const auto& [id, f] : g_furniture)
+            if (!seen.count(id))
+                Narrate(util::Format(S(Str::FurnitureGone), f.name.c_str(), util::Money(f.price).c_str()), true);
+    g_furniture = std::move(seen);
+    g_furniturePrimed = true;
+}
+
 void WatchFamily() {
     int sim = game::SelectedSimId();
     if (sim != g_watchedSim) {  // another Sim selected: say who, start over quietly
@@ -402,10 +431,12 @@ void Tick() {
         g_visitors.clear();
         g_visitorsPrimed = false;
         g_lastFunds = -1;  // another lot, another family: its funds are not a payment
+        g_furniturePrimed = false;
         return;
     }
     WatchFamily();
     WatchVisitors();
+    WatchFurniture();
     WatchFunds();
     FollowTick();
     // 0 paused, else the chosen speed (the speed buttons show the choice, not the pause).

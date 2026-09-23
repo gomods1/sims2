@@ -220,6 +220,7 @@ const Translation kEntries[] = {
     {Str::IconDoor, "ドア"},
     {Str::IconBabyQuestion, "赤ちゃん？"},
     {Str::FamilyTreePicked, "%sを選択: 別のシムでEnterで関係を作成、もう一度Enterで解除"},
+    {Str::FurnitureGone, "%1$sが区画からなくなった（価値%2$s）"},
 };
 
 }  // namespace

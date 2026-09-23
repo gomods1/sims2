@@ -226,6 +226,7 @@ const Translation kEntries[] = {
     {Str::IconDoor, "ประตู"},
     {Str::IconBabyQuestion, "ทารก?"},
     {Str::FamilyTreePicked, "เลือก %s แล้ว: กด Enter ที่ซิมอื่นเพื่อเชื่อมความสัมพันธ์ กด Enter อีกครั้งเพื่อวาง"},
+    {Str::FurnitureGone, "%1$s หายไปจากที่ดิน มูลค่า %2$s"},
 };
 
 }  // namespace

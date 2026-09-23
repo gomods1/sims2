@@ -231,6 +231,7 @@ const Translation kEntries[] = {
     {Str::IconDoor, "ajtó"},
     {Str::IconBabyQuestion, "egy baba?"},
     {Str::FamilyTreePicked, "%s kiválasztva: Enter egy másik simen összeköti őket, újra Enter elengedi"},
+    {Str::FurnitureGone, "%1$s eltűnt a telekről, érték %2$s"},
 };
 
 }  // namespace
