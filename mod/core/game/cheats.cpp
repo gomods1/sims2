@@ -45,7 +45,16 @@ void DevCommand(const std::string& line) {
     if (!strcmp(name, "lotinfo")) ShowLotInfo(a, b, c);
     else if (!strcmp(name, "click")) MouseClick(a, b, c != 0);
     else if (!strcmp(name, "move")) MouseMove(a, b);
-    else if (!strcmp(name, "release")) MouseRelease();
+    else if (!strcmp(name, "release")) {
+        MouseRelease();
+        SetPickOverride(false);
+        ClearObjectPick();
+    } else if (!strcmp(name, "ground")) {
+        // !ground x y level: a click on that tile (nothing else under the cursor)
+        SetPickOverride(true, a + 0.5f, b + 0.5f, c);
+        ForceNoObjectPick();
+        MouseClick(1280, 640);
+    }
     else if (!strcmp(name, "pie")) ShowInteractions(a);
     else if (!strcmp(name, "check")) {
         // !check x y n: time n spot checks along x from (x, y)

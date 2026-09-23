@@ -14,4 +14,7 @@ Ptr InputRoot();
 // to bottom, left to right.
 std::vector<Group> Collect(Ptr root);
 
+// The entries of an interaction (pie) menu window, in the game's order.
+Group PieGroup(Ptr menu);
+
 }  // namespace nav

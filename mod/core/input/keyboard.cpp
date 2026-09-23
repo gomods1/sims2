@@ -79,6 +79,11 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         nav::NextGroup(shift ? -1 : +1);
         return true;
     case VK_RETURN:
+        if (ctrl && lot && g_worldFocus) {
+            g_swallowChar = '\n';  // Ctrl+Enter's character is a line feed
+            nav::world::WalkTo(shift);
+            return true;
+        }
         if (ctrl || typing) return false;  // a text field's Enter is the game's (the cheat console runs its line)
         g_swallowChar = '\r';
         if (g_worldFocus && lot) nav::world::Interact();
@@ -124,7 +129,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     }
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || (vk >= '1' && vk <= '9') ||
-                   vk == VK_PRIOR || vk == VK_NEXT;
+                   vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN;
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) return false;
     g_consumed[vk] = true;
     if (Dispatch(vk, Held(VK_SHIFT), ctrl)) return true;

@@ -1,6 +1,9 @@
 #include "world.h"
 
 #include "../game/buy.h"
+#include "../game/hooks.h"
+#include "../game/mouse.h"
+#include "collect.h"
 #include "placement.h"
 
 #include <windows.h>
@@ -52,6 +55,9 @@ int g_focusId = -1;
 bool g_roomMode = false;          // PageUp/PageDown walk a room instead of a category
 int g_roomLevel = 0, g_roomId = -1;
 ULONGLONG g_menuAskedAt = 0;  // Interact() posted a menu request at this time
+ULONGLONG g_walkAskedAt = 0;  // WalkTo() clicked the ground at this time
+bool g_walkRun = false;
+bool g_walkClickPending = false;  // waiting for Ctrl and Shift to come up (else a Ctrl+click)
 
 std::string CategoryName(int c) {
     if (kCategories[c].flag == 0) return S(Str::CategorySims);
@@ -130,9 +136,9 @@ double Distance(const LotObject& a, const LotObject& b) { return std::hypot(a.x 
 // "3 casillas al noreste" from the selected Sim; -y is north, +x east (the lot's own axes).
 std::string Where(const LotObject& o, const LotObject* sim) {
     if (!sim) return "";
-    if (o.level != sim->level) {
-        return util::Format(S(Str::FloorNumber), o.level + 1);
-    }
+    // Level 0 is the terrain, 1 the floor of a house on a foundation: both the ground floor.
+    int floor = std::max(o.level, 1), simFloor = std::max(sim->level, 1);
+    if (floor != simFloor) return util::Format(S(Str::FloorNumber), floor);
     double dx = o.x - sim->x, dy = o.y - sim->y;
     int tiles = (int)std::lround(std::hypot(dx, dy));
     if (tiles == 0) return S(Str::HereNow);
@@ -257,7 +263,7 @@ void NextRoom(int delta) {
     g_roomId = rooms[next].second;
     std::vector<LotObject> list = ObjectsIn(0, sim);
     std::string name = RoomName(g_roomLevel, g_roomId, all);
-    std::string summary = name + ", " + util::Format(S(Str::FloorNumber), g_roomLevel + 1) + ", " +
+    std::string summary = name + ", " + util::Format(S(Str::FloorNumber), std::max(g_roomLevel, 1)) + ", " +
                           (list.size() == 1 ? util::Format(S(Str::RoomObjectsOne), "").substr(2)
                                             : util::Format(S(Str::RoomObjects), "", (int)list.size()).substr(2));
     if (list.empty()) {
@@ -304,7 +310,53 @@ void Interact() {
     if (game::ShowInteractions(o.id)) g_menuAskedAt = GetTickCount64();
 }
 
+void WalkTo(bool run) {
+    LotObject o;
+    if (g_focusId < 0 || !game::ReadLotObject(g_focusId, &o) || o.x < 0) {
+        speech::Say(S(Str::NoObjects));
+        return;
+    }
+    if (!game::SelectedSimId()) {
+        speech::Say(S(Str::NoSimSelected));
+        return;
+    }
+    // A click on the object's tile with nothing under the cursor: the game offers "go here" and
+    // "run here" (and routes to the nearest place it can reach). The click waits for Ctrl to be
+    // released: the game tracks it from the key messages, and a Ctrl+click opens no menu.
+    Log("walk to %s at %.1f,%.1f floor %d", DisplayName(o).c_str(), o.x, o.y, o.level);
+    game::SetPickOverride(true, o.x, o.y, o.level);
+    game::ForceNoObjectPick();
+    g_walkClickPending = true;
+    g_walkAskedAt = GetTickCount64();
+    g_walkRun = run;
+}
+
 void Tick() {
+    if (g_walkClickPending) {
+        if (game::ModifierHeld(VK_CONTROL) || game::ModifierHeld(VK_SHIFT)) {
+            if (GetTickCount64() - g_walkAskedAt < 5000) return;
+        }
+        g_walkClickPending = false;
+        game::MouseClick(1280, 640);
+        g_walkAskedAt = GetTickCount64();
+    } else if (g_walkAskedAt) {
+        Ptr modal = game::ModalWindow();
+        bool menu = modal && game::IsKindOf(modal, "cTSWinPieMenu");
+        if (menu || GetTickCount64() - g_walkAskedAt > 1500) {
+            game::SetPickOverride(false);
+            game::ClearObjectPick();
+            g_walkAskedAt = 0;
+            Group pie = menu ? PieGroup(modal) : Group();
+            size_t choice = g_walkRun ? 1 : 0;
+            if (pie.items.size() > choice) {
+                Log("walk: choosing \"%s\"", pie.items[choice].label.c_str());
+                game::ClickWindow(pie.items[choice].widget);
+                speech::Say(S(Str::WalkingThere));
+            } else {
+                speech::Say(S(Str::CannotWalk));
+            }
+        }
+    }
     if (!g_menuAskedAt) return;
     Ptr modal = game::ModalWindow();
     if (modal && game::IsKindOf(modal, "cTSWinPieMenu")) {

@@ -31,6 +31,8 @@ void InitBuyHooks();  // from InitHooks (MinHook ready)
 // scene node: a click then acts on it (buy mode's hand picks it up). False when the object has
 // no node (found by scanning memory once, then cached).
 bool ForceObjectPick(Ptr object);
+// While set, the object pick finds nothing under the cursor (a click lands on the ground).
+void ForceNoObjectPick();
 void ClearObjectPick();
 
 // The main toolbar's current user tool (the object tool while a bought object is held), 0 if none.

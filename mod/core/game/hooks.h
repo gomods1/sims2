@@ -23,6 +23,9 @@ const std::vector<Ptr>& ModalStack();
 // Posted test keys (tools/keys.py): the game sees their modifiers as held.
 void SetSyntheticModifier(int vk, bool down);
 
+// A modifier is down: the real key or a posted test key.
+bool ModifierHeld(int vk);
+
 // The real GetAsyncKeyState (without the test keys' modifiers).
 short RealGetAsyncKeyState(int vk);
 

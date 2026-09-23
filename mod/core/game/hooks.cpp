@@ -125,6 +125,10 @@ void InitHooks() {
     HookApi("GetKeyState", (void*)GetKeyStateDetour, &g_getKeyState);
 }
 
+bool ModifierHeld(int vk) {
+    return SyntheticHeld(vk) || ((g_getAsyncKeyState ? g_getAsyncKeyState(vk) : GetAsyncKeyState(vk)) & 0x8000) != 0;
+}
+
 void SetSyntheticModifier(int vk, bool down) {
     if (vk >= 0 && vk < 256) g_syntheticHeld[vk] = down;
 }

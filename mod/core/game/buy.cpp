@@ -44,10 +44,12 @@ void __fastcall VerdictDetour(Ptr self, void* edx, uint32_t fits) {
 
 // cTSUserToolBase::slot29 (thiscall: sx, sy, 1, a, b) -> the scene node under the cursor.
 Ptr g_forcedPick = 0;
+bool g_forceNothing = false;
 typedef Ptr(__fastcall* ObjectPickFn)(Ptr self, void* edx, int sx, int sy, int one, int a, int b);
 ObjectPickFn g_objectPick = nullptr;
 Ptr __fastcall ObjectPickDetour(Ptr self, void* edx, int sx, int sy, int one, int a, int b) {
     if (g_forcedPick) return g_forcedPick;
+    if (g_forceNothing) return 0;
     return g_objectPick(self, edx, sx, sy, one, a, b);
 }
 
@@ -124,7 +126,15 @@ bool ForceObjectPick(Ptr object) {
     return g_forcedPick != 0;
 }
 
-void ClearObjectPick() { g_forcedPick = 0; }
+void ForceNoObjectPick() {
+    g_forcedPick = 0;
+    g_forceNothing = true;
+}
+
+void ClearObjectPick() {
+    g_forcedPick = 0;
+    g_forceNothing = false;
+}
 
 Ptr CurrentTool() {
     Ptr tb = MainToolbar();
