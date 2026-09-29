@@ -20,6 +20,8 @@ void MoveToEdge(bool last);  // first/last item in the current group
 void NextGroup(int delta);   // previous/next group (wraps)
 void Activate();             // press the focused item
 void RepeatFocus();          // say the focused item again, with its group
+bool Back();                 // Backspace: up one level (a kind's or room's things back to the
+                             // kinds or rooms); false when the focus is at a top level
 game::Ptr FocusedWidget();
 bool FocusedIsTextField();
 bool FocusedIsSlider();

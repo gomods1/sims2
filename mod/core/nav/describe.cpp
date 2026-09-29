@@ -13,6 +13,8 @@ std::string Describe(const Item& it) {
     switch (it.role) {
     case Role::Text: return label;
     case Role::Lot: return label;
+    case Role::Level: return label;
+    case Role::LotObject: return label;
     case Role::PieItem: return label;
     case Role::QueuedAction: return label + ", " + S(Str::RoleButton);
     case Role::ListRow:

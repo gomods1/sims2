@@ -13,13 +13,14 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "模擬市民2無障礙模組：不支援的遊戲版本，模組已停用"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "方向鍵在群組內移動，Tab和Shift+Tab切換群組，Home和End移到兩端，Enter執行，R重複朗讀。Ctrl+上方向鍵和Ctrl+下方向鍵朗讀剛才所說內容的詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵"
-     "在詳細資料和事件之間切換。"},
+     "Tab和Shift+Tab在群組之間切換，上、下方向鍵在群組內移動，左、右方向鍵同樣可以，或調整滑桿，Home和End移到兩端，Enter執行，對於類別或房間則開啟其中的物品，Backspace返回，R重複朗讀。C"
+     "trl+上方向鍵和Ctrl+下方向鍵朗讀剛才所說內容的詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
     {Str::KeysLot,
-     "地段：Page Down 和 Page Up 瀏覽地段上的物品，近的在前；加 Shift 切換類別，加 Ctrl 切換房間。Enter 開啟物品的互動，在購買模式中拿起它；Ctrl+Enter "
-     "讓選中的模擬市民走過去。Ctrl+E 模擬市民的狀態，Ctrl+1 到 9 選擇模擬市民，Tab 切換面板，Ctrl+上下查看詳情。"},
+     "地段：Tab依序瀏覽需求、行動佇列、按類別的物品、按房間的物品和遊戲面板。在按類別或按房間的物品中，Enter 開啟一個類別或房間，其中的物品近的在前，Backspace 返回。在物品上按 Enter "
+     "開啟它的互動，在購買模式中拿起它；Ctrl+Enter 讓選中的模擬市民走過去。Ctrl+E 模擬市民的狀態，Ctrl+1 到 9 選擇模擬市民，Ctrl+上下查看詳情。"},
     {Str::KeysPlacement,
-     "放置：Page Down 和 Page Up 瀏覽放得下的位置，加 Ctrl 切換房間，方向鍵移動一格，Home 回到模擬市民處，逗號和句號旋轉，Enter 放下，Delete 賣掉，Escape 結束。"},
+     "放置：方向鍵移動一格，Shift 移動五格，Tab 和 Shift+Tab 瀏覽放得下的位置，Page Down 和 Page Up 切換房間，Home 回到模擬市民處，逗號和句號旋轉，Enter "
+     "放下，Delete 賣掉，Escape 結束。"},
     {Str::KeysBuild,
      "建造：方向鍵移動角點，加 Shift 移動五格，Page Up 和 Page Down 切換樓層，空白鍵標記起點，Enter 從起點建造，Ctrl+Enter 拆除，Home 回到模擬市民處，R "
      "重複，Escape 離開。"},
@@ -139,6 +140,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s，%d件物品"},
     {Str::RoomObjectsOne, "%s，1件物品"},
+    {Str::ThingsByKind, "按類別的物品"},
+    {Str::ThingsByRoom, "按房間的物品"},
     {Str::FundsChanged, "%1$s，剩餘%2$s"},
     // Camera
     {Str::CameraFree, "鏡頭自由"},

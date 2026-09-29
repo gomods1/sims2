@@ -13,18 +13,21 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Sims 2 -saavutettavuus: pelin versiota ei tueta, modi on poistettu käytöstä"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Nuolinäppäimet liikkuvat ryhmän sisällä, Sarkain ja Vaihto+Sarkain vaihtavat ryhmää, Home ja End siirtyvät "
-     "alkuun ja loppuun, Enter aktivoi, R toistaa. Control+nuoli ylös ja Control+nuoli alas lukevat juuri "
-     "sanotun tiedot, Control+nuoli vasemmalle ja Control+nuoli oikealle vaihtavat tietojen ja tapahtumien "
-     "välillä."},
+     "Sarkain ja Vaihto+Sarkain siirtävät ryhmästä toiseen; nuoli ylös ja alas kulkevat ryhmän läpi, myös vasen "
+     "ja oikea, tai muuttavat liukusäädintä; Home ja End siirtyvät alkuun ja loppuun; Enter aktivoi, ja lajilla "
+     "tai huoneella avaa sen esineet; Askelpalautin palaa takaisin; R toistaa. Control+nuoli ylös ja "
+     "Control+nuoli alas lukevat juuri sanotun tiedot, Control+nuoli vasemmalle ja Control+nuoli oikealle "
+     "vaihtavat tietojen ja tapahtumien välillä."},
     {Str::KeysLot,
-     "Tontti: Page Down ja Page Up, tontin esineet, lähimmät ensin; Shiftin kanssa luokat, Ctrl:n kanssa "
-     "huoneet. Enter avaa esineen toiminnot, tai nostaa sen ostotilassa; Ctrl+Enter lähettää valitun simin "
-     "sinne. Ctrl+E simin tila, Ctrl+1–9 valitsevat simin, Tab paneelit, Ctrl+nuoli ylös ja alas yksityiskohdat."},
+     "Tontti: Sarkain kulkee tarpeiden, toimintajonon, esineiden lajeittain, esineiden huoneittain ja pelin "
+     "paneelien läpi. Esineissä lajeittain tai huoneittain Enter avaa lajin tai huoneen, sen esineet tulevat "
+     "lähimmät ensin, Askelpalautin palaa takaisin. Enter esineellä avaa sen toiminnot, tai nostaa sen "
+     "ostotilassa; Ctrl+Enter lähettää valitun simin sinne. Ctrl+E simin tila, Ctrl+1–9 valitsevat simin, "
+     "Ctrl+nuoli ylös ja alas yksityiskohdat."},
     {Str::KeysPlacement,
-     "Sijoittaminen: Page Down ja Page Up paikat, joihin se mahtuu, Ctrl:n kanssa huoneet, nuolet yksi ruutu, "
-     "Home takaisin simin luo, pilkku ja piste kääntävät sitä, Enter asettaa sen, Delete myy sen, Escape "
-     "lopettaa."},
+     "Sijoittaminen: nuolet yksi ruutu, Shift viisi, Sarkain ja Vaihto+Sarkain paikat, joihin se mahtuu, Page "
+     "Down ja Page Up huoneet, Home takaisin simin luo, pilkku ja piste kääntävät sitä, Enter asettaa sen, "
+     "Delete myy sen, Escape lopettaa."},
     {Str::KeysBuild,
      "Rakentaminen: nuolet siirtävät kulmaa, Shiftin kanssa viisi, Page Up ja Page Down kerros, välilyönti "
      "merkitsee alun, Enter rakentaa merkistä, Ctrl+Enter poistaa, Home takaisin simin luo, R toistaa, Escape "
@@ -147,6 +150,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d esinettä"},
     {Str::RoomObjectsOne, "%s, 1 esine"},
+    {Str::ThingsByKind, "esineet lajeittain"},
+    {Str::ThingsByRoom, "esineet huoneittain"},
     {Str::FundsChanged, "%1$s, jäljellä %2$s"},
     // Camera
     {Str::CameraFree, "kamera vapaa"},

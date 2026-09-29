@@ -13,18 +13,21 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Accessibilité pour Les Sims 2 : version du jeu non prise en charge, mod désactivé"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Les flèches se déplacent dans un groupe, Tab et Maj+Tab changent de groupe, Origine et Fin vont aux "
-     "extrémités, Entrée active, R répète. Contrôle+flèche haut et Contrôle+flèche bas lisent les détails de ce "
-     "qui a été dit, Contrôle+flèche gauche et Contrôle+flèche droite passent des détails aux événements."},
+     "Tab et Maj+Tab passent d'un groupe à l'autre ; les flèches haut et bas parcourent un groupe, gauche et "
+     "droite aussi, ou changent un curseur ; Origine et Fin vont aux extrémités ; Entrée active, et sur un type "
+     "ou une pièce ouvre ses objets ; Retour arrière revient en arrière ; R répète. Contrôle+flèche haut et "
+     "Contrôle+flèche bas lisent les détails de ce qui a été dit, Contrôle+flèche gauche et Contrôle+flèche "
+     "droite passent des détails aux événements."},
     {Str::KeysLot,
-     "Terrain : Page suivante et précédente, les objets du terrain, les plus proches d'abord ; avec Maj, les "
-     "catégories ; avec Contrôle, les pièces. Entrée ouvre les interactions d'un objet, ou le prend en mode "
-     "Achat ; Contrôle+Entrée y envoie le Sim sélectionné. Contrôle+E, l'état du Sim ; Contrôle+1 à 9 "
-     "choisissent un Sim ; Tab, les panneaux ; Contrôle+haut et bas, les détails."},
+     "Terrain : Tab parcourt les besoins, la file d'actions, les objets par type, les objets par pièce et les "
+     "panneaux du jeu. Dans les objets par type ou par pièce, Entrée ouvre un type ou une pièce, ses objets "
+     "viennent les plus proches d'abord, Retour arrière revient en arrière. Entrée sur un objet ouvre ses "
+     "interactions, ou le prend en mode Achat ; Contrôle+Entrée y envoie le Sim sélectionné. Contrôle+E, l'état "
+     "du Sim ; Contrôle+1 à 9 choisissent un Sim ; Contrôle+haut et bas, les détails."},
     {Str::KeysPlacement,
-     "Placement : Page suivante et précédente, les places où il tient ; avec Contrôle, les pièces ; flèches, une "
-     "case ; Origine, retour au Sim ; virgule et point le tournent ; Entrée le pose ; Suppr le vend ; Échap "
-     "arrête."},
+     "Placement : flèches, une case ; Maj, cinq ; Tab et Maj+Tab, les places où il tient ; Page suivante et "
+     "précédente, les pièces ; Origine, retour au Sim ; virgule et point le tournent ; Entrée le pose ; Suppr le "
+     "vend ; Échap arrête."},
     {Str::KeysBuild,
      "Construction : les flèches déplacent le coin, avec Maj cinq ; Page précédente et suivante, le niveau ; "
      "Espace marque le début ; Entrée construit depuis la marque ; Contrôle+Entrée supprime ; Origine retour au "
@@ -147,6 +150,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d objets"},
     {Str::RoomObjectsOne, "%s, 1 objet"},
+    {Str::ThingsByKind, "objets par type"},
+    {Str::ThingsByRoom, "objets par pièce"},
     {Str::FundsChanged, "%1$s, il reste %2$s"},
     // Camera
     {Str::CameraFree, "caméra libre"},

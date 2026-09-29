@@ -35,6 +35,7 @@ struct State {
     std::vector<Group> groups;
     Ptr focusWidget = 0;
     int focusNumber = 0;           // virtual items (lots) have no widget: their number
+    Ptr focusGroupKey = 0;         // the focused item's group (virtual items are found in it)
     std::string focusLabel;
     int group = -1, index = -1;
     std::set<Ptr> knownGroups;     // group keys at the last announcement
@@ -45,6 +46,13 @@ struct State {
     Ptr pressed = 0;               // the last pressed widget, for its new state
     Ptr dragFrom = 0;              // the family tree: the Sim picked up to drop on another
     bool hadPie = false;           // the interaction menu was up at the last refresh
+    struct {
+        Ptr widget = 0;
+        int number = 0;
+        std::string label;
+        Ptr groupKey = 0;
+        int index = -1;
+    } beforePie;                   // the focus when the interaction menu opened
     ULONGLONG pressedAt = 0;
     bool pressedWasOn = false;
     std::vector<std::pair<Ptr, std::string>> textsBefore;  // the screen's texts before the press
@@ -71,13 +79,18 @@ void SetFocus(int group, int index) {
     g.focusWidget = it ? it->widget : 0;
     g.focusNumber = it ? it->number : 0;
     g.focusLabel = it ? it->label : "";
+    g.focusGroupKey = it ? g.groups[group].key : 0;
+    if (it && it->role == Role::LotObject) world::Focus(it->number);  // Ctrl+Enter walks there
 }
 
 bool Relocate() {
     for (int gi = 0; gi < (int)g.groups.size(); gi++)
         for (int ii = 0; ii < (int)g.groups[gi].items.size(); ii++) {
             const Item& it = g.groups[gi].items[ii];
+            // a virtual item (a lot, a thing, a kind) only in its own group: numbers repeat
+            // across groups (kind 3, object 3)
             if (it.widget == g.focusWidget && it.number == g.focusNumber &&
+                (it.widget || g.groups[gi].key == g.focusGroupKey) &&
                 (it.label == g.focusLabel || it.role == Role::TextField || !it.widget)) {
                 g.group = gi;
                 g.index = ii;
@@ -87,10 +100,22 @@ bool Relocate() {
     // Same widget with a new label (a value that changed): keep it.
     for (int gi = 0; gi < (int)g.groups.size(); gi++)
         for (int ii = 0; ii < (int)g.groups[gi].items.size(); ii++)
-            if (g.groups[gi].items[ii].widget == g.focusWidget && g.groups[gi].items[ii].number == g.focusNumber) {
+            if (g.groups[gi].items[ii].widget == g.focusWidget && g.groups[gi].items[ii].number == g.focusNumber &&
+                (g.focusWidget || g.groups[gi].key == g.focusGroupKey)) {
                 SetFocus(gi, ii);
                 return true;
             }
+    return false;
+}
+
+// The focused item went away (a thing the Sim picked up): the item now at its place in the same
+// group, so the focus stays where the player was (NAVIGATION.md), not the screen's default.
+bool StayInGroup() {
+    for (int gi = 0; gi < (int)g.groups.size(); gi++)
+        if (g.groups[gi].key == g.focusGroupKey && !g.groups[gi].items.empty()) {
+            SetFocus(gi, std::min(std::max(g.index, 0), (int)g.groups[gi].items.size() - 1));
+            return true;
+        }
     return false;
 }
 
@@ -115,7 +140,8 @@ void AnnounceFocus(bool withGroup) {
         return;
     }
     const Group& group = g.groups[g.group];
-    std::string prefix = withGroup && group.items.size() > 1 ? GroupSummary(group) + ". " : "";
+    // entering a group says its name and size, even of one item (NAVIGATION.md)
+    std::string prefix = withGroup ? GroupSummary(group) + ". " : "";
     buffers::SetDetails(DetailLines(*it, group, g.index));
     speech::Say(prefix + Describe(*it));
 }
@@ -176,11 +202,21 @@ void Refresh(ULONGLONG now) {
     // The interaction menu closed: the panels it hid are back, no news (the object browser, where
     // it was opened from, keeps the keys).
     bool hasPie = keys.count(kPieGroup) != 0;
+    if (hasPie && !g.hadPie) {
+        // the menu opened: where the focus was (a thing of the lot), to come back to
+        g.beforePie = {g.focusWidget, g.focusNumber, g.focusLabel, g.focusGroupKey, g.index};
+    }
     if (g.hadPie && !hasPie) {
         for (Ptr k : keys) {
             g.knownGroups.insert(k);
             g.announcedGroups.insert(k);
         }
+        // back where the menu was opened from (the thing in "things by kind"), not the screen's default
+        g.focusWidget = g.beforePie.widget;
+        g.focusNumber = g.beforePie.number;
+        g.focusLabel = g.beforePie.label;
+        g.focusGroupKey = g.beforePie.groupKey;
+        g.index = g.beforePie.index;
     }
     g.hadPie = hasPie;
     // The mod's own groups (needs, action queue, lots) come and go with the game's state: they
@@ -193,7 +229,7 @@ void Refresh(ULONGLONG now) {
         g.changedAt = now;
     }
     bool focusKept = (g.focusWidget || g.focusNumber) && Relocate();
-    if (!focusKept) FocusDefault();
+    if (!focusKept && !(g.focusGroupKey && StayInGroup())) FocusDefault();
     if (g.announcePending && now - g.changedAt >= kSettleMs) {
         g.announcePending = false;
         if (!focusKept || appeared * 2 >= (int)keys.size()) {
@@ -417,6 +453,21 @@ void Activate() {
         neighborhood::OpenLot(*it);
         return;
     }
+    if (it->role == Role::Level) {
+        // a kind or a room of the lot's things: its things, from the first
+        Ptr key = g.groups[g.group].key;
+        world::Open(key, it->number);
+        g.groups = Collect(g.root);
+        for (int gi = 0; gi < (int)g.groups.size(); gi++)
+            if (g.groups[gi].key == key) SetFocus(gi, 0);
+        AnnounceFocus(true);
+        return;
+    }
+    if (it->role == Role::LotObject) {
+        world::Focus(it->number);
+        world::Interact();
+        return;
+    }
     if (!game::Enabled(it->widget)) {
         speech::Say(Describe(*it));
         return;
@@ -448,6 +499,25 @@ void Activate() {
     game::Press(it->widget);
     if (it->role == Role::Product && it->buyObject) placement::Begin(it->label);
     else if (it->role == Role::Product) build::Begin(it->label);
+}
+
+bool Back() {
+    Refresh(GetTickCount64());
+    if (g.group < 0) return false;
+    Ptr key = g.groups[g.group].key;
+    int was = world::Close(key);
+    if (!was) return false;
+    // back to the kinds or rooms, on the one that was open
+    g.groups = Collect(g.root);
+    for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+        if (g.groups[gi].key != key) continue;
+        int at = 0;
+        for (int ii = 0; ii < (int)g.groups[gi].items.size(); ii++)
+            if (g.groups[gi].items[ii].number == was) at = ii;
+        SetFocus(gi, at);
+    }
+    AnnounceFocus(true);
+    return true;
 }
 
 void RepeatFocus() {

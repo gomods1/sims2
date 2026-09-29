@@ -6,6 +6,11 @@ generic code were copied and retargeted, its game layer rewritten. A copy of the
 `re/sims1_core_ref` (gitignored) for reference and for `tools/restore_strings.py`. This file holds
 what has been learned about *this* game. Anything marked **hypothesis** has not been verified.
 
+**Navigation follows meaning, not the screen's layout (the user's rule, 2026-09-29): read
+`NAVIGATION.md` before touching any key.** A ring of groups (Tab), items (arrows), levels (Enter /
+Backspace); groups in the window tree's order, never sorted by position; one key grammar for every
+screen and mode; only the spatial tools (placing, the build cursor) use the arrows for space.
+
 Status (2026-09-23): the mod runs (`mod/`). Speech through NVDA (Prism in `SpeechHost.exe`).
 Keyboard navigation covers every GZ-window screen and dialog generically (menus, neighborhood
 chooser, dialogs, tutorials, game tips, the neighborhood panel, the lot info panel, the live mode
@@ -64,17 +69,23 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
   `GetKeyState`/`GetAsyncKeyState` so the game also sees the tool's Ctrl/Shift/Alt as held
   (posted Ctrl+Shift+C opens the cheat console). Real keys are untouched.
 - Mod keys (current):
-  - Arrows move within a group, Tab/Shift+Tab change group, Home/End, Enter presses, R repeats,
-    Ctrl+F1 the key help. Ctrl+Up/Down read the review buffers, Ctrl+Left/Right switch them.
-  - Lot view: PageDown/PageUp the lot's objects (nearest the selected Sim first), Shift+PageUp/
-    PageDown the category (Sims, then the buy mode categories with the game's names, then other
-    objects), Ctrl+PageUp/PageDown the rooms; Enter opens the object's interaction menu (in buy
-    mode: picks it up to move it), R repeats. (The game's PageUp/PageDown change floor; the
-    control panel's floor buttons still do.) Ctrl+E the selected Sim's state, Ctrl+1..9 select a
-    family member.
-  - Buy mode (`nav/placement.cpp`): Enter on a catalog product picks it up; then PageDown/PageUp
+  - NAVIGATION.md: Tab/Shift+Tab groups (said with name and size on entering, even of one
+    item), arrows items, Home/End, Enter presses (a kind or room opens its things), Backspace back
+    a level, R repeats, Ctrl+F1 the key help. Ctrl+Up/Down read the review buffers, Ctrl+Left/Right
+    switch them. Groups keep the window tree's order (the pixel sort of groups was removed
+    2026-09-29).
+  - Lot view: the groups needs, action queue, "objetos por tipo" (Sims, then the buy mode
+    categories with the game's names, then other objects) and "objetos por habitación" (the
+    Sim's room first) come first (`nav/world.cpp` KindsGroup/RoomsGroup, keys kKindsGroup /
+    kRoomsGroup); Enter on a kind or room lists its things nearest the selected Sim first,
+    Backspace goes back to it; Enter on a thing opens its interaction menu (in buy mode: picks it
+    up to move it); after the menu closes the focus is back on the thing. The game's
+    PageUp/PageDown change floor again. Ctrl+E the selected Sim's state, Ctrl+1..9 select a
+    family member. Verified 2026-09-29 (Contreras lot: kinds, rooms, Backspace, the menu,
+    Ctrl+Enter walking).
+  - Buy mode (`nav/placement.cpp`): Enter on a catalog product picks it up; then Tab/Shift+Tab
     the spots where it fits (nearest the Sim first; a scan of the whole lot through the tool's own
-    check, about 0.1 ms a tile), Ctrl+PageDown/PageUp by room, arrows move a tile (Shift five),
+    check, about 0.1 ms a tile), PageDown/PageUp by room (since 2026-09-29, not yet tried in game), arrows move a tile (Shift five),
     Home back to the Sim, `,` `.` turn it (the game's keys; the facing is said), Enter buys (the
     game hands over another copy until Escape), Delete sells a picked-up object, Escape drops it
     or puts it back. How it works: the tools' ground pick is hooked to answer with the mod's tile,
@@ -93,7 +104,7 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     said. The mod drags the game's own tool, one mouse message per tick. After a wall is built, a
     family Sim indoors in a room without a door is announced ("cuidado: Baño no tiene puerta y Carmen
     está dentro..."; dev command `!shutin` runs the check).
-  - Ctrl+Enter on the object browser: walk the selected Sim there (Ctrl+Shift+Enter runs).
+  - Ctrl+Enter: walk the selected Sim to the thing last focused (Ctrl+Shift+Enter runs).
   - Ctrl+L (lot view): the room's layout at the build cursor, else where the selected Sim stands:
     name, floor, tiles, bounds, doors and windows (the details buffer: each with its wall and the
     room behind). Doors and windows are objects whose parts stand on both sides of their wall

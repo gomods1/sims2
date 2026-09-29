@@ -13,17 +13,20 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Accessibilità per The Sims 2: versione del gioco non supportata, mod disattivata"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Le frecce si spostano in un gruppo, Tab e Maiuscole+Tab cambiano gruppo, Inizio e Fine vanno agli estremi, "
-     "Invio attiva, R ripete. Control+freccia su e Control+freccia giù leggono i dettagli di quanto detto, "
-     "Control+freccia sinistra e Control+freccia destra passano tra dettagli ed eventi."},
+     "Tab e Maiuscole+Tab passano da un gruppo all'altro; freccia su e giù scorrono un gruppo, sinistra e destra "
+     "anche, oppure cambiano un cursore; Inizio e Fine vanno agli estremi; Invio attiva, e su un tipo o una "
+     "stanza apre i suoi oggetti; Backspace torna indietro; R ripete. Control+freccia su e Control+freccia giù "
+     "leggono i dettagli di quanto detto, Control+freccia sinistra e Control+freccia destra passano tra dettagli "
+     "ed eventi."},
     {Str::KeysLot,
-     "Lotto: Pagina giù e su, gli oggetti del lotto, i più vicini prima; con Maiusc le categorie, con Ctrl le "
-     "stanze. Invio apre le interazioni di un oggetto, o lo prende in modalità Compra; Ctrl+Invio ci manda il "
-     "Sim selezionato. Ctrl+E lo stato del Sim, Ctrl+1 a 9 scelgono un Sim, Tab i pannelli, Ctrl+freccia su e "
-     "giù i dettagli."},
+     "Lotto: Tab scorre i bisogni, la coda delle azioni, gli oggetti per tipo, gli oggetti per stanza e i "
+     "pannelli del gioco. Negli oggetti per tipo o per stanza, Invio apre un tipo o una stanza, i suoi oggetti "
+     "vengono i più vicini prima, Backspace torna indietro. Invio su un oggetto apre le sue interazioni, o lo "
+     "prende in modalità Compra; Ctrl+Invio ci manda il Sim selezionato. Ctrl+E lo stato del Sim, Ctrl+1 a 9 "
+     "scelgono un Sim, Ctrl+freccia su e giù i dettagli."},
     {Str::KeysPlacement,
-     "Posizionamento: Pagina giù e su i posti dove entra, con Ctrl le stanze, frecce una casella, Home torna al "
-     "Sim, virgola e punto lo girano, Invio lo posa, Canc lo vende, Esc termina."},
+     "Posizionamento: frecce una casella, Maiusc cinque, Tab e Maiusc+Tab i posti dove entra, Pagina giù e su le "
+     "stanze, Home torna al Sim, virgola e punto lo girano, Invio lo posa, Canc lo vende, Esc termina."},
     {Str::KeysBuild,
      "Costruzione: le frecce spostano l'angolo, con Maiusc cinque, Pagina su e giù il livello, Spazio segna "
      "l'inizio, Invio costruisce dal segno, Ctrl+Invio rimuove, Home torna al Sim, R ripete, Esc esce."},
@@ -145,6 +148,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d oggetti"},
     {Str::RoomObjectsOne, "%s, 1 oggetto"},
+    {Str::ThingsByKind, "oggetti per tipo"},
+    {Str::ThingsByRoom, "oggetti per stanza"},
     {Str::FundsChanged, "%1$s, restano %2$s"},
     // Camera
     {Str::CameraFree, "telecamera libera"},

@@ -13,16 +13,18 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Zpřístupnění The Sims 2: nepodporovaná verze hry, mod vypnut"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Šipky se pohybují ve skupině, Tab a Shift+Tab mění skupinu, Home a End jdou na začátek a konec, Enter "
-     "stiskne, R zopakuje. Ctrl+šipka nahoru a Ctrl+šipka dolů čtou podrobnosti řečeného, Ctrl+šipka vlevo a "
-     "Ctrl+šipka vpravo přepínají mezi podrobnostmi a událostmi."},
+     "Tab a Shift+Tab přecházejí ze skupiny do skupiny; šipky nahoru a dolů procházejí skupinu, vlevo a vpravo "
+     "také, nebo mění posuvník; Home a End jdou na začátek a konec; Enter stiskne a u druhu nebo místnosti "
+     "otevře její předměty; Backspace vrací zpět; R zopakuje. Ctrl+šipka nahoru a Ctrl+šipka dolů čtou "
+     "podrobnosti řečeného, Ctrl+šipka vlevo a Ctrl+šipka vpravo přepínají mezi podrobnostmi a událostmi."},
     {Str::KeysLot,
-     "Pozemek: Page Down a Page Up, předměty na pozemku, nejbližší první; se Shiftem kategorie, s Ctrl "
-     "místnosti. Enter otevře interakce předmětu, v režimu nákupu ho zvedne; Ctrl+Enter pošle vybraného Sima "
-     "tam. Ctrl+E stav Sima, Ctrl+1 až 9 vyberou Sima, Tab panely, Ctrl+šipka nahoru a dolů podrobnosti."},
+     "Pozemek: Tab prochází potřeby, frontu akcí, předměty podle druhu, předměty podle místnosti a panely hry. U "
+     "předmětů podle druhu nebo místnosti Enter otevře druh nebo místnost, její předměty jdou nejbližší první, "
+     "Backspace vrací zpět. Enter na předmětu otevře jeho interakce, v režimu nákupu ho zvedne; Ctrl+Enter pošle "
+     "vybraného Sima tam. Ctrl+E stav Sima, Ctrl+1 až 9 vyberou Sima, Ctrl+šipka nahoru a dolů podrobnosti."},
     {Str::KeysPlacement,
-     "Umísťování: Page Down a Page Up místa, kam se vejde, s Ctrl místnosti, šipky o jedno pole, Home zpět k "
-     "Simovi, čárka a tečka otáčejí, Enter položí, Delete prodá, Escape ukončí."},
+     "Umísťování: šipky o jedno pole, Shift o pět, Tab a Shift+Tab místa, kam se vejde, Page Down a Page Up "
+     "místnosti, Home zpět k Simovi, čárka a tečka otáčejí, Enter položí, Delete prodá, Escape ukončí."},
     {Str::KeysBuild,
      "Stavba: šipky posouvají roh, se Shiftem o pět, Page Up a Page Down podlaží, mezerník označí začátek, Enter "
      "staví od značky, Ctrl+Enter odstraní, Home zpět k Simovi, R zopakuje, Escape ukončí."},
@@ -144,6 +146,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, objektů: %d"},
     {Str::RoomObjectsOne, "%s, 1 objekt"},
+    {Str::ThingsByKind, "předměty podle druhu"},
+    {Str::ThingsByRoom, "předměty podle místnosti"},
     {Str::FundsChanged, "%1$s, zbývá %2$s"},
     // Camera
     {Str::CameraFree, "kamera volná"},

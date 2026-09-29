@@ -355,9 +355,14 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_DOWN: if (ctrl) return false; g.y += step; g.spotIndex = -1; Send(); return true;
     case VK_LEFT: if (ctrl) return false; g.x -= step; g.spotIndex = -1; Send(); return true;
     case VK_RIGHT: if (ctrl) return false; g.x += step; g.spotIndex = -1; Send(); return true;
+    // A spatial tool (NAVIGATION.md): the arrows move in space, Tab goes through its targets
+    // (the spots where it fits), PageDown / PageUp the bigger unit (the rooms).
+    case VK_TAB:
+        if (ctrl) return false;
+        NextSpot(shift ? -1 : +1);
+        return true;
     case VK_NEXT: case VK_PRIOR:
-        if (ctrl) NextRoom(vk == VK_NEXT ? +1 : -1);
-        else NextSpot(vk == VK_NEXT ? +1 : -1);
+        NextRoom(vk == VK_NEXT ? +1 : -1);
         return true;
     case VK_HOME: {
         game::LotObject sim;

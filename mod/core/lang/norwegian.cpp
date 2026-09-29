@@ -13,17 +13,20 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Sims 2-tilgjengelighet: spillversjonen støttes ikke, modden er deaktivert"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Piltastene flytter innenfor en gruppe, Tab og Skift+Tab bytter gruppe, Home og End går til endene, Enter "
-     "aktiverer, R gjentar. Kontroll+Pil opp og Kontroll+Pil ned leser detaljene om det som ble sagt, "
-     "Kontroll+Venstre pil og Kontroll+Høyre pil bytter mellom detaljer og hendelser."},
+     "Tab og Skift+Tab går fra gruppe til gruppe; Pil opp og ned går gjennom en gruppe, venstre og høyre også, "
+     "eller endrer en glidebryter; Home og End går til endene; Enter aktiverer, og på en slag eller et rom åpner "
+     "den gjenstandene; Backspace går tilbake; R gjentar. Kontroll+Pil opp og Kontroll+Pil ned leser detaljene "
+     "om det som ble sagt, Kontroll+Venstre pil og Kontroll+Høyre pil bytter mellom detaljer og hendelser."},
     {Str::KeysLot,
-     "Tomt: Page Down og Page Up, tomtens gjenstander, de nærmeste først; med Shift kategoriene, med Ctrl "
-     "rommene. Enter åpner en gjenstands handlinger, eller plukker den opp i kjøpemodus; Ctrl+Enter sender den "
-     "valgte simen dit. Ctrl+E simens tilstand, Ctrl+1 til 9 velger en sim, Tab panelene, Ctrl+pil opp og ned "
-     "detaljene."},
+     "Tomt: Tab går gjennom behovene, handlingskøen, gjenstander etter slag, gjenstander etter rom og spillets "
+     "paneler. Under gjenstander etter slag eller rom åpner Enter en slag eller et rom, gjenstandene kommer de "
+     "nærmeste først, Backspace går tilbake. Enter på en gjenstand åpner handlingene, eller plukker den opp i "
+     "kjøpemodus; Ctrl+Enter sender den valgte simen dit. Ctrl+E simens tilstand, Ctrl+1 til 9 velger en sim, "
+     "Ctrl+pil opp og ned detaljene."},
     {Str::KeysPlacement,
-     "Plassering: Page Down og Page Up plassene der den får plass, med Ctrl rommene, piler én rute, Home tilbake "
-     "til simen, komma og punktum snur den, Enter setter den ned, Delete selger den, Escape avslutter."},
+     "Plassering: piler én rute, Skift fem, Tab og Skift+Tab plassene der den får plass, Page Down og Page Up "
+     "rommene, Home tilbake til simen, komma og punktum snur den, Enter setter den ned, Delete selger den, "
+     "Escape avslutter."},
     {Str::KeysBuild,
      "Bygging: pilene flytter hjørnet, med Shift fem, Page Up og Page Down nivået, mellomrom markerer starten, "
      "Enter bygger fra merket, Ctrl+Enter fjerner, Home tilbake til simen, R gjentar, Escape avslutter."},
@@ -145,6 +148,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d objekter"},
     {Str::RoomObjectsOne, "%s, 1 objekt"},
+    {Str::ThingsByKind, "gjenstander etter slag"},
+    {Str::ThingsByRoom, "gjenstander etter rom"},
     {Str::FundsChanged, "%1$s, igjen %2$s"},
     // Camera
     {Str::CameraFree, "kamera fritt"},

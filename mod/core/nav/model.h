@@ -23,6 +23,8 @@ enum class Role {
     Product,    // a buy mode catalog product: Enter picks it up to place it
     Slider,     // a value in steps (Create a Sim's personality bars): Left/Right change it
     ListRow,    // a row of a list box: Enter selects it
+    Level,      // a kind or a room of the lot's things (number: which): Enter opens its things
+    LotObject,  // a thing of the lot (number = its object id): Enter its interactions
 };
 
 struct Item {
@@ -52,6 +54,8 @@ constexpr Ptr kLotsGroup = 1;
 constexpr Ptr kPieGroup = 2;
 constexpr Ptr kNeedsGroup = 3;
 constexpr Ptr kQueueGroup = 4;
+constexpr Ptr kKindsGroup = 5;   // the lot's things by kind (nav/world.h), then a kind's things
+constexpr Ptr kRoomsGroup = 6;   // the lot's things by room, then a room's things
 
 inline bool IsReadOnly(const Item& it) { return it.role == Role::Text; }
 

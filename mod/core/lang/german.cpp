@@ -13,18 +13,21 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Barrierefreiheit für Die Sims 2: nicht unterstützte Spielversion, Mod deaktiviert"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Pfeiltasten bewegen innerhalb einer Gruppe, Tab und Umschalt+Tab wechseln die Gruppe, Pos1 und Ende "
-     "springen zum Anfang und zum Ende, Eingabe aktiviert, R wiederholt. Strg+Pfeil nach oben und Strg+Pfeil "
-     "nach unten lesen die Details des Gesagten, Strg+Pfeil nach links und Strg+Pfeil nach rechts wechseln "
-     "zwischen Details und Ereignissen."},
+     "Tab und Umschalt+Tab wechseln von Gruppe zu Gruppe; Pfeil nach oben und unten gehen durch eine Gruppe, "
+     "links und rechts auch, oder verändern einen Schieberegler; Pos1 und Ende springen zum Anfang und zum Ende; "
+     "Eingabe aktiviert, und bei einer Art oder einem Zimmer öffnet sie deren Objekte; Rücktaste geht zurück; R "
+     "wiederholt. Strg+Pfeil nach oben und Strg+Pfeil nach unten lesen die Details des Gesagten, Strg+Pfeil nach "
+     "links und Strg+Pfeil nach rechts wechseln zwischen Details und Ereignissen."},
     {Str::KeysLot,
-     "Grundstück: Bild ab und Bild auf, die Objekte des Grundstücks, die nächsten zuerst; mit Umschalt die "
-     "Kategorien, mit Strg die Zimmer. Eingabe öffnet die Interaktionen eines Objekts oder hebt es im Kaufmodus "
-     "auf; Strg+Eingabe schickt den gewählten Sim dorthin. Strg+E der Zustand des Sims, Strg+1 bis 9 wählen "
-     "einen Sim, Tab die Leisten, Strg+Pfeil hoch und runter die Details."},
+     "Grundstück: Tab geht durch die Bedürfnisse, die Handlungsliste, die Objekte nach Art, die Objekte nach "
+     "Zimmer und die Leisten des Spiels. Bei den Objekten nach Art oder nach Zimmer öffnet Eingabe eine Art oder "
+     "ein Zimmer, deren Objekte kommen die nächsten zuerst, Rücktaste geht zurück. Eingabe auf einem Objekt "
+     "öffnet seine Interaktionen oder hebt es im Kaufmodus auf; Strg+Eingabe schickt den gewählten Sim dorthin. "
+     "Strg+E der Zustand des Sims, Strg+1 bis 9 wählen einen Sim, Strg+Pfeil hoch und runter die Details."},
     {Str::KeysPlacement,
-     "Platzieren: Bild ab und Bild auf die Plätze, an die es passt, mit Strg die Zimmer, Pfeiltasten ein Feld, "
-     "Pos1 zurück zum Sim, Komma und Punkt drehen es, Eingabe stellt es hin, Entf verkauft es, Escape beendet."},
+     "Platzieren: Pfeiltasten ein Feld, Umschalt fünf, Tab und Umschalt+Tab die Plätze, an die es passt, Bild ab "
+     "und Bild auf die Zimmer, Pos1 zurück zum Sim, Komma und Punkt drehen es, Eingabe stellt es hin, Entf "
+     "verkauft es, Escape beendet."},
     {Str::KeysBuild,
      "Bauen: Pfeiltasten bewegen die Ecke, mit Umschalt fünf, Bild auf und ab die Ebene, Leertaste markiert den "
      "Anfang, Eingabe baut ab der Markierung, Strg+Eingabe entfernt, Pos1 zurück zum Sim, R wiederholt, Escape "
@@ -148,6 +151,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d Objekte"},
     {Str::RoomObjectsOne, "%s, 1 Objekt"},
+    {Str::ThingsByKind, "Objekte nach Art"},
+    {Str::ThingsByRoom, "Objekte nach Zimmer"},
     {Str::FundsChanged, "%1$s, übrig %2$s"},
     // Camera
     {Str::CameraFree, "Kamera frei"},

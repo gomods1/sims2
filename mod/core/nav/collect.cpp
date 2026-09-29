@@ -633,12 +633,16 @@ std::vector<Group> Collect(Ptr root) {
         for (const Item& it : g.items) UnionRect(&g.bounds, &g.bounds, &it.rect);
         out.push_back(std::move(g));
     }
-    std::stable_sort(out.begin(), out.end(), [](const Group& a, const Group& b) {
-        if (a.bounds.top / 16 != b.bounds.top / 16) return a.bounds.top < b.bounds.top;
-        return a.bounds.left < b.bounds.left;
-    });
-    // The lot view: the selected Sim's needs and action queue first (from the Sim's data).
+    // The groups stay in the order the game built its windows (walker.order: the window tree),
+    // never sorted by where they are drawn (NAVIGATION.md); position only orders the items
+    // inside one group (above).
+    // The lot view: the selected Sim's needs and action queue first (from the Sim's data), then
+    // the lot's things by kind and by room.
     if (root == game::MainWindow() && world::LotViewActive()) {
+        Group rooms = world::RoomsGroup();
+        if (!rooms.items.empty()) out.insert(out.begin(), std::move(rooms));
+        Group kinds = world::KindsGroup();
+        if (!kinds.items.empty()) out.insert(out.begin(), std::move(kinds));
         Group queue = live::QueueGroup();
         if (!queue.items.empty()) out.insert(out.begin(), std::move(queue));
         Group needs = live::NeedsGroup();

@@ -13,17 +13,21 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Moduł dostępności The Sims 2: nieobsługiwana wersja gry, mod wyłączony"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Strzałki poruszają się w obrębie grupy, Tab i Shift+Tab zmieniają grupę, Home i End przechodzą na początek "
-     "i na koniec, Enter aktywuje, R powtarza. Control+strzałka w górę i Control+strzałka w dół czytają "
-     "szczegóły tego, co zostało powiedziane, Control+strzałka w lewo i Control+strzałka w prawo przełączają "
-     "między szczegółami a zdarzeniami."},
+     "Tab i Shift+Tab przechodzą z grupy do grupy; strzałki w górę i w dół przechodzą przez grupę, w lewo i w "
+     "prawo też, albo zmieniają suwak; Home i End przechodzą na początek i na koniec; Enter aktywuje, a na "
+     "rodzaju lub pokoju otwiera jego obiekty; Backspace wraca; R powtarza. Control+strzałka w górę i "
+     "Control+strzałka w dół czytają szczegóły tego, co zostało powiedziane, Control+strzałka w lewo i "
+     "Control+strzałka w prawo przełączają między szczegółami a zdarzeniami."},
     {Str::KeysLot,
-     "Parcela: Page Down i Page Up, obiekty parceli, najbliższe najpierw; z Shift kategorie, z Ctrl pokoje. "
-     "Enter otwiera interakcje obiektu albo podnosi go w trybie kupowania; Ctrl+Enter wysyła tam wybranego Sima. "
-     "Ctrl+E stan Sima, Ctrl+1 do 9 wybierają Sima, Tab panele, Ctrl+strzałka w górę i w dół szczegóły."},
+     "Parcela: Tab przechodzi przez potrzeby, kolejkę działań, obiekty według rodzaju, obiekty według pokoju i "
+     "panele gry. W obiektach według rodzaju lub pokoju Enter otwiera rodzaj lub pokój, jego obiekty idą od "
+     "najbliższych, Backspace wraca. Enter na obiekcie otwiera jego interakcje albo podnosi go w trybie "
+     "kupowania; Ctrl+Enter wysyła tam wybranego Sima. Ctrl+E stan Sima, Ctrl+1 do 9 wybierają Sima, "
+     "Ctrl+strzałka w górę i w dół szczegóły."},
     {Str::KeysPlacement,
-     "Ustawianie: Page Down i Page Up miejsca, gdzie się mieści, z Ctrl pokoje, strzałki o jedno pole, Home "
-     "powrót do Sima, przecinek i kropka obracają, Enter stawia, Delete sprzedaje, Escape kończy."},
+     "Ustawianie: strzałki o jedno pole, Shift o pięć, Tab i Shift+Tab miejsca, gdzie się mieści, Page Down i "
+     "Page Up pokoje, Home powrót do Sima, przecinek i kropka obracają, Enter stawia, Delete sprzedaje, Escape "
+     "kończy."},
     {Str::KeysBuild,
      "Budowanie: strzałki przesuwają narożnik, z Shift o pięć, Page Up i Page Down poziom, spacja zaznacza "
      "początek, Enter buduje od znacznika, Ctrl+Enter usuwa, Home powrót do Sima, R powtarza, Escape kończy."},
@@ -145,6 +149,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, obiektów: %d"},
     {Str::RoomObjectsOne, "%s, 1 obiekt"},
+    {Str::ThingsByKind, "obiekty według rodzaju"},
+    {Str::ThingsByRoom, "obiekty według pokoju"},
     {Str::FundsChanged, "%1$s, zostało %2$s"},
     // Camera
     {Str::CameraFree, "kamera swobodna"},

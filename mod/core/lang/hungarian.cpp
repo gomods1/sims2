@@ -13,17 +13,19 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "The Sims 2 akadálymentesítés: nem támogatott játékverzió, a mod kikapcsolva"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "A nyilak egy csoporton belül mozognak, a Tab és a Shift+Tab csoportot vált, a Home és az End a végekre "
-     "ugrik, az Enter megnyom, az R megismétel. A Ctrl+Fel és a Ctrl+Le felolvassa az elhangzottak részleteit, a "
-     "Ctrl+Balra és a Ctrl+Jobbra a részletek és az események között vált."},
+     "A Tab és a Shift+Tab csoportról csoportra lép; a Fel és a Le nyíl végigmegy egy csoporton, a Balra és a "
+     "Jobbra is, vagy csúszkát állít; a Home és az End a végekre ugrik; az Enter megnyom, egy fajtán vagy szobán "
+     "pedig megnyitja a tárgyait; a Backspace visszalép; az R megismétel. A Ctrl+Fel és a Ctrl+Le felolvassa az "
+     "elhangzottak részleteit, a Ctrl+Balra és a Ctrl+Jobbra a részletek és az események között vált."},
     {Str::KeysLot,
-     "Telek: Page Down és Page Up a telek tárgyai, a legközelebbi elöl; Shifttel a kategóriák, Ctrl-lal a "
-     "szobák. Az Enter megnyitja a tárgy cselekvéseit, vásárlás módban felveszi; a Ctrl+Enter odaküldi a "
-     "kiválasztott Simet. Ctrl+E a Sim állapota, Ctrl+1–9 Sim kiválasztása, Tab a panelek, Ctrl+fel és le nyíl a "
-     "részletek."},
+     "Telek: a Tab végigmegy a szükségleteken, a cselekvéssoron, a tárgyakon fajta szerint, a tárgyakon szoba "
+     "szerint és a játék paneljein. A fajta vagy szoba szerinti tárgyaknál az Enter megnyit egy fajtát vagy "
+     "szobát, a tárgyai a legközelebbitől indulnak, a Backspace visszalép. Az Enter egy tárgyon megnyitja a "
+     "cselekvéseit, vásárlás módban felveszi; a Ctrl+Enter odaküldi a kiválasztott Simet. Ctrl+E a Sim állapota, "
+     "Ctrl+1–9 Sim kiválasztása, Ctrl+fel és le nyíl a részletek."},
     {Str::KeysPlacement,
-     "Elhelyezés: Page Down és Page Up a helyek, ahol elfér, Ctrl-lal a szobák, nyilak egy mező, Home vissza a "
-     "Simhez, vessző és pont forgat, Enter leteszi, Delete eladja, Escape befejezi."},
+     "Elhelyezés: nyilak egy mező, Shift öt, Tab és Shift+Tab a helyek, ahol elfér, Page Down és Page Up a "
+     "szobák, Home vissza a Simhez, vessző és pont forgat, Enter leteszi, Delete eladja, Escape befejezi."},
     {Str::KeysBuild,
      "Építés: a nyilak mozgatják a sarkot, Shifttel ötöt, Page Up és Page Down a szint, szóköz jelöli a "
      "kezdetet, Enter épít a jeltől, Ctrl+Enter bont, Home vissza a Simhez, R ismétel, Escape kilép."},
@@ -145,6 +147,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d tárgy"},
     {Str::RoomObjectsOne, "%s, 1 tárgy"},
+    {Str::ThingsByKind, "tárgyak fajta szerint"},
+    {Str::ThingsByRoom, "tárgyak szoba szerint"},
     {Str::FundsChanged, "%1$s, maradt %2$s"},
     // Camera
     {Str::CameraFree, "szabad kamera"},

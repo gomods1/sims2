@@ -13,17 +13,21 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Sims 2-tilgængelighed: spilversionen understøttes ikke, mod deaktiveret"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Piletasterne flytter inden for en gruppe, Tab og Skift+Tab skifter gruppe, Home og End går til enderne, "
-     "Enter aktiverer, R gentager. Kontrol+Pil op og Kontrol+Pil ned læser detaljerne om det, der blev sagt, "
-     "Kontrol+Venstre pil og Kontrol+Højre pil skifter mellem detaljer og hændelser."},
+     "Tab og Skift+Tab går fra gruppe til gruppe; Pil op og ned går gennem en gruppe, venstre og højre også, "
+     "eller ændrer en skyder; Home og End går til enderne; Enter aktiverer, og på en slags eller et værelse "
+     "åbner den genstandene; Backspace går tilbage; R gentager. Kontrol+Pil op og Kontrol+Pil ned læser "
+     "detaljerne om det, der blev sagt, Kontrol+Venstre pil og Kontrol+Højre pil skifter mellem detaljer og "
+     "hændelser."},
     {Str::KeysLot,
-     "Grund: Page Down og Page Up, grundens genstande, de nærmeste først; med Shift kategorierne, med Ctrl "
-     "værelserne. Enter åbner en genstands handlinger, eller samler den op i købetilstand; Ctrl+Enter sender den "
-     "valgte Sim derhen. Ctrl+E Simmens tilstand, Ctrl+1 til 9 vælger en Sim, Tab panelerne, Ctrl+pil op og ned "
-     "detaljerne."},
+     "Grund: Tab går gennem behovene, handlingskøen, genstande efter slags, genstande efter værelse og spillets "
+     "paneler. Under genstande efter slags eller værelse åbner Enter en slags eller et værelse, genstandene "
+     "kommer de nærmeste først, Backspace går tilbage. Enter på en genstand åbner dens handlinger, eller samler "
+     "den op i købetilstand; Ctrl+Enter sender den valgte Sim derhen. Ctrl+E Simmens tilstand, Ctrl+1 til 9 "
+     "vælger en Sim, Ctrl+pil op og ned detaljerne."},
     {Str::KeysPlacement,
-     "Placering: Page Down og Page Up pladserne hvor den kan stå, med Ctrl værelserne, pile ét felt, Home "
-     "tilbage til Simmen, komma og punktum drejer den, Enter stiller den, Delete sælger den, Escape stopper."},
+     "Placering: pile ét felt, Skift fem, Tab og Skift+Tab pladserne hvor den kan stå, Page Down og Page Up "
+     "værelserne, Home tilbage til Simmen, komma og punktum drejer den, Enter stiller den, Delete sælger den, "
+     "Escape stopper."},
     {Str::KeysBuild,
      "Byggeri: pilene flytter hjørnet, med Shift fem, Page Up og Page Down niveauet, mellemrum markerer starten, "
      "Enter bygger fra mærket, Ctrl+Enter fjerner, Home tilbage til Simmen, R gentager, Escape afslutter."},
@@ -145,6 +149,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d objekter"},
     {Str::RoomObjectsOne, "%s, 1 objekt"},
+    {Str::ThingsByKind, "genstande efter slags"},
+    {Str::ThingsByRoom, "genstande efter værelse"},
     {Str::FundsChanged, "%1$s, tilbage %2$s"},
     // Camera
     {Str::CameraFree, "kamera frit"},

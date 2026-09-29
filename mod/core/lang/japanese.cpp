@@ -13,13 +13,14 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "ザ・シムズ2 アクセシビリティ: 対応していないゲームのバージョンです。モッドを無効にしました"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "矢印キーでグループ内を移動、タブとシフト+タブでグループを切り替え、ホームとエンドで端へ移動、エンターで押す、Rで繰り返します。コントロール+上矢印とコントロール+下矢印で、今読んだものの詳細を読み、コントロール+"
-     "左矢印とコントロール+右矢印で、詳細とイベントを切り替えます。"},
+     "タブとシフト+タブでグループを移動、上矢印と下矢印でグループ内を移動、左矢印と右矢印も同じか、スライダーの値を変更、ホームとエンドで端へ移動、エンターで押し、種類や部屋ではその中のオブジェクトを開く、バックスペース"
+     "で戻る、Rで繰り返します。コントロール+上矢印とコントロール+下矢印で、今読んだものの詳細を読み、コントロール+左矢印とコントロール+右矢印で、詳細とイベントを切り替えます。"},
     {Str::KeysLot,
-     "区画：Page DownとPage Upで区画のオブジェクト、近い順。Shiftと一緒でカテゴリー、Ctrlと一緒で部屋。Enterでオブジェクトの行動、購入モードでは持ち上げる。Ctrl+Enterで選択中のシム"
-     "をそこへ。Ctrl+Eでシムの状態、Ctrl+1から9でシムを選ぶ、Tabでパネル、Ctrl+上下で詳細。"},
+     "区画：Tabでニーズ、行動キュー、種類別のオブジェクト、部屋別のオブジェクト、ゲームのパネルを順に移動。種類別または部屋別では、Enterで種類や部屋を開き、そのオブジェクトは近い順、Backspaceで戻る。オブ"
+     "ジェクトでEnterを押すと行動を開き、購入モードでは持ち上げる。Ctrl+Enterで選択中のシムをそこへ。Ctrl+Eでシムの状態、Ctrl+1から9でシムを選ぶ、Ctrl+上下で詳細。"},
     {Str::KeysPlacement,
-     "配置：Page DownとPage Upで置ける場所、Ctrlと一緒で部屋、矢印で1マス、Homeでシムの所へ、コンマとピリオドで回転、Enterで置く、Deleteで売る、Escapeで終了。"},
+     "配置：矢印で1マス、Shiftで5マス、TabとShift+Tabで置ける場所、Page DownとPage "
+     "Upで部屋、Homeでシムの所へ、コンマとピリオドで回転、Enterで置く、Deleteで売る、Escapeで終了。"},
     {Str::KeysBuild,
      "建築：矢印で角を移動、Shiftで5マス、Page UpとPage Downで階、スペースで始点、Enterで始点から建てる、Ctrl+Enterで撤去、Homeでシムの所へ、Rで繰り返し、Escapeで終了。"},
     {Str::KeysNeighborhood, "近所：最初に区画の一覧、Enterで区画のパネルを開く。家族を引っ越させるには、家族一覧で家族を選び、区画でEnter。Tabでパネル。"},
@@ -138,6 +139,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s、オブジェクト%d個"},
     {Str::RoomObjectsOne, "%s、オブジェクト1個"},
+    {Str::ThingsByKind, "種類別のオブジェクト"},
+    {Str::ThingsByRoom, "部屋別のオブジェクト"},
     {Str::FundsChanged, "%1$s、残り%2$s"},
     // Camera
     {Str::CameraFree, "カメラ自由"},

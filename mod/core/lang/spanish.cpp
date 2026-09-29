@@ -13,18 +13,20 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Accesibilidad de Los Sims 2: versión del juego no compatible, mod desactivado"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Las flechas se mueven dentro de un grupo, Tab y Mayúsculas+Tab cambian de grupo, Inicio y Fin van a los "
-     "extremos, Intro pulsa, R repite. Control+Arriba y Control+Abajo leen los detalles de lo dicho, "
-     "Control+Izquierda y Control+Derecha cambian entre detalles y eventos."},
+     "Tab y Mayúsculas+Tab cambian de grupo; Arriba y Abajo recorren un grupo, y también Izquierda y Derecha, o "
+     "cambian un control deslizante; Inicio y Fin van a los extremos; Intro pulsa, y en un tipo o una habitación "
+     "abre sus objetos; Retroceso vuelve atrás; R repite. Control+Arriba y Control+Abajo leen los detalles de lo "
+     "dicho, Control+Izquierda y Control+Derecha cambian entre detalles y eventos."},
     {Str::KeysLot,
-     "Solar: Avance y Retroceso de página, los objetos del solar, los más cercanos primero; con Mayúsculas, las "
-     "categorías; con Control, las habitaciones. Intro abre las interacciones de un objeto, o lo coge en el modo "
-     "Comprar; Control+Intro lleva allí al Sim seleccionado. Control+E, el estado del Sim; Control+1 a 9 eligen "
-     "un Sim; Tab, los paneles; Control+flecha arriba y abajo, los detalles."},
+     "Solar: Tab recorre las necesidades, la cola de acciones, los objetos por tipo, los objetos por habitación "
+     "y los paneles del juego. En los objetos por tipo o por habitación, Intro abre un tipo o una habitación, "
+     "sus objetos vienen los más cercanos primero, Retroceso vuelve atrás. Intro sobre un objeto abre sus "
+     "interacciones, o lo coge en el modo Comprar; Control+Intro lleva allí al Sim seleccionado. Control+E, el "
+     "estado del Sim; Control+1 a 9 eligen un Sim; Control+flecha arriba y abajo, los detalles."},
     {Str::KeysPlacement,
-     "Colocando: Avance y Retroceso de página, los sitios donde cabe; con Control, las habitaciones; flechas, "
-     "una casilla; Inicio, vuelve al Sim; coma y punto lo giran; Intro lo coloca; Suprimir lo vende; Escape "
-     "termina."},
+     "Colocando: flechas, una casilla; Mayúsculas, cinco; Tab y Mayúsculas+Tab, los sitios donde cabe; Avance y "
+     "Retroceso de página, las habitaciones; Inicio, vuelve al Sim; coma y punto lo giran; Intro lo coloca; "
+     "Suprimir lo vende; Escape termina."},
     {Str::KeysBuild,
      "Construyendo: las flechas mueven la esquina, con Mayúsculas cinco; Retroceso y Avance de página, el nivel; "
      "Espacio marca el inicio; Intro construye desde la marca; Control+Intro quita; Inicio vuelve al Sim; R "
@@ -147,6 +149,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d objetos"},
     {Str::RoomObjectsOne, "%s, 1 objeto"},
+    {Str::ThingsByKind, "objetos por tipo"},
+    {Str::ThingsByRoom, "objetos por habitación"},
     {Str::FundsChanged, "%1$s, quedan %2$s"},
     // Camera
     {Str::CameraFree, "cámara libre"},

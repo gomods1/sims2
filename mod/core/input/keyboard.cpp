@@ -24,15 +24,18 @@ namespace {
 //   Up/Left, Down/Right    previous/next item in the group
 //   Home, End              first/last item in the group
 //   Tab, Shift+Tab         next/previous group
-//   Enter                  press the focused item
+//   Enter                  press the focused item (a kind or room of the lot's things: open it)
+//   Backspace              back up a level (a kind's or room's things to the kinds or rooms)
+//   Ctrl+Enter             walk the selected Sim to the thing last focused (lot view)
+// One grammar everywhere (NAVIGATION.md): groups on Tab, items on the arrows, levels on Enter and
+// Backspace; only the spatial tools (placing, the build cursor) use the arrows for space.
 //   R                      repeat the focused item (typing while a text field has the keyboard)
 //   Ctrl+Up / Ctrl+Down    review buffers: next / previous line of the current buffer
 //   Ctrl+Left / Ctrl+Right previous / next review buffer
 //   Ctrl+F1                the mod's keys for this screen
 
 bool g_consumed[256] = {};  // key-downs we took; their key-ups are taken too
-bool g_worldFocus = false;
-bool g_typedSinceNav = false;  // characters went to a game text field since the last navigation key  // Enter and R act on the object browser (after PageUp/PageDown)
+bool g_typedSinceNav = false;  // characters went to a game text field since the last navigation key
 WPARAM g_swallowChar = 0;   // character TranslateMessage will produce from the last claimed key
 
 // Keys posted by tools/keys.py carry this reserved lParam bit; their modifiers are tracked from
@@ -70,6 +73,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         if (nav::placement::OnKey(vk, shift, ctrl)) {
             if (vk == 'R') g_swallowChar = 'r';
             if (vk == VK_RETURN) g_swallowChar = '\r';
+            if (vk == VK_TAB) g_swallowChar = '\t';
             return true;
         }
         if (vk == VK_ESCAPE || vk == VK_OEM_COMMA || vk == VK_OEM_PERIOD) return false;
@@ -83,19 +87,13 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         }
         if (vk == VK_ESCAPE) return false;
     }
-    // Escape (closing an object's interaction menu) keeps the object browser: Enter opens the menu
-    // again, R repeats the object.
-    if (vk != VK_PRIOR && vk != VK_NEXT && vk != VK_RETURN && vk != 'R' && vk != VK_ESCAPE) g_worldFocus = false;
     if (vk == VK_UP || vk == VK_DOWN || vk == VK_TAB || (!typing && (vk == VK_LEFT || vk == VK_RIGHT)))
         g_typedSinceNav = false;
     switch (vk) {
-    case VK_PRIOR: case VK_NEXT:
-        // The lot's objects (the game's own keys change floor; the control panel has buttons for that).
-        if (!lot) return false;
-        g_worldFocus = true;
-        if (ctrl) nav::world::NextRoom(vk == VK_NEXT ? +1 : -1);
-        else if (shift) nav::world::NextCategory(vk == VK_NEXT ? +1 : -1);
-        else nav::world::NextObject(vk == VK_NEXT ? +1 : -1);
+    case VK_BACK:
+        // Up a level (the lot's things); a text field's Backspace, and the top level's, are the game's.
+        if (typing || ctrl || shift || !nav::Back()) return false;
+        g_swallowChar = '\b';
         return true;
     case VK_UP: if (ctrl) nav::buffers::Deeper(); else nav::Move(-1); return true;
     case VK_DOWN: if (ctrl) nav::buffers::TowardTop(); else nav::Move(+1); return true;
@@ -124,7 +122,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
         nav::NextGroup(shift ? -1 : +1);
         return true;
     case VK_RETURN:
-        if (ctrl && lot && g_worldFocus && !game::ModalWindow()) {
+        if (ctrl && lot && nav::world::HasFocus() && !game::ModalWindow()) {
             g_swallowChar = '\n';  // Ctrl+Enter's character is a line feed
             nav::world::WalkTo(shift);
             return true;
@@ -138,8 +136,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             return false;
         }
         g_swallowChar = '\r';
-        if (g_worldFocus && lot && !game::ModalWindow()) nav::world::Interact();
-        else nav::Activate();
+        nav::Activate();
         return true;
     case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
         if (!ctrl || shift || !lot) return false;  // plain digits are the game's speeds
@@ -192,8 +189,7 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
     case 'R':
         if (typing || shift || ctrl) return false;
         g_swallowChar = 'r';
-        if (g_worldFocus && lot && !game::ModalWindow()) nav::world::Repeat();
-        else nav::RepeatFocus();
+        nav::RepeatFocus();
         return true;
     default:
         return false;

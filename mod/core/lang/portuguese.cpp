@@ -13,17 +13,20 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Acessibilidade para The Sims 2: versão do jogo não suportada, mod desativado"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "As setas se movem dentro de um grupo, Tab e Shift+Tab mudam de grupo, Home e End vão para os extremos, "
-     "Enter aciona, R repete. Control+Seta para cima e Control+Seta para baixo leem os detalhes do que foi dito, "
-     "Control+Seta para a esquerda e Control+Seta para a direita alternam entre detalhes e eventos."},
+     "Tab e Shift+Tab passam de grupo em grupo; Seta para cima e para baixo percorrem um grupo, esquerda e "
+     "direita também, ou mudam um controle deslizante; Home e End vão para os extremos; Enter aciona, e em um "
+     "tipo ou em um cômodo abre os objetos; Backspace volta; R repete. Control+Seta para cima e Control+Seta "
+     "para baixo leem os detalhes do que foi dito, Control+Seta para a esquerda e Control+Seta para a direita "
+     "alternam entre detalhes e eventos."},
     {Str::KeysLot,
-     "Lote: Page Down e Page Up, os objetos do lote, os mais próximos primeiro; com Shift as categorias, com "
-     "Ctrl os cômodos. Enter abre as interações de um objeto, ou o pega no modo Compra; Ctrl+Enter leva o Sim "
-     "selecionado até lá. Ctrl+E o estado do Sim, Ctrl+1 a 9 escolhem um Sim, Tab os painéis, Ctrl+seta para "
-     "cima e para baixo os detalhes."},
+     "Lote: Tab percorre as necessidades, a fila de ações, os objetos por tipo, os objetos por cômodo e os "
+     "painéis do jogo. Nos objetos por tipo ou por cômodo, Enter abre um tipo ou um cômodo, seus objetos vêm os "
+     "mais próximos primeiro, Backspace volta. Enter em um objeto abre as interações dele, ou o pega no modo "
+     "Compra; Ctrl+Enter leva o Sim selecionado até lá. Ctrl+E o estado do Sim, Ctrl+1 a 9 escolhem um Sim, "
+     "Ctrl+seta para cima e para baixo os detalhes."},
     {Str::KeysPlacement,
-     "Colocando: Page Down e Page Up os lugares onde cabe, com Ctrl os cômodos, setas um quadrado, Home volta ao "
-     "Sim, vírgula e ponto o giram, Enter o coloca, Delete o vende, Esc termina."},
+     "Colocando: setas um quadrado, Shift cinco, Tab e Shift+Tab os lugares onde cabe, Page Down e Page Up os "
+     "cômodos, Home volta ao Sim, vírgula e ponto o giram, Enter o coloca, Delete o vende, Esc termina."},
     {Str::KeysBuild,
      "Construindo: as setas movem o canto, com Shift cinco, Page Up e Page Down o nível, Espaço marca o início, "
      "Enter constrói a partir da marca, Ctrl+Enter remove, Home volta ao Sim, R repete, Esc sai."},
@@ -145,6 +148,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d objetos"},
     {Str::RoomObjectsOne, "%s, 1 objeto"},
+    {Str::ThingsByKind, "objetos por tipo"},
+    {Str::ThingsByRoom, "objetos por cômodo"},
     {Str::FundsChanged, "%1$s, restam %2$s"},
     // Camera
     {Str::CameraFree, "câmera livre"},

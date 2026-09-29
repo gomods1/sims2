@@ -1,26 +1,31 @@
-// The object browser of the lot view: every Sim and object a player can interact with, by
-// category (Sims, then the buy mode categories), nearest to the selected Sim first.
-//   PageUp / PageDown              previous / next object in the category
-//   Shift+PageUp / Shift+PageDown  previous / next category
-//   Ctrl+PageUp / Ctrl+PageDown    previous / next room (the first press: the Sim's own room)
-//   Enter (after PageUp/PageDown)  open the object's interaction menu (buy mode: pick it up)
-//   Ctrl+Enter                     walk the selected Sim there (Ctrl+Shift+Enter: run), through
-//                                  the game's own "go here" menu on a click on that tile
-//   R                              say the focused object again
+// The lot's things (every Sim and object a player can interact with) as two groups of the lot
+// view's navigation (NAVIGATION.md): "things by kind" (Sims, then the buy mode categories) and
+// "things by room" (the selected Sim's room first). Their items are kinds or rooms; Enter opens
+// one (its things, nearest to the selected Sim first), Backspace goes back to the kinds or
+// rooms. On a thing:
+//   Enter        its interaction menu (buy mode: pick it up to move it)
+//   Ctrl+Enter   walk the selected Sim there (Ctrl+Shift+Enter: run), through the game's own
+//                "go here" menu on a click on that tile
 #pragma once
 
 #include <string>
+
+#include "model.h"
 
 namespace nav::world {
 
 bool LotViewActive();  // live, buy or build mode of a lot is on screen
 void Reset();
-void NextObject(int delta);
-void NextCategory(int delta);
-void NextRoom(int delta);
+Group KindsGroup();    // kKindsGroup: the kinds, or the things of the open kind
+Group RoomsGroup();    // kRoomsGroup: the rooms, or the things of the open room
+// Enter on a kind or room (its item's number): its things. Backspace: back to the kinds or
+// rooms; returns the number of the kind or room that was open (0: none was open).
+void Open(Ptr group, int number);
+int Close(Ptr group);
+void Focus(int objectId);   // the thing focus is on (Ctrl+Enter and Enter act on it)
 void Interact();
 void WalkTo(bool run);
-void Repeat();
+bool HasFocus();            // a thing has been focused
 std::string RoomNameAt(float x, float y, int level);  // the room there, by its contents
 std::string WhereFromSim(float x, float y, int level);
 // Ctrl+L: the room at a tile: its name, size, bounds, doors and windows (where each leads).

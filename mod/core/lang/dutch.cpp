@@ -13,17 +13,21 @@ const Translation kEntries[] = {
     {Str::UnsupportedBuild, "Toegankelijkheid voor De Sims 2: niet-ondersteunde spelversie, mod uitgeschakeld"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
-     "Pijltoetsen bewegen binnen een groep, Tab en Shift+Tab wisselen van groep, Home en End gaan naar het begin "
-     "en het einde, Enter activeert, R herhaalt. Control+pijl omhoog en Control+pijl omlaag lezen de details van "
-     "wat er gezegd is, Control+pijl links en Control+pijl rechts wisselen tussen details en gebeurtenissen."},
+     "Tab en Shift+Tab gaan van groep naar groep; pijl omhoog en omlaag gaan door een groep, links en rechts "
+     "ook, of veranderen een schuifregelaar; Home en End gaan naar het begin en het einde; Enter activeert, en "
+     "bij een soort of een kamer opent het de objecten; Backspace gaat terug; R herhaalt. Control+pijl omhoog en "
+     "Control+pijl omlaag lezen de details van wat er gezegd is, Control+pijl links en Control+pijl rechts "
+     "wisselen tussen details en gebeurtenissen."},
     {Str::KeysLot,
-     "Kavel: Page Down en Page Up, de objecten van de kavel, dichtstbijzijnde eerst; met Shift de categorieën, "
-     "met Ctrl de kamers. Enter opent de interacties van een object, of pakt het op in de koopmodus; Ctrl+Enter "
-     "stuurt de gekozen Sim erheen. Ctrl+E de toestand van de Sim, Ctrl+1 tot 9 kiezen een Sim, Tab de panelen, "
-     "Ctrl+pijl omhoog en omlaag de details."},
+     "Kavel: Tab gaat langs de behoeften, de actiewachtrij, de objecten per soort, de objecten per kamer en de "
+     "panelen van het spel. Bij de objecten per soort of per kamer opent Enter een soort of een kamer, de "
+     "objecten komen dichtstbijzijnde eerst, Backspace gaat terug. Enter op een object opent de interacties, of "
+     "pakt het op in de koopmodus; Ctrl+Enter stuurt de gekozen Sim erheen. Ctrl+E de toestand van de Sim, "
+     "Ctrl+1 tot 9 kiezen een Sim, Ctrl+pijl omhoog en omlaag de details."},
     {Str::KeysPlacement,
-     "Plaatsen: Page Down en Page Up de plekken waar het past, met Ctrl de kamers, pijltjes één vak, Home terug "
-     "naar de Sim, komma en punt draaien het, Enter zet het neer, Delete verkoopt het, Escape stopt."},
+     "Plaatsen: pijltjes één vak, Shift vijf, Tab en Shift+Tab de plekken waar het past, Page Down en Page Up de "
+     "kamers, Home terug naar de Sim, komma en punt draaien het, Enter zet het neer, Delete verkoopt het, Escape "
+     "stopt."},
     {Str::KeysBuild,
      "Bouwen: de pijltjes verplaatsen de hoek, met Shift vijf, Page Up en Page Down het niveau, spatie markeert "
      "het begin, Enter bouwt vanaf de markering, Ctrl+Enter verwijdert, Home terug naar de Sim, R herhaalt, "
@@ -146,6 +150,8 @@ const Translation kEntries[] = {
     // Lot: rooms
     {Str::RoomObjects, "%s, %d voorwerpen"},
     {Str::RoomObjectsOne, "%s, 1 voorwerp"},
+    {Str::ThingsByKind, "objecten per soort"},
+    {Str::ThingsByRoom, "objecten per kamer"},
     {Str::FundsChanged, "%1$s, nog %2$s"},
     // Camera
     {Str::CameraFree, "camera vrij"},

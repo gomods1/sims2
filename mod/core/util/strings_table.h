@@ -8,12 +8,9 @@
     X(ModLoaded, "Sims 2 accessibility loaded")                                                                        \
     X(UnsupportedBuild, "Sims 2 accessibility: unsupported game version, mod disabled")                                \
     /* Key help (Ctrl+F1) */                                                                                           \
-    X(KeysScreen,                                                                                                      \
-      "Arrows move within a group, Tab and Shift+Tab change group, Home and End go to the ends, Enter presses, R "     \
-      "repeats. Control+Up and Control+Down read the details of what was said, Control+Left and Control+Right "        \
-      "switch between details and events.")                                                                            \
-    X(KeysLot, "Lot: PageDown and PageUp the lot's objects, nearest first; Shift with them the categories, Control with them the rooms. Enter opens an object's interactions, or picks it up in buy mode; Control+Enter walks the selected Sim there. Control+E the Sim's state, Control+1 to 9 choose a Sim, Tab the panels, Control+Up and Down the details.")\
-    X(KeysPlacement, "Placing: PageDown and PageUp the spots where it fits, Control with them the rooms, arrows one tile, Home back to the Sim, comma and period turn it, Enter puts it down, Delete sells it, Escape stops.")\
+    X(KeysScreen, "Tab and Shift+Tab go from group to group; Up and Down go through a group, Left and Right too, or change a slider; Home and End go to the ends; Enter presses, and on a kind or a room opens its things; Backspace goes back; R repeats. Control+Up and Control+Down read the details of what was said, Control+Left and Control+Right switch between details and events.") \
+    X(KeysLot, "Lot: Tab goes through the needs, the action queue, things by kind, things by room and the game's panels. In things by kind or by room, Enter opens a kind or a room, its things come nearest first, Backspace goes back. Enter on a thing opens its interactions, or picks it up in buy mode; Control+Enter walks the selected Sim there. Control+E the Sim's state, Control+1 to 9 choose a Sim, Control+Up and Down the details.") \
+    X(KeysPlacement, "Placing: arrows one tile, Shift five, Tab and Shift+Tab the spots where it fits, PageDown and PageUp the rooms, Home back to the Sim, comma and period turn it, Enter puts it down, Delete sells it, Escape stops.") \
     X(KeysBuild, "Building: arrows move the corner, Shift five, PageUp and PageDown the level, Space marks the start, Enter builds from the mark, Control+Enter removes, Home back to the Sim, R repeats, Escape leaves.")\
     X(KeysNeighborhood, "Neighborhood: the lots list comes first, Enter opens a lot's panel. To move a family in, choose it in the family bin, then press Enter on a lot. Tab the panels.")\
     /* Control state */                                                                                                \
@@ -131,6 +128,8 @@
     /* Lot: rooms */                                                                                                   \
     X(RoomObjects, "%s, %d objects")                                                                                   \
     X(RoomObjectsOne, "%s, 1 object")                                                                                  \
+    X(ThingsByKind, "things by kind")                                                                                   \
+    X(ThingsByRoom, "things by room")                                                                                   \
     X(FundsChanged, "%1$s, %2$s left")                                                                                 \
     /* Camera */                                                                                                       \
     X(CameraFree, "camera free")                                                                                       \
