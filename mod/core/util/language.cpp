@@ -16,31 +16,32 @@ struct LanguageInfo {
     unsigned codePage;                   // the game's text in this language
     const char* digitGroupSeparator;
     const lang::Translations* strings;   // nullptr: English, the source
+    const char* docTag;                  // the manual's file: Sims2Access\docs\<tag>.html
 };
 
 // The Sims 2 stores all its text as UTF-8 (STR# resources in the .package files), in every
 // language; codePage is only kept for the log.
 const LanguageInfo kLanguages[] = {
-    {Language::English, "English", CP_UTF8, ",", nullptr},
-    {Language::French, "French", CP_UTF8, "", &lang::kFrench},
-    {Language::German, "German", CP_UTF8, ".", &lang::kGerman},
-    {Language::Italian, "Italian", CP_UTF8, ".", &lang::kItalian},
-    {Language::Spanish, "Spanish", CP_UTF8, ".", &lang::kSpanish},
-    {Language::Dutch, "Dutch", CP_UTF8, ".", &lang::kDutch},
-    {Language::Danish, "Danish", CP_UTF8, ".", &lang::kDanish},
-    {Language::Swedish, "Swedish", CP_UTF8, "", &lang::kSwedish},
-    {Language::Norwegian, "Norwegian", CP_UTF8, "", &lang::kNorwegian},
-    {Language::Finnish, "Finnish", CP_UTF8, "", &lang::kFinnish},
-    {Language::Portuguese, "Portuguese", CP_UTF8, ".", &lang::kPortuguese},
-    {Language::Japanese, "Japanese", CP_UTF8, ",", &lang::kJapanese},
-    {Language::Polish, "Polish", CP_UTF8, "", &lang::kPolish},
-    {Language::SimplifiedChinese, "Simplified Chinese", CP_UTF8, ",", &lang::kSimplifiedChinese},
-    {Language::TraditionalChinese, "Traditional Chinese", CP_UTF8, ",", &lang::kTraditionalChinese},
-    {Language::Thai, "Thai", CP_UTF8, ",", &lang::kThai},
-    {Language::Korean, "Korean", CP_UTF8, ",", &lang::kKorean},
-    {Language::Czech, "Czech", CP_UTF8, "", &lang::kCzech},
-    {Language::Hungarian, "Hungarian", CP_UTF8, "", &lang::kHungarian},
-    {Language::Russian, "Russian", CP_UTF8, "", &lang::kRussian},
+    {Language::English, "English", CP_UTF8, ",", nullptr, "en"},
+    {Language::French, "French", CP_UTF8, "", &lang::kFrench, "fr"},
+    {Language::German, "German", CP_UTF8, ".", &lang::kGerman, "de"},
+    {Language::Italian, "Italian", CP_UTF8, ".", &lang::kItalian, "it"},
+    {Language::Spanish, "Spanish", CP_UTF8, ".", &lang::kSpanish, "es"},
+    {Language::Dutch, "Dutch", CP_UTF8, ".", &lang::kDutch, "nl"},
+    {Language::Danish, "Danish", CP_UTF8, ".", &lang::kDanish, "da"},
+    {Language::Swedish, "Swedish", CP_UTF8, "", &lang::kSwedish, "sv"},
+    {Language::Norwegian, "Norwegian", CP_UTF8, "", &lang::kNorwegian, "no"},
+    {Language::Finnish, "Finnish", CP_UTF8, "", &lang::kFinnish, "fi"},
+    {Language::Portuguese, "Portuguese", CP_UTF8, ".", &lang::kPortuguese, "pt"},
+    {Language::Japanese, "Japanese", CP_UTF8, ",", &lang::kJapanese, "ja"},
+    {Language::Polish, "Polish", CP_UTF8, "", &lang::kPolish, "pl"},
+    {Language::SimplifiedChinese, "Simplified Chinese", CP_UTF8, ",", &lang::kSimplifiedChinese, "zh-hans"},
+    {Language::TraditionalChinese, "Traditional Chinese", CP_UTF8, ",", &lang::kTraditionalChinese, "zh-hant"},
+    {Language::Thai, "Thai", CP_UTF8, ",", &lang::kThai, "th"},
+    {Language::Korean, "Korean", CP_UTF8, ",", &lang::kKorean, "ko"},
+    {Language::Czech, "Czech", CP_UTF8, "", &lang::kCzech, "cs"},
+    {Language::Hungarian, "Hungarian", CP_UTF8, "", &lang::kHungarian, "hu"},
+    {Language::Russian, "Russian", CP_UTF8, "", &lang::kRussian, "ru"},
 };
 
 // Steam's language numbers for this game (3314070_install.vdf writes them to the registry).
@@ -125,6 +126,8 @@ void SetGameLanguage(int number) {
 }
 
 Language CurrentLanguage() { return g_current->language; }
+
+const char* DocTag() { return g_current->docTag; }
 
 unsigned GameCodePage() { return g_current->codePage; }
 

@@ -16,10 +16,10 @@ const Translation kEntries[] = {
      "Tab和Shift+Tab在群組之間切換，上、下方向鍵在群組內移動，左、右方向鍵同樣可以，或調整滑桿，Home和End移到兩端，Enter執行，對於類別或房間則開啟其中的物品，Backspace返回，R重複朗讀。C"
      "trl+上方向鍵和Ctrl+下方向鍵朗讀剛才所說內容的詳細資料，Ctrl+左方向鍵和Ctrl+右方向鍵在詳細資料和事件之間切換。"},
     {Str::KeysLot,
-     "地段：Tab依序瀏覽需求、行動佇列、按類別的物品、按房間的物品和遊戲面板。在按類別或按房間的物品中，Enter 開啟一個類別或房間，其中的物品近的在前，Backspace 返回。在物品上按 Enter "
-     "開啟它的互動，在購買模式中拿起它；Ctrl+Enter 讓選中的模擬市民走過去。Ctrl+E 模擬市民的狀態，Ctrl+1 到 9 選擇模擬市民，Ctrl+上下查看詳情。"},
+     "地段：Tab依序瀏覽需求、行動佇列、按類別的物品、按房間的物品和遊戲面板。Page Down 和 Page Up 瀏覽地段上的物品，近的在前；加 Shift 切換物品類別，加 Ctrl 切換房間。在物品上按 "
+     "Enter 開啟它的互動，在購買模式中拿起它；Ctrl+Enter 讓選中的模擬市民走過去。Ctrl+E 模擬市民的狀態，Ctrl+1 到 9 選擇模擬市民，Ctrl+上下查看詳情。"},
     {Str::KeysPlacement,
-     "放置：方向鍵移動一格，Shift 移動五格，Tab 和 Shift+Tab 瀏覽放得下的位置，Page Down 和 Page Up 切換房間，Home 回到模擬市民處，逗號和句號旋轉，Enter "
+     "放置：方向鍵移動一格，Shift 移動五格，Page Down 和 Page Up 瀏覽放得下的位置，加 Ctrl 切換房間，加 Shift 或逗號和句號旋轉，Home 回到模擬市民處，Enter "
      "放下，Delete 賣掉，Escape 結束。"},
     {Str::KeysBuild,
      "建造：方向鍵移動角點，加 Shift 移動五格，Page Up 和 Page Down 切換樓層，空白鍵標記起點，Enter 從起點建造，Ctrl+Enter 拆除，Home 回到模擬市民處，R "
@@ -97,7 +97,7 @@ const Translation kEntries[] = {
     {Str::Simoleons, "西莫幣"},
     {Str::FundsNow, "資金%s，%s"},
     // Lot: object browser (PageUp/PageDown)
-    {Str::CategorySims, "模擬人物"},
+    {Str::CategorySims, "模擬市民"},
     {Str::CategoryOther, "其他物品"},
     {Str::NoObjects, "這裡沒有物品"},
     {Str::FloorNumber, "%d樓"},
@@ -118,7 +118,7 @@ const Translation kEntries[] = {
     {Str::NoInteractionsAtAll, "沒有互動：這個物品不能做任何事"},
     {Str::WalkingThere, "正在走過去"},
     {Str::CannotWalk, "無法走到那裡"},
-    {Str::NoSimSelected, "未選取模擬人物"},
+    {Str::NoSimSelected, "未選取模擬市民"},
     // Needs
     {Str::MotiveValue, "%s，百分之%d"},
     // Lot: status (Ctrl+E) and action queue
@@ -133,7 +133,7 @@ const Translation kEntries[] = {
     {Str::NeedUrgent, "%1$s，需求緊急：%2$s"},
     // Lot: selecting Sims
     {Str::SimSelectedNow, "%s，已選取"},
-    {Str::NoSuchSim, "沒有第%d個模擬人物"},
+    {Str::NoSuchSim, "沒有第%d個模擬市民"},
     // Narrator: visitors
     {Str::VisitorArrived, "%s來了"},
     {Str::VisitorLeft, "%s走了"},
@@ -230,6 +230,58 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "生意"},
     {Str::GroupSeasons, "季節"},
     {Str::GroupDate, "約會"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "沒有以%s開頭的群組"},
+    {Str::KeysGroupLetter, "Alt加字母：名稱以該字母開頭的下一個群組。"},
+    {Str::KeysShowFocus, "Ctrl+Shift+V：在螢幕上突顯所選控制項，方便他人幫忙。"},
+    {Str::ShowFocusOn, "螢幕上顯示所選項目"},
+    {Str::ShowFocusOff, "螢幕上不再顯示所選項目"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "佔%1$d格：從西到東%2$d格，從北到南%3$d格"},
+    {Str::CollidesWith, "碰到%s"},
+    {Str::FacingThing, "朝向%s"},
+    {Str::RoomChange, "離開%1$s，進入%2$s"},
+    {Str::BesideThing, "在%s旁邊"},
+    {Str::KeysPlacingThings, "Ctrl+Shift+Page Down 和 Page Up：放到地段上下一個物品旁邊，近的在前。"},
+    // Sound cues and the lot map
+    {Str::CuesOn, "游標音效開"},
+    {Str::CuesOff, "游標音效關"},
+    {Str::SurfaceNone, "沒有地板"},
+    {Str::SurfaceGround, "地面"},
+    {Str::SurfaceGrass, "草地"},
+    {Str::SurfaceWood, "木地板"},
+    {Str::SurfaceTile, "磁磚地板"},
+    {Str::SurfaceCarpet, "地毯"},
+    {Str::SurfacePaving, "鋪面"},
+    {Str::SurfaceGravel, "碎石"},
+    {Str::SurfacePoolRim, "泳池邊"},
+    {Str::SurfaceWater, "水"},
+    {Str::EdgeFence, "%s面有圍籬"},
+    {Str::EdgeRailing, "%s面有欄杆"},
+    {Str::MapStairs, "樓梯"},
+    {Str::TerrainSloped, "傾斜"},
+    {Str::EdgeWall, "%s面有牆"},
+    {Str::EdgeDoor, "%s面有門"},
+    {Str::EdgeWindow, "%s面有窗"},
+    {Str::MapOn, "地段地圖。Ctrl+F1 讀出按鍵。"},
+    {Str::MapOff, "地圖已關閉"},
+    {Str::MapNoFloor, "第%d層沒有建造任何東西"},
+    {Str::MapNothingHere, "這裡沒有可用的東西"},
+    {Str::MapLotEdge, "地段邊緣"},
+    {Str::KeysMap,
+     "地段地圖：方向鍵移動一格，加 Shift 移動五格；每一格讀出那裡的東西和朝向，房間和地板改變時也讀出，以及周圍的牆、圍籬、欄杆、門和窗，還有樓梯和斜坡，每種都有音效。Home 回到選中的模擬市民處。Page "
+     "Down 和 Page Up 照常瀏覽地段上的物品，地圖也跟到每一個。Ctrl+Shift+Page Up 和 Page Down 切換樓層。Enter 開啟那裡東西的選單；Ctrl+Enter "
+     "讓選中的模擬市民走過去。R 讀出全部，Ctrl+L 讀出房間格局。Ctrl+Shift+S 關閉或開啟音效。Escape 或 Ctrl+M 離開地圖。"},
+    {Str::KeysMapHint, "Ctrl+M：地段地圖，一個逐格走遍地段的游標。"},
+    {Str::KeysCuesHint, "Ctrl+Shift+S 關閉或開啟游標音效。"},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1 開啟手冊；Ctrl+F1 讀出每個畫面的按鍵。"},
+    {Str::KeysManual, "Ctrl+Shift+F1 在瀏覽器中開啟模組的完整手冊。"},
+    {Str::ManualOpening, "正在瀏覽器中開啟手冊"},
+    {Str::ManualMissing, "找不到手冊：請重新安裝模組"},
+    {Str::ManualButton, "模擬市民2無障礙模組手冊"},
+    {Str::GroupModHelp, "模組說明"},
+    {Str::KeysButton, "此畫面的按鍵"},
 };
 
 }  // namespace

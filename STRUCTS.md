@@ -96,6 +96,46 @@ subclass used for labels showing a value (tooltip names it).
 - Interaction menu builder 0xa0621f50 (thiscall(objectId, second)): the main toolbar calls it for
   message 0xC0 (handler 0xa061b99c) with the object in data 1, the second id in data 2.
 
+## The lot grid (world database; verified on the Contreras lot, 2026-11-01)
+
+- The world service (`world::kServiceId`) hands out `nTSWorld::cWorldDB`'s `cIWorldDB` interface
+  at +0x1c. Primary object fields: +0x24/+0x28/+0x2c origins (0, 0, -1), +0x7c `cWorldTerrain`,
+  +0x80 roof, +0x84 pool, +0x88 curved pool, +0x8c `cPartitionManager` (interface slot 39 returns
+  it: the "room manager" whose slot 80 is RoomAt), +0x94 `c3DArray<cFloorPatternStorageTile>`,
+  +0x98 rotations, +0xc0 `cStringMap<u16>` (pattern names), +0xc4 vertex layer.
+- Floors: the array's +8 x count, +0xc y count, +0x10 levels, +0x14 data; entry
+  `((level + 1) * nx + x) * ny + y`, 8 bytes = the u16 pattern of each quarter (0 none), `level`
+  as `LotObject::level` (the terrain's sidewalk and road are level 0; a pool's floor is level -1).
+  On a 40x30 lot nx = 40, ny = 30, 6 levels.
+- Pattern names: the string map's +0x18 is a `std::map<u16, const char*>` (left +0, parent +4,
+  right +8, is-nil +0xd, key +0x10, value +0x14): "sidewalk", "road_asphalt",
+  "floor_plywoodfoundation", "floor_poolroundedlipblue", or a bought floor's GUID in hex
+  ("8cc25f32"). Bought floors: `TSData\Res\Catalog\Patterns\catpatterns.bundle.package` of every
+  pack, type 0xCCA8E925 property sets (XML): `guid` (decimal), `type` floor/wall, `surfacetype`
+  (cpet, wood, wdeck, marble, lino, cment, gravel, grass), `subsort` (carpet, wood, tile, lino,
+  stone, brick, poured, other); 647 floors, read in 16 ms (`game::FloorSurfaceType`).
+- Walls: partition manager slot 40 (int layer) gives a layer; its slot 19 (Point* a, Point* b, 0,
+  0, 0) -> bool tells whether a wall of that layer lies between two points (Point {float x, y; int
+  level}; what Lua's IsWallBetweenPoints / IsLoadWallBetweenPoints call with layers 0 and 4). Edge
+  signatures found by `!walls` (layers 0..7 as bits): walls `10011101` (0, 3, 4, 5, 7: 4 is
+  load-bearing), the yard's fence `00000101` (5 blocks, 7 drawn; checked on a screenshot),
+  railings upstairs `00110101` (2, 3, 5, 7), `00000100` once (5 only: left out).
+- Terrain height: interface slot 64 (int x, int y) -> float at a corner (0 everywhere on the flat
+  Contreras lot: slopes untested). Water: cdecl 0xa07e2400 (int tile[3] {x, y, 0}) said no on a pool
+  (ponds, untested); a pool is found by its floor at level -1 ("floor_pool...").
+- Stairs: objects whose internal name starts "Stair" ("Stair Modular - Deck - Hi Cutout"; types
+  4 and 11 both occur).
+
+## Multi-tile objects (verified 2026-11-01)
+
+A multi-tile object (a table, a sofa, a 2-tile window, a door) is only its parts, `cEdithMTObject`
+entries of the object module's by-id vector, named "<internal name> - col,row". Every part's +0x2f4
+points at the lead part's interface at +0x2f0 (the lead is the "- 0,0" part), +0x2f8 chains the
+parts. The part's OBJD is the part's own (GUID with an internal "*..." catalog name, no categories);
+the whole object's is its selector's master's: object +0x240 `cTSObjectSelector` -> +0x68 master
+selector -> +0x60 OBJD (GUID, price, categories, room flags). OBJD +0x1a is the part's sub index
+(column << 8 | row; row 0 stands in front of a door's or window's wall).
+
 ## Buy mode
 
 - The main toolbar (`cTSMainToolbar`, system service 0xe92db716, iid 1 gives its +4 interface):

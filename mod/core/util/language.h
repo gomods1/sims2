@@ -42,6 +42,10 @@ void SetGameLanguage(int number);
 
 Language CurrentLanguage();
 
+// The manual's file name for the current language ("en", "es", "zh-hans"...): tools/build_docs.py
+// makes Sims2Access\docs\<tag>.html from docs/manual/<tag>.md.
+const char* DocTag();
+
 // The Windows code page of the game's text: always UTF-8 in The Sims 2.
 unsigned GameCodePage();
 

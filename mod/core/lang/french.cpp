@@ -20,14 +20,14 @@ const Translation kEntries[] = {
      "droite passent des détails aux événements."},
     {Str::KeysLot,
      "Terrain : Tab parcourt les besoins, la file d'actions, les objets par type, les objets par pièce et les "
-     "panneaux du jeu. Dans les objets par type ou par pièce, Entrée ouvre un type ou une pièce, ses objets "
-     "viennent les plus proches d'abord, Retour arrière revient en arrière. Entrée sur un objet ouvre ses "
+     "panneaux du jeu. Page suivante et Page précédente parcourent les objets du terrain, les plus proches "
+     "d'abord ; avec Maj, elles changent le type d'objet, avec Contrôle, la pièce. Entrée sur un objet ouvre ses "
      "interactions, ou le prend en mode Achat ; Contrôle+Entrée y envoie le Sim sélectionné. Contrôle+E, l'état "
      "du Sim ; Contrôle+1 à 9 choisissent un Sim ; Contrôle+haut et bas, les détails."},
     {Str::KeysPlacement,
-     "Placement : flèches, une case ; Maj, cinq ; Tab et Maj+Tab, les places où il tient ; Page suivante et "
-     "précédente, les pièces ; Origine, retour au Sim ; virgule et point le tournent ; Entrée le pose ; Suppr le "
-     "vend ; Échap arrête."},
+     "Placement : flèches, une case ; Maj, cinq ; Page suivante et précédente, les places où il tient ; avec "
+     "Contrôle, les pièces ; avec Maj, ou virgule et point, le tournent ; Origine, retour au Sim ; Entrée le "
+     "pose ; Suppr le vend ; Échap arrête."},
     {Str::KeysBuild,
      "Construction : les flèches déplacent le coin, avec Maj cinq ; Page précédente et suivante, le niveau ; "
      "Espace marque le début ; Entrée construit depuis la marque ; Contrôle+Entrée supprime ; Origine retour au "
@@ -245,6 +245,65 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "entreprise"},
     {Str::GroupSeasons, "saisons"},
     {Str::GroupDate, "rendez-vous"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "aucun groupe ne commence par %s"},
+    {Str::KeysGroupLetter, "Alt et une lettre : le groupe suivant dont le nom commence par cette lettre."},
+    {Str::KeysShowFocus,
+     "Contrôle Maj V : éclaire à l'écran la commande sélectionnée, pour une personne qui aide."},
+    {Str::ShowFocusOn, "sélection affichée à l'écran"},
+    {Str::ShowFocusOff, "sélection plus affichée à l'écran"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "occupe %1$d cases : %2$d d'ouest en est, %3$d du nord au sud"},
+    {Str::CollidesWith, "heurte %s"},
+    {Str::FacingThing, "vers %s"},
+    {Str::RoomChange, "sortie de %1$s, entrée dans %2$s"},
+    {Str::BesideThing, "à côté de %s"},
+    {Str::KeysPlacingThings,
+     "Contrôle Maj Page suivante et Page précédente : le pose à côté de l'objet suivant du terrain, le plus "
+     "proche d'abord."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "sons du curseur activés"},
+    {Str::CuesOff, "sons du curseur désactivés"},
+    {Str::SurfaceNone, "pas de sol"},
+    {Str::SurfaceGround, "terre"},
+    {Str::SurfaceGrass, "herbe"},
+    {Str::SurfaceWood, "parquet"},
+    {Str::SurfaceTile, "carrelage"},
+    {Str::SurfaceCarpet, "moquette"},
+    {Str::SurfacePaving, "pavé"},
+    {Str::SurfaceGravel, "gravier"},
+    {Str::SurfacePoolRim, "bord de piscine"},
+    {Str::SurfaceWater, "eau"},
+    {Str::EdgeFence, "clôture côté %s"},
+    {Str::EdgeRailing, "garde-corps côté %s"},
+    {Str::MapStairs, "escalier"},
+    {Str::TerrainSloped, "en pente"},
+    {Str::EdgeWall, "mur côté %s"},
+    {Str::EdgeDoor, "porte côté %s"},
+    {Str::EdgeWindow, "fenêtre côté %s"},
+    {Str::MapOn, "Carte du terrain. Contrôle+F1 donne les touches."},
+    {Str::MapOff, "carte fermée"},
+    {Str::MapNoFloor, "rien n'est construit au niveau %d"},
+    {Str::MapNothingHere, "rien à utiliser ici"},
+    {Str::MapLotEdge, "bord du terrain"},
+    {Str::KeysMap,
+     "Carte du terrain : les flèches avancent d'une case, avec Maj de cinq ; chaque case dit ce qui s'y trouve "
+     "et vers où c'est orienté, la pièce et le sol quand ils changent, et les murs, clôtures, garde-corps, "
+     "portes et fenêtres autour, les escaliers et les pentes, avec un son pour chacun. Origine revient au Sim "
+     "sélectionné. Page suivante et Page précédente parcourent les objets du terrain comme toujours, et la carte "
+     "va sur chacun. Contrôle+Maj+Page précédente et Page suivante changent de niveau. Entrée ouvre le menu de "
+     "ce qui s'y trouve ; Contrôle+Entrée y envoie le Sim sélectionné. R dit tout, Contrôle+L le plan de la "
+     "pièce. Contrôle+Maj+S active ou coupe les sons. Échap ou Contrôle+M quitte la carte."},
+    {Str::KeysMapHint, "Contrôle+M : la carte du terrain, un curseur qui le parcourt case par case."},
+    {Str::KeysCuesHint, "Contrôle+Maj+S active ou coupe les sons du curseur."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Contrôle+Maj+F1 ouvre le manuel ; Contrôle+F1 dit les touches de chaque écran."},
+    {Str::KeysManual, "Contrôle+Maj+F1 ouvre le manuel complet du mod dans votre navigateur."},
+    {Str::ManualOpening, "ouverture du manuel dans le navigateur"},
+    {Str::ManualMissing, "le manuel est introuvable : réinstallez le mod"},
+    {Str::ManualButton, "Manuel d'Accessibilité pour Les Sims 2"},
+    {Str::GroupModHelp, "aide du mod"},
+    {Str::KeysButton, "Touches de cet écran"},
 };
 
 }  // namespace

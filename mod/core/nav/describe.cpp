@@ -16,7 +16,8 @@ std::string Describe(const Item& it) {
     case Role::Level: return label;
     case Role::LotObject: return label;
     case Role::PieItem: return label;
-    case Role::QueuedAction: return label + ", " + S(Str::RoleButton);
+    case Role::QueuedAction:
+    case Role::ModManual: return label + ", " + S(Str::RoleButton);
     case Role::ListRow:
         return it.on ? label + ", " + S(Str::Selected) : label;
     case Role::Slider:

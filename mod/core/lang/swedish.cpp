@@ -20,14 +20,14 @@ const Translation kEntries[] = {
      "och händelser."},
     {Str::KeysLot,
      "Tomt: Tabb går genom behoven, handlingskön, föremål efter sort, föremål efter rum och spelets paneler. "
-     "Under föremål efter sort eller rum öppnar Enter en sort eller ett rum, föremålen kommer de närmaste först, "
-     "Backspace går tillbaka. Enter på ett föremål öppnar dess handlingar, eller plockar upp det i köpläge; "
-     "Ctrl+Enter skickar den valda simmen dit. Ctrl+E simmens tillstånd, Ctrl+1 till 9 väljer en sim, Ctrl+pil "
-     "upp och ner detaljerna."},
+     "Page Down och Page Up går genom tomtens föremål, de närmaste först; med Skift byter de sort av föremål, "
+     "med Ctrl rum. Enter på ett föremål öppnar dess handlingar, eller plockar upp det i köpläge; Ctrl+Enter "
+     "skickar den valda simmen dit. Ctrl+E simmens tillstånd, Ctrl+1 till 9 väljer en sim, Ctrl+pil upp och ner "
+     "detaljerna."},
     {Str::KeysPlacement,
-     "Placering: pilar en ruta, Skift fem, Tabb och Skift+Tabb platserna där den får plats, Page Down och Page "
-     "Up rummen, Home tillbaka till simmen, komma och punkt vrider den, Enter ställer ner den, Delete säljer "
-     "den, Escape avslutar."},
+     "Placering: pilar en ruta, Skift fem, Page Down och Page Up platserna där den får plats, med Ctrl rummen, "
+     "med Skift eller komma och punkt vrider den, Home tillbaka till simmen, Enter ställer ner den, Delete "
+     "säljer den, Escape avslutar."},
     {Str::KeysBuild,
      "Bygge: pilarna flyttar hörnet, med Skift fem, Page Up och Page Down nivån, mellanslag markerar början, "
      "Enter bygger från markeringen, Ctrl+Enter tar bort, Home tillbaka till simmen, R upprepar, Escape avslutar."},
@@ -242,6 +242,63 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "företag"},
     {Str::GroupSeasons, "årstider"},
     {Str::GroupDate, "dejt"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "ingen grupp börjar på %s"},
+    {Str::KeysGroupLetter, "Alt och en bokstav: nästa grupp vars namn börjar på den bokstaven."},
+    {Str::KeysShowFocus, "Ctrl Skift V: lyser upp den valda kontrollen på skärmen för den som hjälper till."},
+    {Str::ShowFocusOn, "markeringen visas på skärmen"},
+    {Str::ShowFocusOff, "markeringen visas inte längre på skärmen"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "tar %1$d rutor: %2$d från väst till öst, %3$d från norr till söder"},
+    {Str::CollidesWith, "krockar med %s"},
+    {Str::FacingThing, "mot %s"},
+    {Str::RoomChange, "lämnar %1$s, går in i %2$s"},
+    {Str::BesideThing, "bredvid %s"},
+    {Str::KeysPlacingThings,
+     "Ctrl Skift Page Down och Page Up: ställ den bredvid tomtens nästa föremål, det närmaste först."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "markörljud på"},
+    {Str::CuesOff, "markörljud av"},
+    {Str::SurfaceNone, "inget golv"},
+    {Str::SurfaceGround, "mark"},
+    {Str::SurfaceGrass, "gräs"},
+    {Str::SurfaceWood, "trägolv"},
+    {Str::SurfaceTile, "klinkergolv"},
+    {Str::SurfaceCarpet, "heltäckningsmatta"},
+    {Str::SurfacePaving, "stenläggning"},
+    {Str::SurfaceGravel, "grus"},
+    {Str::SurfacePoolRim, "poolkant"},
+    {Str::SurfaceWater, "vatten"},
+    {Str::EdgeFence, "staket mot %s"},
+    {Str::EdgeRailing, "räcke mot %s"},
+    {Str::MapStairs, "trappa"},
+    {Str::TerrainSloped, "sluttande"},
+    {Str::EdgeWall, "vägg mot %s"},
+    {Str::EdgeDoor, "dörr mot %s"},
+    {Str::EdgeWindow, "fönster mot %s"},
+    {Str::MapOn, "Tomtens karta. Ctrl+F1 säger tangenterna."},
+    {Str::MapOff, "kartan stängd"},
+    {Str::MapNoFloor, "inget är byggt på våning %d"},
+    {Str::MapNothingHere, "här finns inget att använda"},
+    {Str::MapLotEdge, "tomtens kant"},
+    {Str::KeysMap,
+     "Tomtens karta: pilarna flyttar en ruta, med Skift fem; varje ruta säger vad som står där och åt vilket "
+     "håll det är vänt, rummet och golvet när de byts, och väggarna, staketen, räckena, dörrarna och fönstren "
+     "runt om, trappor och sluttningar, var och en med ett ljud. Home går tillbaka till den valda simmen. Page "
+     "Down och Page Up går som vanligt genom tomtens föremål, och kartan går till vart och ett. Ctrl+Skift+Page "
+     "Up och Page Down byter våning. Enter öppnar menyn för det som står där; Ctrl+Enter skickar dit den valda "
+     "simmen. R säger allt, Ctrl+L rummets planlösning. Ctrl+Skift+S stänger av och sätter på ljuden. Escape "
+     "eller Ctrl+M stänger kartan."},
+    {Str::KeysMapHint, "Ctrl+M: tomtens karta, en markör som går genom tomten ruta för ruta."},
+    {Str::KeysCuesHint, "Ctrl+Skift+S stänger av och sätter på markörljuden."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Skift+F1 öppnar handboken; Ctrl+F1 säger tangenterna på varje skärm."},
+    {Str::KeysManual, "Ctrl+Skift+F1 öppnar moddens fullständiga handbok i webbläsaren."},
+    {Str::ManualOpening, "öppnar handboken i webbläsaren"},
+    {Str::ManualMissing, "handboken saknas: installera om modden"},
+    {Str::ManualButton, "Handbok för Tillgänglighet för The Sims 2"},
+    {Str::GroupModHelp, "modhjälp"},
+    {Str::KeysButton, "Tangenter för den här skärmen"},
 };
 
 }  // namespace

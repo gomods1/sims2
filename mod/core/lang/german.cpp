@@ -20,14 +20,15 @@ const Translation kEntries[] = {
      "links und Strg+Pfeil nach rechts wechseln zwischen Details und Ereignissen."},
     {Str::KeysLot,
      "Grundstück: Tab geht durch die Bedürfnisse, die Handlungsliste, die Objekte nach Art, die Objekte nach "
-     "Zimmer und die Leisten des Spiels. Bei den Objekten nach Art oder nach Zimmer öffnet Eingabe eine Art oder "
-     "ein Zimmer, deren Objekte kommen die nächsten zuerst, Rücktaste geht zurück. Eingabe auf einem Objekt "
-     "öffnet seine Interaktionen oder hebt es im Kaufmodus auf; Strg+Eingabe schickt den gewählten Sim dorthin. "
-     "Strg+E der Zustand des Sims, Strg+1 bis 9 wählen einen Sim, Strg+Pfeil hoch und runter die Details."},
+     "Zimmer und die Leisten des Spiels. Bild ab und Bild auf gehen durch die Objekte des Grundstücks, die "
+     "nächsten zuerst; mit Umschalt wechseln sie die Art des Objekts, mit Strg das Zimmer. Eingabe auf einem "
+     "Objekt öffnet seine Interaktionen oder hebt es im Kaufmodus auf; Strg+Eingabe schickt den gewählten Sim "
+     "dorthin. Strg+E der Zustand des Sims, Strg+1 bis 9 wählen einen Sim, Strg+Pfeil hoch und runter die "
+     "Details."},
     {Str::KeysPlacement,
-     "Platzieren: Pfeiltasten ein Feld, Umschalt fünf, Tab und Umschalt+Tab die Plätze, an die es passt, Bild ab "
-     "und Bild auf die Zimmer, Pos1 zurück zum Sim, Komma und Punkt drehen es, Eingabe stellt es hin, Entf "
-     "verkauft es, Escape beendet."},
+     "Platzieren: Pfeiltasten ein Feld, Umschalt fünf, Bild ab und Bild auf die Plätze, an die es passt, mit "
+     "Strg die Zimmer, mit Umschalt oder Komma und Punkt drehen es, Pos1 zurück zum Sim, Eingabe stellt es hin, "
+     "Entf verkauft es, Escape beendet."},
     {Str::KeysBuild,
      "Bauen: Pfeiltasten bewegen die Ecke, mit Umschalt fünf, Bild auf und ab die Ebene, Leertaste markiert den "
      "Anfang, Eingabe baut ab der Markierung, Strg+Eingabe entfernt, Pos1 zurück zum Sim, R wiederholt, Escape "
@@ -246,6 +247,65 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "Geschäft"},
     {Str::GroupSeasons, "Jahreszeiten"},
     {Str::GroupDate, "Verabredung"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "keine Gruppe beginnt mit %s"},
+    {Str::KeysGroupLetter, "Alt und ein Buchstabe: die nächste Gruppe, deren Name mit diesem Buchstaben beginnt."},
+    {Str::KeysShowFocus,
+     "Strg Umschalt V: hebt das gewählte Element auf dem Bildschirm hervor, für jemanden, der hilft."},
+    {Str::ShowFocusOn, "Auswahl auf dem Bildschirm sichtbar"},
+    {Str::ShowFocusOff, "Auswahl nicht mehr auf dem Bildschirm sichtbar"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "belegt %1$d Felder: %2$d von West nach Ost, %3$d von Nord nach Süd"},
+    {Str::CollidesWith, "stößt an %s"},
+    {Str::FacingThing, "zu %s hin"},
+    {Str::RoomChange, "verlässt %1$s, betritt %2$s"},
+    {Str::BesideThing, "neben %s"},
+    {Str::KeysPlacingThings,
+     "Strg Umschalt Bild ab und Bild auf: neben das nächste Objekt des Grundstücks stellen, das nächstgelegene "
+     "zuerst."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "Cursorklänge an"},
+    {Str::CuesOff, "Cursorklänge aus"},
+    {Str::SurfaceNone, "kein Boden"},
+    {Str::SurfaceGround, "Erdboden"},
+    {Str::SurfaceGrass, "Rasen"},
+    {Str::SurfaceWood, "Holzboden"},
+    {Str::SurfaceTile, "Fliesenboden"},
+    {Str::SurfaceCarpet, "Teppichboden"},
+    {Str::SurfacePaving, "Pflaster"},
+    {Str::SurfaceGravel, "Kies"},
+    {Str::SurfacePoolRim, "Beckenrand"},
+    {Str::SurfaceWater, "Wasser"},
+    {Str::EdgeFence, "Zaun im %s"},
+    {Str::EdgeRailing, "Geländer im %s"},
+    {Str::MapStairs, "Treppe"},
+    {Str::TerrainSloped, "abschüssig"},
+    {Str::EdgeWall, "Wand im %s"},
+    {Str::EdgeDoor, "Tür im %s"},
+    {Str::EdgeWindow, "Fenster im %s"},
+    {Str::MapOn, "Grundstücksplan. Strg+F1 nennt die Tasten."},
+    {Str::MapOff, "Plan aus"},
+    {Str::MapNoFloor, "auf Etage %d ist nichts gebaut"},
+    {Str::MapNothingHere, "hier gibt es nichts zu benutzen"},
+    {Str::MapLotEdge, "Rand des Grundstücks"},
+    {Str::KeysMap,
+     "Grundstücksplan: die Pfeiltasten gehen ein Feld weiter, mit Umschalt fünf; jedes Feld sagt, was dort steht "
+     "und wohin es zeigt, das Zimmer und den Boden, wenn sie wechseln, und die Wände, Zäune, Geländer, Türen und "
+     "Fenster ringsum, Treppen und Hänge, jeweils mit einem Klang. Pos1 geht zurück zum gewählten Sim. Bild ab "
+     "und Bild auf gehen wie immer durch die Objekte des Grundstücks, und der Plan geht zu jedem. "
+     "Strg+Umschalt+Bild auf und Bild ab wechseln die Etage. Eingabe öffnet das Menü dessen, was dort steht; "
+     "Strg+Eingabe schickt den gewählten Sim dorthin. R sagt alles, Strg+L den Aufbau des Zimmers. "
+     "Strg+Umschalt+S schaltet die Klänge aus und an. Escape oder Strg+M verlässt den Plan."},
+    {Str::KeysMapHint, "Strg+M: der Grundstücksplan, ein Cursor, der das Grundstück Feld für Feld abgeht."},
+    {Str::KeysCuesHint, "Strg+Umschalt+S schaltet die Cursorklänge aus und an."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Strg+Umschalt+F1 öffnet das Handbuch; Strg+F1 sagt die Tasten jedes Bildschirms."},
+    {Str::KeysManual, "Strg+Umschalt+F1 öffnet das vollständige Handbuch des Mods im Browser."},
+    {Str::ManualOpening, "Handbuch wird im Browser geöffnet"},
+    {Str::ManualMissing, "das Handbuch fehlt: bitte den Mod neu installieren"},
+    {Str::ManualButton, "Handbuch zu Barrierefreiheit für Die Sims 2"},
+    {Str::GroupModHelp, "Mod-Hilfe"},
+    {Str::KeysButton, "Tasten für diesen Bildschirm"},
 };
 
 }  // namespace

@@ -10,7 +10,14 @@ namespace input {
 bool OnKeyDown(WPARAM vk, LPARAM lp);
 bool OnKeyUp(WPARAM vk, LPARAM lp);
 bool OnChar(WPARAM ch);
+// Alt+letter (WM_SYSKEYDOWN): the next group whose name starts with that letter; its WM_SYSCHAR
+// is swallowed (Windows would beep for the missing menu).
+bool OnSysKeyDown(WPARAM vk, LPARAM lp);
+bool OnSysChar(WPARAM ch);
 void OnFocusLost();  // forget tracked modifier keys
+
+// What Control+F1 says: the mod's keys where the player is (also the "mod help" group's button).
+void SayKeyHelp();
 
 // Presses a key for the game itself (its own binding, e.g. Return centers the camera on the
 // selected Sim): posted with a marker the mod's handler lets through.

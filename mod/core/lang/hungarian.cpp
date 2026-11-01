@@ -19,13 +19,13 @@ const Translation kEntries[] = {
      "elhangzottak részleteit, a Ctrl+Balra és a Ctrl+Jobbra a részletek és az események között vált."},
     {Str::KeysLot,
      "Telek: a Tab végigmegy a szükségleteken, a cselekvéssoron, a tárgyakon fajta szerint, a tárgyakon szoba "
-     "szerint és a játék paneljein. A fajta vagy szoba szerinti tárgyaknál az Enter megnyit egy fajtát vagy "
-     "szobát, a tárgyai a legközelebbitől indulnak, a Backspace visszalép. Az Enter egy tárgyon megnyitja a "
-     "cselekvéseit, vásárlás módban felveszi; a Ctrl+Enter odaküldi a kiválasztott Simet. Ctrl+E a Sim állapota, "
-     "Ctrl+1–9 Sim kiválasztása, Ctrl+fel és le nyíl a részletek."},
+     "szerint és a játék paneljein. A Page Down és a Page Up végigmegy a telek tárgyain, a legközelebbitől; "
+     "Shifttel a tárgy fajtáját váltják, Ctrl-lal a szobát. Az Enter egy tárgyon megnyitja a cselekvéseit, "
+     "vásárlás módban felveszi; a Ctrl+Enter odaküldi a kiválasztott Simet. Ctrl+E a Sim állapota, Ctrl+1–9 Sim "
+     "kiválasztása, Ctrl+fel és le nyíl a részletek."},
     {Str::KeysPlacement,
-     "Elhelyezés: nyilak egy mező, Shift öt, Tab és Shift+Tab a helyek, ahol elfér, Page Down és Page Up a "
-     "szobák, Home vissza a Simhez, vessző és pont forgat, Enter leteszi, Delete eladja, Escape befejezi."},
+     "Elhelyezés: nyilak egy mező, Shift öt, Page Down és Page Up a helyek, ahol elfér, Ctrl-lal a szobák, "
+     "Shifttel vagy vessző és pont forgat, Home vissza a Simhez, Enter leteszi, Delete eladja, Escape befejezi."},
     {Str::KeysBuild,
      "Építés: a nyilak mozgatják a sarkot, Shifttel ötöt, Page Up és Page Down a szint, szóköz jelöli a "
      "kezdetet, Enter épít a jeltől, Ctrl+Enter bont, Home vissza a Simhez, R ismétel, Escape kilép."},
@@ -242,6 +242,63 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "vállalkozás"},
     {Str::GroupSeasons, "évszakok"},
     {Str::GroupDate, "randevú"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "nincs %s betűvel kezdődő csoport"},
+    {Str::KeysGroupLetter, "Alt és egy betű: a következő csoport, amelynek neve azzal a betűvel kezdődik."},
+    {Str::KeysShowFocus, "Ctrl+Shift+V: kiemeli a képernyőn a kijelölt vezérlőt egy segítő számára."},
+    {Str::ShowFocusOn, "a kijelölés látszik a képernyőn"},
+    {Str::ShowFocusOff, "a kijelölés már nem látszik a képernyőn"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "%1$d mezőt foglal: %2$d nyugatról keletre, %3$d északról délre"},
+    {Str::CollidesWith, "ütközik: %s"},
+    {Str::FacingThing, "%s felé"},
+    {Str::RoomChange, "kilépsz: %1$s, belépsz: %2$s"},
+    {Str::BesideThing, "%s mellett"},
+    {Str::KeysPlacingThings,
+     "Ctrl+Shift+Page Down és Page Up: a telek következő tárgya mellé teszi, a legközelebbitől kezdve."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "kurzorhangok bekapcsolva"},
+    {Str::CuesOff, "kurzorhangok kikapcsolva"},
+    {Str::SurfaceNone, "nincs padló"},
+    {Str::SurfaceGround, "talaj"},
+    {Str::SurfaceGrass, "fű"},
+    {Str::SurfaceWood, "fapadló"},
+    {Str::SurfaceTile, "csempe"},
+    {Str::SurfaceCarpet, "szőnyegpadló"},
+    {Str::SurfacePaving, "térkő"},
+    {Str::SurfaceGravel, "kavics"},
+    {Str::SurfacePoolRim, "medence széle"},
+    {Str::SurfaceWater, "víz"},
+    {Str::EdgeFence, "kerítés %s"},
+    {Str::EdgeRailing, "korlát %s"},
+    {Str::MapStairs, "lépcső"},
+    {Str::TerrainSloped, "lejtős"},
+    {Str::EdgeWall, "fal %s"},
+    {Str::EdgeDoor, "ajtó %s"},
+    {Str::EdgeWindow, "ablak %s"},
+    {Str::MapOn, "A telek térképe. A Ctrl+F1 elmondja a billentyűket."},
+    {Str::MapOff, "térkép kikapcsolva"},
+    {Str::MapNoFloor, "%d. szint: nincs rajta semmi építve"},
+    {Str::MapNothingHere, "itt nincs mit használni"},
+    {Str::MapLotEdge, "a telek széle"},
+    {Str::KeysMap,
+     "A telek térképe: a nyilak egy mezőt lépnek, Shifttel ötöt; minden mező elmondja, mi áll rajta és merre "
+     "néz, a szobát és a padlót, amikor megváltoznak, és a körülötte lévő falakat, kerítéseket, korlátokat, "
+     "ajtókat és ablakokat, a lépcsőket és a lejtőket, mindegyiket saját hanggal. A Home visszatér a "
+     "kiválasztott Simhez. A Page Down és a Page Up a szokásos módon végigmegy a telek tárgyain, és a térkép "
+     "mindegyikhez odaugrik. A Ctrl+Shift+Page Up és Page Down szintet vált. Az Enter megnyitja annak a menüjét, "
+     "ami ott áll; a Ctrl+Enter odaküldi a kiválasztott Simet. Az R mindent elmond, a Ctrl+L a szoba "
+     "elrendezését. A Ctrl+Shift+S ki- és bekapcsolja a hangokat. Az Escape vagy a Ctrl+M kilép a térképből."},
+    {Str::KeysMapHint, "Ctrl+M: a telek térképe, egy kurzor, amely mezőről mezőre bejárja a telket."},
+    {Str::KeysCuesHint, "A Ctrl+Shift+S ki- és bekapcsolja a kurzorhangokat."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "A Ctrl+Shift+F1 megnyitja a kézikönyvet; a Ctrl+F1 elmondja az adott képernyő billentyűit."},
+    {Str::KeysManual, "A Ctrl+Shift+F1 megnyitja a mod teljes kézikönyvét a böngészőben."},
+    {Str::ManualOpening, "a kézikönyv megnyitása a böngészőben"},
+    {Str::ManualMissing, "a kézikönyv hiányzik: telepítsd újra a modot"},
+    {Str::ManualButton, "The Sims 2 akadálymentesítés kézikönyve"},
+    {Str::GroupModHelp, "a mod súgója"},
+    {Str::KeysButton, "Ennek a képernyőnek a billentyűi"},
 };
 
 }  // namespace

@@ -1,5 +1,10 @@
 #include "objects.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstring>
+#include <map>
+
 #include "../util/log.h"
 #include "addresses.h"
 #include "gz.h"
@@ -70,6 +75,18 @@ bool Fill(Ptr o, int id, LotObject* out) {
     }
     out->level = level - 1;
     Ptr def = Rd<Ptr>(o + addr::object::kDefinition);
+    // A multi-tile object's lead part has a part's definition ("*Sofa - Club (0,0)"): the whole
+    // object's (catalog name, price, buy categories) is its selector's master's.
+    if (IsKindOf(o, "cEdithMTObject")) {
+        Ptr sel = Rd<Ptr>(o + addr::object::kSelector);
+        Ptr master = IsKindOf(sel, "cTSObjectSelector") ? Rd<Ptr>(sel + addr::object::kSelectorMaster) : 0;
+        Ptr mdef = IsKindOf(master, "cTSObjectSelector") ? Rd<Ptr>(master + addr::product::kSelectorObjd) : 0;
+        if (mdef) {
+            int type = def ? Rd<uint16_t>(def + addr::objd::kType) : 0;
+            def = mdef;
+            out->type = type;  // the part's own (a door's lead part is type 8)
+        }
+    }
     if (def) {
         out->guid = Rd<uint32_t>(def + addr::objd::kGuid);
         out->price = Rd<int>(def + addr::objd::kPrice);
@@ -78,7 +95,16 @@ bool Fill(Ptr o, int id, LotObject* out) {
     }
     if (out->guid && !out->person) out->catalogName = CatalogName(out->guid);
     if (out->x >= 0) out->room = RoomAt(out->x, out->y, out->level);
+    out->direction = ((Rd<int16_t>(o + addr::object::kDirection) % 8) + 8) % 8;
+    if (def && !out->type) out->type = Rd<uint16_t>(def + addr::objd::kType);
     return true;
+}
+
+// The lead part of a multi-tile object's part (the part itself for the lead), 0 when o is no part.
+Ptr LeadOf(Ptr o) {
+    if (!IsKindOf(o, "cEdithMTObject")) return 0;
+    Ptr lead = Rd<Ptr>(o + addr::object::kLeadPart);
+    return lead ? lead - addr::object::kLeadInterface : 0;
 }
 
 }  // namespace
@@ -91,7 +117,8 @@ std::vector<LotObject> LotObjects() {
     int n = (int)((e - b) / 4);
     for (int i = 0; i < n && i < 20000; i++) {
         Ptr o = Rd<Ptr>(b + i * 4);
-        if (!o || IsKindOf(o, "cEdithMTObject")) continue;  // parts of multi-tile objects
+        // a multi-tile object counts once, as its lead part
+        if (!o || (IsKindOf(o, "cEdithMTObject") && LeadOf(o) != o)) continue;
         LotObject lo;
         if (Fill(o, i + 1, &lo)) out.push_back(lo);
     }
@@ -124,6 +151,61 @@ std::vector<WallObject> WallObjects() {
         out.push_back(w);
     }
     return out;
+}
+
+std::vector<PlacedPart> PlacedParts() {
+    std::vector<PlacedPart> out;
+    Ptr om = ObjectModule();
+    if (!om) return out;
+    Ptr b = Rd<Ptr>(om + addr::objmodule::kById), e = Rd<Ptr>(om + addr::objmodule::kById + 4);
+    int n = (int)((e - b) / 4);
+    std::map<Ptr, int> ids;  // object -> id, for the parts' leads
+    for (int i = 0; i < n && i < 20000; i++)
+        if (Ptr o = Rd<Ptr>(b + i * 4)) ids[o] = i + 1;
+    for (int i = 0; i < n && i < 20000; i++) {
+        Ptr o = Rd<Ptr>(b + i * 4);
+        if (!o || !IsKindOf(o, "cTSObject")) continue;
+        // Position, floor and type only (no catalog name: this runs on every cursor step).
+        typedef Ptr(__thiscall * LocationFn)(Ptr);
+        typedef short(__thiscall * LevelFn)(Ptr);
+        Ptr loc = 0;
+        short level = 0;
+        if (auto f = Slot<LocationFn>(o, addr::object::kSlotLocation)) Guarded([&] { loc = f(o); });
+        if (auto f = Slot<LevelFn>(o, addr::object::kSlotLevel)) Guarded([&] { level = f(o); });
+        if (!loc) continue;
+        float x = Rd<int>(loc) / 65536.0f, y = Rd<int>(loc + 4) / 65536.0f;
+        if (x < 0 || y < 0) continue;
+        PlacedPart p;
+        p.id = i + 1;
+        Ptr lead = LeadOf(o);
+        auto found = lead ? ids.find(lead) : ids.end();
+        p.lead = !lead ? p.id : found != ids.end() ? found->second : 0;
+        p.tileX = (int)x;
+        p.tileY = (int)y;
+        p.level = level - 1;
+        p.person = IsKindOf(o, "cTSPerson");
+        Ptr def = Rd<Ptr>(o + addr::object::kDefinition);
+        p.type = def ? Rd<uint16_t>(def + addr::objd::kType) : 0;
+        p.sub = def ? Rd<uint16_t>(def + addr::objd::kSubIndex) : 0;
+        p.direction = ((Rd<int16_t>(o + addr::object::kDirection) % 8) + 8) % 8;
+        typedef const char*(__thiscall * NameFn)(Ptr);
+        const char* name = nullptr;
+        if (auto f = Slot<NameFn>(o, addr::object::kSlotName)) Guarded([&] { name = f(o); });
+        char head[6] = {};
+        p.stairs = name && Read((Ptr)name, head, 5) && !strncmp(head, "Stair", 5);
+        out.push_back(p);
+    }
+    return out;
+}
+
+std::vector<std::pair<int, int>> ObjectTiles(int id, const std::vector<PlacedPart>& parts) {
+    std::vector<std::pair<int, int>> tiles;
+    for (const PlacedPart& p : parts) {
+        if (p.lead != id) continue;
+        std::pair<int, int> t = {p.tileX, p.tileY};
+        if (std::find(tiles.begin(), tiles.end(), t) == tiles.end()) tiles.push_back(t);
+    }
+    return tiles;
 }
 
 bool ReadLotObject(int id, LotObject* out) {
@@ -237,7 +319,7 @@ bool NeighborName(int neighborId, std::string* first, std::string* last) {
     return !first->empty();
 }
 
-int RoomAt(float x, float y, int level) {
+Ptr WorldDB() {
     static Ptr s_world = 0;
     if (!s_world) {
         Ptr fw = Va(addr::kFramework);
@@ -246,9 +328,15 @@ int RoomAt(float x, float y, int level) {
         bool ok = false;
         if (auto get = Slot<GetServiceFn>(fw, addr::kFrameworkGetSystemService))
             Guarded([&] { ok = get(fw, addr::world::kServiceId, addr::world::kIid, &out); });
-        if (!ok || !out) return -1;
+        if (!ok || !out) return 0;
         s_world = (Ptr)out;  // a service: it outlives the mod's use (the reference is kept)
     }
+    return s_world;
+}
+
+int RoomAt(float x, float y, int level) {
+    Ptr s_world = WorldDB();
+    if (!s_world) return -1;
     struct Spot {
         float x, y;
         int level;

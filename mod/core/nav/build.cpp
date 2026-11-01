@@ -6,6 +6,7 @@
 #include "../game/buy.h"
 #include "../game/cheats.h"
 #include "../game/hooks.h"
+#include "../game/lotgrid.h"
 #include "../game/objects.h"
 #include "../game/rtti.h"
 #include "../speech/speech.h"
@@ -13,6 +14,7 @@
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "cues.h"
 #include "live.h"
 #include "world.h"
 
@@ -32,6 +34,8 @@ struct State {
     bool removing = false;
     std::string fundsBefore;
     ULONGLONG draggedAt = 0;
+    int lastRoom = -2, lastRoomLevel = 0;  // the room the cursor's line named last
+    std::string lastRoomName;
 };
 State g;
 
@@ -59,15 +63,54 @@ long long FundsValue(const std::string& text) {
     return any ? v : -1;
 }
 
-void SayCorner() {
+// What is at the cursor, in the order a builder needs it (in the Sims 1 mod a tester found
+// coordinates first hard to follow): what stands on the tile south-east of the corner, the room
+// when the cursor has just entered it ("leaving X, entering Y"; always with `full`), the walls,
+// doors and windows; the coordinates last. Then the corner's sounds (nav/cues.h).
+void SayCorner(bool full = false) {
     bool tiles = KindOf(game::CurrentTool()) == Kind::Tiles;
-    std::string line = util::Format(S(tiles ? Str::PlaceTile : Str::BuildCorner), g.x, g.y);
-    std::string room = world::RoomNameAt(g.x + 0.5f, g.y + 0.5f, g.level);
-    if (!room.empty()) line += ", " + room;
+    std::vector<std::string> parts;
+    for (const game::LotObject& o : world::ThingsAt(g.x, g.y, g.level)) parts.push_back(world::DisplayName(o));
+    int room = game::RoomAt(g.x + 0.5f, g.y + 0.5f, g.level);
+    if (full || room != g.lastRoom || g.level != g.lastRoomLevel) {
+        std::string name = world::RoomNameAt(g.x + 0.5f, g.y + 0.5f, g.level);
+        if (!full && !g.lastRoomName.empty() && g.lastRoomLevel == g.level && !name.empty() && name != g.lastRoomName)
+            parts.push_back(util::Format(S(Str::RoomChange), g.lastRoomName.c_str(), name.c_str()));
+        else if (!name.empty())
+            parts.push_back(name);
+        g.lastRoom = room;
+        g.lastRoomLevel = g.level;
+        g.lastRoomName = name;
+    }
+    cues::TileSense t = cues::Sense(g.level, g.x, g.y);
+    if (tiles) parts.push_back(cues::SurfaceWord(t.surface));  // what the floor or pool tool would cover
+    std::string edges = tiles ? cues::EdgesLine(t) : cues::CornerEdgesLine(g.level, g.x, g.y);
+    if (!edges.empty()) parts.push_back(edges);
+    if (t.sloped) parts.push_back(S(Str::TerrainSloped));
+    std::string line;
+    for (const std::string& p : parts) line += (line.empty() ? "" : ", ") + p;
+    line += (line.empty() ? "" : ". ") + util::Format(S(tiles ? Str::PlaceTile : Str::BuildCorner), g.x, g.y);
     speech::Say(line);
     std::vector<std::string> details = {line};
     if (g.marked) details.push_back(util::Format(S(Str::BuildMarked), g.markX, g.markY));
     buffers::SetDetails(details);
+    if (tiles) cues::Tile(g.level, g.x, g.y);
+    else cues::Corner(g.level, g.x, g.y);
+}
+
+// An arrow: one corner (Shift five), not past the lot's edge.
+void MoveBy(int dx, int dy) {
+    int w = 80, h = 80;
+    game::LotSize(&w, &h);
+    int x = std::clamp(g.x + dx, 0, w), y = std::clamp(g.y + dy, 0, h);  // corners: one more than tiles
+    if (x == g.x && y == g.y) {
+        speech::Say(S(Str::MapLotEdge));
+        cues::LotEdge();
+        return;
+    }
+    g.x = x;
+    g.y = y;
+    SayCorner();
 }
 
 void Drag(bool remove) {
@@ -151,20 +194,22 @@ void Begin(const std::string& toolName) {
     }
     Log("build cursor for %s from %d,%d floor %d", toolName.c_str(), g.x, g.y, g.level);
     speech::Say(util::Format(S(Str::BuildBegin), toolName.c_str()));
+    cues::Reset();
 }
 
 bool OnKey(WPARAM vk, bool shift, bool ctrl) {
     if (!g.active) return false;
     int step = shift ? 5 : 1;
     switch (vk) {
-    case VK_UP: if (ctrl) return false; g.y -= step; SayCorner(); return true;
-    case VK_DOWN: if (ctrl) return false; g.y += step; SayCorner(); return true;
-    case VK_LEFT: if (ctrl) return false; g.x -= step; SayCorner(); return true;
-    case VK_RIGHT: if (ctrl) return false; g.x += step; SayCorner(); return true;
+    case VK_UP: if (ctrl) return false; MoveBy(0, -step); return true;
+    case VK_DOWN: if (ctrl) return false; MoveBy(0, step); return true;
+    case VK_LEFT: if (ctrl) return false; MoveBy(-step, 0); return true;
+    case VK_RIGHT: if (ctrl) return false; MoveBy(step, 0); return true;
     case VK_PRIOR: case VK_NEXT:
         // Level 0 is the terrain, 1 the floor of a house on a foundation (or the floor above).
         g.level = std::max(0, g.level + (vk == VK_PRIOR ? 1 : -1));
         speech::Say(util::Format(S(Str::FloorNumber), g.level));
+        SayCorner(true);
         return true;
     case VK_SPACE:
         g.marked = true;
@@ -188,7 +233,7 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
     }
     case 'R':
         if (ctrl) return false;
-        SayCorner();
+        SayCorner(true);
         return true;
     case VK_ESCAPE:
         g = State();

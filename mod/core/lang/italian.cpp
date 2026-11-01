@@ -20,13 +20,13 @@ const Translation kEntries[] = {
      "ed eventi."},
     {Str::KeysLot,
      "Lotto: Tab scorre i bisogni, la coda delle azioni, gli oggetti per tipo, gli oggetti per stanza e i "
-     "pannelli del gioco. Negli oggetti per tipo o per stanza, Invio apre un tipo o una stanza, i suoi oggetti "
-     "vengono i più vicini prima, Backspace torna indietro. Invio su un oggetto apre le sue interazioni, o lo "
-     "prende in modalità Compra; Ctrl+Invio ci manda il Sim selezionato. Ctrl+E lo stato del Sim, Ctrl+1 a 9 "
-     "scelgono un Sim, Ctrl+freccia su e giù i dettagli."},
+     "pannelli del gioco. Pagina giù e Pagina su scorrono gli oggetti del lotto, i più vicini prima; con Maiusc "
+     "cambiano il tipo di oggetto, con Ctrl la stanza. Invio su un oggetto apre le sue interazioni, o lo prende "
+     "in modalità Compra; Ctrl+Invio ci manda il Sim selezionato. Ctrl+E lo stato del Sim, Ctrl+1 a 9 scelgono "
+     "un Sim, Ctrl+freccia su e giù i dettagli."},
     {Str::KeysPlacement,
-     "Posizionamento: frecce una casella, Maiusc cinque, Tab e Maiusc+Tab i posti dove entra, Pagina giù e su le "
-     "stanze, Home torna al Sim, virgola e punto lo girano, Invio lo posa, Canc lo vende, Esc termina."},
+     "Posizionamento: frecce una casella, Maiusc cinque, Pagina giù e su i posti dove entra, con Ctrl le stanze, "
+     "con Maiusc o virgola e punto lo girano, Home torna al Sim, Invio lo posa, Canc lo vende, Esc termina."},
     {Str::KeysBuild,
      "Costruzione: le frecce spostano l'angolo, con Maiusc cinque, Pagina su e giù il livello, Spazio segna "
      "l'inizio, Invio costruisce dal segno, Ctrl+Invio rimuove, Home torna al Sim, R ripete, Esc esce."},
@@ -240,6 +240,63 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "attività"},
     {Str::GroupSeasons, "stagioni"},
     {Str::GroupDate, "appuntamento"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "nessun gruppo inizia con %s"},
+    {Str::KeysGroupLetter, "Alt e una lettera: il gruppo successivo il cui nome inizia con quella lettera."},
+    {Str::KeysShowFocus, "Control Maiusc V: evidenzia sullo schermo il controllo selezionato, per chi aiuta."},
+    {Str::ShowFocusOn, "selezione mostrata sullo schermo"},
+    {Str::ShowFocusOff, "selezione non più mostrata sullo schermo"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "occupa %1$d caselle: %2$d da ovest a est, %3$d da nord a sud"},
+    {Str::CollidesWith, "urta %s"},
+    {Str::FacingThing, "verso %s"},
+    {Str::RoomChange, "esci da %1$s, entri in %2$s"},
+    {Str::BesideThing, "accanto a %s"},
+    {Str::KeysPlacingThings,
+     "Control Maiusc Pagina giù e Pagina su: lo mette accanto al prossimo oggetto del lotto, prima il più vicino."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "suoni del cursore attivi"},
+    {Str::CuesOff, "suoni del cursore disattivati"},
+    {Str::SurfaceNone, "senza pavimento"},
+    {Str::SurfaceGround, "terreno"},
+    {Str::SurfaceGrass, "erba"},
+    {Str::SurfaceWood, "parquet"},
+    {Str::SurfaceTile, "piastrelle"},
+    {Str::SurfaceCarpet, "moquette"},
+    {Str::SurfacePaving, "pavimentazione"},
+    {Str::SurfaceGravel, "ghiaia"},
+    {Str::SurfacePoolRim, "bordo piscina"},
+    {Str::SurfaceWater, "acqua"},
+    {Str::EdgeFence, "recinto a %s"},
+    {Str::EdgeRailing, "ringhiera a %s"},
+    {Str::MapStairs, "scale"},
+    {Str::TerrainSloped, "in pendenza"},
+    {Str::EdgeWall, "muro a %s"},
+    {Str::EdgeDoor, "porta a %s"},
+    {Str::EdgeWindow, "finestra a %s"},
+    {Str::MapOn, "Mappa del lotto. Control+F1 dice i tasti."},
+    {Str::MapOff, "mappa chiusa"},
+    {Str::MapNoFloor, "al livello %d non c'è niente di costruito"},
+    {Str::MapNothingHere, "qui non c'è niente da usare"},
+    {Str::MapLotEdge, "bordo del lotto"},
+    {Str::KeysMap,
+     "Mappa del lotto: le frecce avanzano di una casella, con Maiusc di cinque; ogni casella dice cosa c'è e "
+     "verso dove è rivolto, la stanza e il pavimento quando cambiano, e i muri, i recinti, le ringhiere, le "
+     "porte e le finestre intorno, le scale e le pendenze, con un suono per ciascuno. Inizio torna al Sim "
+     "selezionato. Pagina giù e Pagina su scorrono gli oggetti del lotto come sempre, e la mappa va su ognuno. "
+     "Control+Maiusc+Pagina su e Pagina giù cambiano livello. Invio apre il menu di ciò che c'è; Control+Invio "
+     "ci manda il Sim selezionato. R dice tutto, Control+L la pianta della stanza. Control+Maiusc+S attiva o "
+     "disattiva i suoni. Esc o Control+M chiude la mappa."},
+    {Str::KeysMapHint, "Control+M: la mappa del lotto, un cursore che lo percorre casella per casella."},
+    {Str::KeysCuesHint, "Control+Maiusc+S attiva o disattiva i suoni del cursore."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Control+Maiusc+F1 apre il manuale; Control+F1 dice i tasti di ogni schermata."},
+    {Str::KeysManual, "Control+Maiusc+F1 apre il manuale completo della mod nel browser."},
+    {Str::ManualOpening, "apro il manuale nel browser"},
+    {Str::ManualMissing, "il manuale non c'è: reinstalla la mod"},
+    {Str::ManualButton, "Manuale di Accessibilità per The Sims 2"},
+    {Str::GroupModHelp, "aiuto della mod"},
+    {Str::KeysButton, "Tasti di questa schermata"},
 };
 
 }  // namespace

@@ -24,6 +24,9 @@ constexpr int kMouseWin = 0x40;    // the window under the mouse (slot 25)
 constexpr int kMainWindow = 0x44;  // GetMainWindow (slot 3)
 constexpr int kModalCount = 0x190; // GetModalNestCount (slot 44)
 constexpr int kSlotDoModal = 42;   // DoModalWin(cIGZWin*), thiscall (0xa0972f48)
+// GZSetFocus(cIGZWin*), thiscall (0xa09734cb): keys go to that window (+0x38), what a click on a
+// text field ends in; the caret stays where it was.
+constexpr int kSlotSetFocus = 38;
 }  // namespace wm
 
 // cGZWin, through the cIGZWin interface pointer (the one child lists hold). Fields:
@@ -143,6 +146,15 @@ constexpr int kFamily = 0x1a7c;        // std::vector of the family's Sims, same
 
 // cTSObject virtual slots (as Lua's GetObjectName 0xa0566100 and GetObjectLocation 0xa0566030).
 namespace object {
+// A part of a multi-tile object (cEdithMTObject: a table's "- 1,0", a window's "- 0,1") points at
+// its lead part's interface at +0x2f0 (the "- 0,0" part, itself one of the parts), and the parts
+// chain through +0x2f8. A multi-tile object is its parts only: no whole object stands for it
+// (verified on a dining table and a 2-tile window, 2026-11-01).
+constexpr int kLeadPart = 0x2f4;
+constexpr int kLeadInterface = 0x2f0;
+constexpr int kSelector = 0x240;        // cTSObjectSelector of the object
+constexpr int kSelectorMaster = 0x68;   // selector: a multi-tile part's master selector, whose OBJD
+                                        // (+0x60, product::kSelectorObjd) is the whole object's
 constexpr int kSlotName = 92;          // const char* name
 constexpr int kSlotLocation = 33;      // -> {int x, int y}, 16.16 fixed point, in tiles
 constexpr int kSlotLevel = 36;         // short: 0 the terrain, 1 the ground floor of a house on a
@@ -254,9 +266,30 @@ constexpr struct {
 namespace world {
 constexpr uint32_t kServiceId = 0x4a037ee3;
 constexpr uint32_t kIid = 0x49ff7d6f;
-constexpr int kSlotRoomManager = 39;
+constexpr int kSlotRoomManager = 39;   // [iface + 0x70]: the nTSWorld::cPartitionManager
 constexpr int kRoomManagerSlotRoomAt = 80;
 }  // namespace world
+
+// The lot's build data in the world database (nTSWorld::cWorldDB; the service hands out its
+// cIWorldDB interface at +0x1c). Found from the Lua bindings' table at 0xa1016700 (name, function
+// pairs: IsWallBetweenPoints 0xa0569840, IsLoadWallBetweenPoints 0xa0563740, GetTerrainElevationForXY
+// 0xa0568bf0, IsWaterOnTile 0xa056be30,). Verified on the Contreras lot
+// (2026-11-01): see STRUCTS.md "The lot grid".
+namespace grid {
+constexpr int kInterface = 0x1c;         // cIWorldDB inside cWorldDB
+constexpr int kFloorPatterns = 0x94;     // cWorldDB: c3DArray<cFloorPatternStorageTile>*: +8 x count,
+                                         // +0xc y count, +0x10 levels, +0x14 data; [level+1][x][y],
+                                         // 4 u16 pattern ids a tile (its quarters; 0 none)
+constexpr int kPatternNames = 0xc0;      // cWorldDB: cStringMap<u16>*: pattern id <-> name
+constexpr int kPatternById = 0x18;       //   its std::map<u16, std::string*> (head pointer)
+constexpr int kPartitionSlotLayer = 40;  // cPartitionManager: thiscall (int layer) -> the walls of
+                                         // a layer: 0 every wall, fence, railing; 4 load-bearing
+constexpr int kLayerSlotBetween = 19;    // layer: thiscall (Point* a, Point* b, 0, 0, 0) -> bool,
+                                         // Point {float x, y; int level}
+constexpr int kSlotElevation = 64;       // cIWorldDB: thiscall (int x, int y) -> float, the
+                                         // terrain height at a corner
+constexpr uint32_t kWaterOnTile = 0xa07e2400;  // cdecl bool (int tile[3] {x, y, 0}): pool or pond water
+}  // namespace grid
 
 // The catalog's names by GUID, as Lua's GetCatalogName (0xa0561640): cTSGlobals slot 24 gives the
 // object folder, its slot 14 the entry for a GUID, the entry's slot 48 fills a cIGZString* with
@@ -351,6 +384,10 @@ namespace edit {
 constexpr int kText = 0xfc;
 constexpr int kFlags = 0x160;        // cIGZWinTextEdit flags (IsFlagSet 0xa09504ec on the +0xf8
 constexpr uint32_t kFlagEditable = 1;  // interface): 1 editable, as in SimCity 4's header
+// The insertion index (the caret) of that +0xf8 interface: its slot 73 (0xa094f5e9,
+// GetInsertionIndex, SC4's 67 + 6) returns [iface + 0x5c]. Bytes of the UTF-8 text (hypothesis:
+// only checked on ASCII names).
+constexpr int kCaret = 0xf8 + 0x5c;
 }  // namespace edit
 
 namespace simantics {

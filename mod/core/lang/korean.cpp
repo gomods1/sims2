@@ -17,12 +17,12 @@ const Translation kEntries[] = {
      "종류나 방에서는 그 안의 물건을 열고, 백스페이스로 돌아가고, R로 다시 읽습니다. 컨트롤+위쪽 화살표와 컨트롤+아래쪽 화살표로 방금 읽은 것의 세부 정보를 읽고, 컨트롤+왼쪽 화살표와 "
      "컨트롤+오른쪽 화살표로 세부 정보와 이벤트를 전환합니다."},
     {Str::KeysLot,
-     "부지: Tab으로 욕구, 행동 대기열, 종류별 물건, 방별 물건, 게임 패널을 차례로 이동합니다. 종류별 또는 방별 물건에서는 Enter로 종류나 방을 열고, 그 물건은 가까운 것부터, "
-     "Backspace로 돌아갑니다. 물건에서 Enter로 행동을 열고, 구매 모드에서는 집어 듭니다. Ctrl+Enter로 선택한 심을 그곳으로 보냅니다. Ctrl+E 심의 상태, "
-     "Ctrl+1~9 심 선택, Ctrl+위아래 화살표 세부 정보."},
+     "부지: Tab으로 욕구, 행동 대기열, 종류별 물건, 방별 물건, 게임 패널을 차례로 이동합니다. Page Down과 Page Up으로 부지의 물건을 가까운 것부터 이동하고, Shift와 "
+     "함께 누르면 물건 종류를, Ctrl과 함께 누르면 방을 바꿉니다. 물건에서 Enter로 행동을 열고, 구매 모드에서는 집어 듭니다. Ctrl+Enter로 선택한 심을 그곳으로 보냅니다. "
+     "Ctrl+E 심의 상태, Ctrl+1~9 심 선택, Ctrl+위아래 화살표 세부 정보."},
     {Str::KeysPlacement,
-     "배치: 화살표로 한 칸, Shift로 다섯 칸, Tab과 Shift+Tab으로 놓을 수 있는 자리, Page Down과 Page Up으로 방, Home으로 심에게, 쉼표와 마침표로 회전, "
-     "Enter로 놓기, Delete로 팔기, Escape로 종료."},
+     "배치: 화살표로 한 칸, Shift로 다섯 칸, Page Down과 Page Up으로 놓을 수 있는 자리, Ctrl과 함께 방, Shift와 함께 또는 쉼표와 마침표로 회전, Home으로 "
+     "심에게, Enter로 놓기, Delete로 팔기, Escape로 종료."},
     {Str::KeysBuild,
      "건축: 화살표로 모서리 이동, Shift와 함께 다섯 칸, Page Up과 Page Down으로 층, 스페이스로 시작점, Enter로 시작점부터 건설, Ctrl+Enter로 철거, "
      "Home으로 심에게, R 반복, Escape 종료."},
@@ -233,6 +233,59 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "사업"},
     {Str::GroupSeasons, "계절"},
     {Str::GroupDate, "데이트"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "%s(으)로 시작하는 그룹이 없습니다"},
+    {Str::KeysGroupLetter, "Alt와 글자: 이름이 그 글자로 시작하는 다음 그룹."},
+    {Str::KeysShowFocus, "Ctrl+Shift+V: 돕는 사람을 위해 선택한 항목을 화면에 강조합니다."},
+    {Str::ShowFocusOn, "선택 항목을 화면에 표시"},
+    {Str::ShowFocusOff, "선택 항목을 화면에 표시하지 않음"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "%1$d칸 차지: 서쪽에서 동쪽으로 %2$d칸, 북쪽에서 남쪽으로 %3$d칸"},
+    {Str::CollidesWith, "%s에 부딪힘"},
+    {Str::FacingThing, "%s 쪽으로"},
+    {Str::RoomChange, "%1$s에서 나와 %2$s(으)로"},
+    {Str::BesideThing, "%s 옆"},
+    {Str::KeysPlacingThings, "Ctrl+Shift+Page Down과 Page Up: 부지의 다음 물건 옆에 놓습니다. 가까운 것부터."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "커서 소리 켬"},
+    {Str::CuesOff, "커서 소리 끔"},
+    {Str::SurfaceNone, "바닥 없음"},
+    {Str::SurfaceGround, "땅"},
+    {Str::SurfaceGrass, "잔디"},
+    {Str::SurfaceWood, "나무 바닥"},
+    {Str::SurfaceTile, "타일 바닥"},
+    {Str::SurfaceCarpet, "카펫"},
+    {Str::SurfacePaving, "포장 바닥"},
+    {Str::SurfaceGravel, "자갈"},
+    {Str::SurfacePoolRim, "수영장 가장자리"},
+    {Str::SurfaceWater, "물"},
+    {Str::EdgeFence, "%s에 울타리"},
+    {Str::EdgeRailing, "%s에 난간"},
+    {Str::MapStairs, "계단"},
+    {Str::TerrainSloped, "경사짐"},
+    {Str::EdgeWall, "%s에 벽"},
+    {Str::EdgeDoor, "%s에 문"},
+    {Str::EdgeWindow, "%s에 창문"},
+    {Str::MapOn, "부지 지도. Ctrl+F1은 키를 알려 줍니다."},
+    {Str::MapOff, "지도 닫음"},
+    {Str::MapNoFloor, "%d층에는 지어진 것이 없습니다"},
+    {Str::MapNothingHere, "여기에는 사용할 것이 없습니다"},
+    {Str::MapLotEdge, "부지 가장자리"},
+    {Str::KeysMap,
+     "부지 지도: 화살표는 한 칸, Shift와 함께 다섯 칸 움직입니다. 칸마다 그곳에 있는 것과 향하는 방향, 방과 바닥이 바뀌면 그 방과 바닥도, 주변의 벽, 울타리, 난간, 문, 창문, "
+     "계단과 경사를 각각의 소리와 함께 알려 줍니다. Home은 선택한 심으로 돌아갑니다. Page Down과 Page Up은 평소처럼 부지의 물건을 차례로 보며, 지도도 그곳으로 갑니다. "
+     "Ctrl+Shift+Page Up과 Page Down은 층을 바꿉니다. Enter는 그곳에 있는 것의 메뉴를 열고, Ctrl+Enter는 선택한 심을 그곳으로 걸어가게 합니다. R은 모든 "
+     "것을, Ctrl+L은 방 구조를 알려 줍니다. Ctrl+Shift+S는 소리를 끄고 켭니다. Escape나 Ctrl+M은 지도를 닫습니다."},
+    {Str::KeysMapHint, "Ctrl+M: 부지 지도, 부지를 한 칸씩 돌아보는 커서입니다."},
+    {Str::KeysCuesHint, "Ctrl+Shift+S는 커서 소리를 끄고 켭니다."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1은 설명서를 엽니다. Ctrl+F1은 각 화면의 키를 알려 줍니다."},
+    {Str::KeysManual, "Ctrl+Shift+F1은 모드의 전체 설명서를 브라우저에서 엽니다."},
+    {Str::ManualOpening, "브라우저에서 설명서를 여는 중"},
+    {Str::ManualMissing, "설명서가 없습니다: 모드를 다시 설치하세요"},
+    {Str::ManualButton, "심즈 2 접근성 설명서"},
+    {Str::GroupModHelp, "모드 도움말"},
+    {Str::KeysButton, "이 화면의 키"},
 };
 
 }  // namespace

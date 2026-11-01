@@ -16,10 +16,10 @@ const Translation kEntries[] = {
      "Tab和Shift+Tab在组之间切换，上、下方向键在组内移动，左、右方向键同样可以，或调整滑块，Home和End跳到两端，回车激活，对于类别或房间则打开其中的物品，Backspace返回，R重复朗读。Ctrl+上"
      "方向键和Ctrl+下方向键朗读刚才所说内容的详情，Ctrl+左方向键和Ctrl+右方向键在详情和事件之间切换。"},
     {Str::KeysLot,
-     "地块：Tab依次浏览需求、行动队列、按类别的物品、按房间的物品和游戏面板。在按类别或按房间的物品中，Enter 打开一个类别或房间，其中的物品近的在前，Backspace 返回。在物品上按 Enter "
-     "打开它的互动，在购买模式中拿起它；Ctrl+Enter 让选中的模拟市民走过去。Ctrl+E 模拟市民的状态，Ctrl+1 到 9 选择模拟市民，Ctrl+上下查看详情。"},
+     "地块：Tab依次浏览需求、行动队列、按类别的物品、按房间的物品和游戏面板。Page Down 和 Page Up 浏览地块上的物品，近的在前；加 Shift 切换物品类别，加 Ctrl 切换房间。在物品上按 "
+     "Enter 打开它的互动，在购买模式中拿起它；Ctrl+Enter 让选中的模拟市民走过去。Ctrl+E 模拟市民的状态，Ctrl+1 到 9 选择模拟市民，Ctrl+上下查看详情。"},
     {Str::KeysPlacement,
-     "放置：方向键移动一格，Shift 移动五格，Tab 和 Shift+Tab 浏览能放下的位置，Page Down 和 Page Up 切换房间，Home 回到模拟市民处，逗号和句号旋转，Enter "
+     "放置：方向键移动一格，Shift 移动五格，Page Down 和 Page Up 浏览能放下的位置，加 Ctrl 切换房间，加 Shift 或逗号和句号旋转，Home 回到模拟市民处，Enter "
      "放下，Delete 卖掉，Escape 结束。"},
     {Str::KeysBuild,
      "建造：方向键移动角点，加 Shift 移动五格，Page Up 和 Page Down 切换楼层，空格标记起点，Enter 从起点建造，Ctrl+Enter 拆除，Home 回到模拟市民处，R 重复，Escape "
@@ -230,6 +230,58 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "生意"},
     {Str::GroupSeasons, "季节"},
     {Str::GroupDate, "约会"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "没有以%s开头的组"},
+    {Str::KeysGroupLetter, "Alt加字母：名称以该字母开头的下一个组。"},
+    {Str::KeysShowFocus, "Ctrl+Shift+V：在屏幕上突出显示所选控件，方便他人帮忙。"},
+    {Str::ShowFocusOn, "屏幕上显示所选项"},
+    {Str::ShowFocusOff, "屏幕上不再显示所选项"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "占%1$d格：从西到东%2$d格，从北到南%3$d格"},
+    {Str::CollidesWith, "碰到%s"},
+    {Str::FacingThing, "朝向%s"},
+    {Str::RoomChange, "离开%1$s，进入%2$s"},
+    {Str::BesideThing, "在%s旁边"},
+    {Str::KeysPlacingThings, "Ctrl+Shift+Page Down 和 Page Up：放到地块上下一个物品旁边，近的在前。"},
+    // Sound cues and the lot map
+    {Str::CuesOn, "光标音效开"},
+    {Str::CuesOff, "光标音效关"},
+    {Str::SurfaceNone, "没有地板"},
+    {Str::SurfaceGround, "地面"},
+    {Str::SurfaceGrass, "草地"},
+    {Str::SurfaceWood, "木地板"},
+    {Str::SurfaceTile, "瓷砖地板"},
+    {Str::SurfaceCarpet, "地毯"},
+    {Str::SurfacePaving, "铺装地面"},
+    {Str::SurfaceGravel, "碎石"},
+    {Str::SurfacePoolRim, "泳池边"},
+    {Str::SurfaceWater, "水"},
+    {Str::EdgeFence, "%s面有围栏"},
+    {Str::EdgeRailing, "%s面有栏杆"},
+    {Str::MapStairs, "楼梯"},
+    {Str::TerrainSloped, "倾斜"},
+    {Str::EdgeWall, "%s面有墙"},
+    {Str::EdgeDoor, "%s面有门"},
+    {Str::EdgeWindow, "%s面有窗"},
+    {Str::MapOn, "地块地图。Ctrl+F1 读出按键。"},
+    {Str::MapOff, "地图已关闭"},
+    {Str::MapNoFloor, "第%d层没有建造任何东西"},
+    {Str::MapNothingHere, "这里没有可用的东西"},
+    {Str::MapLotEdge, "地块边缘"},
+    {Str::KeysMap,
+     "地块地图：方向键移动一格，加 Shift 移动五格；每一格读出那里的东西和朝向，房间和地板变化时也读出，以及周围的墙、围栏、栏杆、门和窗，还有楼梯和斜坡，每种都有音效。Home 回到选中的模拟市民处。Page "
+     "Down 和 Page Up 照常浏览地块上的物品，地图也跟到每一个。Ctrl+Shift+Page Up 和 Page Down 切换楼层。Enter 打开那里东西的菜单；Ctrl+Enter "
+     "让选中的模拟市民走过去。R 读出全部，Ctrl+L 读出房间布局。Ctrl+Shift+S 关闭或打开音效。Escape 或 Ctrl+M 退出地图。"},
+    {Str::KeysMapHint, "Ctrl+M：地块地图，一个逐格走遍地块的光标。"},
+    {Str::KeysCuesHint, "Ctrl+Shift+S 关闭或打开光标音效。"},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1 打开手册；Ctrl+F1 读出每个画面的按键。"},
+    {Str::KeysManual, "Ctrl+Shift+F1 在浏览器中打开模组的完整手册。"},
+    {Str::ManualOpening, "正在浏览器中打开手册"},
+    {Str::ManualMissing, "找不到手册：请重新安装模组"},
+    {Str::ManualButton, "模拟人生2无障碍模组手册"},
+    {Str::GroupModHelp, "模组帮助"},
+    {Str::KeysButton, "此画面的按键"},
 };
 
 }  // namespace

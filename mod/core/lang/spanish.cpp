@@ -19,14 +19,14 @@ const Translation kEntries[] = {
      "dicho, Control+Izquierda y Control+Derecha cambian entre detalles y eventos."},
     {Str::KeysLot,
      "Solar: Tab recorre las necesidades, la cola de acciones, los objetos por tipo, los objetos por habitación "
-     "y los paneles del juego. En los objetos por tipo o por habitación, Intro abre un tipo o una habitación, "
-     "sus objetos vienen los más cercanos primero, Retroceso vuelve atrás. Intro sobre un objeto abre sus "
-     "interacciones, o lo coge en el modo Comprar; Control+Intro lleva allí al Sim seleccionado. Control+E, el "
-     "estado del Sim; Control+1 a 9 eligen un Sim; Control+flecha arriba y abajo, los detalles."},
+     "y los paneles del juego. Avance y Retroceso de página recorren los objetos del solar, los más cercanos "
+     "primero; con Mayúsculas cambian el tipo de objeto, con Control la habitación. Intro sobre un objeto abre "
+     "sus interacciones, o lo coge en el modo Comprar; Control+Intro lleva allí al Sim seleccionado. Control+E, "
+     "el estado del Sim; Control+1 a 9 eligen un Sim; Control+flecha arriba y abajo, los detalles."},
     {Str::KeysPlacement,
-     "Colocando: flechas, una casilla; Mayúsculas, cinco; Tab y Mayúsculas+Tab, los sitios donde cabe; Avance y "
-     "Retroceso de página, las habitaciones; Inicio, vuelve al Sim; coma y punto lo giran; Intro lo coloca; "
-     "Suprimir lo vende; Escape termina."},
+     "Colocando: flechas, una casilla; Mayúsculas, cinco; Avance y Retroceso de página, los sitios donde cabe; "
+     "con Control, las habitaciones; con Mayúsculas, o coma y punto, lo giran; Inicio, vuelve al Sim; Intro lo "
+     "coloca; Suprimir lo vende; Escape termina."},
     {Str::KeysBuild,
      "Construyendo: las flechas mueven la esquina, con Mayúsculas cinco; Retroceso y Avance de página, el nivel; "
      "Espacio marca el inicio; Intro construye desde la marca; Control+Intro quita; Inicio vuelve al Sim; R "
@@ -246,6 +246,65 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "negocio"},
     {Str::GroupSeasons, "estaciones"},
     {Str::GroupDate, "cita"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "ningún grupo empieza por %s"},
+    {Str::KeysGroupLetter, "Alt y una letra: el siguiente grupo cuyo nombre empieza por esa letra."},
+    {Str::KeysShowFocus, "Control Mayúsculas V: ilumina en pantalla el control seleccionado, para quien te ayude."},
+    {Str::ShowFocusOn, "selección visible en pantalla"},
+    {Str::ShowFocusOff, "selección ya no visible en pantalla"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "ocupa %1$d casillas: %2$d de oeste a este, %3$d de norte a sur"},
+    {Str::CollidesWith, "choca con %s"},
+    {Str::FacingThing, "hacia %s"},
+    {Str::RoomChange, "sales de %1$s, entras en %2$s"},
+    {Str::BesideThing, "junto a %s"},
+    {Str::KeysPlacingThings,
+     "Control Mayúsculas Avance de página y Retroceso de página: lo pone junto al siguiente objeto del solar, el "
+     "más cercano primero."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "sonidos del cursor activados"},
+    {Str::CuesOff, "sonidos del cursor desactivados"},
+    {Str::SurfaceNone, "sin suelo"},
+    {Str::SurfaceGround, "terreno"},
+    {Str::SurfaceGrass, "césped"},
+    {Str::SurfaceWood, "suelo de madera"},
+    {Str::SurfaceTile, "baldosas"},
+    {Str::SurfaceCarpet, "moqueta"},
+    {Str::SurfacePaving, "pavimento"},
+    {Str::SurfaceGravel, "grava"},
+    {Str::SurfacePoolRim, "borde de la piscina"},
+    {Str::SurfaceWater, "agua"},
+    {Str::EdgeFence, "valla al %s"},
+    {Str::EdgeRailing, "barandilla al %s"},
+    {Str::MapStairs, "escalera"},
+    {Str::TerrainSloped, "inclinado"},
+    {Str::EdgeWall, "pared al %s"},
+    {Str::EdgeDoor, "puerta al %s"},
+    {Str::EdgeWindow, "ventana al %s"},
+    {Str::MapOn, "Mapa del solar. Control+F1 dice las teclas."},
+    {Str::MapOff, "mapa cerrado"},
+    {Str::MapNoFloor, "en el piso %d no hay nada construido"},
+    {Str::MapNothingHere, "aquí no hay nada que usar"},
+    {Str::MapLotEdge, "borde del solar"},
+    {Str::KeysMap,
+     "Mapa del solar: las flechas avanzan una casilla, con Mayúsculas cinco; cada casilla dice lo que hay y "
+     "hacia dónde mira, la habitación y el suelo cuando cambian, y las paredes, vallas, barandillas, puertas y "
+     "ventanas alrededor, las escaleras y las pendientes, con un sonido para cada una. Inicio vuelve al Sim "
+     "seleccionado. Avance de página y Retroceso de página recorren los objetos del solar como siempre, y el "
+     "mapa va a cada uno. Control+Mayúsculas+Retroceso de página y Avance de página cambian de piso. Intro abre "
+     "el menú de lo que hay; Control+Intro manda allí al Sim seleccionado. R lo dice todo, Control+L la "
+     "distribución de la habitación. Control+Mayúsculas+S quita y pone los sonidos. Escape o Control+M sale del "
+     "mapa."},
+    {Str::KeysMapHint, "Control+M: el mapa del solar, un cursor que lo recorre casilla a casilla."},
+    {Str::KeysCuesHint, "Control+Mayúsculas+S quita y pone los sonidos del cursor."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Control+Mayúsculas+F1 abre el manual; Control+F1 dice las teclas de cada pantalla."},
+    {Str::KeysManual, "Control+Mayúsculas+F1 abre el manual completo del mod en el navegador."},
+    {Str::ManualOpening, "abriendo el manual en el navegador"},
+    {Str::ManualMissing, "falta el manual: reinstala el mod"},
+    {Str::ManualButton, "Manual de Accesibilidad de Los Sims 2"},
+    {Str::GroupModHelp, "ayuda del mod"},
+    {Str::KeysButton, "Teclas de esta pantalla"},
 };
 
 }  // namespace

@@ -20,14 +20,14 @@ const Translation kEntries[] = {
      "vaihtavat tietojen ja tapahtumien välillä."},
     {Str::KeysLot,
      "Tontti: Sarkain kulkee tarpeiden, toimintajonon, esineiden lajeittain, esineiden huoneittain ja pelin "
-     "paneelien läpi. Esineissä lajeittain tai huoneittain Enter avaa lajin tai huoneen, sen esineet tulevat "
-     "lähimmät ensin, Askelpalautin palaa takaisin. Enter esineellä avaa sen toiminnot, tai nostaa sen "
+     "paneelien läpi. Page Down ja Page Up kulkevat tontin esineiden läpi, lähimmät ensin; Shiftin kanssa ne "
+     "vaihtavat esineen lajia, Ctrl:n kanssa huonetta. Enter esineellä avaa sen toiminnot, tai nostaa sen "
      "ostotilassa; Ctrl+Enter lähettää valitun simin sinne. Ctrl+E simin tila, Ctrl+1–9 valitsevat simin, "
      "Ctrl+nuoli ylös ja alas yksityiskohdat."},
     {Str::KeysPlacement,
-     "Sijoittaminen: nuolet yksi ruutu, Shift viisi, Sarkain ja Vaihto+Sarkain paikat, joihin se mahtuu, Page "
-     "Down ja Page Up huoneet, Home takaisin simin luo, pilkku ja piste kääntävät sitä, Enter asettaa sen, "
-     "Delete myy sen, Escape lopettaa."},
+     "Sijoittaminen: nuolet yksi ruutu, Shift viisi, Page Down ja Page Up paikat, joihin se mahtuu, Ctrl:n "
+     "kanssa huoneet, Shiftin kanssa tai pilkku ja piste kääntävät sitä, Home takaisin simin luo, Enter asettaa "
+     "sen, Delete myy sen, Escape lopettaa."},
     {Str::KeysBuild,
      "Rakentaminen: nuolet siirtävät kulmaa, Shiftin kanssa viisi, Page Up ja Page Down kerros, välilyönti "
      "merkitsee alun, Enter rakentaa merkistä, Ctrl+Enter poistaa, Home takaisin simin luo, R toistaa, Escape "
@@ -243,6 +243,63 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "yritys"},
     {Str::GroupSeasons, "vuodenajat"},
     {Str::GroupDate, "treffit"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "mikään ryhmä ei ala kirjaimella %s"},
+    {Str::KeysGroupLetter, "Alt ja kirjain: seuraava ryhmä, jonka nimi alkaa sillä kirjaimella."},
+    {Str::KeysShowFocus, "Ctrl+Vaihto+V: korostaa valitun säätimen näytöllä auttajaa varten."},
+    {Str::ShowFocusOn, "valinta näkyy näytöllä"},
+    {Str::ShowFocusOff, "valinta ei enää näy näytöllä"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "vie %1$d ruutua: %2$d lännestä itään, %3$d pohjoisesta etelään"},
+    {Str::CollidesWith, "osuu kohteeseen %s"},
+    {Str::FacingThing, "kohti kohdetta %s"},
+    {Str::RoomChange, "poistut: %1$s, tulet: %2$s"},
+    {Str::BesideThing, "kohteen %s vieressä"},
+    {Str::KeysPlacingThings,
+     "Ctrl+Vaihto+Page Down ja Page Up: aseta se tontin seuraavan esineen viereen, lähin ensin."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "osoittimen äänet päällä"},
+    {Str::CuesOff, "osoittimen äänet pois"},
+    {Str::SurfaceNone, "ei lattiaa"},
+    {Str::SurfaceGround, "maa"},
+    {Str::SurfaceGrass, "nurmikko"},
+    {Str::SurfaceWood, "puulattia"},
+    {Str::SurfaceTile, "laattalattia"},
+    {Str::SurfaceCarpet, "kokolattiamatto"},
+    {Str::SurfacePaving, "päällyste"},
+    {Str::SurfaceGravel, "sora"},
+    {Str::SurfacePoolRim, "altaan reuna"},
+    {Str::SurfaceWater, "vesi"},
+    {Str::EdgeFence, "aita %ssuunnassa"},
+    {Str::EdgeRailing, "kaide %ssuunnassa"},
+    {Str::MapStairs, "portaat"},
+    {Str::TerrainSloped, "kalteva"},
+    {Str::EdgeWall, "seinä %ssuunnassa"},
+    {Str::EdgeDoor, "ovi %ssuunnassa"},
+    {Str::EdgeWindow, "ikkuna %ssuunnassa"},
+    {Str::MapOn, "Tontin kartta. Ctrl+F1 kertoo näppäimet."},
+    {Str::MapOff, "kartta suljettu"},
+    {Str::MapNoFloor, "kerrokseen %d ei ole rakennettu mitään"},
+    {Str::MapNothingHere, "täällä ei ole mitään käytettävää"},
+    {Str::MapLotEdge, "tontin reuna"},
+    {Str::KeysMap,
+     "Tontin kartta: nuolet siirtävät yhden ruudun, Vaihdon kanssa viisi; jokainen ruutu kertoo, mitä siinä on "
+     "ja mihin suuntaan se on käännetty, huoneen ja lattian kun ne vaihtuvat, sekä ympäröivät seinät, aidat, "
+     "kaiteet, ovet ja ikkunat, portaat ja rinteet, kukin omalla äänellään. Home palaa valitun simin luo. Page "
+     "Down ja Page Up käyvät tontin esineet läpi kuten aina, ja kartta siirtyy kuhunkin. Ctrl+Vaihto+Page Up ja "
+     "Page Down vaihtavat kerrosta. Enter avaa siinä olevan asian valikon; Ctrl+Enter lähettää valitun simin "
+     "sinne. R kertoo kaiken, Ctrl+L huoneen pohjapiirroksen. Ctrl+Vaihto+S kytkee äänet pois ja päälle. Escape "
+     "tai Ctrl+M sulkee kartan."},
+    {Str::KeysMapHint, "Ctrl+M: tontin kartta, osoitin joka kulkee tontin läpi ruutu ruudulta."},
+    {Str::KeysCuesHint, "Ctrl+Vaihto+S kytkee osoittimen äänet pois ja päälle."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Vaihto+F1 avaa käyttöoppaan; Ctrl+F1 kertoo kunkin näkymän näppäimet."},
+    {Str::KeysManual, "Ctrl+Vaihto+F1 avaa modin koko käyttöoppaan selaimessa."},
+    {Str::ManualOpening, "avataan käyttöopas selaimessa"},
+    {Str::ManualMissing, "käyttöopas puuttuu: asenna modi uudelleen"},
+    {Str::ManualButton, "Sims 2 -saavutettavuuden käyttöopas"},
+    {Str::GroupModHelp, "modin ohje"},
+    {Str::KeysButton, "Tämän näkymän näppäimet"},
 };
 
 }  // namespace

@@ -12,6 +12,11 @@ namespace game {
 // Portuguese...), from Steam's language number (util/language.h).
 int StringLanguageCode();
 
+// A floor's "surfacetype/subsort" ("cpet/carpet", "marble/stone", "lino/tile"...) by its GUID,
+// from every pack's floor definitions (TSData\Res\Catalog\Patterns); empty when unknown. The
+// first call reads them all (9 MB, a fraction of a second).
+std::string FloorSurfaceType(uint32_t guid);
+
 // Entry `index` of STR# `instance` (group 0xFFFFFFFF) in TSData\Res\Text\<file> of the newest
 // expansion that has it, in the game's language (English when the entry is empty). UTF-8; empty
 // when missing.

@@ -6,6 +6,7 @@
 #include "addresses.h"
 #include "buy.h"
 #include "gz.h"
+#include "lotgrid.h"
 #include "rtti.h"
 #include "memory.h"
 #include "mouse.h"
@@ -14,6 +15,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <map>
 #include <string>
 
 namespace game {
@@ -97,9 +99,101 @@ void DevCommand(const std::string& line) {
         QueryPerformanceCounter(&t1);
         Log("check: tool %p (%s): %s in %.1f ms", (void*)CurrentTool(), (ClassName(CurrentTool()) + " mode " + CurrentModeClass()).c_str(), verdicts.c_str(), (t1.QuadPart - t0.QuadPart) * 1000.0 / f.QuadPart);
     }
+    else if (!strcmp(name, "world")) {
+        Ptr w = WorldDB();
+        Log("world iface %p (%s), primary %p", (void*)w, ClassName(w).c_str(), (void*)(w - 0x1c));
+        for (int off = 0; off <= 0xd0; off += 4) {
+            Ptr v = Rd<Ptr>(w - 0x1c + off);
+            Log("  +%02x %08x %s", off, (unsigned)v, ClassName(v).c_str());
+        }
+    }
+    else if (!strcmp(name, "entry")) {
+        // !entry <guid in decimal>: the catalog folder's entry for a GUID (products, patterns)
+        Ptr g = Rd<Ptr>(Va(addr::globals::kInstance));
+        typedef Ptr(__thiscall * GetFn)(Ptr);
+        typedef Ptr(__thiscall * ByGuidFn)(Ptr, uint32_t);
+        Ptr entry = 0;
+        Guarded([&] {
+            Ptr folder = Slot<GetFn>(g, addr::catalog::kGlobalsSlotFolder)(g);
+            if (folder) entry = Slot<ByGuidFn>(folder, addr::catalog::kFolderSlotByGuid)(folder, (uint32_t)a);
+        });
+        Log("entry for %08x: %p %s", (unsigned)a, (void*)entry, ClassName(entry).c_str());
+        for (int i = 0; entry && i < (b ? b : 64); i++) {
+            Ptr v = Rd<Ptr>(entry + i * 4);
+            Log("  +%03x: %08x %s", i * 4, (unsigned)v, ClassName(v).c_str());
+        }
+    }
+    else if (!strcmp(name, "probe")) {
+        // !probe x y level: the lot grid's reads at a tile
+        int id = FloorPatternAt(c, a, b);
+        float h[4] = {};
+        TerrainHeight(a, b, &h[0]);
+        TerrainHeight(a + 1, b, &h[1]);
+        TerrainHeight(a, b + 1, &h[2]);
+        TerrainHeight(a + 1, b + 1, &h[3]);
+        Log("probe %d,%d level %d: room %d, floor %d \"%s\" surface %d, water %d, heights %.2f %.2f %.2f %.2f", a, b, c,
+            RoomAt(a + 0.5f, b + 0.5f, c), id, FloorPatternName(id).c_str(), (int)SurfaceAt(c, a, b), WaterOnTile(a, b) ? 1 : 0,
+            h[0], h[1], h[2], h[3]);
+        const int dx[] = {0, 1, 0, -1}, dy[] = {-1, 0, 1, 0};
+        const char* side[] = {"north", "east", "south", "west"};
+        for (int s = 0; s < 4; s++) {
+            std::string layers;
+            for (int l = 0; l < 8; l++) layers += WallBetween(c, a, b, a + dx[s], b + dy[s], l) ? '1' : '0';
+            Log("  %s: layers 0-7 %s", side[s], layers.c_str());
+        }
+    }
+    else if (!strcmp(name, "walls")) {
+        // !walls level: every east and south edge of the lot by its layer signature, with a sample
+        int w = 0, h = 0;
+        LotSize(&w, &h);
+        std::map<std::string, std::pair<int, std::string>> kinds;
+        for (int x = 0; x < w; x++)
+            for (int y = 0; y < h; y++)
+                for (int s = 0; s < 2; s++) {
+                    int nx = x + (s == 0), ny = y + (s == 1);
+                    std::string sig;
+                    for (int l = 0; l < 8; l++) sig += WallBetween(a, x, y, nx, ny, l) ? '1' : '0';
+                    if (sig == "00000000") continue;
+                    auto& k = kinds[sig];
+                    if (!k.first++) k.second = std::to_string(x) + "," + std::to_string(y) + (s ? " south" : " east");
+                }
+        for (auto& [sig, k] : kinds) Log("  walls level %d: %s x%d, e.g. %s", a, sig.c_str(), k.first, k.second.c_str());
+    }
+    else if (!strcmp(name, "water")) {
+        typedef bool(__cdecl * WaterFn)(const int*);
+        int t1[3] = {a, b, c}, t2[3] = {b, a, c};
+        bool r1 = false, r2 = false;
+        Guarded([&] { r1 = ((WaterFn)Va(addr::grid::kWaterOnTile))(t1); });
+        Guarded([&] { r2 = ((WaterFn)Va(addr::grid::kWaterOnTile))(t2); });
+        Log("water %d,%d,%d: %d, swapped %d; pattern below %d", a, b, c, r1, r2, FloorPatternAt(-1, a, b));
+    }
+    else if (!strcmp(name, "parts")) {
+        // !parts x y level: what stands on a tile, and the game's tiles for each
+        for (const PlacedPart& p : PlacedParts()) {
+            if (p.tileX != a || p.tileY != b || p.level != c) continue;
+            LotObject o;
+            ReadLotObject(p.id, &o);
+            Log("  part %d at %08x lead %d type %d \"%s\" (%s)", p.id, (unsigned)o.ptr, p.lead, p.type, o.name.c_str(),
+                ClassName(o.ptr).c_str());
+            for (int off = 0; off < 0x400 && d; off += 4) {
+                Ptr v = Rd<Ptr>(o.ptr + off);
+                std::string cn = ClassName(v);
+                if (cn.find("cTSObject") != std::string::npos || cn.find("cEdith") != std::string::npos ||
+                    cn.find("cTSPerson") != std::string::npos)
+                    Log("    +%03x -> %08x %s", off, (unsigned)v, cn.c_str());
+            }
+        }
+    }
+    else if (!strcmp(name, "dump")) {
+        // !dump <address in decimal> <dwords>
+        for (int i = 0; i < (b ? b : 16); i++) {
+            Ptr v = Rd<Ptr>((Ptr)(unsigned)a + i * 4);
+            Log("  %08x +%03x: %08x %s", (unsigned)a + i * 4, i * 4, (unsigned)v, ClassName(v).c_str());
+        }
+    }
     else if (!strcmp(name, "rooms")) {
         for (const LotObject& o : LotObjects())
-            if (o.x >= 0) Log("  object %d \"%s\" floor %d room %d flags %x", o.id, o.catalogName.c_str(), o.level, o.room, o.roomFlags);
+            if (o.x >= 0) Log("  object %d \"%s\" floor %d room %d flags %x type %d at %.1f,%.1f", o.id, o.catalogName.c_str(), o.level, o.room, o.roomFlags, o.type, o.x, o.y);
     }
     else if (!strcmp(name, "motives")) {
         int sim = a ? a : SelectedSimId();

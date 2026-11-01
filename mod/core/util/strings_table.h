@@ -9,8 +9,8 @@
     X(UnsupportedBuild, "Sims 2 accessibility: unsupported game version, mod disabled")                                \
     /* Key help (Ctrl+F1) */                                                                                           \
     X(KeysScreen, "Tab and Shift+Tab go from group to group; Up and Down go through a group, Left and Right too, or change a slider; Home and End go to the ends; Enter presses, and on a kind or a room opens its things; Backspace goes back; R repeats. Control+Up and Control+Down read the details of what was said, Control+Left and Control+Right switch between details and events.") \
-    X(KeysLot, "Lot: Tab goes through the needs, the action queue, things by kind, things by room and the game's panels. In things by kind or by room, Enter opens a kind or a room, its things come nearest first, Backspace goes back. Enter on a thing opens its interactions, or picks it up in buy mode; Control+Enter walks the selected Sim there. Control+E the Sim's state, Control+1 to 9 choose a Sim, Control+Up and Down the details.") \
-    X(KeysPlacement, "Placing: arrows one tile, Shift five, Tab and Shift+Tab the spots where it fits, PageDown and PageUp the rooms, Home back to the Sim, comma and period turn it, Enter puts it down, Delete sells it, Escape stops.") \
+    X(KeysLot, "Lot: Tab goes through the needs, the action queue, things by kind, things by room and the game's panels. Page Down and Page Up go through the lot's things, nearest first; Shift with them changes the kind of thing, Control with them the room. Enter on a thing opens its interactions, or picks it up in buy mode; Control+Enter walks the selected Sim there. Control+E the Sim's state, Control+1 to 9 choose a Sim, Control+Up and Down the details.") \
+    X(KeysPlacement, "Placing: arrows one tile, Shift five, Page Down and Page Up the spots where it fits, Control with them the rooms, Shift with them or comma and period turn it, Home back to the Sim, Enter puts it down, Delete sells it, Escape stops.") \
     X(KeysBuild, "Building: arrows move the corner, Shift five, PageUp and PageDown the level, Space marks the start, Enter builds from the mark, Control+Enter removes, Home back to the Sim, R repeats, Escape leaves.")\
     X(KeysNeighborhood, "Neighborhood: the lots list comes first, Enter opens a lot's panel. To move a family in, choose it in the family bin, then press Enter on a lot. Tab the panels.")\
     /* Control state */                                                                                                \
@@ -218,3 +218,52 @@
     X(GroupBusiness, "business")                                                                                       \
     X(GroupSeasons, "seasons")                                                                                         \
     X(GroupDate, "date")                                                                                               \
+    /* Groups by letter, the focus on screen (ported from the Sims 1 mod) */                                        \
+    X(NoGroupLetter, "no group starting with %s")                                                                   \
+    X(KeysGroupLetter, "Alt and a letter: the next group whose name starts with that letter.")                      \
+    X(KeysShowFocus, "Control Shift V: light the focused control on screen for someone helping.")                   \
+    X(ShowFocusOn, "focus shown on screen")                                                                         \
+    X(ShowFocusOff, "focus no longer shown on screen")                                                              \
+    /* Placing: size, what it runs into and faces, beside the lot's things */                                       \
+    X(ObjectSize, "takes %1$d tiles: %2$d west to east, %3$d north to south")                                       \
+    X(CollidesWith, "runs into %s")                                                                                 \
+    X(FacingThing, "toward %s")                                                                                     \
+    X(RoomChange, "leaving %1$s, entering %2$s")                                                                    \
+    X(BesideThing, "beside %s")                                                                                     \
+    X(KeysPlacingThings, "Control Shift Page Down and Page Up: put it beside the next thing of the lot, nearest first.")\
+    /* Sound cues and the lot map */                                                                                \
+    X(CuesOn, "cursor sounds on")                                                                                   \
+    X(CuesOff, "cursor sounds off")                                                                                 \
+    X(SurfaceNone, "no floor")                                                                                      \
+    X(SurfaceGround, "ground")                                                                                      \
+    X(SurfaceGrass, "grass")                                                                                        \
+    X(SurfaceWood, "wood floor")                                                                                    \
+    X(SurfaceTile, "tile floor")                                                                                    \
+    X(SurfaceCarpet, "carpet")                                                                                      \
+    X(SurfacePaving, "paving")                                                                                      \
+    X(SurfaceGravel, "gravel")                                                                                      \
+    X(SurfacePoolRim, "pool edge")                                                                                  \
+    X(SurfaceWater, "water")                                                                                        \
+    X(EdgeFence, "fence to the %s")                                                                                 \
+    X(EdgeRailing, "railing to the %s")                                                                             \
+    X(MapStairs, "stairs")                                                                                          \
+    X(TerrainSloped, "sloped")                                                                                      \
+    X(EdgeWall, "wall to the %s")                                                                                   \
+    X(EdgeDoor, "door to the %s")                                                                                   \
+    X(EdgeWindow, "window to the %s")                                                                               \
+    X(MapOn, "Lot map. Control+F1 says the keys.")                                                                  \
+    X(MapOff, "map off")                                                                                            \
+    X(MapNoFloor, "nothing is built on floor %d")                                                                   \
+    X(MapNothingHere, "nothing to use here")                                                                        \
+    X(MapLotEdge, "edge of the lot")                                                                                \
+    X(KeysMap, "Lot map: arrows move one tile, with Shift five; each tile says what stands there and which way it faces, the room and the floor when they change, and the walls, fences, railings, doors and windows around it, stairs and slopes, with a sound for each. Home goes back to the selected Sim. Page Down and Page Up go through the lot's things as always, and the map goes to each one. Control+Shift+Page Up and Page Down change floor. Enter opens the menu of what stands there; Control+Enter walks the selected Sim there. R says everything, Control+L the room's layout. Control+Shift+S turns the sounds off and on. Escape or Control+M leaves the map.")\
+    X(KeysMapHint, "Control+M: the lot map, a cursor that walks the lot tile by tile.")                             \
+    X(KeysCuesHint, "Control+Shift+S turns the cursor sounds off and on.")                                          \
+    /* The manual (Control+Shift+F1, the mod help group) */                                                         \
+    X(ManualHint, "Control+Shift+F1 opens the manual; Control+F1 says the keys of each screen.")                    \
+    X(KeysManual, "Control+Shift+F1 opens the mod's full manual in your browser.")                                  \
+    X(ManualOpening, "opening the manual in your browser")                                                          \
+    X(ManualMissing, "the manual is missing: reinstall the mod")                                                    \
+    X(ManualButton, "Sims 2 Accessibility manual")                                                                  \
+    X(GroupModHelp, "mod help")                                                                                     \
+    X(KeysButton, "Keys for this screen")                                                                           \

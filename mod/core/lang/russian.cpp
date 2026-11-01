@@ -20,13 +20,14 @@ const Translation kEntries[] = {
      "событиями."},
     {Str::KeysLot,
      "Участок: Tab проходит по потребностям, очереди действий, предметам по видам, предметам по комнатам и "
-     "панелям игры. В предметах по видам или по комнатам Enter открывает вид или комнату, её предметы идут "
-     "ближайшими первыми, Backspace возвращает назад. Enter на предмете открывает его действия или поднимает его "
-     "в режиме покупки; Ctrl+Enter отправляет туда выбранного сима. Ctrl+E состояние сима, Ctrl+1–9 выбор сима, "
+     "панелям игры. Page Down и Page Up проходят по предметам участка, ближайшими первыми; с Shift они меняют "
+     "вид предмета, с Ctrl — комнату. Enter на предмете открывает его действия или поднимает его в режиме "
+     "покупки; Ctrl+Enter отправляет туда выбранного сима. Ctrl+E состояние сима, Ctrl+1–9 выбор сима, "
      "Ctrl+стрелки вверх и вниз подробности."},
     {Str::KeysPlacement,
-     "Размещение: стрелки на клетку, Shift на пять, Tab и Shift+Tab — места, куда он встаёт, Page Down и Page Up "
-     "— комнаты, Home — к симу, запятая и точка поворачивают, Enter ставит, Delete продаёт, Escape завершает."},
+     "Размещение: стрелки на клетку, Shift на пять, Page Down и Page Up — места, куда он встаёт, с Ctrl — "
+     "комнаты, с Shift или запятая и точка поворачивают, Home — к симу, Enter ставит, Delete продаёт, Escape "
+     "завершает."},
     {Str::KeysBuild,
      "Строительство: стрелки двигают угол, с Shift на пять, Page Up и Page Down — этаж, пробел отмечает начало, "
      "Enter строит от метки, Ctrl+Enter сносит, Home — к симу, R повторяет, Escape выход."},
@@ -242,6 +243,62 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "бизнес"},
     {Str::GroupSeasons, "времена года"},
     {Str::GroupDate, "свидание"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "нет группы на букву %s"},
+    {Str::KeysGroupLetter, "Alt и первая буква названия группы: следующая группа на эту букву."},
+    {Str::KeysShowFocus, "Ctrl+Shift+V: подсветить выбранный элемент на экране для того, кто помогает."},
+    {Str::ShowFocusOn, "фокус показан на экране"},
+    {Str::ShowFocusOff, "фокус больше не показан на экране"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "занимает клеток: %1$d, %2$d с запада на восток, %3$d с севера на юг"},
+    {Str::CollidesWith, "мешает: %s"},
+    {Str::FacingThing, "лицом к: %s"},
+    {Str::RoomChange, "выход из комнаты %1$s, вход в комнату %2$s"},
+    {Str::BesideThing, "рядом: %s"},
+    {Str::KeysPlacingThings,
+     "Ctrl+Shift+Page Down и Page Up: поставить рядом со следующим предметом участка, ближайшими первыми."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "звуки курсора включены"},
+    {Str::CuesOff, "звуки курсора выключены"},
+    {Str::SurfaceNone, "нет пола"},
+    {Str::SurfaceGround, "земля"},
+    {Str::SurfaceGrass, "трава"},
+    {Str::SurfaceWood, "деревянный пол"},
+    {Str::SurfaceTile, "плиточный пол"},
+    {Str::SurfaceCarpet, "ковёр"},
+    {Str::SurfacePaving, "мощение"},
+    {Str::SurfaceGravel, "гравий"},
+    {Str::SurfacePoolRim, "край бассейна"},
+    {Str::SurfaceWater, "вода"},
+    {Str::EdgeFence, "забор на %s"},
+    {Str::EdgeRailing, "перила на %s"},
+    {Str::MapStairs, "лестница"},
+    {Str::TerrainSloped, "склон"},
+    {Str::EdgeWall, "стена на %s"},
+    {Str::EdgeDoor, "дверь на %s"},
+    {Str::EdgeWindow, "окно на %s"},
+    {Str::MapOn, "Карта участка. Ctrl+F1 называет клавиши."},
+    {Str::MapOff, "карта закрыта"},
+    {Str::MapNoFloor, "на этаже %d ничего не построено"},
+    {Str::MapNothingHere, "здесь нечего использовать"},
+    {Str::MapLotEdge, "край участка"},
+    {Str::KeysMap,
+     "Карта участка: стрелки двигают на одну клетку, с Shift на пять; на каждой клетке говорится, что там стоит "
+     "и куда оно повёрнуто, комната и пол, когда они меняются, и стены, заборы, перила, двери и окна вокруг, "
+     "лестницы и склоны, у каждого свой звук. Home возвращает к выбранному симу. Page Down и Page Up, как "
+     "всегда, проходят по предметам участка, и карта переходит к каждому. Ctrl+Shift+Page Up и Page Down меняют "
+     "этаж. Enter открывает меню того, что там стоит; Ctrl+Enter отправляет туда выбранного сима. R говорит всё, "
+     "Ctrl+L планировку комнаты. Ctrl+Shift+S выключает и включает звуки. Escape или Ctrl+M закрывают карту."},
+    {Str::KeysMapHint, "Ctrl+M: карта участка, курсор, который проходит участок клетка за клеткой."},
+    {Str::KeysCuesHint, "Ctrl+Shift+S выключает и включает звуки курсора."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1 открывает руководство; Ctrl+F1 называет клавиши каждого экрана."},
+    {Str::KeysManual, "Ctrl+Shift+F1 открывает полное руководство мода в браузере."},
+    {Str::ManualOpening, "открываю руководство в браузере"},
+    {Str::ManualMissing, "руководство не найдено: переустановите мод"},
+    {Str::ManualButton, "Руководство по доступности для The Sims 2"},
+    {Str::GroupModHelp, "справка мода"},
+    {Str::KeysButton, "Клавиши этого экрана"},
 };
 
 }  // namespace

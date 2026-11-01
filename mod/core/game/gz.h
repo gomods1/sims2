@@ -66,6 +66,10 @@ std::string TextEditText(Ptr w);    // UTF-8
 uint32_t TextEditLength(Ptr w);
 std::string TextEditTextFrom(Ptr w, uint32_t from, uint32_t max);
 bool TextEditEditable(Ptr w);        // the player can type into it
+int TextEditCaret(Ptr w);            // the caret's byte in TextEditText, -1 when no text field
+// Gives the keyboard to a window (the window manager's GZSetFocus), as a click on a text field
+// does, without moving its caret. True when it has the keyboard afterwards.
+bool SetKeyboardFocus(Ptr w);
 
 // Presses a window the way a left click at its centre does: mouse enter, left down, left up,
 // through its own handlers, so sounds, notifications and state changes all run.
@@ -78,5 +82,9 @@ bool DragWindow(Ptr from, Ptr to);
 // UI coordinates (the main window's, 1478x924 on a 2560x1600 client) to client pixels.
 POINT UiToClient(int x, int y);
 bool PressAt(Ptr w, int x, int y);   // window coordinates
+// The mouse-enter a real pointer over the window would send (the game draws it lit), and the
+// mouse-exit that ends it.
+void Hover(Ptr w);
+void Unhover(Ptr w);
 
 }  // namespace game

@@ -1,0 +1,307 @@
+---
+title: Instrukcja modułu dostępności The Sims 2
+lang: pl
+toc-title: Spis treści
+---
+
+Moduł dostępności The Sims 2 sprawia, że w The Sims 2 Legacy Collection można grać tylko z
+czytnikiem ekranu i klawiaturą. Odczytuje każdy ekran, okno dialogowe i panel przez Twój czytnik
+ekranu (NVDA, JAWS, Narrator i inne), pozwala poruszać się po nich wszędzie tymi samymi
+klawiszami i dodaje narzędzia, których potrzebuje niewidomy gracz: listę obiektów na parceli,
+mapę parceli, narratora tego, co gra tylko pokazuje, miejsca, w których mieszczą się meble, oraz
+kursor do budowania.
+
+Tę instrukcję otwiera w grze **Control+Shift+F1**, w języku gry. **Control+F1** mówi klawisze
+ekranu, na którym jesteś.
+
+## Pierwsze kroki
+
+1. Skopiuj `version.dll` i folder `Sims2Access` do folderu gry `EP9\TSBin` (tego, w którym jest
+   `Sims2EP9.exe`), w folderze `The Sims 2 Legacy Collection` Twojej biblioteki Steam.
+2. Uruchom czytnik ekranu, a potem The Sims 2 Legacy Collection ze Steama.
+3. Gdy otworzy się okno gry, usłyszysz "Moduł dostępności The Sims 2 wczytany" i gdzie jest
+   pomoc.
+
+Mod mówi w języku gry. Aby go zmienić, otwórz Steam, potem Właściwości gry, Ogólne, Język. Mod
+mówi po angielsku, francusku, niemiecku, włosku, hiszpańsku, niderlandzku, duńsku, szwedzku,
+norwesku, fińsku, portugalsku, japońsku, polsku, chińsku (uproszczony i tradycyjny), tajsku,
+koreańsku, czesku, węgiersku i rosyjsku.
+
+Mod działa z aktualną wersją gry ze Steama. Jeśli gra się zaktualizuje, a mod powie "nieobsługiwana
+wersja gry", zainstaluj następną wersję moda.
+
+## Poruszanie się: wszędzie te same klawisze
+
+Każdy ekran, okno dialogowe, panel i tryb działa tak samo. Poruszasz się po pierścieniu
+**grup** (przyciski okna dialogowego, potrzeby, rodzina, katalog...). Grupa zawiera **elementy**,
+a niektóre elementy otwierają głębszy **poziom**.
+
+| Klawisz | Co robi |
+|---|---|
+| Tab, Shift+Tab | Następna lub poprzednia grupa. Najpierw padają nazwa grupy i liczba elementów. |
+| Strzałka w górę, strzałka w dół (lub strzałka w lewo, strzałka w prawo) | Poprzedni lub następny element grupy. |
+| Home, End | Pierwszy lub ostatni element grupy. |
+| Enter | Aktywuje element. Na poziomie (rodzaj lub pokój obiektów na parceli) otwiera go. |
+| Backspace | Wraca o poziom wyżej. |
+| R | Powtarza element razem z jego grupą. |
+| Alt+litera | Następna grupa, której nazwa zaczyna się na tę literę. |
+| Control+F1 | Klawisze ekranu, na którym jesteś. |
+| Control+Shift+F1 | Ta instrukcja. |
+
+Kontrolki po swojej nazwie mówią, czym są, tak jak czytnik ekranu: "Akceptuj, przycisk",
+"Opcje, przycisk, wybrany", "Nieśmiały – Towarzyski, suwak, 6 z 10".
+
+- **Suwaki** (osobowość w Stwórz Sima): strzałki w lewo i w prawo zmieniają wartość i mówią, ile
+  punktów zostało.
+- **Pola tekstowe** (imiona rodzin i Simów, konsola kodów): przejdź strzałkami na pole i pisz:
+  pole dostaje klawiaturę, gdy tylko jest na nim fokus. Każda litera jest powtarzana, a Backspace
+  mówi, co usuwa. Strzałki w lewo i w prawo, Home i End przesuwają w polu i mówią znak w tym
+  miejscu; Delete mówi znak, który usuwa.
+- **Elementy tylko do odczytu**, które gra objaśnia po najechaniu myszą (umiejętność,
+  zainteresowanie, dziedzina pracy): Enter odczytuje objaśnienie.
+- **Wyłączone kontrolki** mówią "niedostępny" i nie dają się nacisnąć.
+
+Ostatnia grupa ekranu głównego to **pomoc moda**: jej przyciski mówią klawisze tego ekranu (jak
+Control+F1) i otwierają tę instrukcję (jak Control+Shift+F1).
+
+## Więcej informacji: bufory przeglądania
+
+Nie wszystko mieści się w jednym wypowiedzianym zdaniu. Mod prowadzi dwa bufory, które możesz
+czytać wiersz po wierszu:
+
+- **szczegóły**: wszystko o tym, co właśnie zostało powiedziane: opis produktu, podpowiedź
+  kontrolki, pole i kierunek miejsca, cena obiektu i jego miejsce w grupie ("3 z 12").
+- **zdarzenia**: co się wydarzyło: zakupy, sprzedaże, teksty okien dialogowych, wszystko, co
+  powiedział narrator.
+
+| Klawisz | Co robi |
+|---|---|
+| Control+strzałka w górę | Następny wiersz, głębiej w buforze. |
+| Control+strzałka w dół | Z powrotem w stronę początku. |
+| Control+strzałka w lewo, Control+strzałka w prawo | Przełącza między buforami. |
+
+## Okolica
+
+Pierwsza grupa okolicy to **parcele**: każda mówi swoją nazwę, rodzaj i kto na niej mieszka
+(bloki mieszkalne z lokatorami). Enter na parceli otwiera panel parceli gry.
+
+Aby wprowadzić rodzinę, wybierz ją w pojemniku rodzin (panel rodzin), a potem naciśnij Enter na
+parceli: gra zapyta, czy ją wprowadzić i ile to kosztuje.
+
+## Tworzenie rodziny i Simów
+
+Stwórz rodzinę, Stwórz Sima i Stwórz zwierzę to grupy jak każdy ekran:
+
+- Wpisz nazwisko rodziny i imiona każdego Sima w ich polach tekstowych.
+- Wiek, płeć, skóra, sylwetka oraz siatki głów, fryzur i ubrań ("3 z 6"; rasy zwierząt po
+  nazwie).
+- **Osobowość**: strzałki w lewo i w prawo dodają lub odejmują punkt w każdej parze cech ("6 z
+  10, pozostało punktów: 4").
+- Aspiracja, znak zodiaku i rzeczy, które Sima pociągają, to przyciski.
+- **Drzewo genealogiczne** (Relacje rodzinne): Enter na Simie podnosi go, Enter na innym Simie
+  łączy ich (gra pyta wtedy, jak są spokrewnieni), Enter na tym samym Simie odkłada go.
+
+## Parcela: tryb życia
+
+Na parceli ekran jest pierścieniem grup jak każdy inny. Tab przechodzi przez nie w tej
+kolejności:
+
+1. **potrzeby** wybranego Sima, każda ze swoim poziomem.
+2. **kolejka działań**: co zrobi wybrany Sim; Enter anuluje działanie.
+3. **obiekty według rodzaju** i **obiekty według pokoju**: obiekty na parceli (patrz niżej).
+4. Panele gry: panel sterowania, panel Sima (potrzeby, relacje, praca, umiejętności, osobowość,
+   zainteresowania...), rodzina, pragnienia i lęki oraz każdy panel, który otworzysz.
+5. **pomoc moda**.
+
+### Wybieranie Simów i kamera
+
+| Klawisz | Co robi |
+|---|---|
+| Control+1 do Control+9 | Wybiera od pierwszego do dziewiątego Sima z rodziny. |
+| Control+E | Wybrany Sim w jednym zdaniu: gdzie jest, co robi, pilne potrzeby. |
+| Control+F | Kamera śledzi wybranego Sima albo jest swobodna. |
+
+Kamera śledzi wybranego Sima, bo dźwięki gry pochodzą z tego, co jest na ekranie.
+
+### Obiekty na parceli
+
+Wszystko na parceli jest w dwóch grupach: **obiekty według rodzaju** (Simowie, potem kategorie trybu
+kupowania: siedziska, powierzchnie, urządzenia..., potem inne) i **obiekty według pokoju** (najpierw
+pokój wybranego Sima, potem pozostałe, każdy ze swoją kondygnacją). Meble zajmujące kilka pól
+(łóżka, sofy, stoły) liczą się raz. Enter na rodzaju lub pokoju wymienia jego obiekty, od
+najbliższych, na przykład "Lodówka, kuchnia, w kierunku północnego wschodu, pól: 6" od wybranego
+Sima. Backspace wraca do rodzajów lub pokojów. Nazwy pokojów to przypuszczenia moda na podstawie
+tego, co w nich jest.
+
+Nie musisz tam przechodzić Tabem: klawisze Page przeglądają obiekty z każdego miejsca parceli, w
+trybie życia, kupowania i budowania.
+
+| Klawisz | Co robi |
+|---|---|
+| Page Down, Page Up | Następny lub poprzedni obiekt ostatnio wybranego rodzaju lub pokoju. |
+| Shift+Page Down, Shift+Page Up | Następny lub poprzedni rodzaj obiektów. |
+| Control+Page Down, Control+Page Up | Następny lub poprzedni pokój (pierwsze naciśnięcie: pokój wybranego Sima). |
+| Enter | Interakcje obiektu (w trybie kupowania: podnosi go, aby go przenieść). |
+| Control+Enter | Wybrany Sim idzie do obiektu. |
+| Control+Shift+Enter | Biegnie tam. |
+
+### Menu działań
+
+Enter na obiekcie (lub na Simie) otwiera menu działań gry. Strzałki w górę i w dół wybierają,
+Enter wykonuje. Pozycje, które mają więcej opcji, otwierają głębsze menu. Gdy menu się zamyka,
+fokus wraca na obiekt.
+
+### Pokoje
+
+| Klawisz | Co robi |
+|---|---|
+| Control+L | Układ pokoju (przy kursorze budowy lub kursorze mapy, a w innym razie tam, gdzie stoi wybrany Sim): nazwa, kondygnacja, pola, granice, drzwi i okna; każde drzwi i okno, z jego ścianą i pokojem za nim, są w buforze szczegółów. |
+
+### Mapa parceli
+
+**Control+M** włącza mapę: kursor, który przechodzi parcelę pole po polu, zaczynając od wybranego
+Sima. Każdy krok odtwarza dźwięk podłogi i każdej ściany, płotu, balustrady, drzwi lub okna wokół.
+
+| Klawisz | Co robi |
+|---|---|
+| Strzałki | Jedno pole; z Shift pięć. Mówi, co tam stoi i w którą stronę jest zwrócone, pokój i podłogę, gdy się zmieniają, ściany, płoty, balustrady, drzwi i okna według stron, schody i spadki terenu. |
+| Home | Wraca do wybranego Sima. |
+| Control+Shift+Page Up, Page Down | Kondygnacja wyżej lub niżej. |
+| Enter | Menu działań tego, co tam stoi. |
+| Control+Enter | Wybrany Sim idzie tam (Control+Shift+Enter: biegnie). |
+| Page Down, Page Up (oraz Shift, Control) | Obiekty na parceli jak zawsze; mapa przechodzi do każdego z nich. |
+| R | Wszystko o polu. Control+L układ pokoju. |
+| Escape lub Control+M | Zamyka mapę. |
+
+### Narrator
+
+Gra pokazuje wiele rzeczy tylko obrazkami. Mod mówi je, gdy się dzieją, i zapisuje je w buforze
+zdarzeń:
+
+- **Dymki** nad Simami: "Carlos myśli: Energia", "Carlos mówi: Polityka", przekreślona ikona
+  ("nie ..."), krzyki i nagłówki relacji ("relacja się poprawia", "nowy przyjaciel", "pierwszy
+  pocałunek").
+- **Trasy**: "Carlos nie może tam dojść".
+- **Działania** rodziny, spadające **potrzeby**, **goście** oraz zapłacone lub otrzymane pieniądze.
+- **Meble znikające z parceli** (włamywacz, komornik), z ich wartością.
+
+Dymki rodziny są wypowiadane; dymki gościa trafiają tylko do bufora zdarzeń.
+
+**Control+N** zmienia, ile jest mówione: wszystko, tylko ostrzeżenia albo nic. Wiersze
+niewypowiedziane i tak trafiają do bufora zdarzeń.
+
+## Tryb kupowania
+
+F2 otwiera tryb kupowania. Produkty katalogu to przyciski: każdy produkt mówi swoją nazwę, cenę i
+oceny, a bufor szczegółów zawiera jego opis. Przejście za ostatni produkt strony (lub przed
+pierwszy) przewraca stronę.
+
+### Ustawianie obiektu
+
+Enter na produkcie podnosi go. Mod znajduje każde miejsce na parceli, w którym się mieści, w
+każdym kierunku, najpierw najbliższe wybranego Sima.
+
+| Klawisz | Co robi |
+|---|---|
+| Page Down, Page Up (lub Tab) | Miejsca, najpierw najbliższe; każde mówi swój pokój, kierunki, w których się mieści, i jak daleko jest. |
+| Control+Page Down, Control+Page Up | Pokoje, w których są miejsca. |
+| Shift+Page Down, Shift+Page Up (lub przecinek, kropka) | Obraca obiekt; kierunek jest mówiony. |
+| Control+Shift+Page Down, Page Up | Obok obiektów na parceli, najpierw najbliższych, zwrócony w ich stronę, gdy się mieści. |
+| Strzałki | Zamiast tego przesuwa obiekt o jedno pole (Shift: o pięć): czy się mieści, z czym się zderza, pokój, gdy się zmienia, ściany wokół niego, w którą stronę jest zwrócony i co ma przed sobą, pole; potem dźwięki pola. |
+| Home | Wraca do wybranego Sima. |
+| Enter | Kupuje go tam; gra daje kolejny egzemplarz aż do Escape. |
+| Escape | Kończy ustawianie (przenoszony obiekt wraca na miejsce). |
+| Delete | Sprzedaje trzymany obiekt. |
+| R | Powtarza miejsce w całości. |
+
+Obiekt zajmujący kilka pól mówi, ile podłogi zajmuje ("zajmuje pól: 2, 2 z zachodu na wschód, 1
+z północy na południe").
+
+### Przenoszenie i sprzedawanie
+
+W trybie kupowania przejdź Page Down do obiektu na parceli i naciśnij Enter: zostaje podniesiony,
+a te same klawisze ustawiają go gdzie indziej. Delete go sprzedaje.
+
+## Tryb budowania
+
+F3 otwiera tryb budowania. Jego narzędzia i style to przyciski.
+
+### Kursor budowy
+
+Enter na stylu ściany, płotu, fundamentu, podłogi lub basenu uruchamia kursor budowy przy
+wybranym Simie. Ściany, płoty i fundamenty biegną od narożnika do narożnika; podłogi i baseny
+pokrywają pola.
+
+| Klawisz | Co robi |
+|---|---|
+| Strzałki | Jeden narożnik lub pole; z Shift pięć. Mówi, co tam stoi, pokój, gdy się zmienia, podłogę (podłogi i baseny) albo ściany, płoty, drzwi i okna stykające się w narożniku, spadek terenu, a potem gdzie jest. |
+| Page Up, Page Down | Poziom wyżej lub niżej (0 teren, 1 podłoga fundamentu). |
+| Spacja | Zaznacza początek. |
+| Enter | Buduje od początku do kursora; koszt jest mówiony. |
+| Control+Enter | Usuwa od początku do kursora. |
+| Home | Wraca do wybranego Sima. |
+| R | Wszystko o kursorze. |
+| Escape | Zamyka kursor. |
+
+Po zbudowaniu ściany mod ogłasza, jeśli Sim z rodziny został zamknięty w pokoju bez drzwi;
+Control+Z gry cofa ścianę.
+
+### Drzwi, okna, schody i dachy
+
+Drzwi, okna i schody ustawia się jak meble, w miejscach, w których się mieszczą: miejsce drzwi
+mówi, na której ścianie są i do którego pokoju prowadzą. Dachy: przyciski automatycznego dachu
+na stronie dachów.
+
+## Sygnały dźwiękowe
+
+Kursor budowy, strzałki ustawiania i mapa parceli odtwarzają krótki dźwięk przy każdym kroku:
+podłoga (trawa, drewno, płytki, wykładzina, kamień, brzeg basenu, woda, brak podłogi na piętrze: z
+czego podłoga jest zrobiona, według jej definicji w katalogu), ściana, płot, balustrada, drzwi lub
+okno z każdej strony (zachód z lewej, wschód z prawej, północ wyżej, południe niżej), schody, Sim
+lub obiekt na polu, spadek terenu, zmiana pokoju, skraj parceli, a przy ustawianiu to, czy obiekt
+się mieści. **Control+Shift+S** wyłącza je i włącza.
+
+## Inne klawisze
+
+| Klawisz | Co robi |
+|---|---|
+| Control+Shift+C | Konsola kodów gry: jej wiersz wpisywania to pole tekstowe; Enter na nim daje mu klawiaturę, wpisz kod, Enter go wykonuje, a to, co konsola wypisze, jest odczytywane. |
+| Control+Shift+V | Podświetla na ekranie wybraną kontrolkę dla widzącej osoby pomagającej. |
+
+## Klawisze samej gry
+
+Te klawisze należą do gry i nadal działają:
+
+| Klawisz | Co robi |
+|---|---|
+| F1, F2, F3, F4, F5 | Tryb życia, kupowania, budowania, kamery i opcji. |
+| P | Pauza. |
+| 1, 2, 3 | Prędkość normalna, szybka, najszybsza. |
+| Spacja, N | Wybiera następnego Sima. |
+| Z, X | Przybliża i oddala. |
+| Control+Z | Cofa w trybie kupowania i budowania. |
+
+## Ustawienia
+
+Ustawienia moda są w pliku `Sims2Access\Sims2Access.ini` w folderze gry, w sekcji `[mod]`.
+Klawisze, które je zmieniają, od razu je zapisują.
+
+| Ustawienie | Wartości |
+|---|---|
+| `narrator` | 2 wszystko, 1 tylko ostrzeżenia, 0 wyłączony (Control+N). |
+| `cues` | 1 sygnały dźwiękowe włączone, 0 wyłączone (Control+Shift+S). |
+| `cue_volume` | Głośność sygnałów dźwiękowych, od 0 do 100 (domyślnie 80). |
+| `show_focus` | 1 podświetla wybraną kontrolkę na ekranie (Control+Shift+V). |
+
+## Gdy coś nie działa
+
+- **Brak jakiejkolwiek mowy**: uruchom czytnik ekranu przed grą. Dziennik moda to
+  `Sims2Access\Sims2Access.log`; dołącz go do zgłoszenia.
+- **"Nieobsługiwana wersja gry"**: gra się zaktualizowała; zainstaluj następną wersję moda.
+- **Klawisz nic nie robi**: Control+F1 mówi, które klawisze działają tam, gdzie jesteś.
+
+## Jeszcze nie gotowe
+
+Tapety, rysowane dachy i teren w trybie budowania; nazwy głów, fryzur i ubrań w Stwórz Sima;
+własne ekrany dodatków (studia, nocne życie, biznes, pory roku, wakacje, mieszkania, magia) są na
+razie odczytywane tylko przez ogólną nawigację.

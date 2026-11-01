@@ -20,14 +20,14 @@ const Translation kEntries[] = {
      "wisselen tussen details en gebeurtenissen."},
     {Str::KeysLot,
      "Kavel: Tab gaat langs de behoeften, de actiewachtrij, de objecten per soort, de objecten per kamer en de "
-     "panelen van het spel. Bij de objecten per soort of per kamer opent Enter een soort of een kamer, de "
-     "objecten komen dichtstbijzijnde eerst, Backspace gaat terug. Enter op een object opent de interacties, of "
+     "panelen van het spel. Page Down en Page Up gaan door de objecten van het kavel, dichtstbijzijnde eerst; "
+     "met Shift veranderen ze de soort object, met Ctrl de kamer. Enter op een object opent de interacties, of "
      "pakt het op in de koopmodus; Ctrl+Enter stuurt de gekozen Sim erheen. Ctrl+E de toestand van de Sim, "
      "Ctrl+1 tot 9 kiezen een Sim, Ctrl+pijl omhoog en omlaag de details."},
     {Str::KeysPlacement,
-     "Plaatsen: pijltjes één vak, Shift vijf, Tab en Shift+Tab de plekken waar het past, Page Down en Page Up de "
-     "kamers, Home terug naar de Sim, komma en punt draaien het, Enter zet het neer, Delete verkoopt het, Escape "
-     "stopt."},
+     "Plaatsen: pijltjes één vak, Shift vijf, Page Down en Page Up de plekken waar het past, met Ctrl de kamers, "
+     "met Shift of komma en punt draaien het, Home terug naar de Sim, Enter zet het neer, Delete verkoopt het, "
+     "Escape stopt."},
     {Str::KeysBuild,
      "Bouwen: de pijltjes verplaatsen de hoek, met Shift vijf, Page Up en Page Down het niveau, spatie markeert "
      "het begin, Enter bouwt vanaf de markering, Ctrl+Enter verwijdert, Home terug naar de Sim, R herhaalt, "
@@ -247,6 +247,64 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "bedrijf"},
     {Str::GroupSeasons, "seizoenen"},
     {Str::GroupDate, "afspraakje"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "geen groep begint met %s"},
+    {Str::KeysGroupLetter, "Alt en een letter: de volgende groep waarvan de naam met die letter begint."},
+    {Str::KeysShowFocus, "Ctrl Shift V: licht het gekozen element op het scherm op, voor wie helpt."},
+    {Str::ShowFocusOn, "selectie zichtbaar op het scherm"},
+    {Str::ShowFocusOff, "selectie niet meer zichtbaar op het scherm"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "beslaat %1$d vakken: %2$d van west naar oost, %3$d van noord naar zuid"},
+    {Str::CollidesWith, "botst met %s"},
+    {Str::FacingThing, "naar %s toe"},
+    {Str::RoomChange, "verlaat %1$s, gaat %2$s in"},
+    {Str::BesideThing, "naast %s"},
+    {Str::KeysPlacingThings,
+     "Ctrl Shift Page Down en Page Up: zet het naast het volgende object van het kavel, het dichtstbijzijnde "
+     "eerst."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "cursorgeluiden aan"},
+    {Str::CuesOff, "cursorgeluiden uit"},
+    {Str::SurfaceNone, "geen vloer"},
+    {Str::SurfaceGround, "grond"},
+    {Str::SurfaceGrass, "gras"},
+    {Str::SurfaceWood, "houten vloer"},
+    {Str::SurfaceTile, "tegelvloer"},
+    {Str::SurfaceCarpet, "vloerbedekking"},
+    {Str::SurfacePaving, "bestrating"},
+    {Str::SurfaceGravel, "grind"},
+    {Str::SurfacePoolRim, "zwembadrand"},
+    {Str::SurfaceWater, "water"},
+    {Str::EdgeFence, "hek in het %s"},
+    {Str::EdgeRailing, "balustrade in het %s"},
+    {Str::MapStairs, "trap"},
+    {Str::TerrainSloped, "hellend"},
+    {Str::EdgeWall, "muur in het %s"},
+    {Str::EdgeDoor, "deur in het %s"},
+    {Str::EdgeWindow, "raam in het %s"},
+    {Str::MapOn, "Plattegrond van het kavel. Ctrl+F1 noemt de toetsen."},
+    {Str::MapOff, "plattegrond uit"},
+    {Str::MapNoFloor, "op verdieping %d is niets gebouwd"},
+    {Str::MapNothingHere, "hier is niets te gebruiken"},
+    {Str::MapLotEdge, "rand van het kavel"},
+    {Str::KeysMap,
+     "Plattegrond: de pijltjes gaan één vak verder, met Shift vijf; elk vak zegt wat er staat en welke kant het "
+     "op kijkt, de kamer en de vloer als die veranderen, en de muren, hekken, balustrades, deuren en ramen "
+     "eromheen, trappen en hellingen, elk met een geluid. Home gaat terug naar de gekozen Sim. Page Down en Page "
+     "Up gaan zoals altijd door de objecten van het kavel, en de plattegrond gaat naar elk ervan. "
+     "Ctrl+Shift+Page Up en Page Down wisselen van verdieping. Enter opent het menu van wat er staat; Ctrl+Enter "
+     "stuurt de gekozen Sim erheen. R zegt alles, Ctrl+L de indeling van de kamer. Ctrl+Shift+S zet de geluiden "
+     "uit en aan. Escape of Ctrl+M sluit de plattegrond."},
+    {Str::KeysMapHint, "Ctrl+M: de plattegrond van het kavel, een cursor die het kavel vak voor vak afloopt."},
+    {Str::KeysCuesHint, "Ctrl+Shift+S zet de cursorgeluiden uit en aan."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1 opent de handleiding; Ctrl+F1 noemt de toetsen van elk scherm."},
+    {Str::KeysManual, "Ctrl+Shift+F1 opent de volledige handleiding van de mod in je browser."},
+    {Str::ManualOpening, "handleiding wordt geopend in de browser"},
+    {Str::ManualMissing, "de handleiding ontbreekt: installeer de mod opnieuw"},
+    {Str::ManualButton, "Handleiding Toegankelijkheid voor De Sims 2"},
+    {Str::GroupModHelp, "mod-hulp"},
+    {Str::KeysButton, "Toetsen voor dit scherm"},
 };
 
 }  // namespace

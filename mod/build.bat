@@ -3,6 +3,8 @@ rem Builds the mod into mod\out\:
 rem   SpeechHost.exe + prism.dll  (x64; owns the screen reader connection)
 rem   version.dll                 (x86 proxy/loader; goes next to Sims2EP9.exe)
 rem   Sims2Access.dll              (x86 mod core; goes into <game>\Sims2Access\)
+rem   sounds\*.wav                (the cursors' sound cues, made with genny from sounds\batch.json)
+rem   docs\<tag>.html             (the player's manual, from docs\manual\*.md by tools\build_docs.py)
 rem Usage: build.bat [deploy]
 rem   deploy copies the files into the game folder and creates Sims2Access\dev.txt, which enables
 rem   hot reload of Sims2Access.dll while the game runs and verbose logging. Files in use
@@ -22,7 +24,7 @@ setlocal
 call %VCVARS% x64 >nul 2>&1 || exit /b 1
 cl %CXXFLAGS% /EHsc /DUNICODE /D_UNICODE /I"%PRISM%\include" /Fo"%OUT%\obj64\\" ^
    "%ROOT%speechhost\speech_host.cpp" /Fe"%OUT%\SpeechHost.exe" ^
-   /link /SUBSYSTEM:WINDOWS shell32.lib || exit /b 1
+   /link /SUBSYSTEM:WINDOWS shell32.lib ole32.lib xaudio2.lib || exit /b 1
 endlocal
 copy /y "%PRISM%\dynamic\release\bin\prism.dll" "%OUT%\" >nul
 
@@ -41,8 +43,11 @@ set CORE=%ROOT%core
 cl %CXXFLAGS% /Zi /EHa /LD /I"%MH%\include" /Fo"%OUT%\obj32\\" /Fd"%OUT%\obj32\core.pdb" ^
    "%CORE%\main.cpp" "%CORE%\util\*.cpp" "%CORE%\lang\*.cpp" "%CORE%\speech\*.cpp" "%CORE%\input\*.cpp" ^
    "%CORE%\game\*.cpp" "%CORE%\nav\*.cpp" /Fe"%OUT%\Sims2Access.dll" ^
-   /link /DEBUG /MAP:"%OUT%\Sims2Access.map" /PDB:"%OUT%\Sims2Access.pdb" "%OUT%\objmh\minhook.lib" user32.lib advapi32.lib || exit /b 1
+   /link /DEBUG /MAP:"%OUT%\Sims2Access.map" /PDB:"%OUT%\Sims2Access.pdb" "%OUT%\objmh\minhook.lib" user32.lib advapi32.lib shell32.lib || exit /b 1
 endlocal
+
+rem ---- the manual (pandoc) ----
+python "%ROOT%..\tools\build_docs.py" || exit /b 1
 
 if /i not "%1"=="deploy" goto :eof
 if not exist "%GAME%\Sims2Access" mkdir "%GAME%\Sims2Access"
@@ -51,6 +56,10 @@ copy /y "%OUT%\Sims2Access.dll" "%GAME%\Sims2Access\" >nul || exit /b 1
 copy /y "%OUT%\Sims2Access.pdb" "%GAME%\Sims2Access\" >nul 2>&1
 copy /y "%OUT%\SpeechHost.exe" "%GAME%\Sims2Access\" >nul 2>&1 || echo note: SpeechHost.exe in use, not replaced
 copy /y "%OUT%\prism.dll" "%GAME%\Sims2Access\" >nul 2>&1 || echo note: prism.dll in use, not replaced
+if not exist "%GAME%\Sims2Access\sounds" mkdir "%GAME%\Sims2Access\sounds"
+copy /y "%ROOT%sounds\*.wav" "%GAME%\Sims2Access\sounds\" >nul || exit /b 1
+if not exist "%GAME%\Sims2Access\docs" mkdir "%GAME%\Sims2Access\docs"
+copy /y "%OUT%\docs\*.html" "%GAME%\Sims2Access\docs\" >nul || exit /b 1
 if not exist "%GAME%\Sims2Access\dev.txt" echo hot reload of Sims2Access.dll and verbose logging> "%GAME%\Sims2Access\dev.txt"
 echo deployed to %GAME%
 endlocal

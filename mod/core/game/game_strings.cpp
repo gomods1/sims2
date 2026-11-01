@@ -240,7 +240,73 @@ ObjectPackage g_objects[] = {{L"EP9"}, {L"SP7"}, {L"EP8"}, {L"SP6"}, {L"EP7"}, {
                              {L"EP5"}, {L"EP4"}, {L"SP2"}, {L"SP1"}, {L"EP3"}, {L"EP2"}, {L"EP1"}, {L"Base"}};
 std::map<std::string, std::vector<std::string>> g_objectCache;
 
+// Every resource of one type in a package's bytes, decompressed.
+template <class Fn>
+void ForEachResource(const std::vector<uint8_t>& d, uint32_t type, Fn fn) {
+    if (d.size() < 0x60 || memcmp(d.data(), "DBPF", 4) != 0) return;
+    uint32_t count = U32(d, 0x24), index = U32(d, 0x28), minor = U32(d, 0x3c);
+    size_t esz = minor == 2 ? 24 : 20;
+    std::map<uint64_t, bool> compressed;  // (group << 32 | instance) of compressed ones
+    for (uint32_t k = 0; k < count; k++) {
+        size_t p = index + k * esz;
+        if (U32(d, p) != kTypeDir) continue;
+        uint32_t off = U32(d, p + esz - 8), size = U32(d, p + esz - 4);
+        size_t step = minor == 2 ? 20 : 16;
+        for (size_t q = off; q + step <= (size_t)off + size; q += step)
+            if (U32(d, q) == type) compressed[(uint64_t)U32(d, q + 4) << 32 | U32(d, q + 8)] = true;
+    }
+    for (uint32_t k = 0; k < count; k++) {
+        size_t p = index + k * esz;
+        if (U32(d, p) != type) continue;
+        uint32_t group = U32(d, p + 4), inst = U32(d, p + 8), off = U32(d, p + esz - 8), size = U32(d, p + esz - 4);
+        if ((size_t)off + size > d.size()) continue;
+        const uint8_t* raw = d.data() + off;
+        if (compressed.count((uint64_t)group << 32 | inst) && size > 9 && raw[4] == 0x10 && raw[5] == 0xFB) {
+            size_t usz = (raw[6] << 16) | (raw[7] << 8) | raw[8];
+            fn(RefPack(raw + 9, size - 9, usz));
+        } else {
+            fn(std::vector<uint8_t>(raw, raw + size));
+        }
+    }
+}
+
+// A value of a property set in XML ("<AnyString key="surfacetype" ...>cpet</AnyString>").
+std::string XmlProperty(const std::string& xml, const char* key) {
+    std::string tag = std::string("key=\"") + key + "\"";
+    size_t at = xml.find(tag);
+    if (at == std::string::npos) return "";
+    size_t open = xml.find('>', at), close = open == std::string::npos ? open : xml.find('<', open);
+    return close == std::string::npos ? "" : xml.substr(open + 1, close - open - 1);
+}
+
+std::map<uint32_t, std::string> g_surfaces;  // floor GUID -> "surfacetype/subsort"
+bool g_surfacesLoaded = false;
+
 }  // namespace
+
+std::string FloorSurfaceType(uint32_t guid) {
+    if (!g_surfacesLoaded) {
+        g_surfacesLoaded = true;
+        ULONGLONG t0 = GetTickCount64();
+        // Every pack's floor definitions (XFLR property sets, type 0xCCA8E925) in its patterns catalog.
+        static const wchar_t* const kPacks[] = {L"Base", L"EP1", L"EP2", L"EP3", L"SP1", L"SP2", L"EP4", L"EP5",
+                                                 L"EP6", L"SP4", L"SP5", L"EP7", L"SP6", L"EP8", L"SP7", L"EP9"};
+        for (const wchar_t* pack : kPacks) {
+            std::vector<uint8_t> data =
+                ReadFileBytes(InstallDir() + L"\\" + pack + L"\\TSData\\Res\\Catalog\\Patterns\\catpatterns.bundle.package");
+            ForEachResource(data, 0xCCA8E925, [](const std::vector<uint8_t>& r) {
+                std::string xml(r.begin(), r.end());
+                if (XmlProperty(xml, "type") != "floor") return;
+                std::string id = XmlProperty(xml, "guid");
+                if (!id.empty()) g_surfaces[(uint32_t)strtoul(id.c_str(), nullptr, 10)] =
+                        XmlProperty(xml, "surfacetype") + "/" + XmlProperty(xml, "subsort");
+            });
+        }
+        Log("floor definitions: %d surface types in %llu ms", (int)g_surfaces.size(), GetTickCount64() - t0);
+    }
+    auto it = g_surfaces.find(guid);
+    return it == g_surfaces.end() ? "" : it->second;
+}
 
 std::string ObjectString(uint32_t group, unsigned instance, int index, bool english) {
     int language = english ? 1 : StringLanguageCode();

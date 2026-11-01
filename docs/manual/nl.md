@@ -1,0 +1,243 @@
+---
+title: Handleiding Toegankelijkheid voor De Sims 2
+lang: nl
+toc-title: Inhoud
+---
+
+Toegankelijkheid voor De Sims 2 maakt The Sims 2 Legacy Collection speelbaar met een schermlezer en alleen het toetsenbord. De mod leest elk scherm, elk dialoogvenster en elk paneel voor via je schermlezer (NVDA, JAWS, Verteller en andere), laat je er overal met dezelfde toetsen doorheen gaan, en voegt hulpmiddelen toe die een blinde speler nodig heeft: een lijst van de objecten op het kavel, een plattegrond van het kavel, een verteller voor wat het spel alleen laat zien, plekken waar meubels passen, en een cursor om te bouwen.
+
+Deze handleiding open je in het spel met **Ctrl+Shift+F1**, in de taal van het spel. **Ctrl+F1** noemt de toetsen van het scherm waarop je bent.
+
+## Aan de slag
+
+1. Kopieer `version.dll` en de map `Sims2Access` naar de map `EP9\TSBin` van het spel (de map met `Sims2EP9.exe`), in `The Sims 2 Legacy Collection` in je Steam-bibliotheek.
+2. Start je schermlezer en start daarna The Sims 2 Legacy Collection vanuit Steam.
+3. Als het spelvenster opent, hoor je "Toegankelijkheid voor De Sims 2 geladen", en waar de hulp te vinden is.
+
+De mod spreekt de taal van het spel. Om die te veranderen open je Steam, dan de Eigenschappen van het spel, Algemeen, Taal. De mod spreekt Engels, Frans, Duits, Italiaans, Spaans, Nederlands, Deens, Zweeds, Noors, Fins, Portugees, Japans, Pools, Vereenvoudigd en Traditioneel Chinees, Thai, Koreaans, Tsjechisch, Hongaars en Russisch.
+
+De mod werkt met de huidige Steam-versie van het spel. Als het spel wordt bijgewerkt en de mod "niet-ondersteunde spelversie" zegt, installeer dan de volgende versie van de mod.
+
+## Rondgaan: overal dezelfde toetsen
+
+Elk scherm, dialoogvenster, paneel en elke modus werkt op dezelfde manier. Je gaat door een ring van **groepen** (de knoppen van een dialoogvenster, de behoeften, het gezin, de catalogus...). Een groep bevat **items**, en sommige items openen een dieper **niveau**.
+
+| Toets | Wat hij doet |
+|---|---|
+| Tab, Shift+Tab | Volgende of vorige groep. Eerst worden de naam van de groep en het aantal items genoemd. |
+| Pijl omhoog, pijl omlaag (of pijl links, pijl rechts) | Vorig of volgend item in de groep. |
+| Home, End | Eerste of laatste item in de groep. |
+| Enter | Het item activeren. Op een niveau (een soort of een kamer van de objecten op het kavel): het openen. |
+| Backspace | Een niveau terug. |
+| R | Het item nog eens zeggen, met zijn groep. |
+| Alt+letter | De volgende groep waarvan de naam met die letter begint. |
+| Ctrl+F1 | De toetsen van het scherm waarop je bent. |
+| Ctrl+Shift+F1 | Deze handleiding. |
+
+Bedieningselementen zeggen na hun naam wat ze zijn, zoals een schermlezer dat doet: "Accepteren, knop", "Opties, knop, geselecteerd", "Verlegen tot Spontaan, schuifregelaar, 6 van 10".
+
+- **Schuifregelaars** (de persoonlijkheid in Sim creëren): pijl links en pijl rechts veranderen de waarde en noemen de punten die over zijn.
+- **Tekstvelden** (namen van families en Sims, de cheatconsole): ga met de pijltjes naar het veld en typ: het krijgt het toetsenbord zodra de focus erop staat. Elke letter wordt herhaald, en Backspace zegt wat hij wist. Pijl links, pijl rechts, Home en End bewegen in het veld en noemen het teken daar; Delete noemt het teken dat hij verwijdert.
+- **Alleen-lezen items** die het spel uitlegt als je eroverheen beweegt (een vaardigheid, een interesse, een beroepsveld): Enter spreekt de uitleg uit.
+- **Uitgeschakelde bedieningselementen** zeggen "niet beschikbaar" en worden niet geactiveerd.
+
+De laatste groep van het hoofdscherm is **mod-hulp**: de knoppen ervan noemen de toetsen van dat scherm (zoals Ctrl+F1) en openen deze handleiding (zoals Ctrl+Shift+F1).
+
+## Meer lezen: de leesbuffers
+
+Niet alles past in één gesproken regel. De mod houdt twee buffers bij die je regel voor regel kunt lezen:
+
+- **details**: alles over wat net gezegd is: de beschrijving van een product, de tooltip van een bedieningselement, het vak en de richting van een plek, de prijs van een object, en zijn plaats in zijn groep ("3 van 12").
+- **gebeurtenissen**: wat er gebeurd is: aankopen, verkopen, teksten van dialoogvensters, alles wat de verteller zei.
+
+| Toets | Wat hij doet |
+|---|---|
+| Ctrl+pijl omhoog | De volgende regel, dieper in de buffer. |
+| Ctrl+pijl omlaag | Terug naar boven. |
+| Ctrl+pijl links, Ctrl+pijl rechts | Wisselen tussen de buffers. |
+
+## De buurt
+
+De eerste groep van de buurt is **kavels**: elk kavel noemt zijn naam, zijn soort en wie er woont (appartementen met hun huurders). Enter op een kavel opent het kavelpaneel van het spel.
+
+Om een familie te laten intrekken, kies je de familie in het familiedepot (het familiepaneel) en druk je daarna op Enter op een kavel: het spel vraagt of ze er moeten intrekken en wat het kost.
+
+## Een familie en Sims maken
+
+Familie creëren, Sim creëren en Huisdier creëren zijn groepen zoals elk scherm:
+
+- Typ de familienaam en de namen van elke Sim in hun tekstvelden.
+- Leeftijd, geslacht, huid, lichaam en de rasters van hoofden, kapsels en kleding ("3 van 6"; huisdierrassen bij naam).
+- **Persoonlijkheid**: pijl links en pijl rechts geven of nemen een punt van elk paar eigenschappen ("6 van 10, nog 4 punten").
+- Wens, sterrenbeeld en chemiefactoren zijn knoppen.
+- **De stamboom** (Familierelaties): Enter op een Sim pakt hem op, Enter op een andere Sim verbindt ze (het spel vraagt dan hoe ze verwant zijn), Enter op dezelfde Sim legt hem weer neer.
+
+## Het kavel: de modus Leven
+
+Op een kavel is het scherm een ring van groepen zoals elk ander. Tab gaat er in deze volgorde doorheen:
+
+1. **behoeften** van de gekozen Sim, elk met zijn niveau.
+2. **wachtrij**: wat de gekozen Sim gaat doen; Enter annuleert een actie.
+3. **objecten per soort** en **objecten per kamer**: de objecten op het kavel (zie hieronder).
+4. De panelen van het spel: het bedieningspaneel, het Sim-paneel (behoeften, relaties, baan, vaardigheden, persoonlijkheid, interesses...), het gezin, wensen en angsten, en elk paneel dat je opent.
+5. **mod-hulp**.
+
+### Sims selecteren en de camera
+
+| Toets | Wat hij doet |
+|---|---|
+| Ctrl+1 tot Ctrl+9 | De eerste tot negende Sim van het gezin selecteren. |
+| Ctrl+E | De gekozen Sim in één regel: waar, wat hij doet, dringende behoeften. |
+| Ctrl+F | De camera volgt de gekozen Sim, of blijft vrij. |
+
+De camera volgt de gekozen Sim, omdat de geluiden van het spel komen van wat er op het scherm is.
+
+### De objecten op het kavel
+
+Alles op het kavel staat in twee groepen: **objecten per soort** (Sims, dan de categorieën van de koopmodus: zitmeubels, oppervlakken, huishoudelijke apparatuur..., dan overige) en **objecten per kamer** (eerst de kamer van de gekozen Sim, dan de andere, elk met zijn verdieping). Meubels van meerdere vakken (bedden, banken, tafels) tellen één keer. Enter op een soort of een kamer toont de objecten ervan, dichtstbijzijnde eerst, als "Koelkast, keuken, 6 tegels naar het noordoosten" vanaf de gekozen Sim. Backspace gaat terug naar de soorten of kamers. De namen van de kamers raadt de mod aan de hand van wat erin staat.
+
+Je hoeft er niet met Tab naartoe: de Page-toetsen bladeren van overal op het kavel door de objecten, in de modus Leven, Kopen en Bouwen.
+
+| Toets | Wat hij doet |
+|---|---|
+| Page Down, Page Up | Volgend of vorig object van de soort of kamer die je het laatst koos. |
+| Shift+Page Down, Shift+Page Up | Volgende of vorige soort objecten. |
+| Ctrl+Page Down, Ctrl+Page Up | Volgende of vorige kamer (de eerste keer: de kamer van de gekozen Sim). |
+| Enter | De interacties van het object (in de koopmodus: het oppakken om het te verplaatsen). |
+| Ctrl+Enter | De gekozen Sim naar het object laten lopen. |
+| Ctrl+Shift+Enter | Erheen laten rennen. |
+
+### Interactiemenu's
+
+Enter op een object (of op een Sim) opent het interactiemenu van het spel. Pijl omhoog en pijl omlaag kiezen, Enter voert het uit. Items met meer keuzes openen een dieper menu. Als het menu sluit, staat de focus weer op het object.
+
+### Kamers
+
+| Toets | Wat hij doet |
+|---|---|
+| Ctrl+L | De indeling van de kamer (bij de bouwcursor of de cursor van de plattegrond, anders waar de gekozen Sim staat): naam, verdieping, vakken, grenzen, deuren en ramen; elke deur en elk raam staat met zijn muur en de kamer erachter in de detailsbuffer. |
+
+### De plattegrond van het kavel
+
+**Ctrl+M** zet de plattegrond aan: een cursor die vak voor vak over het kavel loopt, te beginnen bij de gekozen Sim. Elke stap speelt een geluid voor de vloer en voor elke muur, elk hek, elke balustrade, elke deur of elk raam eromheen.
+
+| Toets | Wat hij doet |
+|---|---|
+| Pijltjes | Eén vak; met Shift vijf. Zegt wat er staat en welke kant het op kijkt, de kamer en de vloer als die veranderen, de muren, hekken, balustrades, deuren en ramen per kant, trappen en hellingen. |
+| Home | Terug naar de gekozen Sim. |
+| Ctrl+Shift+Page Up, Page Down | De verdieping erboven of eronder. |
+| Enter | Het interactiemenu van wat er staat. |
+| Ctrl+Enter | De gekozen Sim erheen laten lopen (Ctrl+Shift+Enter: rennen). |
+| Page Down, Page Up (en Shift, Ctrl) | De objecten op het kavel zoals altijd; de plattegrond gaat naar elk ervan. |
+| R | Alles over het vak. Ctrl+L de indeling van de kamer. |
+| Escape of Ctrl+M | De plattegrond sluiten. |
+
+### De verteller
+
+Het spel laat veel dingen alleen als plaatjes zien. De mod zegt ze wanneer ze gebeuren en bewaart ze in de gebeurtenissenbuffer:
+
+- **Ballonnen** boven Sims: "Carlos denkt: Energie", "Carlos zegt: Politiek", een doorgestreept pictogram ("geen ..."), geschreeuw, en de koppen over relaties ("relatie verbetert", "nieuwe vriend", "eerste kus").
+- **Routes**: "Carlos kan er niet komen".
+- **Acties** van het gezin, **behoeften** die laag worden, **bezoekers**, en geld dat betaald of ontvangen wordt.
+- **Meubels die het kavel verlaten** (een inbreker, de deurwaarder), met hun waarde.
+
+De ballonnen van het gezin worden uitgesproken; die van een bezoeker gaan alleen naar de gebeurtenissenbuffer.
+
+**Ctrl+N** verandert hoeveel er gezegd wordt: alles, alleen waarschuwingen, of niets. Regels die niet worden uitgesproken gaan toch naar de gebeurtenissenbuffer.
+
+## Kopen
+
+F2 opent de koopmodus. De producten van de catalogus zijn knoppen: elk product noemt zijn naam, prijs en waarderingen, en de detailsbuffer bevat zijn beschrijving. Voorbij het laatste product van een pagina gaan (of vóór het eerste) slaat de pagina om.
+
+### Een object plaatsen
+
+Enter op een product pakt het op. De mod vindt elke plek op het kavel waar het past, in elke richting, de plekken het dichtst bij de gekozen Sim eerst.
+
+| Toets | Wat hij doet |
+|---|---|
+| Page Down, Page Up (of Tab) | De plekken, dichtstbijzijnde eerst; elke plek noemt zijn kamer, de richtingen waarin het past en hoe ver hij is. |
+| Ctrl+Page Down, Ctrl+Page Up | De kamers die plekken hebben. |
+| Shift+Page Down, Shift+Page Up (of komma, punt) | Het draaien; de richting wordt genoemd. |
+| Ctrl+Shift+Page Down, Page Up | Naast de objecten op het kavel, dichtstbijzijnde eerst, ernaartoe gericht als het past. |
+| Pijltjes | Het in plaats daarvan één vak verplaatsen (Shift: vijf): of het past, waar het tegenaan botst, de kamer als die verandert, de muren eromheen, welke kant het op kijkt en waar het naartoe gericht is, het vak; daarna de geluiden van het vak. |
+| Home | Terug naar de gekozen Sim. |
+| Enter | Het daar kopen; het spel geeft je nog een exemplaar tot je op Escape drukt. |
+| Escape | Stoppen met plaatsen (een verplaatst object gaat terug). |
+| Delete | Het vastgehouden object verkopen. |
+| R | De plek nog eens noemen, volledig. |
+
+Een object van meerdere vakken zegt hoeveel vloer het beslaat ("beslaat 2 vakken: 2 van west naar oost, 1 van noord naar zuid").
+
+### Verplaatsen en verkopen
+
+Ga in de koopmodus met Page Down naar een object op het kavel en druk op Enter: het wordt opgepakt, en met dezelfde toetsen zet je het ergens anders neer. Delete verkoopt het.
+
+## Bouwen
+
+F3 opent de bouwmodus. De gereedschappen en stijlen zijn knoppen.
+
+### De bouwcursor
+
+Enter op een stijl van muur, hek, fundering, vloer of zwembad start de bouwcursor bij de gekozen Sim. Muren, hekken en funderingen gaan van hoek tot hoek; vloeren en zwembaden bedekken vakken.
+
+| Toets | Wat hij doet |
+|---|---|
+| Pijltjes | Eén hoek of vak; met Shift vijf. Zegt wat er staat, de kamer als die verandert, de vloer (bij vloeren en zwembaden) of de muren, hekken, deuren en ramen die in de hoek samenkomen, een helling, en dan waar hij is. |
+| Page Up, Page Down | Het niveau erboven of eronder (0 het terrein, 1 de vloer van een fundering). |
+| Spatie | Het begin markeren. |
+| Enter | Bouwen van het begin tot de cursor; de kosten worden genoemd. |
+| Ctrl+Enter | Verwijderen van het begin tot de cursor. |
+| Home | Terug naar de gekozen Sim. |
+| R | Alles over de cursor. |
+| Escape | De cursor verlaten. |
+
+Nadat een muur is gebouwd, wordt een Sim van het gezin gemeld die opgesloten zit in een kamer zonder deur; Ctrl+Z van het spel maakt de muur ongedaan.
+
+### Deuren, ramen, trappen en daken
+
+Deuren, ramen en trappen worden geplaatst zoals meubels, vanaf de plekken waar ze passen: de plek van een deur zegt in welke muur ze zit en naar welke kamer ze leidt. Daken: de knoppen voor automatische daken op de dakpagina.
+
+## Geluidssignalen
+
+De bouwcursor, de pijltjes bij het plaatsen en de plattegrond spelen bij elke stap een kort geluid: de vloer (gras, hout, tegels, vloerbedekking, steen, de zwembadrand, water, geen vloer op een verdieping: waar de vloer van gemaakt is, volgens zijn catalogusdefinitie), de muur, het hek, de balustrade, de deur of het raam van elke kant (west links, oost rechts, noord hoger, zuid lager), trappen, een Sim of een object op het vak, een helling, een kamerwissel, de rand van het kavel, en bij het plaatsen of het object past. **Ctrl+Shift+S** zet ze uit en aan.
+
+## Andere toetsen
+
+| Toets | Wat hij doet |
+|---|---|
+| Ctrl+Shift+C | De cheatconsole van het spel: de invoer ervan is een tekstveld; Enter erop geeft het het toetsenbord, typ de cheat, Enter voert hem uit, en wat hij schrijft wordt uitgesproken. |
+| Ctrl+Shift+V | Het gekozen bedieningselement op het scherm oplichten, voor een ziende helper. |
+
+## De eigen toetsen van het spel
+
+Deze zijn van het spel en werken nog steeds:
+
+| Toets | Wat hij doet |
+|---|---|
+| F1, F2, F3, F4, F5 | Modus Leven, Kopen, Bouwen, Camera en Opties. |
+| P | Pauze. |
+| 1, 2, 3 | Normale, snelle, snelste snelheid. |
+| Spatie, N | De volgende Sim selecteren. |
+| Z, X | In- en uitzoomen. |
+| Ctrl+Z | Ongedaan maken in de koop- en bouwmodus. |
+
+## Instellingen
+
+De instellingen van de mod staan in `Sims2Access\Sims2Access.ini` in de map van het spel, sectie `[mod]`. De toetsen die ze veranderen, slaan ze meteen op.
+
+| Instelling | Waarden |
+|---|---|
+| `narrator` | 2 alles, 1 alleen waarschuwingen, 0 uit (Ctrl+N). |
+| `cues` | 1 geluidssignalen aan, 0 uit (Ctrl+Shift+S). |
+| `cue_volume` | Volume van de geluidssignalen, 0 tot 100 (standaard 80). |
+| `show_focus` | 1 licht het gekozen bedieningselement op het scherm op (Ctrl+Shift+V). |
+
+## Als er iets misgaat
+
+- **Helemaal geen spraak**: start je schermlezer vóór het spel. Het logboek van de mod is `Sims2Access\Sims2Access.log`; stuur het mee met je melding.
+- **"Niet-ondersteunde spelversie"**: het spel is bijgewerkt; installeer de volgende versie van de mod.
+- **Een toets doet niets**: Ctrl+F1 noemt welke toetsen werken waar je bent.
+
+## Nog niet klaar
+
+Behang, getekende daken en terrein in de bouwmodus; namen voor de hoofden, kapsels en kleding in Sim creëren; de eigen schermen van de uitbreidingen (studeren, nachtleven, bedrijven, seizoenen, vakanties, appartementen, magie) worden tot nu toe alleen door de algemene navigatie gelezen.

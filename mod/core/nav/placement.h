@@ -1,8 +1,13 @@
 // Placing a bought object without the mouse. Enter on a catalog product picks it up (the game's
 // object tool); the mod then holds a tile cursor that the tool follows (game/buy.h):
-//   Tab / Shift+Tab              next / previous spot where the object fits, nearest to the Sim first
-//   PageDown / PageUp            next / previous room with such spots (the Sim's own room first)
-//   arrows                       move one tile (Shift: five); -y is north
+//   PageDown / PageUp (Tab)      next / previous spot where the object fits, nearest to the Sim first
+//   Ctrl+PageDown / Ctrl+PageUp  next / previous room with such spots (the Sim's own room first)
+//   Shift+PageDown / PageUp      turn it (the game's period / comma)
+//   Ctrl+Shift+PageDown / PageUp beside the next / previous thing of the lot, nearest first (on a
+//                                free tile beside it, in its room, facing it when it fits)
+//   arrows                       move one tile (Shift: five); -y is north. The line: whether it
+//                                fits, what it runs into, the room when it changes, the facing,
+//                                what it faces, the tile last; then the tile's sounds (nav/cues.h)
 //   Home                         back to the selected Sim's tile
 //   , and .                      the game's rotation keys; the facing and verdict are said again
 //   Enter                        put the object down (buys it) where it fits; the game hands over

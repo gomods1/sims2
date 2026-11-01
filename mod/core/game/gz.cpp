@@ -160,6 +160,19 @@ bool TextEditEditable(Ptr w) {
     return IsTextEdit(w) && (Rd<uint32_t>(w + addr::edit::kFlags) & addr::edit::kFlagEditable) != 0;
 }
 
+int TextEditCaret(Ptr w) { return IsTextEdit(w) ? Rd<int>(w + addr::edit::kCaret) : -1; }
+
+bool SetKeyboardFocus(Ptr w) {
+    Ptr wm = WinMgr();
+    if (!wm || !w) return false;
+    if (FocusWindow() == w) return true;
+    typedef bool(__thiscall * SetFocusFn)(Ptr, Ptr);
+    auto set = Slot<SetFocusFn>(wm, addr::wm::kSlotSetFocus);
+    if (!set) return false;
+    Guarded([&] { set(wm, w); });
+    return FocusWindow() == w;
+}
+
 std::string TextEditText(Ptr w) { return IsTextEdit(w) ? ReadStdString(w + addr::edit::kText + 4) : ""; }
 
 uint32_t TextEditLength(Ptr w) { return IsTextEdit(w) ? StdStringSize(w + addr::edit::kText + 4) : 0; }
@@ -230,6 +243,16 @@ bool PressAt(Ptr w, int x, int y) {
     ok = ok && Guarded([&] { up(w, x, y, 0); });
     if (!ok) Log("press of %s %p crashed", ClassName(w).c_str(), (void*)w);
     return ok;
+}
+
+void Hover(Ptr w) {
+    typedef bool(__thiscall * EnterFn)(Ptr, uint32_t, uint32_t);
+    if (auto enter = Slot<EnterFn>(w, addr::win::kSlotMouseEnter)) Guarded([&] { enter(w, 0, 0); });
+}
+
+void Unhover(Ptr w) {
+    typedef bool(__thiscall * ExitFn)(Ptr, uint32_t);
+    if (auto exit = Slot<ExitFn>(w, addr::win::kSlotMouseExit)) Guarded([&] { exit(w, 0); });
 }
 
 POINT UiToClient(int x, int y) {

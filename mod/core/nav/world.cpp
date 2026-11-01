@@ -54,6 +54,7 @@ constexpr unsigned kCategoryNames = 150;
 int g_focusId = -1;               // the thing focus was last on
 int g_openKind = 0;               // the kind open in the "things by kind" group (its number), 0: none
 int g_openRoom = 0;               // the room open in the "things by room" group (its number), 0: none
+Ptr g_lastGroup = kKindsGroup;    // the group a kind or room was opened in last: PageUp/PageDown's
 ULONGLONG g_menuAskedAt = 0;  // Interact() posted a menu request at this time
 ULONGLONG g_walkAskedAt = 0;  // WalkTo() clicked the ground at this time
 bool g_walkRun = false;
@@ -74,11 +75,15 @@ std::string SimName(const LotObject& o) {
     return dash == std::string::npos ? o.name : o.name.substr(dash + 3);
 }
 
+}  // namespace
+
 std::string DisplayName(const LotObject& o) {
     if (o.person) return SimName(o);
     std::string n = util::CleanForSpeech(o.catalogName.empty() ? o.name : o.catalogName);
     return n;
 }
+
+namespace {
 
 // What the browser lists: placed objects with a name a player would know, and the Sims.
 bool Listed(const LotObject& o) {
@@ -263,6 +268,7 @@ void Reset() {
     g_focusId = -1;
     g_openKind = 0;
     g_openRoom = 0;
+    g_lastGroup = kKindsGroup;
 }
 
 namespace {
@@ -366,9 +372,41 @@ Group RoomsGroup() {
 }
 
 void Open(Ptr group, int number) {
+    g_lastGroup = group;
     if (group == kKindsGroup) g_openKind = number;
     if (group == kRoomsGroup) g_openRoom = number;
 }
+
+int Step(Ptr group, int delta) {
+    std::vector<LotObject> all = game::LotObjects();
+    std::vector<int> numbers;  // the kinds or rooms that have things, in their list's order
+    if (group == kKindsGroup) {
+        for (int c = 0; c < kCategoryCount; c++)
+            for (const LotObject& o : all)
+                if (Listed(o) && InCategory(o, c)) {
+                    numbers.push_back(c + 1);
+                    break;
+                }
+    } else {
+        LotObject simObj;
+        for (const auto& r : ListedRooms(all, SimPosition(&simObj) ? &simObj : nullptr))
+            numbers.push_back(RoomNumber(r.first, r.second));
+    }
+    if (numbers.empty()) return 0;
+    int open = group == kKindsGroup ? g_openKind : g_openRoom;
+    int n = (int)numbers.size(), at = -1;
+    for (int i = 0; i < n; i++)
+        if (numbers[i] == open) at = i;
+    // From the list itself: the first kind (the last going back), or the selected Sim's room.
+    if (at < 0) return group == kRoomsGroup || delta > 0 ? numbers.front() : numbers.back();
+    return numbers[((at + delta) % n + n) % n];
+}
+
+int OpenNumber(Ptr group) { return group == kKindsGroup ? g_openKind : group == kRoomsGroup ? g_openRoom : 0; }
+
+Ptr LastGroup() { return g_lastGroup; }
+
+int FocusedId() { return g_focusId; }
 
 int Close(Ptr group) {
     int* open = group == kKindsGroup ? &g_openKind : group == kRoomsGroup ? &g_openRoom : nullptr;
@@ -416,6 +454,38 @@ void WalkTo(bool run) {
     // released: the game tracks it from the key messages, and a Ctrl+click opens no menu.
     Log("walk to %s at %.1f,%.1f floor %d", DisplayName(o).c_str(), o.x, o.y, o.level);
     game::SetPickOverride(true, o.x, o.y, o.level);
+    game::ForceNoObjectPick();
+    g_walkClickPending = true;
+    g_walkAskedAt = GetTickCount64();
+    g_walkRun = run;
+}
+
+bool IsListed(int objectId) {
+    LotObject o;
+    return game::ReadLotObject(objectId, &o) && Listed(o);
+}
+
+std::vector<LotObject> ThingsAt(int x, int y, int level) {
+    std::vector<LotObject> out;
+    std::vector<int> seen;
+    for (const game::PlacedPart& p : game::PlacedParts()) {
+        if (p.level != level || p.tileX != x || p.tileY != y || !p.lead || p.type == 8 || p.type == 9) continue;
+        if (std::find(seen.begin(), seen.end(), p.lead) != seen.end()) continue;
+        seen.push_back(p.lead);
+        LotObject o;
+        if (game::ReadLotObject(p.lead, &o) && Listed(o)) out.push_back(o);
+    }
+    std::stable_partition(out.begin(), out.end(), [](const LotObject& o) { return o.person; });
+    return out;
+}
+
+void WalkToSpot(float x, float y, int level, bool run) {
+    if (!game::SelectedSimId()) {
+        speech::Say(S(Str::NoSimSelected));
+        return;
+    }
+    Log("walk to the spot %.1f,%.1f floor %d", x, y, level);
+    game::SetPickOverride(true, x, y, level);
     game::ForceNoObjectPick();
     g_walkClickPending = true;
     g_walkAskedAt = GetTickCount64();

@@ -25,6 +25,8 @@ enum class Role {
     ListRow,    // a row of a list box: Enter selects it
     Level,      // a kind or a room of the lot's things (number: which): Enter opens its things
     LotObject,  // a thing of the lot (number = its object id): Enter its interactions
+    ModManual,  // the "mod help" group's buttons: Enter says this screen's keys, as Control+F1
+                // does (number 1), or opens the manual (number 2, nav/manual.h)
 };
 
 struct Item {
@@ -56,6 +58,7 @@ constexpr Ptr kNeedsGroup = 3;
 constexpr Ptr kQueueGroup = 4;
 constexpr Ptr kKindsGroup = 5;   // the lot's things by kind (nav/world.h), then a kind's things
 constexpr Ptr kRoomsGroup = 6;   // the lot's things by room, then a room's things
+constexpr Ptr kModHelpGroup = 7; // the main screen's last group: this screen's keys, the manual
 
 inline bool IsReadOnly(const Item& it) { return it.role == Role::Text; }
 

@@ -18,13 +18,13 @@ const Translation kEntries[] = {
      "otevře její předměty; Backspace vrací zpět; R zopakuje. Ctrl+šipka nahoru a Ctrl+šipka dolů čtou "
      "podrobnosti řečeného, Ctrl+šipka vlevo a Ctrl+šipka vpravo přepínají mezi podrobnostmi a událostmi."},
     {Str::KeysLot,
-     "Pozemek: Tab prochází potřeby, frontu akcí, předměty podle druhu, předměty podle místnosti a panely hry. U "
-     "předmětů podle druhu nebo místnosti Enter otevře druh nebo místnost, její předměty jdou nejbližší první, "
-     "Backspace vrací zpět. Enter na předmětu otevře jeho interakce, v režimu nákupu ho zvedne; Ctrl+Enter pošle "
-     "vybraného Sima tam. Ctrl+E stav Sima, Ctrl+1 až 9 vyberou Sima, Ctrl+šipka nahoru a dolů podrobnosti."},
+     "Pozemek: Tab prochází potřeby, frontu akcí, předměty podle druhu, předměty podle místnosti a panely hry. "
+     "Page Down a Page Up procházejí předměty pozemku, nejbližší první; se Shiftem mění druh předmětu, s Ctrl "
+     "místnost. Enter na předmětu otevře jeho interakce, v režimu nákupu ho zvedne; Ctrl+Enter pošle vybraného "
+     "Sima tam. Ctrl+E stav Sima, Ctrl+1 až 9 vyberou Sima, Ctrl+šipka nahoru a dolů podrobnosti."},
     {Str::KeysPlacement,
-     "Umísťování: šipky o jedno pole, Shift o pět, Tab a Shift+Tab místa, kam se vejde, Page Down a Page Up "
-     "místnosti, Home zpět k Simovi, čárka a tečka otáčejí, Enter položí, Delete prodá, Escape ukončí."},
+     "Umísťování: šipky o jedno pole, Shift o pět, Page Down a Page Up místa, kam se vejde, s Ctrl místnosti, se "
+     "Shiftem nebo čárka a tečka otáčejí, Home zpět k Simovi, Enter položí, Delete prodá, Escape ukončí."},
     {Str::KeysBuild,
      "Stavba: šipky posouvají roh, se Shiftem o pět, Page Up a Page Down podlaží, mezerník označí začátek, Enter "
      "staví od značky, Ctrl+Enter odstraní, Home zpět k Simovi, R zopakuje, Escape ukončí."},
@@ -237,6 +237,62 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "podnik"},
     {Str::GroupSeasons, "roční období"},
     {Str::GroupDate, "rande"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "žádná skupina nezačíná na %s"},
+    {Str::KeysGroupLetter, "Alt a písmeno: další skupina, jejíž název začíná tímto písmenem."},
+    {Str::KeysShowFocus, "Ctrl+Shift+V: zvýrazní vybraný ovládací prvek na obrazovce pro toho, kdo pomáhá."},
+    {Str::ShowFocusOn, "výběr zobrazen na obrazovce"},
+    {Str::ShowFocusOff, "výběr už není zobrazen na obrazovce"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "zabírá polí: %1$d, %2$d ze západu na východ, %3$d ze severu na jih"},
+    {Str::CollidesWith, "naráží na: %s"},
+    {Str::FacingThing, "směrem k: %s"},
+    {Str::RoomChange, "odcházíte: %1$s, vcházíte: %2$s"},
+    {Str::BesideThing, "vedle: %s"},
+    {Str::KeysPlacingThings,
+     "Ctrl+Shift+Page Down a Page Up: postaví ho vedle dalšího předmětu pozemku, nejbližší první."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "zvuky kurzoru zapnuty"},
+    {Str::CuesOff, "zvuky kurzoru vypnuty"},
+    {Str::SurfaceNone, "bez podlahy"},
+    {Str::SurfaceGround, "zem"},
+    {Str::SurfaceGrass, "tráva"},
+    {Str::SurfaceWood, "dřevěná podlaha"},
+    {Str::SurfaceTile, "dlaždice"},
+    {Str::SurfaceCarpet, "koberec"},
+    {Str::SurfacePaving, "dlažba"},
+    {Str::SurfaceGravel, "štěrk"},
+    {Str::SurfacePoolRim, "okraj bazénu"},
+    {Str::SurfaceWater, "voda"},
+    {Str::EdgeFence, "plot na %s"},
+    {Str::EdgeRailing, "zábradlí na %s"},
+    {Str::MapStairs, "schody"},
+    {Str::TerrainSloped, "svažitý"},
+    {Str::EdgeWall, "zeď na %s"},
+    {Str::EdgeDoor, "dveře na %s"},
+    {Str::EdgeWindow, "okno na %s"},
+    {Str::MapOn, "Mapa pozemku. Ctrl+F1 řekne klávesy."},
+    {Str::MapOff, "mapa zavřena"},
+    {Str::MapNoFloor, "v podlaží %d není nic postaveno"},
+    {Str::MapNothingHere, "tady není nic k použití"},
+    {Str::MapLotEdge, "okraj pozemku"},
+    {Str::KeysMap,
+     "Mapa pozemku: šipky posunou o jedno pole, se Shiftem o pět; každé pole řekne, co na něm stojí a kam je "
+     "natočeno, místnost a podlahu, když se změní, a zdi, ploty, zábradlí, dveře a okna kolem, schody a svahy, "
+     "každé s vlastním zvukem. Home se vrátí k vybranému Simovi. Page Down a Page Up procházejí předměty pozemku "
+     "jako vždy a mapa přejde ke každému z nich. Ctrl+Shift+Page Up a Page Down mění podlaží. Enter otevře "
+     "nabídku toho, co tam stojí; Ctrl+Enter tam pošle vybraného Sima. R řekne vše, Ctrl+L uspořádání místnosti. "
+     "Ctrl+Shift+S vypne a zapne zvuky. Escape nebo Ctrl+M mapu zavře."},
+    {Str::KeysMapHint, "Ctrl+M: mapa pozemku, kurzor, který prochází pozemek pole po poli."},
+    {Str::KeysCuesHint, "Ctrl+Shift+S vypne a zapne zvuky kurzoru."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1 otevře příručku; Ctrl+F1 řekne klávesy každé obrazovky."},
+    {Str::KeysManual, "Ctrl+Shift+F1 otevře úplnou příručku modu v prohlížeči."},
+    {Str::ManualOpening, "otevírám příručku v prohlížeči"},
+    {Str::ManualMissing, "příručka chybí: nainstalujte mod znovu"},
+    {Str::ManualButton, "Příručka Zpřístupnění The Sims 2"},
+    {Str::GroupModHelp, "nápověda modu"},
+    {Str::KeysButton, "Klávesy této obrazovky"},
 };
 
 }  // namespace

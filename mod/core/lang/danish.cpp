@@ -20,14 +20,14 @@ const Translation kEntries[] = {
      "hændelser."},
     {Str::KeysLot,
      "Grund: Tab går gennem behovene, handlingskøen, genstande efter slags, genstande efter værelse og spillets "
-     "paneler. Under genstande efter slags eller værelse åbner Enter en slags eller et værelse, genstandene "
-     "kommer de nærmeste først, Backspace går tilbage. Enter på en genstand åbner dens handlinger, eller samler "
-     "den op i købetilstand; Ctrl+Enter sender den valgte Sim derhen. Ctrl+E Simmens tilstand, Ctrl+1 til 9 "
-     "vælger en Sim, Ctrl+pil op og ned detaljerne."},
+     "paneler. Page Down og Page Up går gennem grundens genstande, de nærmeste først; med Skift skifter de slags "
+     "genstand, med Ctrl værelse. Enter på en genstand åbner dens handlinger, eller samler den op i "
+     "købetilstand; Ctrl+Enter sender den valgte Sim derhen. Ctrl+E Simmens tilstand, Ctrl+1 til 9 vælger en "
+     "Sim, Ctrl+pil op og ned detaljerne."},
     {Str::KeysPlacement,
-     "Placering: pile ét felt, Skift fem, Tab og Skift+Tab pladserne hvor den kan stå, Page Down og Page Up "
-     "værelserne, Home tilbage til Simmen, komma og punktum drejer den, Enter stiller den, Delete sælger den, "
-     "Escape stopper."},
+     "Placering: pile ét felt, Skift fem, Page Down og Page Up pladserne hvor den kan stå, med Ctrl værelserne, "
+     "med Skift eller komma og punktum drejer den, Home tilbage til Simmen, Enter stiller den, Delete sælger "
+     "den, Escape stopper."},
     {Str::KeysBuild,
      "Byggeri: pilene flytter hjørnet, med Shift fem, Page Up og Page Down niveauet, mellemrum markerer starten, "
      "Enter bygger fra mærket, Ctrl+Enter fjerner, Home tilbage til Simmen, R gentager, Escape afslutter."},
@@ -245,6 +245,62 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "forretning"},
     {Str::GroupSeasons, "årstider"},
     {Str::GroupDate, "stævnemøde"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "ingen gruppe begynder med %s"},
+    {Str::KeysGroupLetter, "Alt og et bogstav: den næste gruppe, hvis navn begynder med det bogstav."},
+    {Str::KeysShowFocus, "Ctrl Skift V: fremhæver det valgte element på skærmen for en hjælper."},
+    {Str::ShowFocusOn, "valget vises på skærmen"},
+    {Str::ShowFocusOff, "valget vises ikke længere på skærmen"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "fylder %1$d felter: %2$d fra vest til øst, %3$d fra nord til syd"},
+    {Str::CollidesWith, "støder mod %s"},
+    {Str::FacingThing, "mod %s"},
+    {Str::RoomChange, "forlader %1$s, går ind i %2$s"},
+    {Str::BesideThing, "ved siden af %s"},
+    {Str::KeysPlacingThings,
+     "Ctrl Skift Page Down og Page Up: sæt den ved siden af grundens næste genstand, den nærmeste først."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "markørlyde til"},
+    {Str::CuesOff, "markørlyde fra"},
+    {Str::SurfaceNone, "intet gulv"},
+    {Str::SurfaceGround, "jord"},
+    {Str::SurfaceGrass, "græs"},
+    {Str::SurfaceWood, "trægulv"},
+    {Str::SurfaceTile, "flisegulv"},
+    {Str::SurfaceCarpet, "tæppe"},
+    {Str::SurfacePaving, "belægning"},
+    {Str::SurfaceGravel, "grus"},
+    {Str::SurfacePoolRim, "poolkant"},
+    {Str::SurfaceWater, "vand"},
+    {Str::EdgeFence, "hegn mod %s"},
+    {Str::EdgeRailing, "rækværk mod %s"},
+    {Str::MapStairs, "trappe"},
+    {Str::TerrainSloped, "skrånende"},
+    {Str::EdgeWall, "væg mod %s"},
+    {Str::EdgeDoor, "dør mod %s"},
+    {Str::EdgeWindow, "vindue mod %s"},
+    {Str::MapOn, "Grundens kort. Ctrl+F1 siger tasterne."},
+    {Str::MapOff, "kort lukket"},
+    {Str::MapNoFloor, "der er intet bygget på etage %d"},
+    {Str::MapNothingHere, "her er intet at bruge"},
+    {Str::MapLotEdge, "grundens kant"},
+    {Str::KeysMap,
+     "Grundens kort: pilene flytter ét felt, med Skift fem; hvert felt siger, hvad der står der og hvilken vej "
+     "det vender, værelset og gulvet når de skifter, og væggene, hegnene, rækværkerne, dørene og vinduerne "
+     "omkring, trapper og skråninger, hver med en lyd. Home går tilbage til den valgte Sim. Page Down og Page Up "
+     "går som altid gennem grundens genstande, og kortet går til hver af dem. Ctrl+Skift+Page Up og Page Down "
+     "skifter etage. Enter åbner menuen for det, der står der; Ctrl+Enter sender den valgte Sim derhen. R siger "
+     "alt, Ctrl+L værelsets indretning. Ctrl+Skift+S slår lydene fra og til. Escape eller Ctrl+M lukker kortet."},
+    {Str::KeysMapHint, "Ctrl+M: grundens kort, en markør der går gennem grunden felt for felt."},
+    {Str::KeysCuesHint, "Ctrl+Skift+S slår markørlydene fra og til."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Skift+F1 åbner manualen; Ctrl+F1 siger tasterne på hver skærm."},
+    {Str::KeysManual, "Ctrl+Skift+F1 åbner moddens fulde manual i din browser."},
+    {Str::ManualOpening, "åbner manualen i browseren"},
+    {Str::ManualMissing, "manualen mangler: geninstaller modden"},
+    {Str::ManualButton, "Manual til Sims 2-tilgængelighed"},
+    {Str::GroupModHelp, "hjælp til modden"},
+    {Str::KeysButton, "Taster på denne skærm"},
 };
 
 }  // namespace

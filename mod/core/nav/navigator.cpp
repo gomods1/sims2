@@ -9,11 +9,16 @@
 #include "../game/gz.h"
 #include "../game/mouse.h"
 #include "../game/rtti.h"
+#include "../input/keyboard.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
+#include "../util/settings.h"
 #include "../util/strings.h"
 #include "../util/text.h"
 #include "buffers.h"
+#include "cues.h"
+#include "manual.h"
+#include "map.h"
 #include "collect.h"
 #include "describe.h"
 #include "nhood_view.h"
@@ -72,6 +77,70 @@ const Item* Focused() {
     return g.index >= 0 && g.index < (int)items.size() ? &items[g.index] : nullptr;
 }
 
+// ---- The focus on screen, for a sighted helper (Ctrl+Shift+V) ---------------------------------
+// The focused control gets the mouse-enter a real pointer would give it, so the game draws it lit
+// as under the mouse (in the Sims 1 mod a tester's partner could not tell what was selected). Off
+// unless asked for: hovering can show tooltips.
+
+int g_showFocus = -1;  // -1 not read yet
+Ptr g_hovered = 0;
+
+bool ShowFocus() {
+    if (g_showFocus < 0) g_showFocus = util::GetSetting("show_focus", 0) ? 1 : 0;
+    return g_showFocus == 1;
+}
+
+bool StillListed(Ptr w) {
+    for (const Group& gr : g.groups)
+        for (const Item& it : gr.items)
+            if (it.widget == w) return true;
+    return false;
+}
+
+void HoverFocused(const Item* it) {
+    bool lit = ShowFocus() && it && it->widget && it->role != Role::PieItem && it->role != Role::ListRow;
+    Ptr want = lit ? it->widget : 0;
+    if (want == g_hovered) return;
+    if (g_hovered && StillListed(g_hovered)) game::Unhover(g_hovered);  // a window gone may be freed
+    g_hovered = want;
+    if (want && game::Visible(want)) game::Hover(want);
+}
+
+// ---- Caret keys on a text field --------------------------------------------------------------
+// Left/Right (Ctrl: by word), Home and End go to the field; once the game has moved its caret,
+// the character (or word) there is spoken.
+struct PendingCaret {
+    Ptr field = 0;
+    bool word = false;
+    int ticks = 0;
+} g_caret;
+
+// The UTF-8 character starting at (or containing) byte `at`, empty at the end.
+std::string CharacterAt(const std::string& text, int at) {
+    if (at < 0 || at >= (int)text.size()) return "";
+    while (at > 0 && ((unsigned char)text[at] & 0xc0) == 0x80) at--;
+    int n = 1;
+    while (at + n < (int)text.size() && ((unsigned char)text[at + n] & 0xc0) == 0x80) n++;
+    return text.substr(at, n);
+}
+
+std::string SpokenCharacter(const std::string& c) {
+    if (c.empty() || c == "\r" || c == "\n") return S(Str::Blank);
+    return c == " " ? S(Str::Space) : c;
+}
+
+void SayCaret(Ptr field, bool word) {
+    std::string text = game::TextEditText(field);
+    int caret = game::TextEditCaret(field);
+    std::string c = CharacterAt(text, caret);
+    if (!word || c.empty() || c == " ") {
+        speech::Say(SpokenCharacter(c));
+        return;
+    }
+    size_t end = text.find_first_of(" \r\n", caret);
+    speech::Say(text.substr(caret, end == std::string::npos ? std::string::npos : end - caret));
+}
+
 void SetFocus(int group, int index) {
     g.group = group;
     g.index = index;
@@ -81,6 +150,9 @@ void SetFocus(int group, int index) {
     g.focusLabel = it ? it->label : "";
     g.focusGroupKey = it ? g.groups[group].key : 0;
     if (it && it->role == Role::LotObject) world::Focus(it->number);  // Ctrl+Enter walks there
+    // Typing follows the focus (in the Sims 1 mod a biography's letters went on into the name).
+    if (it && it->role == Role::TextField && game::TextEditEditable(it->widget)) game::SetKeyboardFocus(it->widget);
+    HoverFocused(it);
 }
 
 bool Relocate() {
@@ -269,7 +341,13 @@ constexpr uint32_t kCatalogPrevious = 0x1004;
 
 void FinishPageTurn(ULONGLONG now);
 
-void Reset() { g = State(); }
+void Reset() {
+    g = State();
+    g_hovered = 0;
+    g_caret = PendingCaret{};
+    map::Reset();
+    cues::Reset();
+}
 
 // Create a Family's family tree ("drag a Sim onto another"): its instruction text has this id,
 // its Sims are buttons with id 3.
@@ -324,7 +402,15 @@ void Tick() {
     live::Tick();
     placement::Tick();
     build::Tick();
+    map::Tick();
     console::Tick();
+    if (g_caret.field && ++g_caret.ticks >= 2) {  // the game handles the key after the mod's hook
+        Ptr field = g_caret.field;
+        bool word = g_caret.word;
+        g_caret = PendingCaret{};
+        if (game::FocusWindow() == field) SayCaret(field, word);
+    }
+    if (ShowFocus() && !g_hovered) HoverFocused(Focused());
     if (now - g.lastCollect < kRefreshMs) return;
     g.lastCollect = now;
     Refresh(now);
@@ -430,7 +516,15 @@ void Activate() {
         return;
     }
     if (IsReadOnly(*it)) {
-        AnnounceFocus(false);
+        // What the game's hover popup says about it (a skill, an interest, a job field): Enter
+        // speaks it (in the Sims 1 mod a tester found such items "do nothing").
+        if (!it->detail.empty()) speech::Say(it->detail);
+        else AnnounceFocus(false);
+        return;
+    }
+    if (it->role == Role::ModManual) {
+        if (it->number == 1) input::SayKeyHelp();
+        else manual::Open();
         return;
     }
     if (it->role == Role::QueuedAction) {
@@ -438,7 +532,12 @@ void Activate() {
         return;
     }
     if (it->role == Role::TextField) {
-        // A click gives a text field the keyboard (a press through its slots does not).
+        // The window manager's focus gives a text field the keyboard without moving its caret (a
+        // click would put it where it lands); a click when that is refused.
+        if (game::SetKeyboardFocus(it->widget)) {
+            AnnounceFocus(false);
+            return;
+        }
         Log("click text field %p", (void*)it->widget);
         game::ClickWindow(it->widget);
         return;
@@ -518,6 +617,102 @@ bool Back() {
     }
     AnnounceFocus(true);
     return true;
+}
+
+// PageUp/PageDown (nav/world.h): the lot's things from anywhere in the lot view. A kind or room
+// is opened in its group and focus goes there, so Tab, the arrows, Enter and Backspace go on from
+// it as usual.
+void BrowseThings(Browse how, int delta) {
+    Refresh(GetTickCount64());
+    Ptr key = how == Browse::Kind ? kKindsGroup : how == Browse::Room ? kRoomsGroup : world::LastGroup();
+    const Item* it = Focused();
+    bool inGroup = it && g.groups[g.group].key == key;
+    if (how == Browse::Thing && inGroup && it->role == Role::LotObject) {
+        Move(delta);
+        return;
+    }
+    // A thing: from the kind or room focused in its list, else the one open, else the first.
+    int number = how != Browse::Thing ? world::Step(key, delta)
+                 : inGroup && it->role == Role::Level ? it->number
+                 : world::OpenNumber(key) ? world::OpenNumber(key)
+                                          : world::Step(key, +1);
+    // Twice: the kind or room left open may have emptied since.
+    for (int attempt = 0; attempt < 2 && number; attempt++) {
+        bool same = number == world::OpenNumber(key);
+        world::Open(key, number);
+        g.groups = Collect(g.root);
+        for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+            const Group& gr = g.groups[gi];
+            if (gr.key != key || gr.items.empty() || gr.items.front().role != Role::LotObject) continue;
+            int at = 0;  // back in the same kind or room: on the thing focused last
+            for (int ii = 0; same && ii < (int)gr.items.size(); ii++)
+                if (gr.items[ii].number == world::FocusedId()) at = ii;
+            SetFocus(gi, at);
+            AnnounceFocus(true);
+            return;
+        }
+        world::Close(key);
+        number = world::Step(key, delta);
+    }
+    speech::Say(S(Str::NoObjects));
+}
+
+// The first letter of a group's name, lowercase, without its accent ("Catálogo" c, "Čas" c); a
+// Cyrillic letter gives the key it sits on in the Russian layout ("Объекты" j); 0 for a name that
+// starts with anything else (a CJK name).
+char FirstLetter(const std::string& utf8) {
+    if (utf8.empty()) return 0;
+    unsigned char c = (unsigned char)utf8[0];
+    if (c < 0x80) return isalpha(c) ? (char)tolower(c) : 0;
+    if ((c & 0xe0) != 0xc0 || utf8.size() < 2) return 0;
+    int cp = ((c & 0x1f) << 6) | ((unsigned char)utf8[1] & 0x3f);
+    static const char kLatin1[] = "aaaaaaaceeeeiiiidnooooo0ouuuuyts";  // U+00C0..U+00DF; +0x20 the lowercase
+    static const char kLatinA[] =                                       // U+0100..U+017F
+        "aaaaaaccccccccdd" "ddeeeeeeeeeegggg" "gggghhhhiiiiiiii" "iiiijjkkklllllll"
+        "lllnnnnnnnnnoooo" "oooorrrrrrssssss" "sstttttuuuuuuuuu" "uuuuwwyyyzzzzzzs";
+    static const char kCyrillic[] = "f0dult0pbqrkvyjghcnea0wxio0sm00z";  // А..Я: the ЙЦУКЕН keys
+    char f = 0;
+    if (cp >= 0xc0 && cp <= 0xff) f = kLatin1[(cp & 0xdf) - 0xc0];
+    else if (cp >= 0x100 && cp <= 0x17f) f = kLatinA[cp - 0x100];
+    else if (cp >= 0x410 && cp <= 0x44f) f = kCyrillic[(cp - 0x410) & 0x1f];
+    return f == '0' ? 0 : f;
+}
+
+void JumpToGroup(char letter) {
+    Refresh(GetTickCount64());
+    int n = (int)g.groups.size();
+    for (int step = 1; step <= n; step++) {
+        int gi = ((g.group < 0 ? -1 : g.group) + step + n) % n;
+        const Group& gr = g.groups[gi];
+        // the lot's things go by their own name too while a kind or room is open
+        bool match = FirstLetter(GroupName(gr)) == letter ||
+                     (gr.key == kKindsGroup && FirstLetter(S(Str::ThingsByKind)) == letter) ||
+                     (gr.key == kRoomsGroup && FirstLetter(S(Str::ThingsByRoom)) == letter);
+        if (!match) continue;
+        SetFocus(gi, FirstControl(gr));
+        AnnounceFocus(true);
+        return;
+    }
+    for (const Group& gr : g.groups) LogVerbose("group letter %c: not '%s'", letter, GroupName(gr).c_str());
+    speech::Say(util::Format(S(Str::NoGroupLetter), std::string(1, (char)toupper(letter)).c_str()));
+}
+
+void ToggleShowFocus() {
+    g_showFocus = ShowFocus() ? 0 : 1;
+    util::SetSetting("show_focus", g_showFocus);
+    HoverFocused(Focused());
+    speech::Say(S(g_showFocus ? Str::ShowFocusOn : Str::ShowFocusOff));
+}
+
+void NoteCaretKey(bool word) {
+    Ptr field = game::FocusWindow();
+    if (field && game::TextEditEditable(field)) g_caret = PendingCaret{field, word, 0};
+}
+
+void SayCharacterAtCaret() {
+    Ptr field = game::FocusWindow();
+    if (!field || !game::TextEditEditable(field)) return;
+    speech::Say(SpokenCharacter(CharacterAt(game::TextEditText(field), game::TextEditCaret(field))));
 }
 
 void RepeatFocus() {

@@ -20,13 +20,13 @@ const Translation kEntries[] = {
      "alternam entre detalhes e eventos."},
     {Str::KeysLot,
      "Lote: Tab percorre as necessidades, a fila de ações, os objetos por tipo, os objetos por cômodo e os "
-     "painéis do jogo. Nos objetos por tipo ou por cômodo, Enter abre um tipo ou um cômodo, seus objetos vêm os "
-     "mais próximos primeiro, Backspace volta. Enter em um objeto abre as interações dele, ou o pega no modo "
+     "painéis do jogo. Page Down e Page Up percorrem os objetos do lote, os mais próximos primeiro; com Shift "
+     "mudam o tipo de objeto, com Ctrl o cômodo. Enter em um objeto abre as interações dele, ou o pega no modo "
      "Compra; Ctrl+Enter leva o Sim selecionado até lá. Ctrl+E o estado do Sim, Ctrl+1 a 9 escolhem um Sim, "
      "Ctrl+seta para cima e para baixo os detalhes."},
     {Str::KeysPlacement,
-     "Colocando: setas um quadrado, Shift cinco, Tab e Shift+Tab os lugares onde cabe, Page Down e Page Up os "
-     "cômodos, Home volta ao Sim, vírgula e ponto o giram, Enter o coloca, Delete o vende, Esc termina."},
+     "Colocando: setas um quadrado, Shift cinco, Page Down e Page Up os lugares onde cabe, com Ctrl os cômodos, "
+     "com Shift ou vírgula e ponto o giram, Home volta ao Sim, Enter o coloca, Delete o vende, Esc termina."},
     {Str::KeysBuild,
      "Construindo: as setas movem o canto, com Shift cinco, Page Up e Page Down o nível, Espaço marca o início, "
      "Enter constrói a partir da marca, Ctrl+Enter remove, Home volta ao Sim, R repete, Esc sai."},
@@ -240,6 +240,62 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "negócio"},
     {Str::GroupSeasons, "estações"},
     {Str::GroupDate, "encontro"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "nenhum grupo começa com %s"},
+    {Str::KeysGroupLetter, "Alt e uma letra: o próximo grupo cujo nome começa com essa letra."},
+    {Str::KeysShowFocus, "Control Shift V: destaca na tela o controle selecionado, para quem ajuda."},
+    {Str::ShowFocusOn, "seleção mostrada na tela"},
+    {Str::ShowFocusOff, "seleção não é mais mostrada na tela"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "ocupa %1$d quadrados: %2$d de oeste a leste, %3$d de norte a sul"},
+    {Str::CollidesWith, "bate em %s"},
+    {Str::FacingThing, "virado para %s"},
+    {Str::RoomChange, "saindo de %1$s, entrando em %2$s"},
+    {Str::BesideThing, "ao lado de %s"},
+    {Str::KeysPlacingThings,
+     "Control Shift Page Down e Page Up: coloca ao lado do próximo objeto do lote, o mais próximo primeiro."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "sons do cursor ligados"},
+    {Str::CuesOff, "sons do cursor desligados"},
+    {Str::SurfaceNone, "sem piso"},
+    {Str::SurfaceGround, "terreno"},
+    {Str::SurfaceGrass, "grama"},
+    {Str::SurfaceWood, "piso de madeira"},
+    {Str::SurfaceTile, "piso de cerâmica"},
+    {Str::SurfaceCarpet, "carpete"},
+    {Str::SurfacePaving, "pavimento"},
+    {Str::SurfaceGravel, "cascalho"},
+    {Str::SurfacePoolRim, "borda da piscina"},
+    {Str::SurfaceWater, "água"},
+    {Str::EdgeFence, "cerca ao %s"},
+    {Str::EdgeRailing, "grade ao %s"},
+    {Str::MapStairs, "escada"},
+    {Str::TerrainSloped, "inclinado"},
+    {Str::EdgeWall, "parede ao %s"},
+    {Str::EdgeDoor, "porta ao %s"},
+    {Str::EdgeWindow, "janela ao %s"},
+    {Str::MapOn, "Mapa do lote. Control+F1 diz as teclas."},
+    {Str::MapOff, "mapa fechado"},
+    {Str::MapNoFloor, "não há nada construído no andar %d"},
+    {Str::MapNothingHere, "não há nada para usar aqui"},
+    {Str::MapLotEdge, "borda do lote"},
+    {Str::KeysMap,
+     "Mapa do lote: as setas avançam um quadrado, com Shift cinco; cada quadrado diz o que há nele e para onde "
+     "está virado, o cômodo e o piso quando mudam, e as paredes, cercas, grades, portas e janelas em volta, as "
+     "escadas e os declives, com um som para cada uma. Home volta ao Sim selecionado. Page Down e Page Up "
+     "percorrem os objetos do lote como sempre, e o mapa vai até cada um. Control+Shift+Page Up e Page Down "
+     "mudam de andar. Enter abre o menu do que está ali; Control+Enter leva o Sim selecionado até lá. R diz "
+     "tudo, Control+L a planta do cômodo. Control+Shift+S desliga e liga os sons. Esc ou Control+M sai do mapa."},
+    {Str::KeysMapHint, "Control+M: o mapa do lote, um cursor que o percorre quadrado por quadrado."},
+    {Str::KeysCuesHint, "Control+Shift+S desliga e liga os sons do cursor."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Control+Shift+F1 abre o manual; Control+F1 diz as teclas de cada tela."},
+    {Str::KeysManual, "Control+Shift+F1 abre o manual completo do mod no navegador."},
+    {Str::ManualOpening, "abrindo o manual no navegador"},
+    {Str::ManualMissing, "o manual está faltando: reinstale o mod"},
+    {Str::ManualButton, "Manual de Acessibilidade para The Sims 2"},
+    {Str::GroupModHelp, "ajuda do mod"},
+    {Str::KeysButton, "Teclas desta tela"},
 };
 
 }  // namespace

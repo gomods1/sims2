@@ -20,14 +20,14 @@ const Translation kEntries[] = {
      "Control+strzałka w prawo przełączają między szczegółami a zdarzeniami."},
     {Str::KeysLot,
      "Parcela: Tab przechodzi przez potrzeby, kolejkę działań, obiekty według rodzaju, obiekty według pokoju i "
-     "panele gry. W obiektach według rodzaju lub pokoju Enter otwiera rodzaj lub pokój, jego obiekty idą od "
-     "najbliższych, Backspace wraca. Enter na obiekcie otwiera jego interakcje albo podnosi go w trybie "
+     "panele gry. Page Down i Page Up przechodzą przez obiekty parceli, od najbliższych; z Shift zmieniają "
+     "rodzaj obiektu, z Ctrl pokój. Enter na obiekcie otwiera jego interakcje albo podnosi go w trybie "
      "kupowania; Ctrl+Enter wysyła tam wybranego Sima. Ctrl+E stan Sima, Ctrl+1 do 9 wybierają Sima, "
      "Ctrl+strzałka w górę i w dół szczegóły."},
     {Str::KeysPlacement,
-     "Ustawianie: strzałki o jedno pole, Shift o pięć, Tab i Shift+Tab miejsca, gdzie się mieści, Page Down i "
-     "Page Up pokoje, Home powrót do Sima, przecinek i kropka obracają, Enter stawia, Delete sprzedaje, Escape "
-     "kończy."},
+     "Ustawianie: strzałki o jedno pole, Shift o pięć, Page Down i Page Up miejsca, gdzie się mieści, z Ctrl "
+     "pokoje, z Shift albo przecinek i kropka obracają, Home powrót do Sima, Enter stawia, Delete sprzedaje, "
+     "Escape kończy."},
     {Str::KeysBuild,
      "Budowanie: strzałki przesuwają narożnik, z Shift o pięć, Page Up i Page Down poziom, spacja zaznacza "
      "początek, Enter buduje od znacznika, Ctrl+Enter usuwa, Home powrót do Sima, R powtarza, Escape kończy."},
@@ -242,6 +242,62 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "firma"},
     {Str::GroupSeasons, "pory roku"},
     {Str::GroupDate, "randka"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "żadna grupa nie zaczyna się na %s"},
+    {Str::KeysGroupLetter, "Alt i litera: następna grupa, której nazwa zaczyna się na tę literę."},
+    {Str::KeysShowFocus, "Ctrl+Shift+V: podświetla na ekranie wybrany element dla osoby pomagającej."},
+    {Str::ShowFocusOn, "wybór widoczny na ekranie"},
+    {Str::ShowFocusOff, "wybór już niewidoczny na ekranie"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "zajmuje pól: %1$d, %2$d z zachodu na wschód, %3$d z północy na południe"},
+    {Str::CollidesWith, "zderza się z: %s"},
+    {Str::FacingThing, "w stronę: %s"},
+    {Str::RoomChange, "wychodzisz: %1$s, wchodzisz: %2$s"},
+    {Str::BesideThing, "obok: %s"},
+    {Str::KeysPlacingThings,
+     "Ctrl+Shift+Page Down i Page Up: stawia obok następnego obiektu na parceli, najpierw najbliższego."},
+    // Sound cues and the lot map
+    {Str::CuesOn, "dźwięki kursora włączone"},
+    {Str::CuesOff, "dźwięki kursora wyłączone"},
+    {Str::SurfaceNone, "bez podłogi"},
+    {Str::SurfaceGround, "grunt"},
+    {Str::SurfaceGrass, "trawa"},
+    {Str::SurfaceWood, "drewniana podłoga"},
+    {Str::SurfaceTile, "płytki"},
+    {Str::SurfaceCarpet, "wykładzina"},
+    {Str::SurfacePaving, "nawierzchnia"},
+    {Str::SurfaceGravel, "żwir"},
+    {Str::SurfacePoolRim, "brzeg basenu"},
+    {Str::SurfaceWater, "woda"},
+    {Str::EdgeFence, "płot od %s"},
+    {Str::EdgeRailing, "balustrada od %s"},
+    {Str::MapStairs, "schody"},
+    {Str::TerrainSloped, "pochyły"},
+    {Str::EdgeWall, "ściana od %s"},
+    {Str::EdgeDoor, "drzwi od %s"},
+    {Str::EdgeWindow, "okno od %s"},
+    {Str::MapOn, "Mapa parceli. Ctrl+F1 podaje klawisze."},
+    {Str::MapOff, "mapa zamknięta"},
+    {Str::MapNoFloor, "na kondygnacji %d nic nie zbudowano"},
+    {Str::MapNothingHere, "tu nie ma nic do użycia"},
+    {Str::MapLotEdge, "skraj parceli"},
+    {Str::KeysMap,
+     "Mapa parceli: strzałki przesuwają o jedno pole, z Shift o pięć; każde pole mówi, co na nim stoi i w którą "
+     "stronę jest zwrócone, pokój i podłogę, gdy się zmieniają, oraz ściany, płoty, balustrady, drzwi i okna "
+     "wokół, schody i spadki terenu, każde z własnym dźwiękiem. Home wraca do wybranego Sima. Page Down i Page "
+     "Up przechodzą jak zawsze przez obiekty parceli, a mapa idzie do każdego z nich. Ctrl+Shift+Page Up i Page "
+     "Down zmieniają kondygnację. Enter otwiera menu tego, co tam stoi; Ctrl+Enter wysyła tam wybranego Sima. R "
+     "mówi wszystko, Ctrl+L układ pokoju. Ctrl+Shift+S wyłącza i włącza dźwięki. Escape lub Ctrl+M zamyka mapę."},
+    {Str::KeysMapHint, "Ctrl+M: mapa parceli, kursor, który przechodzi parcelę pole po polu."},
+    {Str::KeysCuesHint, "Ctrl+Shift+S wyłącza i włącza dźwięki kursora."},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1 otwiera instrukcję; Ctrl+F1 mówi klawisze każdego ekranu."},
+    {Str::KeysManual, "Ctrl+Shift+F1 otwiera pełną instrukcję moda w przeglądarce."},
+    {Str::ManualOpening, "otwieram instrukcję w przeglądarce"},
+    {Str::ManualMissing, "brak instrukcji: zainstaluj moda ponownie"},
+    {Str::ManualButton, "Instrukcja modułu dostępności The Sims 2"},
+    {Str::GroupModHelp, "pomoc moda"},
+    {Str::KeysButton, "Klawisze tego ekranu"},
 };
 
 }  // namespace

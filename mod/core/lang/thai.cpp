@@ -19,13 +19,13 @@ const Translation kEntries[] = {
      "Control+ลูกศรลง อ่านรายละเอียดของสิ่งที่เพิ่งพูด, Control+ลูกศรซ้าย และ Control+ลูกศรขวา "
      "สลับระหว่างรายละเอียดกับเหตุการณ์"},
     {Str::KeysLot,
-     "ที่ดิน: Tab ไล่ดูความต้องการ คิวการกระทำ สิ่งของตามประเภท สิ่งของตามห้อง และแผงของเกม "
-     "ในสิ่งของตามประเภทหรือตามห้อง Enter เปิดประเภทหรือห้อง สิ่งของในนั้นเรียงใกล้สุดก่อน Backspace ย้อนกลับ "
-     "Enter บนสิ่งของเปิดการกระทำของสิ่งนั้น หรือยกขึ้นในโหมดซื้อ Ctrl+Enter ให้ซิมที่เลือกเดินไปที่นั่น Ctrl+E "
+     "ที่ดิน: Tab ไล่ดูความต้องการ คิวการกระทำ สิ่งของตามประเภท สิ่งของตามห้อง และแผงของเกม Page Down และ Page "
+     "Up ไล่ดูสิ่งของในที่ดิน เรียงใกล้สุดก่อน กดพร้อม Shift เปลี่ยนประเภทสิ่งของ กดพร้อม Ctrl เปลี่ยนห้อง Enter "
+     "บนสิ่งของเปิดการกระทำของสิ่งนั้น หรือยกขึ้นในโหมดซื้อ Ctrl+Enter ให้ซิมที่เลือกเดินไปที่นั่น Ctrl+E "
      "สถานะซิม Ctrl+1 ถึง 9 เลือกซิม Ctrl+ลูกศรขึ้นลง รายละเอียด"},
     {Str::KeysPlacement,
-     "การวาง: ลูกศรเลื่อนหนึ่งช่อง Shift เลื่อนห้าช่อง Tab และ Shift+Tab ที่ที่วางได้ Page Down และ Page Up ห้อง "
-     "Home กลับไปที่ซิม จุลภาคและมหัพภาคหมุน Enter วาง Delete ขาย Escape เลิก"},
+     "การวาง: ลูกศรเลื่อนหนึ่งช่อง Shift เลื่อนห้าช่อง Page Down และ Page Up ที่ที่วางได้ กดพร้อม Ctrl ห้อง "
+     "กดพร้อม Shift หรือจุลภาคและมหัพภาคหมุน Home กลับไปที่ซิม Enter วาง Delete ขาย Escape เลิก"},
     {Str::KeysBuild,
      "การก่อสร้าง: ลูกศรเลื่อนมุม กับ Shift ห้าช่อง Page Up และ Page Down เปลี่ยนชั้น เว้นวรรคกำหนดจุดเริ่ม "
      "Enter สร้างจากจุดเริ่ม Ctrl+Enter รื้อ Home กลับไปที่ซิม R พูดซ้ำ Escape ออก"},
@@ -237,6 +237,61 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "ธุรกิจ"},
     {Str::GroupSeasons, "ฤดูกาล"},
     {Str::GroupDate, "เดท"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "ไม่มีกลุ่มที่ขึ้นต้นด้วย %s"},
+    {Str::KeysGroupLetter, "Alt กับตัวอักษร: กลุ่มถัดไปที่ชื่อขึ้นต้นด้วยตัวอักษรนั้น"},
+    {Str::KeysShowFocus, "Ctrl+Shift+V: ไฮไลต์ตัวควบคุมที่เลือกบนหน้าจอสำหรับผู้ช่วย"},
+    {Str::ShowFocusOn, "แสดงสิ่งที่เลือกบนหน้าจอ"},
+    {Str::ShowFocusOff, "ไม่แสดงสิ่งที่เลือกบนหน้าจอแล้ว"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "ใช้ %1$d ช่อง: ตะวันตกไปตะวันออก %2$d ช่อง, เหนือไปใต้ %3$d ช่อง"},
+    {Str::CollidesWith, "ชนกับ %s"},
+    {Str::FacingThing, "หันไปทาง %s"},
+    {Str::RoomChange, "ออกจาก %1$s เข้าสู่ %2$s"},
+    {Str::BesideThing, "ข้าง %s"},
+    {Str::KeysPlacingThings, "Ctrl+Shift+Page Down และ Page Up: วางไว้ข้างสิ่งของถัดไปในที่ดิน ที่ใกล้ที่สุดก่อน"},
+    // Sound cues and the lot map
+    {Str::CuesOn, "เปิดเสียงเคอร์เซอร์"},
+    {Str::CuesOff, "ปิดเสียงเคอร์เซอร์"},
+    {Str::SurfaceNone, "ไม่มีพื้น"},
+    {Str::SurfaceGround, "พื้นดิน"},
+    {Str::SurfaceGrass, "หญ้า"},
+    {Str::SurfaceWood, "พื้นไม้"},
+    {Str::SurfaceTile, "พื้นกระเบื้อง"},
+    {Str::SurfaceCarpet, "พรม"},
+    {Str::SurfacePaving, "พื้นปูทาง"},
+    {Str::SurfaceGravel, "กรวด"},
+    {Str::SurfacePoolRim, "ขอบสระ"},
+    {Str::SurfaceWater, "น้ำ"},
+    {Str::EdgeFence, "รั้วทางทิศ%s"},
+    {Str::EdgeRailing, "ราวกั้นทางทิศ%s"},
+    {Str::MapStairs, "บันได"},
+    {Str::TerrainSloped, "ลาดเอียง"},
+    {Str::EdgeWall, "กำแพงทางทิศ%s"},
+    {Str::EdgeDoor, "ประตูทางทิศ%s"},
+    {Str::EdgeWindow, "หน้าต่างทางทิศ%s"},
+    {Str::MapOn, "แผนที่ที่ดิน Ctrl+F1 บอกปุ่ม"},
+    {Str::MapOff, "ปิดแผนที่"},
+    {Str::MapNoFloor, "ชั้น %d ยังไม่มีสิ่งก่อสร้าง"},
+    {Str::MapNothingHere, "ที่นี่ไม่มีอะไรให้ใช้"},
+    {Str::MapLotEdge, "ขอบที่ดิน"},
+    {Str::KeysMap,
+     "แผนที่ที่ดิน: ลูกศรเลื่อนทีละช่อง กับ Shift ห้าช่อง แต่ละช่องบอกสิ่งที่อยู่ตรงนั้นและหันไปทางไหน "
+     "ห้องและพื้นเมื่อเปลี่ยน และกำแพง รั้ว ราวกั้น ประตู หน้าต่างรอบ ๆ บันไดและพื้นลาดเอียง "
+     "พร้อมเสียงของแต่ละอย่าง Home กลับไปที่ซิมที่เลือก Page Down และ Page Up ไล่สิ่งของในที่ดินเหมือนเดิม "
+     "และแผนที่ตามไปที่แต่ละชิ้น Ctrl+Shift+Page Up และ Page Down เปลี่ยนชั้น Enter "
+     "เปิดเมนูของสิ่งที่อยู่ตรงนั้น Ctrl+Enter ให้ซิมที่เลือกเดินไปที่นั่น R บอกทั้งหมด Ctrl+L บอกผังห้อง "
+     "Ctrl+Shift+S ปิดและเปิดเสียง Escape หรือ Ctrl+M ออกจากแผนที่"},
+    {Str::KeysMapHint, "Ctrl+M: แผนที่ที่ดิน เคอร์เซอร์ที่เดินดูที่ดินทีละช่อง"},
+    {Str::KeysCuesHint, "Ctrl+Shift+S ปิดและเปิดเสียงเคอร์เซอร์"},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1 เปิดคู่มือ Ctrl+F1 บอกปุ่มของแต่ละหน้าจอ"},
+    {Str::KeysManual, "Ctrl+Shift+F1 เปิดคู่มือฉบับเต็มของม็อดในเบราว์เซอร์"},
+    {Str::ManualOpening, "กำลังเปิดคู่มือในเบราว์เซอร์"},
+    {Str::ManualMissing, "ไม่พบคู่มือ: ติดตั้งม็อดใหม่"},
+    {Str::ManualButton, "คู่มือม็อดการเข้าถึงเดอะซิมส์ 2"},
+    {Str::GroupModHelp, "ความช่วยเหลือของม็อด"},
+    {Str::KeysButton, "ปุ่มของหน้าจอนี้"},
 };
 
 }  // namespace

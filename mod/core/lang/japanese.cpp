@@ -16,11 +16,12 @@ const Translation kEntries[] = {
      "タブとシフト+タブでグループを移動、上矢印と下矢印でグループ内を移動、左矢印と右矢印も同じか、スライダーの値を変更、ホームとエンドで端へ移動、エンターで押し、種類や部屋ではその中のオブジェクトを開く、バックスペース"
      "で戻る、Rで繰り返します。コントロール+上矢印とコントロール+下矢印で、今読んだものの詳細を読み、コントロール+左矢印とコントロール+右矢印で、詳細とイベントを切り替えます。"},
     {Str::KeysLot,
-     "区画：Tabでニーズ、行動キュー、種類別のオブジェクト、部屋別のオブジェクト、ゲームのパネルを順に移動。種類別または部屋別では、Enterで種類や部屋を開き、そのオブジェクトは近い順、Backspaceで戻る。オブ"
-     "ジェクトでEnterを押すと行動を開き、購入モードでは持ち上げる。Ctrl+Enterで選択中のシムをそこへ。Ctrl+Eでシムの状態、Ctrl+1から9でシムを選ぶ、Ctrl+上下で詳細。"},
+     "区画：Tabでニーズ、行動キュー、種類別のオブジェクト、部屋別のオブジェクト、ゲームのパネルを順に移動。Page DownとPage "
+     "Upで区画のオブジェクトを近い順に移動、Shiftと一緒でオブジェクトの種類を、Ctrlと一緒で部屋を変える。オブジェクトでEnterを押すと行動を開き、購入モードでは持ち上げる。Ctrl+Enterで選択中のシム"
+     "をそこへ。Ctrl+Eでシムの状態、Ctrl+1から9でシムを選ぶ、Ctrl+上下で詳細。"},
     {Str::KeysPlacement,
-     "配置：矢印で1マス、Shiftで5マス、TabとShift+Tabで置ける場所、Page DownとPage "
-     "Upで部屋、Homeでシムの所へ、コンマとピリオドで回転、Enterで置く、Deleteで売る、Escapeで終了。"},
+     "配置：矢印で1マス、Shiftで5マス、Page DownとPage Upで置ける場所、Ctrlと一緒で部屋、Shiftと一緒またはコンマとピリオドで回転、Homeでシムの所へ、Enterで置く、Deleteで売る"
+     "、Escapeで終了。"},
     {Str::KeysBuild,
      "建築：矢印で角を移動、Shiftで5マス、Page UpとPage Downで階、スペースで始点、Enterで始点から建てる、Ctrl+Enterで撤去、Homeでシムの所へ、Rで繰り返し、Escapeで終了。"},
     {Str::KeysNeighborhood, "近所：最初に区画の一覧、Enterで区画のパネルを開く。家族を引っ越させるには、家族一覧で家族を選び、区画でEnter。Tabでパネル。"},
@@ -229,6 +230,59 @@ const Translation kEntries[] = {
     {Str::GroupBusiness, "ビジネス"},
     {Str::GroupSeasons, "季節"},
     {Str::GroupDate, "デート"},
+    // Groups by letter, the focus on screen (ported from the Sims 1 mod)
+    {Str::NoGroupLetter, "%sで始まるグループはありません"},
+    {Str::KeysGroupLetter, "Altと文字キー：名前がその文字で始まる次のグループへ。"},
+    {Str::KeysShowFocus, "Ctrl+Shift+V：手伝う人のために、選択中の項目を画面で強調します。"},
+    {Str::ShowFocusOn, "選択を画面に表示"},
+    {Str::ShowFocusOff, "選択を画面に表示しない"},
+    // Placing: size, what it runs into and faces, beside the lot's things
+    {Str::ObjectSize, "%1$dマス：西から東へ%2$d、北から南へ%3$d"},
+    {Str::CollidesWith, "%sにぶつかります"},
+    {Str::FacingThing, "%sの方へ"},
+    {Str::RoomChange, "%1$sを出て%2$sへ"},
+    {Str::BesideThing, "%sの隣"},
+    {Str::KeysPlacingThings, "Ctrl+Shift+Page DownとPage Up：区画の次のオブジェクトの隣に置きます。近い順。"},
+    // Sound cues and the lot map
+    {Str::CuesOn, "カーソル音オン"},
+    {Str::CuesOff, "カーソル音オフ"},
+    {Str::SurfaceNone, "床なし"},
+    {Str::SurfaceGround, "地面"},
+    {Str::SurfaceGrass, "芝生"},
+    {Str::SurfaceWood, "木の床"},
+    {Str::SurfaceTile, "タイルの床"},
+    {Str::SurfaceCarpet, "カーペット"},
+    {Str::SurfacePaving, "舗装"},
+    {Str::SurfaceGravel, "砂利"},
+    {Str::SurfacePoolRim, "プールの縁"},
+    {Str::SurfaceWater, "水"},
+    {Str::EdgeFence, "%s側にフェンス"},
+    {Str::EdgeRailing, "%s側に手すり"},
+    {Str::MapStairs, "階段"},
+    {Str::TerrainSloped, "傾斜あり"},
+    {Str::EdgeWall, "%s側に壁"},
+    {Str::EdgeDoor, "%s側にドア"},
+    {Str::EdgeWindow, "%s側に窓"},
+    {Str::MapOn, "区画マップ。Ctrl+F1でキーを読みます。"},
+    {Str::MapOff, "マップを閉じました"},
+    {Str::MapNoFloor, "%d階には何も建っていません"},
+    {Str::MapNothingHere, "ここに使える物はありません"},
+    {Str::MapLotEdge, "区画の端"},
+    {Str::KeysMap,
+     "区画マップ：矢印キーで1マス、Shiftで5マス移動します。各マスで、そこにある物と向き、部屋や床が変わったときはその部屋や床、周りの壁、フェンス、手すり、ドア、窓、階段と傾斜をそれぞれの音とともに読みます。Hom"
+     "eで選択中のシムに戻ります。Page DownとPage Upはいつもどおり区画のオブジェクトを巡り、マップもそこへ移ります。Ctrl+Shift+Page UpとPage "
+     "Downで階を変えます。Enterでそこにある物のメニューを開き、Ctrl+Enterで選択中のシムをそこへ歩かせます。Rですべてを、Ctrl+Lで部屋の間取りを読みます。Ctrl+Shift+Sで音をオフ・オンし"
+     "ます。EscapeまたはCtrl+Mでマップを閉じます。"},
+    {Str::KeysMapHint, "Ctrl+M：区画マップ。区画を1マスずつ巡るカーソルです。"},
+    {Str::KeysCuesHint, "Ctrl+Shift+Sでカーソル音をオフ・オンします。"},
+    // The manual (Control+Shift+F1, the mod help group)
+    {Str::ManualHint, "Ctrl+Shift+F1でマニュアルを開きます。Ctrl+F1で各画面のキーを読み上げます。"},
+    {Str::KeysManual, "Ctrl+Shift+F1でモッドの完全なマニュアルをブラウザーで開きます。"},
+    {Str::ManualOpening, "ブラウザーでマニュアルを開いています"},
+    {Str::ManualMissing, "マニュアルが見つかりません。モッドを入れ直してください"},
+    {Str::ManualButton, "ザ・シムズ2 アクセシビリティ マニュアル"},
+    {Str::GroupModHelp, "モッドのヘルプ"},
+    {Str::KeysButton, "この画面のキー"},
 };
 
 }  // namespace

@@ -653,6 +653,22 @@ std::vector<Group> Collect(Ptr root) {
         Group lots = neighborhood::LotsGroup();
         if (!lots.items.empty()) out.insert(out.begin(), std::move(lots));
     }
+    // The main screen ends with the mod's help: this screen's keys (Control+F1) and the manual
+    // (Control+Shift+F1). Not on dialogs (their text and buttons are all there is to them) nor on
+    // a screen whose windows are not there yet.
+    if (root == game::MainWindow() && !out.empty()) {
+        Group help;
+        help.key = kModHelpGroup;
+        help.name = S(Str::GroupModHelp);
+        for (int n : {1, 2}) {  // never 0: a virtual item is found again by its number
+            Item it;
+            it.role = Role::ModManual;
+            it.number = n;
+            it.label = S(n == 1 ? Str::KeysButton : Str::ManualButton);
+            help.items.push_back(std::move(it));
+        }
+        out.push_back(std::move(help));
+    }
     return out;
 }
 

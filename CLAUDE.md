@@ -10,6 +10,8 @@ what has been learned about *this* game. Anything marked **hypothesis** has not 
 `NAVIGATION.md` before touching any key.** A ring of groups (Tab), items (arrows), levels (Enter /
 Backspace); groups in the window tree's order, never sorted by position; one key grammar for every
 screen and mode; only the spatial tools (placing, the build cursor) use the arrows for space.
+Since 2026-10-29 (the user: "an overuse of arrow keys", same as the Sims 1 mod) the lot's things
+are on PageDown/PageUp in every mode, Shift+ the kinds, Ctrl+ the rooms, as placing's spots are.
 
 Status (2026-09-23): the mod runs (`mod/`). Speech through NVDA (Prism in `SpeechHost.exe`).
 Keyboard navigation covers every GZ-window screen and dialog generically (menus, neighborhood
@@ -21,6 +23,13 @@ Ctrl+Enter walks there), live state and a narrator (actions, needs, visitors, mo
 leaving, the balloons and relationship headlines named from the game's own texts), buy mode
 (placing, moving and selling objects through the spots where they fit, in any direction), build
 mode (walls, floors, pools, foundations, doors, windows, stairs, auto roofs), travel and saving.
+Since 2026-11-01 (the Sims 1 mod's commits up to v0.2.0 ported): Alt+letter groups, the focus
+lit on screen for a helper, Enter speaks a read-only item's hover help, text fields take the
+keyboard when focused and speak the caret, placing says its size, what it runs into and faces and
+goes beside the lot's things, the lot map (Ctrl+M), sound cues for every cursor from the lot's real
+build data (floors by material, walls, fences, railings, doors, windows, stairs, slopes), the
+player's manual in 20 languages (Ctrl+Shift+F1, a "mod help" group on the main screen), release
+packaging. Multi-tile furniture (beds, sofas, tables) is listed now (it was missing).
 Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARGETS.md`; layouts:
 `STRUCTS.md`.
 
@@ -48,16 +57,28 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
 |---|---|---|
 | `mod/loader/` | `version.dll` (x86) next to `Sims2EP9.exe` | Proxy for the system DLL. Checks the exe hash, waits for the window (class `{0xdb637c87}`), subclasses it (ANSI), loads a **copy** of the core, 30 ms timer. Catches core crashes; always calls the core's shutdown on unload (so its hooks go). |
 | `mod/core/` | `Sims2Access\Sims2Access.dll` (x86) | `main.cpp` wires `util/`, `lang/`, `speech/`, `game/` (all addresses in `game/addresses.h`), `nav/`, `input/`. |
-| `mod/speechhost/` | `Sims2Access\SpeechHost.exe` (x64) + `prism.dll` | Unchanged from the Sims 1 mod. |
+| `mod/speechhost/` | `Sims2Access\SpeechHost.exe` (x64) + `prism.dll` | The Sims 1 mod's (pipe `Sims2AccessSpeech-<pid>`): `say`, `stop`, and `play <name> <pan> <pitch> <volume> <delay>` for the sound cues (`Sims2Access\sounds\<name>.wav` through XAudio2). It caches the files: after changing one, kill `SpeechHost.exe` (the core relaunches it). |
 
 - The game folder is `S:\steam\steamapps\common\The Sims 2 Legacy Collection\EP9\TSBin` (the one exe
-  runs the base game and every expansion). Build: `mod\build.bat` (MSVC 2022); `mod\build.bat deploy`.
+  runs the base game and every expansion). Build: `mod\build.bat` (MSVC 2022, then the manual through
+  pandoc); `mod\build.bat deploy` also copies `sounds\*.wav` and `docs\*.html`.
+- **Keys and docs never drift** (the user's rule in the Sims 1 mod, 2026-11-01): a change to a key or
+  a feature edits, in the same change, the code, the `Keys*` strings Ctrl+F1 speaks (English and all
+  19 languages), the manual `docs/manual/en.md` and its 19 translations, and `NAVIGATION.md` when the
+  grammar changes. `python tools/build_docs.py --check` compares each translation with en.md
+  (headings, table rows, list items, the key combinations of each row: an ASCII "+" joins keys).
+- **Release** (offline): `python tools/package.py vX.Y.Z` checks the manual, builds, writes
+  `mod\out\Sims2Access-vX.Y.Z.zip` (+ `.map`); the shared installer (`..\installer`) has no Sims 2
+  entry yet (ROADMAP).
 - **Dev loop** (`Sims2Access\dev.txt`): the loader hot-reloads `Sims2Access.dll` within a second of a
   rebuild. Dev builds also take requests from files: `tools/game.py shot <name>` (screenshot),
   `tools/game.py cheat "<line>"` (a cheat console line through the game's cheat system) and
   `tools/game.py cheat "!<command> args"` (mod test commands in `game/cheats.cpp`: `!objects` logs
   the lot's objects, `!pie <id>` opens an object's interaction menu, `!lotinfo <lot> <family> 0`,
-  `!click x y`, `!move x y`, `!release`, `!rooms`, `!check x y n` times n placement checks).
+  `!click x y`, `!move x y`, `!release`, `!rooms`, `!check x y n` times n placement checks; the lot
+  grid: `!probe x y level` floor, room, water, heights and each side's wall layers, `!walls level`
+  every edge by its layer signature, `!parts x y level` what stands on a tile with its lead part,
+  `!water x y level`, `!world` the world database's fields, `!dump <addr> <n>`).
 - A crash in the core is logged as `CRASH in tick: ... at <addr> (Sims2Access_<pid>_<n>.dll+0x....)`
   and swallowed; `python tools/symbolize.py --log` names function, file and line from the PDB.
   **MSVC 14.44 /O2 miscompiled an inlined helper once** (`FirstControl` in a loop read an unwritten
@@ -71,7 +92,7 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
 - Mod keys (current):
   - NAVIGATION.md: Tab/Shift+Tab groups (said with name and size on entering, even of one
     item), arrows items, Home/End, Enter presses (a kind or room opens its things), Backspace back
-    a level, R repeats, Ctrl+F1 the key help. Ctrl+Up/Down read the review buffers, Ctrl+Left/Right
+    a level, R repeats, Ctrl+F1 the key help, Ctrl+Shift+F1 the manual. Ctrl+Up/Down read the review buffers, Ctrl+Left/Right
     switch them. Groups keep the window tree's order (the pixel sort of groups was removed
     2026-09-29).
   - Lot view: the groups needs, action queue, "objetos por tipo" (Sims, then the buy mode
@@ -79,22 +100,52 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     Sim's room first) come first (`nav/world.cpp` KindsGroup/RoomsGroup, keys kKindsGroup /
     kRoomsGroup); Enter on a kind or room lists its things nearest the selected Sim first,
     Backspace goes back to it; Enter on a thing opens its interaction menu (in buy mode: picks it
-    up to move it); after the menu closes the focus is back on the thing. The game's
-    PageUp/PageDown change floor again. Ctrl+E the selected Sim's state, Ctrl+1..9 select a
+    up to move it); after the menu closes the focus is back on the thing. From anywhere in the
+    lot view (live, buy, build) PageDown/PageUp go through the things of the kind or room chosen
+    last, Shift+ the kinds, Ctrl+ the rooms (`nav::BrowseThings`, since 2026-10-29, verified
+    2026-11-01); the game's own PageUp/PageDown (floors) are taken again, the control panel's floor
+    buttons still change floor. Ctrl+E the selected Sim's state, Ctrl+1..9 select a
     family member. Verified 2026-09-29 (Contreras lot: kinds, rooms, Backspace, the menu,
     Ctrl+Enter walking).
-  - Buy mode (`nav/placement.cpp`): Enter on a catalog product picks it up; then Tab/Shift+Tab
-    the spots where it fits (nearest the Sim first; a scan of the whole lot through the tool's own
-    check, about 0.1 ms a tile), PageDown/PageUp by room (since 2026-09-29, not yet tried in game), arrows move a tile (Shift five),
-    Home back to the Sim, `,` `.` turn it (the game's keys; the facing is said), Enter buys (the
+  - Buy mode (`nav/placement.cpp`): Enter on a catalog product picks it up; then PageDown/PageUp
+    (or Tab) the spots where it fits (nearest the Sim first; a scan of the whole lot through the tool's own
+    check, about 0.1 ms a tile), Ctrl+PageDown/PageUp by room, arrows move a tile (Shift five),
+    Home back to the Sim, `,` `.` or Shift+PageDown/PageUp turn it (the game's keys; the facing is said), Enter buys (the
     game hands over another copy until Escape), Delete sells a picked-up object, Escape drops it
-    or puts it back. How it works: the tools' ground pick is hooked to answer with the mod's tile,
+    or puts it back. The arrows' line: fits or not, what it runs into, the room when it changes
+    ("sales de X, entras en Y"), the walls around it, its facing, what it faces ("hacia ..."), the
+    tile; a multi-tile object's size is said first. Ctrl+Shift+PageDown/PageUp put it beside the
+    lot's things nearest first, in their room, facing them when it fits (verified 2026-11-01: a
+    chair beside a patio table). How it works: the tools' ground pick is hooked to answer with the mod's tile,
     the "cursor left the view" handler is skipped, the virtual mouse sits in the 3D view and
     moves a pixel to make the tool re-pick; picking up an object hooks the object pick to answer
     with that object's scene node (STRUCTS.md "Buy mode").
   - A text field the player can edit takes letters, Space and Backspace (each echoed); Enter,
     Home/End and Left/Right go to it only while the mod's focus is on the field (Create a Family
     keeps its surname field focused all along). A field's name is the prompt it first showed.
+    Focusing a field gives it the keyboard (`game::SetKeyboardFocus`, the window manager's
+    GZSetFocus, slot 38; Enter does the same, a click only when that is refused); Left/Right/Home/End
+    then say the character at the caret (`edit::kCaret`, the +0xf8 interface's insertion index),
+    Delete the one it removes (2026-11-01, not yet tried on a name field).
+  - Alt+letter (any screen): the next group whose spoken name starts with that letter (accents
+    folded; a Cyrillic name by its key on the Russian layout); WM_SYSKEYDOWN, its WM_SYSCHAR
+    swallowed; verified (Alt+S solares, Alt+A ayuda del mod). Ctrl+Shift+V: the focused control
+    is lit on screen for a sighted helper (its mouse-enter slot 161; `show_focus` in the ini).
+    Enter on a read-only item with a tooltip description (a skill, an interest, a job field)
+    speaks it. The main screen ends with the group "mod help" (`kModHelpGroup`, `Role::ModManual`):
+    "keys for this screen" (Ctrl+F1's) and the manual (Ctrl+Shift+F1, `nav/manual.cpp`, opens
+    `Sims2Access\docs\<tag>.html`, `util::DocTag`).
+  - Lot map (Ctrl+M, `nav/map.cpp`, verified 2026-11-01 on the Contreras lot): a tile cursor from
+    the selected Sim; arrows (Shift five) say what stands there and which way it faces, the room
+    ("sales de Exterior, entras en Cocina") and the floor when they change, walls, fences, railings,
+    doors and windows by side, stairs, slopes; Home, Ctrl+Shift+PageUp/Down floors, Enter the menu
+    of what stands there, Ctrl+Enter walks there, R, Ctrl+L that room, Escape or Ctrl+M leaves. The
+    Page keys still browse the lot's things and the map follows them.
+  - Sound cues (`nav/cues.cpp`, the Sims 1 mod's sounds in `mod/sounds`): the build cursor,
+    placing's arrows and the map play the floor (by its catalog material), each side's wall, fence,
+    railing, door or window (panned and pitched by side), stairs, a Sim or object, a slope, a room
+    change, the lot's edge, fits / does not fit. Ctrl+Shift+S off/on (`[mod] cues`, `cue_volume`).
+    Read from the world database (`game/lotgrid.cpp`, STRUCTS.md "The lot grid").
   - Sliders (Create a Sim's personality): Left/Right change them, with the points left.
   - Neighborhood: choose a family in the family bin (F1 panel), then Enter on a lot in the lots
     list: the game asks whether to move the family in and at what cost.
@@ -216,6 +267,16 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
 - **Interaction menus**: `cTSWinPieMenu` (a modal window) with `cPieMenuItemWinProc` entries
   (ids 1000+n in order, each with a `cGZWinText`). Any object's menu opens by posting message 0xC0
   (data 1 = the object id) to the message server: the main toolbar builds it for the selected Sim.
+- **Multi-tile objects** (beds, sofas, tables, wide windows, doors) are only their parts
+  (`cEdithMTObject`): each points at its lead part ("- 0,0") through +0x2f4 (the lead's interface at
+  +0x2f0); the whole object's definition (catalog name, price, categories) is the part selector's
+  master's (+0x240 -> +0x68 -> +0x60). Before 2026-11-01 the mod skipped every part, so such
+  furniture was missing from the lists.
+- **The lot's build data**: the world database (`nTSWorld::cWorldDB`, the service the mod already
+  used for rooms) holds the floor patterns per quarter tile, their names (catalog GUIDs in hex for
+  bought floors; the floors' "surfacetype" and "subsort" come from the patterns packages' XFLR
+  property sets), the walls by partition layer, terrain heights; found through the Lua bindings'
+  table at 0xa1016700 (STRUCTS.md "The lot grid").
 - **Objects**: `cTSGlobals` (`[0xa10cc288]`) holds every manager; its object module has the lot's
   objects by id, names (internal, English), catalog names by GUID (in the game's language),
   positions in tiles (16.16), floors, buy categories (OBJD function flags).
