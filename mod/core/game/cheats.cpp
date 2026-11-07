@@ -21,6 +21,8 @@
 namespace game {
 
 bool g_screenDumpRequested = false;
+bool g_doorCheckRequested = false;
+bool g_reachCheckRequested = false;
 bool g_shutInCheckRequested = false;
 namespace {
 
@@ -78,6 +80,38 @@ void DevCommand(const std::string& line) {
     }
     else if (!strcmp(name, "movein")) ClickLotWithTool(a);
     else if (!strcmp(name, "screen")) g_screenDumpRequested = true;
+    else if (!strcmp(name, "doors")) g_doorCheckRequested = true;
+    else if (!strcmp(name, "reach")) g_reachCheckRequested = true;
+    else if (!strcmp(name, "objd")) {
+        // !objd <id>: the object's OBJD u16 fields 0..119, ten a line
+        for (int row = 0; row < 120; row += 10) {
+            std::string line;
+            for (int i = row; i < row + 10; i++) line += " " + std::to_string(ObjdField(a, i));
+            Log("  objd %d [%d]:%s", a, row, line.c_str());
+        }
+    }
+    else if (!strcmp(name, "camera")) Log("camera to %d,%d: %d", a, b, CenterCamera(a + 0.5f, b + 0.5f, c != 0) ? 1 : 0);
+    else if (!strcmp(name, "slots")) {
+        // !slots <object id>: where Sims stand or sit to use it (its routing slots), what it stands on
+        LotObject o;
+        bool known = ReadLotObject(a, &o);
+        Log("slots of %d (%s) at %.2f,%.2f direction %d, container %d:", a, known ? o.name.c_str() : "?", o.x, o.y,
+            o.direction, ContainerOf(a));
+        for (const UseSpot& u : UseSpots(a))
+            Log("  spot %.2f,%.2f tile %d,%d%s", u.x, u.y, u.tileX, u.tileY, u.sitting ? " sitting" : "");
+    }
+    else if (!strcmp(name, "look")) {
+        // !look <object id, 0 the selected Sim>: what the Sim looks like, as read
+        SimLooks l;
+        int id = a ? a : SelectedSimId();
+        if (!SimLook(id, &l)) Log("look of %d: no Sim", id);
+        else
+            Log("look of %d: human %d, age %d%s, gender %d, body %x, outfit %d, hair %d, skin %d, eyes %d, facial hair %d, "
+                "glasses %d, makeup %d/%d, hat %d, jewelry %d",
+                id, l.human, l.ageDays, l.youngAdult ? " young adult" : "", l.gender, l.bodyFlags, l.outfit, l.hair, l.skin,
+                l.eyes, l.facialHair, l.glasses, l.makeup, l.fullMakeup, l.hat, l.jewelry);
+    }
+
     else if (!strcmp(name, "shutin")) g_shutInCheckRequested = true;
     else if (!strcmp(name, "press")) Press((Ptr)(unsigned)a);  // !press <window pointer in decimal>
     else if (!strcmp(name, "wall")) DragTool(CurrentTool(), (float)a, (float)b, (float)c, (float)d, e, false);
@@ -131,8 +165,8 @@ void DevCommand(const std::string& line) {
         TerrainHeight(a + 1, b, &h[1]);
         TerrainHeight(a, b + 1, &h[2]);
         TerrainHeight(a + 1, b + 1, &h[3]);
-        Log("probe %d,%d level %d: room %d, floor %d \"%s\" surface %d, water %d, heights %.2f %.2f %.2f %.2f", a, b, c,
-            RoomAt(a + 0.5f, b + 0.5f, c), id, FloorPatternName(id).c_str(), (int)SurfaceAt(c, a, b), WaterOnTile(a, b) ? 1 : 0,
+        Log("probe %d,%d level %d: room %d, floor %d \"%s\" (%s) surface %d, water %d, heights %.2f %.2f %.2f %.2f", a, b, c,
+            RoomAt(a + 0.5f, b + 0.5f, c), id, FloorPatternName(id).c_str(), FloorName(c, a, b).c_str(), (int)SurfaceAt(c, a, b), WaterOnTile(a, b) ? 1 : 0,
             h[0], h[1], h[2], h[3]);
         const int dx[] = {0, 1, 0, -1}, dy[] = {-1, 0, 1, 0};
         const char* side[] = {"north", "east", "south", "west"};

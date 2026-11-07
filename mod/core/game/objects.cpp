@@ -97,6 +97,8 @@ bool Fill(Ptr o, int id, LotObject* out) {
     if (out->x >= 0) out->room = RoomAt(out->x, out->y, out->level);
     out->direction = ((Rd<int16_t>(o + addr::object::kDirection) % 8) + 8) % 8;
     if (def && !out->type) out->type = Rd<uint16_t>(def + addr::objd::kType);
+    out->broken = Rd<int16_t>(o + addr::objvar::kBase + 2 * addr::objvar::kBroken) > 0;
+    out->dirt = Rd<int16_t>(o + addr::objvar::kBase + 2 * addr::objvar::kDirt);
     return true;
 }
 
@@ -153,6 +155,126 @@ std::vector<WallObject> WallObjects() {
     return out;
 }
 
+namespace {
+
+Ptr ObjectById(int id) {
+    Ptr om = ObjectModule();
+    if (!om || id < 1) return 0;
+    Ptr b = Rd<Ptr>(om + addr::objmodule::kById), e = Rd<Ptr>(om + addr::objmodule::kById + 4);
+    if (id > (int)((e - b) / 4)) return 0;
+    Ptr o = Rd<Ptr>(b + (id - 1) * 4);
+    return o && IsKindOf(o, "cTSObject") ? o : 0;
+}
+
+// A virtual slot of an object, only when it is the function the disassembly found.
+template <class Fn>
+Fn CheckedSlot(Ptr o, int slot, uintptr_t expected) {
+    Ptr vt = o ? Rd<Ptr>(o) : 0;
+    Ptr fn = vt ? Rd<Ptr>(vt + 4 * slot) : 0;
+    return fn && fn == Va(expected) ? (Fn)fn : nullptr;
+}
+
+// One object's (or part's) routing slots in lot tiles.
+void AddUseSpots(Ptr o, std::vector<UseSpot>* out) {
+    typedef int(__thiscall * CountFn)(Ptr);
+    typedef Ptr(__thiscall * GetFn)(Ptr, int);
+    typedef int(__thiscall * PositionsFn)(Ptr, Ptr, bool);
+    typedef float*(__thiscall * OffsetFn)(Ptr, float*, Ptr, int, float);
+    typedef Ptr(__thiscall * LocationFn)(Ptr);
+    auto count = CheckedSlot<CountFn>(o, addr::object::kSlotRoutingCount, addr::object::kRoutingCount);
+    auto get = CheckedSlot<GetFn>(o, addr::object::kSlotRoutingSlot, addr::object::kRoutingSlot);
+    auto positions = CheckedSlot<PositionsFn>(o, addr::object::kSlotSlotPositions, addr::object::kSlotPositions);
+    auto offset = CheckedSlot<OffsetFn>(o, addr::object::kSlotSlotOffset, addr::object::kSlotOffset);
+    if (!count || !get || !positions || !offset) {
+        static int s_logged = 0;
+        if (s_logged++ < 5) Log("use spots: %s has other routing slot functions: not read", ClassName(o).c_str());
+        return;
+    }
+    Ptr loc = 0;
+    if (auto f = Slot<LocationFn>(o, addr::object::kSlotLocation)) Guarded([&] { loc = f(o); });
+    if (!loc) return;
+    float ox = Rd<int>(loc) / 65536.0f, oy = Rd<int>(loc + 4) / 65536.0f;
+    int dir = ((Rd<int16_t>(o + addr::object::kDirection) % 8) + 8) % 8;
+    int n = 0;
+    Guarded([&] { n = count(o); });
+    for (int i = 0; i < n && i < 64; i++) {
+        Ptr p = 0;
+        Guarded([&] { p = get(o, i); });
+        if (!p) continue;
+        Ptr base = p - 0x20;
+        uint32_t flags = Rd<uint32_t>(p + 0x10);
+        bool sitting = Rd<int>(p + 8) != 0;
+        int d = (flags & 0x200) ? 0 : dir;
+        int spots = 0;
+        Guarded([&] { spots = positions(o, base, false); });
+        for (int k = 0; k < spots && k < 16; k++) {
+            float local[3] = {};
+            bool ok = Guarded([&] { offset(o, local, base, k, 0.0f); });
+            if (!ok) continue;
+            // The game's composition (route goals 0xa04e0f10): (a, b) = (-y, x) turned by the facing
+            // in quarter turns (0xa04e5e80): 2 (b, -a), 4 (-a, -b), 6 (-b, a). Local +y is the front.
+            float a = -local[1], b = local[0], wx = a, wy = b;
+            switch (d & 6) {
+            case 2: wx = b; wy = -a; break;
+            case 4: wx = -a; wy = -b; break;
+            case 6: wx = -b; wy = a; break;
+            }
+            UseSpot u;
+            u.x = ox + wx;
+            u.y = oy + wy;
+            u.tileX = (int)std::floor(u.x);
+            u.tileY = (int)std::floor(u.y);
+            u.sitting = sitting;
+            out->push_back(u);
+        }
+    }
+}
+
+}  // namespace
+
+std::vector<UseSpot> UseSpots(int objectId) {
+    std::vector<UseSpot> out;
+    Ptr lead = ObjectById(objectId);
+    if (!lead) return out;
+    AddUseSpots(lead, &out);
+    // The parts of a multi-tile object load their own slots.
+    Ptr om = ObjectModule();
+    Ptr b = Rd<Ptr>(om + addr::objmodule::kById), e = Rd<Ptr>(om + addr::objmodule::kById + 4);
+    int n = (int)((e - b) / 4);
+    for (int i = 0; i < n && i < 20000; i++) {
+        Ptr o = Rd<Ptr>(b + i * 4);
+        if (!o || o == lead || !IsKindOf(o, "cEdithMTObject") || LeadOf(o) != lead) continue;
+        AddUseSpots(o, &out);
+    }
+    // Each tile once (a sitting spot wins).
+    std::vector<UseSpot> unique;
+    for (const UseSpot& u : out) {
+        auto same = std::find_if(unique.begin(), unique.end(),
+                                 [&](const UseSpot& v) { return v.tileX == u.tileX && v.tileY == u.tileY; });
+        if (same == unique.end()) unique.push_back(u);
+        else same->sitting |= u.sitting;
+    }
+    return unique;
+}
+
+int ObjdField(int objectId, int index) {
+    Ptr o = ObjectById(objectId);
+    Ptr def = o ? Rd<Ptr>(o + addr::object::kDefinition) : 0;
+    // A multi-tile part's own OBJD is the part's: the whole object's is its master selector's.
+    if (o && IsKindOf(o, "cEdithMTObject")) {
+        Ptr sel = Rd<Ptr>(o + addr::object::kSelector);
+        Ptr master = IsKindOf(sel, "cTSObjectSelector") ? Rd<Ptr>(sel + addr::object::kSelectorMaster) : 0;
+        Ptr mdef = IsKindOf(master, "cTSObjectSelector") ? Rd<Ptr>(master + addr::product::kSelectorObjd) : 0;
+        if (mdef) def = mdef;
+    }
+    return def && index >= 0 && index < 128 ? Rd<uint16_t>(def + 4 + 2 * index) : -1;
+}
+
+int ContainerOf(int objectId) {
+    Ptr o = ObjectById(objectId);
+    return o ? Rd<int16_t>(o + addr::object::kContainer) : 0;
+}
+
 std::vector<PlacedPart> PlacedParts() {
     std::vector<PlacedPart> out;
     Ptr om = ObjectModule();
@@ -188,6 +310,7 @@ std::vector<PlacedPart> PlacedParts() {
         p.type = def ? Rd<uint16_t>(def + addr::objd::kType) : 0;
         p.sub = def ? Rd<uint16_t>(def + addr::objd::kSubIndex) : 0;
         p.direction = ((Rd<int16_t>(o + addr::object::kDirection) % 8) + 8) % 8;
+        p.walkThrough = (Rd<int16_t>(o + addr::objvar::kBase + 2 * addr::objvar::kFlags) & addr::objvar::kWalkThrough) != 0;
         typedef const char*(__thiscall * NameFn)(Ptr);
         const char* name = nullptr;
         if (auto f = Slot<NameFn>(o, addr::object::kSlotName)) Guarded([&] { name = f(o); });
@@ -294,7 +417,80 @@ bool SimName(int objectId, std::string* first, std::string* last) {
     if (!ok) return false;
     *first = Text(a);
     *last = Text(b);
+    // A service Sim is made from a template and named a moment later: a name starting with "*"
+    // ("*TemplatePerson", a maid in the Sims 1 game, heard by a tester) is no name to say.
+    if (!first->empty() && (*first)[0] == '*') first->clear();
+    if (!last->empty() && (*last)[0] == '*') last->clear();
     return !first->empty() || !last->empty();
+}
+
+namespace {
+
+// Person data 8 (the outfit worn) as the outfit flag the outfit data takes (0xa023f55f's jump
+// table, the Lua OutfitType table): everyday 1, naked 0x80, swimwear 8, athletic 0x200, formal
+// 0x20, sleepwear 0x10, try-on 0x400, maternity 0x100, everyday 2 and 3, underwear 0x40, outerwear
+// 0x1000.
+int OutfitFlagOf(int outfit) {
+    static const int kFlags[] = {1, 0x80, 8, 0x200, 0x20, 0x10, 0x400, 1, 0x100, 2, 4, 0x40, 1, 0x1000};
+    return outfit >= 0 && outfit < (int)(sizeof kFlags / sizeof kFlags[0]) ? kFlags[outfit] : 1;
+}
+
+}  // namespace
+
+bool SimLook(int objectId, SimLooks* out) {
+    LotObject o;
+    if (!ReadLotObject(objectId, &o) || !o.person) return false;
+    Ptr iface = o.ptr + addr::person::kInterface;
+    if (!IsKindOf(iface, "cTSPerson")) return false;
+    typedef short(__thiscall * DataFn)(Ptr, int, int);
+    auto data = [&](int index) {
+        short v = 0;
+        Guarded([&] { v = Slot<DataFn>(iface, addr::person::kSlotPersonData)(iface, index, 1); });
+        return (int)v;
+    };
+    SimLooks l;
+    l.human = data(addr::person::kDataSpecies) == 0;
+    l.ageDays = data(addr::person::kDataAge);
+    l.youngAdult = data(addr::person::kDataYoungAdult) != 0;
+    l.gender = data(addr::person::kDataGender);
+    l.bodyFlags = data(addr::person::kDataBodyFlags);
+    l.outfit = data(addr::person::kDataOutfit);
+    int neighborId = data(addr::person::kDataNeighborId);
+    // The neighbor (as NeighborName finds it), then its slot 44: only when it is the function
+    // found in the disassembly.
+    Ptr g = Rd<Ptr>(Va(addr::globals::kInstance));
+    Ptr mgr = g ? Rd<Ptr>(g + addr::globals::kNeighborManager) : 0;
+    if (l.human && mgr && neighborId > 0 && IsKindOf(mgr, "cTSNeighborManager")) {
+        typedef Ptr(__thiscall * FindFn)(Ptr, int, int);
+        typedef uint16_t(__thiscall * PropFn)(Ptr, uint16_t, uint16_t);
+        Ptr nb = 0;
+        Guarded([&] { nb = Slot<FindFn>(mgr, addr::neighbors::kSlotFind)(mgr, neighborId, 1); });
+        Ptr vt = nb ? Rd<Ptr>(nb) : 0;
+        Ptr fn = vt ? Rd<Ptr>(vt + 4 * addr::looks::kNeighborSlotOutfitProperty) : 0;
+        if (nb && IsKindOf(nb, "cTSNeighbor") && fn == Va(addr::looks::kOutfitProperty)) {
+            uint16_t flag = (uint16_t)OutfitFlagOf(l.outfit);
+            auto prop = [&](int p) {
+                uint16_t v = 0;
+                Guarded([&] { v = ((PropFn)fn)(nb, flag, (uint16_t)p); });
+                return (int)v;
+            };
+            l.hair = prop(addr::looks::kHair);
+            l.skin = prop(addr::looks::kSkin);
+            l.eyes = prop(addr::looks::kEyes);
+            l.facialHair = prop(addr::looks::kFacialHair) != 0;
+            l.glasses = prop(addr::looks::kGlasses) != 0;
+            l.makeup = prop(addr::looks::kMakeup) != 0;
+            l.fullMakeup = prop(addr::looks::kFullMakeup) != 0;
+            l.hat = prop(addr::looks::kHat) != 0;
+            l.jewelry = prop(addr::looks::kJewelry) != 0;
+        } else {
+            Log("looks: neighbor %d is %s, slot 44 %p: not read", neighborId, ClassName(nb).c_str(), (void*)fn);
+        }
+    }
+    LogVerbose("looks of %d: age %d%s, gender %d, body %x, outfit %d, hair %d, skin %d, eyes %d", objectId, l.ageDays,
+               l.youngAdult ? " (young adult)" : "", l.gender, l.bodyFlags, l.outfit, l.hair, l.skin, l.eyes);
+    *out = l;
+    return true;
 }
 
 bool NeighborName(int neighborId, std::string* first, std::string* last) {
@@ -316,6 +512,8 @@ bool NeighborName(int neighborId, std::string* first, std::string* last) {
     if (!ok) return false;
     *first = Text(a);
     if (last) *last = Text(b);
+    if (!first->empty() && (*first)[0] == '*') first->clear();  // a template's label
+    if (last && !last->empty() && (*last)[0] == '*') last->clear();
     return !first->empty();
 }
 
@@ -371,6 +569,111 @@ bool SimMotive(int objectId, int index, float* value) {
         ok = true;
     });
     return ok;
+}
+
+int QueueIconObject(Ptr icon) {
+    Ptr interaction = Rd<Ptr>(icon + addr::interaction::kIconInteraction);
+    return IsKindOf(interaction, "cTSInteraction") ? Rd<int16_t>(interaction + addr::interaction::kObjectId) : 0;
+}
+
+namespace {
+
+// The lot's camera: no path to it from the game's globals was found, so it is found by its vtable
+// in the process's private memory once a lot (a fraction of a second), and kept while it is alive.
+Ptr FindCamera(uint32_t vtable) {
+    ULONGLONG t0 = GetTickCount64();
+    uint32_t wanted = (uint32_t)Va(vtable);
+    MEMORY_BASIC_INFORMATION mbi;
+    Ptr best = 0;
+    int bestSteps = 0;
+    for (Ptr p = 0x10000; p < 0x7fff0000; p += mbi.RegionSize) {
+        if (!VirtualQuery((void*)p, &mbi, sizeof mbi)) break;
+        p = (Ptr)mbi.BaseAddress;
+        if (mbi.State != MEM_COMMIT || !(mbi.Protect & (PAGE_READWRITE | PAGE_WRITECOPY)) || (mbi.Protect & PAGE_GUARD)) continue;
+        const uint32_t* w = (const uint32_t*)mbi.BaseAddress;
+        size_t n = mbi.RegionSize / 4;
+        for (size_t i = 0; i < n; i++) {
+            if (w[i] != wanted) continue;
+            Ptr camera = (Ptr)&w[i];
+            int steps = (int)((Rd<Ptr>(camera + addr::camera::kZoomSteps + 4) - Rd<Ptr>(camera + addr::camera::kZoomSteps)) / 4);
+            if (steps <= bestSteps || steps > 32) continue;
+            bestSteps = steps;
+            best = camera;
+        }
+    }
+    Log("camera: %p, %d zoom steps, %llu ms", (void*)best, bestSteps, GetTickCount64() - t0);
+    return best;
+}
+
+}  // namespace
+
+namespace {
+
+// The lot's cCameraLive, found once by its vtable (and again when it goes away).
+Ptr LiveCamera() {
+    static Ptr s_camera = 0;
+    static ULONGLONG s_triedAt = 0;
+    uint32_t vtable = addr::camera::kLiveVtable;
+    if (!s_camera || Rd<uint32_t>(s_camera) != (uint32_t)Va(vtable)) {
+        s_camera = 0;
+        ULONGLONG now = GetTickCount64();
+        if (s_triedAt && now - s_triedAt < 10000) return 0;
+        s_triedAt = now;
+        s_camera = FindCamera(vtable);
+    }
+    return s_camera;
+}
+
+}  // namespace
+
+bool CenterCamera(float x, float y, bool jump) {
+    Ptr camera = LiveCamera();
+    if (!camera) return false;
+    Ptr vbtable = Rd<Ptr>(camera + addr::camera::kVbtable);
+    if (!vbtable || Rd<int>(vbtable + 4) != addr::camera::kEventBaseOffset) {
+        Log("camera: unexpected layout (vbtable %p)", (void*)vbtable);
+        return false;
+    }
+    Ptr events = camera + addr::camera::kEventInterface;
+    struct VectorEvent {
+        Ptr vtable;
+        float x, y, z;
+    } e = {Va(addr::camera::kVectorEventVtable), x, y, Rd<float>(camera + addr::camera::kLookAt + 8)};
+    typedef bool(__thiscall * HandleFn)(Ptr, uint32_t, uint32_t, VectorEvent*);
+    Ptr vt = Rd<Ptr>(events);
+    if (!InImage(vt)) return false;
+    auto handle = (HandleFn)Rd<Ptr>(vt + 4 * 4);
+    bool ok = false;
+    Guarded([&] { ok = handle(events, jump ? addr::camera::kEventJump : addr::camera::kEventGlide, 0, &e); });
+    LogVerbose("camera: look at %.2f,%.2f,%.2f (%s): %d", x, y, e.z, jump ? "jump" : "glide", ok ? 1 : 0);
+    return true;
+}
+
+bool CameraView(int* zoom, int* steps, int* compass) {
+    Ptr camera = LiveCamera();
+    if (!camera) return false;
+    Ptr begin = Rd<Ptr>(camera + addr::camera::kZoomSteps), end = Rd<Ptr>(camera + addr::camera::kZoomSteps + 4);
+    int n = (int)((end - begin) / 4);
+    if (n < 1 || n > 32) return false;
+    float target = Rd<float>(camera + addr::camera::kZoomTarget);
+    int nearest = 0;
+    float best = 1e9f;
+    for (int i = 0; i < n; i++) {
+        float d = std::fabs(Rd<float>(begin + i * 4) - target);
+        if (d < best) {
+            best = d;
+            nearest = i;
+        }
+    }
+    *zoom = nearest;
+    *steps = n;
+    float qx = Rd<float>(camera + addr::camera::kOrientation), qy = Rd<float>(camera + addr::camera::kOrientation + 4);
+    float qz = Rd<float>(camera + addr::camera::kOrientation + 8), qw = Rd<float>(camera + addr::camera::kOrientation + 12);
+    // The view's direction on the lot (the world's x and y are the tiles': x east, y south).
+    float fx = 2 * (qx * qy - qw * qz), fy = 1 - 2 * (qx * qx + qz * qz);
+    double degrees = std::atan2((double)fx, (double)-fy) * 180.0 / 3.14159265358979;  // 0 north, 90 east
+    *compass = ((int)std::lround(degrees / 45.0) % 8 + 8) % 8;
+    return true;
 }
 
 bool ShowInteractions(int objectId) {

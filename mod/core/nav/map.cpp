@@ -1,9 +1,11 @@
 #include "map.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <string>
 #include <vector>
 
+#include "../game/addresses.h"
 #include "../game/lotgrid.h"
 #include "../game/objects.h"
 #include "../speech/speech.h"
@@ -22,8 +24,14 @@ namespace {
 constexpr int kGrid = 80;     // the largest lot is 64 tiles a side; the scan of placing looks this far
 constexpr int kMaxLevel = 5;  // level as game::LotObject::level: 0 the terrain, then the floors
 
+// What each step says (comma / period cycle them; a tester of the Sims 1 mod asked for it, after
+// Oxygen Not Included's overlays: everything at once was too much on a furnished lot).
+enum Layer { kAll, kObjects, kFloors, kWalls, kRooms, kLayers };
+
 struct State {
     bool active = false;
+    int layer = kAll;
+    std::string lastFloor;
     int x = 0, y = 0, level = 0;
     int lastRoom = -2;
     int lastLevel = 0;
@@ -42,18 +50,43 @@ std::string ThingWords(const game::LotObject& o) {
     return name + ", " + util::Format(S(Str::PlaceFacing), S(kFacing[(o.direction / 2) & 3]));
 }
 
+// What stands on the tile: Sims first, then what stands on something (the computer on its desk:
+// what Enter takes), then the rest. Surfaces (tables, desks, counters) are what the others stand on.
+std::vector<game::LotObject> ThingsHere() {
+    std::vector<game::LotObject> here = world::ThingsAt(g.x, g.y, g.level);
+    std::stable_partition(here.begin(), here.end(), [](const game::LotObject& o) {
+        return !(o.functionFlags & game::addr::objd::kFnSurfaces);
+    });
+    std::stable_partition(here.begin(), here.end(), [](const game::LotObject& o) { return o.person; });
+    return here;
+}
+
+// The floor in words: its catalog name ("Baldosa de granito claro"), else what it is made of.
+std::string FloorWords(const cues::TileSense& t) {
+    std::string name = util::CleanForSpeech(game::FloorName(g.level, g.x, g.y));
+    return name.empty() ? cues::SurfaceWord(t.surface) : name;
+}
+
 // The line for the cursor's tile: what stands there, the room when it changes, the walls and
-// openings; the tile last (as the build cursor's line).
+// openings; the tile last (as the build cursor's line). The layer chosen with comma / period
+// keeps one kind of these.
 std::string Line(bool full) {
     std::vector<std::string> parts;
-    std::vector<game::LotObject> here = world::ThingsAt(g.x, g.y, g.level);
-    for (const game::LotObject& o : here) parts.push_back(ThingWords(o));
+    int layer = g.layer;
+    bool all = layer == kAll;
+    if (all || layer == kObjects) {
+        std::vector<game::LotObject> here = ThingsHere();
+        for (const game::LotObject& o : here) parts.push_back(ThingWords(o));
+        if (here.empty() && layer == kObjects) parts.push_back(S(Str::MapNothingHere));
+    }
     cues::TileSense t = cues::Sense(g.level, g.x, g.y);
     if (t.offLot) parts.push_back(S(Str::PlaceOffLot));
-    if (t.stairs) parts.push_back(S(Str::MapStairs));
+    if (t.stairs && (all || layer == kObjects || layer == kWalls)) parts.push_back(S(Str::MapStairs));
     std::string roomName = t.room >= 0 ? world::RoomNameAt(g.x + 0.5f, g.y + 0.5f, g.level) : "";
     bool roomChanged = t.room != g.lastRoom || g.level != g.lastLevel;
-    if (!roomName.empty() && (full || roomChanged)) {
+    if (!roomName.empty() && layer == kRooms) {
+        parts.push_back(roomName);
+    } else if (!roomName.empty() && layer != kFloors && (full || roomChanged)) {
         if (!full && !g.lastRoomName.empty() && g.lastLevel == g.level && g.lastRoomName != roomName)
             parts.push_back(util::Format(S(Str::RoomChange), g.lastRoomName.c_str(), roomName.c_str()));
         else
@@ -62,13 +95,18 @@ std::string Line(bool full) {
     g.lastRoom = t.room;
     g.lastLevel = g.level;
     if (!roomName.empty()) g.lastRoomName = roomName;
-    // The floor when it changes (grass to paving, wood to carpet), always with R.
-    if (full || !g.haveSurface || t.surface != g.lastSurface) parts.push_back(cues::SurfaceWord(t.surface));
+    // The floor when it changes (grass to paving, one tile to another), always with R.
+    std::string floor = FloorWords(t);
+    if (layer == kFloors || (all && (full || !g.haveSurface || floor != g.lastFloor))) parts.push_back(floor);
     g.lastSurface = t.surface;
+    g.lastFloor = floor;
     g.haveSurface = true;
-    std::string edges = cues::EdgesLine(t);
-    if (!edges.empty()) parts.push_back(edges);
-    if (t.sloped) parts.push_back(S(Str::TerrainSloped));
+    if (all || layer == kWalls) {
+        std::string edges = cues::EdgesLine(t);
+        if (!edges.empty()) parts.push_back(edges);
+        else if (layer == kWalls) parts.push_back(S(Str::MapNoWalls));
+    }
+    if (t.sloped && (all || layer == kFloors)) parts.push_back(S(Str::TerrainSloped));
     std::string line;
     for (const std::string& p : parts) line += (line.empty() ? "" : ", ") + p;
     return line + (line.empty() ? "" : ". ") + util::Format(S(Str::PlaceTile), g.x, g.y);
@@ -109,18 +147,13 @@ bool FloorExists(int level) {
     return false;
 }
 
-void Move(int dx, int dy) {
-    int w = kGrid, h = kGrid;
-    game::LotSize(&w, &h);
-    int x = std::clamp(g.x + dx, 0, w - 1), y = std::clamp(g.y + dy, 0, h - 1);
-    if ((x == g.x && y == g.y) || cues::Sense(g.level, x, y).offLot) {
-        speech::Say(S(Str::MapLotEdge));
-        cues::LotEdge();
-        return;
-    }
-    g.x = x;
-    g.y = y;
-    SayHere();
+void NextLayer(int delta) {
+    g.layer = ((g.layer + delta) % kLayers + kLayers) % kLayers;
+    static const Str kNames[kLayers] = {Str::MapLayerAll, Str::MapLayerObjects, Str::MapLayerFloors, Str::MapLayerWalls,
+                                        Str::MapLayerRooms};
+    std::string line = Line(true);
+    buffers::SetDetails({line});
+    speech::Say(std::string(S(kNames[g.layer])) + ". " + line);
 }
 
 void ChangeFloor(int delta) {
@@ -137,12 +170,12 @@ void ChangeFloor(int delta) {
 }
 
 void Activate() {
-    std::vector<game::LotObject> here = world::ThingsAt(g.x, g.y, g.level);
+    std::vector<game::LotObject> here = ThingsHere();
     if (here.empty()) {
         speech::Say(S(Str::MapNothingHere));
         return;
     }
-    // A Sim standing there first, else the object.
+    // A Sim standing there first, else what stands on something (the computer, not its desk).
     world::Focus(here.front().id);
     world::Interact();
 }
@@ -150,6 +183,38 @@ void Activate() {
 }  // namespace
 
 void Reset() { g = State{}; }
+
+void Move(int dx, int dy, bool throughWalls) {
+    if (!g.active) return;
+    int w = kGrid, h = kGrid;
+    game::LotSize(&w, &h);
+    // One tile at a time: a wall, fence or window stops the cursor (a door does not), as walking
+    // would; a tester of the Sims 1 mod left rooms by accident. Alt with the arrow goes through.
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    int sx = dx > 0 ? 1 : dx < 0 ? -1 : 0, sy = dy > 0 ? 1 : dy < 0 ? -1 : 0;
+    int moved = 0;
+    std::string wall;
+    for (int i = 0; i < steps; i++) {
+        int x = std::clamp(g.x + sx, 0, w - 1), y = std::clamp(g.y + sy, 0, h - 1);
+        if ((x == g.x && y == g.y) || cues::Sense(g.level, x, y).offLot) break;
+        if (!throughWalls && cues::WallStops(g.level, g.x, g.y, sx, sy, &wall)) break;
+        g.x = x;
+        g.y = y;
+        moved++;
+    }
+    if (moved == 0) {
+        if (!wall.empty()) {
+            speech::Say(wall);
+            cues::Blocked();
+        } else {
+            speech::Say(S(Str::MapLotEdge));
+            cues::LotEdge();
+        }
+        return;
+    }
+    SayHere();
+    if (!wall.empty()) speech::Say(wall);  // stopped before it after a few steps (Shift)
+}
 
 bool Active() { return g.active; }
 
@@ -207,6 +272,10 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
     case VK_DOWN: if (ctrl) return false; Move(0, step); return true;
     case VK_LEFT: if (ctrl) return false; Move(-step, 0); return true;
     case VK_RIGHT: if (ctrl) return false; Move(step, 0); return true;
+    case VK_OEM_COMMA: case VK_OEM_PERIOD:  // the layer each step says
+        if (ctrl) return false;
+        NextLayer(vk == VK_OEM_PERIOD ? +1 : -1);
+        return true;
     case VK_HOME:
         if (ctrl) return false;
         if (!AtSim()) speech::Say(S(Str::NoSimSelected));

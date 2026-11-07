@@ -68,6 +68,11 @@ void InitMouse(HWND gameWindow) {
     HookApi("GetCursorInfo", (void*)GetCursorInfoDetour, (void**)&g_getCursorInfo);
 }
 
+bool MoveRealPointer(int screenX, int screenY) {
+    if (g_active) return false;  // the mod's own clicks own the pointer the game sees
+    return g_setCursorPos ? g_setCursorPos(screenX, screenY) != 0 : SetCursorPos(screenX, screenY) != 0;
+}
+
 void MouseMove(int x, int y) {
     g_active = true;
     g_client = {x, y};

@@ -2,11 +2,15 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <map>
 #include <set>
 #include <vector>
 
+#include "../game/addresses.h"
 #include "../game/buy.h"
+#include "../game/cheats.h"
+#include "../game/lotgrid.h"
 #include "../game/mouse.h"
 #include "../game/objects.h"
 #include "../input/keyboard.h"
@@ -16,6 +20,7 @@
 #include "../util/text.h"
 #include "buffers.h"
 #include "cues.h"
+#include "reach.h"
 #include "world.h"
 
 namespace nav::placement {
@@ -34,6 +39,8 @@ struct Spot {
     int room;
     double distance;  // from the selected Sim (same floor first)
     int dirs = 0;     // the directions it fits in: bit d / 2 for direction d (0 west ... 6 north)
+    int serves = 0;   // a seat here, turned to serveDir, is how this thing is used (a computer), 0 none
+    int serveDir = 0;
 };
 
 struct State {
@@ -61,6 +68,10 @@ struct State {
     bool moving = false;          // the held object came from the lot (no copy follows)
     bool selling = false;         // Delete was pressed
     ULONGLONG sellAt = 0;
+    bool removing = false;        // Delete on a door or window: picked up only to be sold
+    bool door = false;            // Enter put down a door: is it usable? (doorX, doorY, doorDirection)
+    int placedId = 0;             // Enter put down this object (not a door): can Sims get to it?
+    int doorX = 0, doorY = 0, doorDirection = 0;
     // The room the last line named (said again when it changes: "leaving X, entering Y").
     int lastRoom = -2, lastRoomLevel = 0;
     std::string lastRoomName;
@@ -71,6 +82,10 @@ struct State {
     // the held object was put beside last.
     std::vector<int> things;
     int thing = -1;
+    // A moved object: where it stood (its spots come nearest there, as its room).
+    bool hasOrigin = false;
+    int originX = 0, originY = 0, originLevel = 0;
+    std::string wallAfter;        // an arrow stopped at a wall after a few steps: said after the line
 };
 State g;
 
@@ -122,6 +137,81 @@ std::string WallPart(int x, int y, int level) {
 }
 
 const int kStepX[] = {-1, 0, 1, 0}, kStepY[] = {0, 1, 0, -1};  // direction / 2: 0 -x, 2 +y, 4 +x, 6 -y
+
+// ---- Seats for what is used sitting down (ported from the Sims 1 mod's tester feedback, 2026-11-06:
+// a tester could not get a chair to work for the computer on his desk) ----
+
+// Something used sitting down: standing on a desk or a table (a computer on its desk: its +0xaa,
+// the desk's OBJD sub-sort) and sold as electronics, appliances or miscellaneous. A microwave on a
+// counter is used standing (it was offered a chair before the sub-sort was read), a lamp on a side
+// table is lighting.
+bool UsedSitting(const game::LotObject& o) {
+    using namespace game::addr::objd;
+    if (o.person || !(o.functionFlags & (kFnElectronics | kFnAppliances | kFnMiscellaneous))) return false;
+    int container = game::ContainerOf(o.id);
+    int sort = container ? game::ObjdField(container, kFieldFunctionSubsort) : -1;
+    return sort > 0 && (sort & (kSurfaceDesk | kSurfaceTable)) != 0;
+}
+
+// A one-tile seat (a chair, a stool): what can stand at a desk.
+bool IsSeat(const game::LotObject& o, const std::vector<game::PlacedPart>& parts) {
+    return !o.person && (o.functionFlags & game::addr::objd::kFnComfort) && game::ObjectTiles(o.id, parts).size() <= 1;
+}
+
+// The direction from one tile toward another beside it (or nearly): 0 -x, 2 +y, 4 +x, 6 -y.
+int DirectionToward(int x, int y, int tx, int ty) {
+    int dx = tx - x, dy = ty - y;
+    if (std::abs(dx) >= std::abs(dy)) return dx > 0 ? 4 : 0;
+    return dy > 0 ? 2 : 6;
+}
+
+// The things of a floor used sitting down, with the tiles their seats stand on: the container's
+// sitting routing slots (its desk's chair spot), facing the thing's own tile.
+struct Sitting {
+    int id = 0;
+    int x = 0, y = 0;  // the thing's tile
+    std::vector<std::pair<int, int>> seatTiles;
+};
+std::vector<Sitting> SittingThings(int level) {
+    std::vector<Sitting> out;
+    for (const game::LotObject& o : game::LotObjects()) {
+        if (o.level != level || o.x < 0 || !UsedSitting(o)) continue;
+        Sitting s;
+        s.id = o.id;
+        s.x = (int)o.x;
+        s.y = (int)o.y;
+        int container = game::ContainerOf(o.id);
+        std::vector<game::UseSpot> spots = game::UseSpots(o.id);
+        if (spots.empty()) spots = game::UseSpots(container);
+        for (const game::UseSpot& u : spots)
+            if (u.sitting) s.seatTiles.push_back({u.tileX, u.tileY});
+        // A desk flags no slot as sitting (read live: eight spots around it): the seat stands on
+        // its front spot, facing it (the Contreras' office chair, east of a desk facing east).
+        game::LotObject c;
+        if (s.seatTiles.empty() && game::ReadLotObject(container, &c)) {
+            int d = (c.direction / 2) & 3;
+            std::pair<int, int> front = {(int)c.x + kStepX[d], (int)c.y + kStepY[d]};
+            for (const game::UseSpot& u : spots)
+                if (u.tileX == front.first && u.tileY == front.second) s.seatTiles.push_back(front);
+        }
+        LogVerbose("used sitting: %s (#%d) at %d,%d, %d seat tiles", o.name.c_str(), o.id, s.x, s.y, (int)s.seatTiles.size());
+        if (!s.seatTiles.empty()) out.push_back(s);
+    }
+    return out;
+}
+
+// The thing a seat standing on (x, y) facing `direction` serves, 0 none.
+int SeatServes(const std::vector<Sitting>& things, int x, int y, int direction) {
+    for (const Sitting& t : things)
+        for (const auto& st : t.seatTiles)
+            if (st.first == x && st.second == y && DirectionToward(x, y, t.x, t.y) == (direction & 6)) return t.id;
+    return 0;
+}
+
+std::string NameOfId(int id) {
+    game::LotObject o;
+    return id && game::ReadLotObject(id, &o) ? world::DisplayName(o) : "";
+}
 
 // The held object's own id on the lot (its parts carry it as their lead), 0 when unknown.
 int HeldId(const game::HeldObject& held) {
@@ -243,6 +333,10 @@ void Say(bool withFacing, bool full = false) {
         line = g.prefix + ": " + line;
         g.prefix.clear();
     }
+    if (!g.wallAfter.empty()) {
+        line += ". " + g.wallAfter;
+        g.wallAfter.clear();
+    }
     speech::Say(line);
     std::vector<std::string> details = {line, Facing(Direction()), world::WhereFromSim(g.x + 0.5f, g.y + 0.5f, g.level)};
     if (!size.empty()) details.push_back(size);
@@ -255,10 +349,32 @@ void Say(bool withFacing, bool full = false) {
     }
 }
 
-// An arrow: one tile (Shift five); the verdict, then the line and the tile's sounds.
-void MoveBy(int dx, int dy) {
-    g.x += dx;
-    g.y += dy;
+// An arrow: one tile (Shift five); the verdict, then the line and the tile's sounds. A wall, fence
+// or window stops it (a door does not), unless Alt is held: in the Sims 1 mod a tester left a
+// room by accident.
+void MoveBy(int dx, int dy, bool throughWalls = false) {
+    int steps = std::max(std::abs(dx), std::abs(dy));
+    int sx = dx > 0 ? 1 : dx < 0 ? -1 : 0, sy = dy > 0 ? 1 : dy < 0 ? -1 : 0;
+    int moved = 0;
+    std::string wall;
+    for (int i = 0; i < steps; i++) {
+        if (cues::Sense(g.level, g.x + sx, g.y + sy).offLot) break;
+        if (!throughWalls && cues::WallStops(g.level, g.x, g.y, sx, sy, &wall)) break;
+        g.x += sx;
+        g.y += sy;
+        moved++;
+    }
+    if (moved == 0) {
+        if (!wall.empty()) {
+            speech::Say(wall);
+            cues::Blocked();
+        } else {
+            speech::Say(S(Str::MapLotEdge));
+            cues::LotEdge();
+        }
+        return;
+    }
+    g.wallAfter = wall;
     g.spotIndex = -1;
     g.cueAfter = true;
     Send();
@@ -277,6 +393,15 @@ void Scan() {
     game::LotObject sim;
     int simId = game::SelectedSimId();
     bool haveSim = simId && game::ReadLotObject(simId, &sim) && sim.x >= 0;
+    // A moved object's spots come nearest where it stood (its own room first); a new one's
+    // nearest the Sim. In the Sims 1 mod a tester's moved furniture "jumped" to another room.
+    if (g.moving && g.hasOrigin) {
+        sim = game::LotObject{};
+        sim.x = g.originX + 0.5f;
+        sim.y = g.originY + 0.5f;
+        sim.level = g.originLevel;
+        haveSim = true;
+    }
     ULONGLONG t0 = GetTickCount64();
     int checked = 0;
     // The lot is a rectangle from the corner: its size from the picks along two edges.
@@ -341,6 +466,28 @@ void Scan() {
     }
     game::SetHeldDirection(tool, original);
     std::stable_sort(g.spots.begin(), g.spots.end(), [](const Spot& a, const Spot& b) { return a.distance < b.distance; });
+    // A seat: the spots where it would be how something is used sitting down (the chair for the
+    // computer on a desk) come first, turned to face it.
+    game::HeldObject held;
+    game::LotObject heldObject;
+    std::vector<game::PlacedPart> parts = game::PlacedParts();
+    if (game::ReadHeldObject(tool, &held) && game::ReadLotObject(HeldId(held), &heldObject) && IsSeat(heldObject, parts)) {
+        std::map<int, std::vector<Sitting>> byLevel;
+        int serving = 0;
+        for (Spot& sp : g.spots) {
+            if (!byLevel.count(sp.level)) byLevel[sp.level] = SittingThings(sp.level);
+            for (int d = 0; d < 4 && !sp.serves; d++) {
+                if (!(sp.dirs & (1 << d))) continue;
+                if (int id = SeatServes(byLevel[sp.level], sp.x, sp.y, 2 * d)) {
+                    sp.serves = id;
+                    sp.serveDir = 2 * d;
+                    serving++;
+                }
+            }
+        }
+        std::stable_partition(g.spots.begin(), g.spots.end(), [](const Spot& a) { return a.serves != 0; });
+        Log("placement scan: a seat, %d spots serve something used sitting", serving);
+    }
     Log("placement scan: lot %dx%d, %d spots fit of %d checked, direction %d, %llu ms", width, depth,
         (int)g.spots.size(), checked, g.scanDirection, GetTickCount64() - t0);
     Send();  // the held object back on the cursor
@@ -373,9 +520,11 @@ void GoTo(const Spot& s, int index, int count, const std::string& prefix) {
     g.x = s.x;
     g.y = s.y;
     g.level = s.level;
-    // Turned to a direction it fits in there (the current one if it does).
+    // Turned to a direction it fits in there (the current one if it does); a seat toward what it serves.
     int now = Direction();
-    if (!(s.dirs & (1 << (now / 2)))) {
+    if (s.serves) {
+        game::SetHeldDirection(game::CurrentTool(), s.serveDir);
+    } else if (!(s.dirs & (1 << (now / 2)))) {
         for (int d = 0; d < 4; d++)
             if (s.dirs & (1 << d)) {
                 game::SetHeldDirection(game::CurrentTool(), 2 * d);
@@ -386,8 +535,11 @@ void GoTo(const Spot& s, int index, int count, const std::string& prefix) {
     std::string line = prefix.empty() ? world::RoomNameAt(s.x + 0.5f, s.y + 0.5f, s.level) : "";
     std::string wall = WallPart(s.x, s.y, s.level);
     if (!wall.empty()) line += (line.empty() ? "" : ", ") + wall;
-    // The directions it fits in, unless any (doors and windows face their wall).
-    if (wall.empty() && s.dirs != 0xf) line += (line.empty() ? "" : ", ") + Directions(s.dirs);
+    // The directions it fits in, unless any (doors and windows face their wall); a seat's spot by
+    // what it serves ("para usar Ordenador sentado").
+    std::string serves = s.serves ? NameOfId(s.serves) : "";
+    if (!serves.empty()) line += (line.empty() ? "" : ", ") + Facing(s.serveDir) + ", " + util::Format(S(Str::SeatFor), serves.c_str());
+    else if (wall.empty() && s.dirs != 0xf) line += (line.empty() ? "" : ", ") + Directions(s.dirs);
     std::string where = world::WhereFromSim(s.x + 0.5f, s.y + 0.5f, s.level);
     if (!where.empty()) line += (line.empty() ? "" : ", ") + where;
     line += ", " + util::Format(S(Str::ValueOfMax), index + 1, count);
@@ -519,7 +671,37 @@ void NextThing(int delta) {
 
 }  // namespace
 
+namespace {
+
+// After placing: how it is used sitting down. A seat: what it serves ("para usar Ordenador
+// sentado"); a thing used sitting: the seat it is used from ("se usa desde Silla"). Empty otherwise.
+std::string UsedHow(int placedId) {
+    game::LotObject o;
+    if (!game::ReadLotObject(placedId, &o)) return "";
+    std::vector<game::PlacedPart> parts = game::PlacedParts();
+    std::vector<Sitting> things = SittingThings(o.level);
+    if (IsSeat(o, parts)) {
+        std::string name = NameOfId(SeatServes(things, (int)o.x, (int)o.y, o.direction));
+        return name.empty() ? "" : util::Format(S(Str::SeatFor), name.c_str());
+    }
+    for (const Sitting& t : things) {
+        if (t.id != placedId) continue;
+        for (const game::LotObject& seat : game::LotObjects())
+            if (seat.level == o.level && seat.x >= 0 && IsSeat(seat, parts) &&
+                SeatServes({t}, (int)seat.x, (int)seat.y, seat.direction) == t.id)
+                return util::Format(S(Str::UsedFromSeat), world::DisplayName(seat).c_str());
+    }
+    return "";
+}
+
+}  // namespace
+
 bool Active() { return g.active; }
+
+void Move(int dx, int dy, bool throughWalls) {
+    if (!g.active || g.pickingUp || g.removing) return;
+    MoveBy(dx, dy, throughWalls);
+}
 
 void Begin(const std::string& productName) {
     g = State();
@@ -548,6 +730,10 @@ void BeginMove(game::Ptr object, uint32_t guid, const std::string& name, float x
     g.x = (int)std::floor(x);
     g.y = (int)std::floor(y);
     g.level = level;
+    g.hasOrigin = true;
+    g.originX = g.x;
+    g.originY = g.y;
+    g.originLevel = level;
     if (!game::ForceObjectPick(object)) {
         speech::Say(util::Format(S(Str::PlaceCannotPick), name.c_str()));
         return;
@@ -563,8 +749,14 @@ void BeginMove(game::Ptr object, uint32_t guid, const std::string& name, float x
     Log("picking up %s (%p) at %d,%d floor %d", name.c_str(), (void*)object, g.x, g.y, g.level);
 }
 
+void BeginRemove(game::Ptr object, uint32_t guid, const std::string& name, float x, float y, int level) {
+    BeginMove(object, guid, name, x, y, level);
+    g.removing = g.pickingUp;
+    if (!g.removing) speech::Say(util::Format(S(Str::PortalNotRemoved), name.c_str()));
+}
+
 bool OnKey(WPARAM vk, bool shift, bool ctrl) {
-    if (!g.active || g.pickingUp) return false;
+    if (!g.active || g.pickingUp || g.removing) return false;
     int step = shift ? 5 : 1;
     switch (vk) {
     case VK_UP: if (ctrl) return false; MoveBy(0, -step); return true;
@@ -619,6 +811,12 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
             return true;
         }
         Log("placing at %d,%d floor %d, direction %d", g.x, g.y, g.level, Direction());
+        game::HeldObject held;
+        g.door = game::ReadHeldObject(game::CurrentTool(), &held) && held.objectType == 8;
+        g.doorX = held.x >= 0 ? (int)std::floor(held.x) : g.x;
+        g.doorY = held.y >= 0 ? (int)std::floor(held.y) : g.y;
+        g.doorDirection = held.direction;
+        g.placedId = g.door || held.objectType == 9 ? 0 : HeldId(held);
         game::MouseClick(kSceneX + (g.jitter ? 1 : 0), kSceneY);
         g.placing = true;
         g.placedAt = GetTickCount64();
@@ -639,6 +837,30 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
 }
 
 void Tick() {
+    if (game::g_doorCheckRequested) {
+        game::g_doorCheckRequested = false;
+        for (const game::WallObject& w : game::WallObjects()) {
+            if (w.type != 8) continue;
+            std::string blocker;
+            int check = reach::CheckDoor((int)w.x, (int)w.y, w.direction, w.level, &blocker);
+            Log("  door %s at %.1f,%.1f direction %d floor %d: check %d (%s)", w.name.c_str(), w.x, w.y, w.direction, w.level, check, blocker.c_str());
+        }
+    }
+    if (game::g_reachCheckRequested) {
+        game::g_reachCheckRequested = false;
+        reach::Forget();
+        int unreachable = 0, checked = 0;
+        ULONGLONG t0 = GetTickCount64();
+        for (const game::LotObject& o : game::LotObjects()) {
+            if (o.person || !world::IsListed(o.id)) continue;
+            checked++;
+            int use = reach::CanUse(o.id);
+            if (use == 2) unreachable++;
+            Log("  reach %s (#%d) at %.1f,%.1f floor %d: %d, %s", world::DisplayName(o).c_str(), o.id, o.x, o.y, o.level, use,
+                UsedHow(o.id).c_str());
+        }
+        Log("reach: %d of %d things no Sim can reach, %llu ms", unreachable, checked, GetTickCount64() - t0);
+    }
     if (!g.active) return;
     ULONGLONG now = GetTickCount64();
     if (!world::LotViewActive()) {
@@ -654,8 +876,15 @@ void Tick() {
         Log("pick up: tool %p holding guid %08x", (void*)game::CurrentTool(), held.guid);
         if (!holding) {
             std::string name = g.name;
+            bool removing = g.removing;
             Stop();
-            speech::Say(util::Format(S(Str::PlaceCannotPick), name.c_str()));
+            speech::Say(util::Format(S(removing ? Str::PortalNotRemoved : Str::PlaceCannotPick), name.c_str()));
+            return;
+        }
+        if (g.removing) {  // the game sells what the hand holds on its own Delete, and refunds it
+            input::PostGameKey(VK_DELETE);
+            g.selling = true;
+            g.sellAt = now;
             return;
         }
         g.moving = true;
@@ -669,7 +898,16 @@ void Tick() {
         if (now - g.sellAt < 400) return;
         g.selling = false;
         game::HeldObject held;
-        if (!(game::ReadHeldObject(game::CurrentTool(), &held) && held.holding)) {
+        bool still = game::ReadHeldObject(game::CurrentTool(), &held) && held.holding;
+        if (g.removing) {
+            std::string name = g.name;
+            Stop();
+            if (still) input::PostGameKey(VK_ESCAPE);  // put it back
+            if (still) speech::Say(util::Format(S(Str::PortalNotRemoved), name.c_str()));
+            else buffers::Event(util::Format(S(Str::PortalRemoved), name.c_str()));
+            return;
+        }
+        if (!still) {
             buffers::Event(util::Format(S(Str::PlaceSold), g.name.c_str()));
             Stop();
         }
@@ -681,7 +919,27 @@ void Tick() {
         game::HeldObject held;
         bool holding = game::ReadHeldObject(game::CurrentTool(), &held) && held.holding;
         Log("after placing: tool %p holding %d", (void*)game::CurrentTool(), holding ? 1 : 0);
-        buffers::Event(util::Format(S(Str::PlacePlaced), g.name.c_str()));
+        std::string line = util::Format(S(Str::PlacePlaced), g.name.c_str());
+        if (g.door) {
+            std::string blocker;
+            int check = reach::CheckDoor(g.doorX, g.doorY, g.doorDirection, g.level, &blocker);
+            Log("door at %d,%d direction %d floor %d: check %d (%s)", g.doorX, g.doorY, g.doorDirection, g.level, check, blocker.c_str());
+            line += ". " + (check == 1 ? util::Format(S(Str::DoorBlocked), blocker.c_str())
+                                       : std::string(S(check == 2 ? Str::DoorNoWay : Str::DoorUsable)));
+            g.door = false;
+        } else if (g.placedId) {
+            // How it can be used, as the door check says for doors: in the Sims 1 mod a tester could
+            // not tell whether his Sim would reach what he had placed.
+            reach::Forget();
+            std::string with = UsedHow(g.placedId);
+            int use = reach::CanUse(g.placedId);
+            Log("placed object %d: reach %d, %s", g.placedId, use, with.c_str());
+            if (!with.empty()) line += ". " + with;
+            else if (use == 2) line += ". " + std::string(S(Str::NobodyReaches));
+            else if (use == 1) line += ". " + std::string(S(Str::SimsCanUse));
+            g.placedId = 0;
+        }
+        buffers::Event(line);
         g.placing = false;
         g.scanned = false;  // that spot is taken now
         g.things.clear();   // and the things beside it changed

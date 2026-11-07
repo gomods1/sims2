@@ -16,6 +16,8 @@ int StringLanguageCode();
 // from every pack's floor definitions (TSData\Res\Catalog\Patterns); empty when unknown. The
 // first call reads them all (9 MB, a fraction of a second).
 std::string FloorSurfaceType(uint32_t guid);
+// A catalog floor's name in the game's language ("Baldosa de granito claro"), empty when unknown.
+std::string FloorCatalogName(uint32_t guid);
 
 // Entry `index` of STR# `instance` (group 0xFFFFFFFF) in TSData\Res\Text\<file> of the newest
 // expansion that has it, in the game's language (English when the entry is empty). UTF-8; empty

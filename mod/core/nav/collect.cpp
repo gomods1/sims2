@@ -91,20 +91,42 @@ std::string StepBarLabels(Ptr bar) {
 }
 
 // The meter a label names: the step bar on its row, else the only one beside it (personality bars,
-// named by two labels, are not meters).
+// named by two labels, are not meters). On the job panel's skills each 16-pixel label overlaps two
+// 14-pixel rows of bars: the row it overlaps most is its own (the last one overlapping gave each
+// skill its neighbour's value).
 Ptr MeterFor(Ptr label) {
     RECT l = game::Area(label);
     Ptr sameRow = 0, only = 0;
-    int count = 0;
+    int count = 0, bestOverlap = 0;
     for (Ptr s : game::Children(game::Parent(label))) {
         int step, steps;
         if (s == label || !game::Visible(s) || !game::StepBar(s, &step, &steps) || !StepBarLabels(s).empty()) continue;
         count++;
         only = s;
         RECT b = game::Area(s);
-        if (l.bottom > b.top && l.top < b.bottom) sameRow = s;
+        int overlap = std::min(l.bottom, b.bottom) - std::max(l.top, b.top);
+        if (overlap > bestOverlap) {
+            bestOverlap = overlap;
+            sameRow = s;
+        }
     }
     return sameRow ? sameRow : count == 1 ? only : 0;
+}
+
+// The job panel's mark on a skill bar (its child 5, a 9-pixel bitmap): the level the next promotion
+// asks for, drawn at (level - 1) tenths of the bar and hidden when it asks nothing (the panel's
+// update 0xa065a98d; shown only with a job below its top level). 0 when there is none.
+int PromotionNeeds(Ptr bar, int steps) {
+    RECT b = game::Area(bar);
+    int width = b.right - b.left;
+    if (steps <= 0 || width <= 0) return 0;
+    for (Ptr c : game::Children(bar)) {
+        if (game::WinId(c) != 5 || !game::Visible(c)) continue;
+        RECT m = game::Area(c);
+        int cell = width / steps;
+        return cell > 0 ? (m.left + cell / 2) / cell + 1 : 0;
+    }
+    return 0;
 }
 
 // The nearest text above a window, overlapping it horizontally, among the windows beside it or
@@ -436,6 +458,9 @@ struct Walker {
                     // Without a tooltip the label's own text names the meter (a hobby's enthusiasm).
                     if (title.empty()) title = value;
                     value = util::Format(S(Str::ValueOfMax), step, steps);
+                    // "the next promotion needs 4" (in the Sims 1 mod a tester asked for it).
+                    int needs = PromotionNeeds(bar, steps);
+                    if (needs > step) value += ", " + util::Format(S(Str::SkillNeededForPromotion), needs);
                 }
             }
             if (value.empty()) return;
@@ -639,6 +664,17 @@ std::vector<Group> Collect(Ptr root) {
     // The lot view: the selected Sim's needs and action queue first (from the Sim's data), then
     // the lot's things by kind and by room.
     if (root == game::MainWindow() && world::LotViewActive()) {
+        // The camera's zoom and facing, with the clock and the funds.
+        std::string camera = live::CameraLine();
+        for (Group& g : out) {
+            if (g.proc != "cTSWinProcUCP" || camera.empty()) continue;
+            Item it;
+            it.role = Role::Text;
+            it.number = 1;  // a virtual item is found again by its number
+            it.label = camera;
+            g.items.push_back(std::move(it));
+            break;
+        }
         Group rooms = world::RoomsGroup();
         if (!rooms.items.empty()) out.insert(out.begin(), std::move(rooms));
         Group kinds = world::KindsGroup();

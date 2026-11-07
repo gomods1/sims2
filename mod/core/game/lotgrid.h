@@ -14,7 +14,10 @@ namespace game {
 enum class Surface { Ground, Grass, Wood, Tile, Carpet, Stone, Gravel, PoolRim, Water, NoFloor };
 Surface SurfaceAt(int level, int x, int y);
 int FloorPatternAt(int level, int x, int y);  // the floor pattern id there, 0 none
-std::string FloorPatternName(int id);         // its name: a catalog GUID in hex, or "sidewalk"...
+std::string FloorPatternName(int id);  // its name: a catalog GUID in hex, or "sidewalk"...
+// The catalog name of a tile's floor in the game's language ("Baldosa de granito claro"); empty on
+// bare ground and for the built-in floors (pavement, foundations, the pool's edge).
+std::string FloorName(int level, int x, int y);
 
 // A wall of a kind between two neighbouring tiles' centres (the game's IsWallBetweenPoints):
 // the partition layer 0 holds every wall, fence and railing, layer 4 the load-bearing walls.

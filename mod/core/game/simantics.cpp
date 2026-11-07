@@ -68,6 +68,10 @@ int __fastcall BalloonDetour(Ptr thread, void* edx, Ptr frame, const uint8_t* op
         Ptr behavior = Rd<Ptr>(frame + 0x20);  // cTSTreeStackElem: the tree (cTSBehavior: +0xc its group)
         if (behavior) b.group = Rd<uint32_t>(behavior + 0xc);
         b.objectId = ReadVariable(thread, o[5], *(uint16_t*)(o + 6));
+        // Who runs the tree and its stack object (scope 10, "Stack Object ID"): in a conversation,
+        // the two Sims (the balloon is over either).
+        b.runner = ReadVariable(thread, 3, 11);
+        b.stackObject = ReadVariable(thread, 10, 0);
         b.mode = o[4];
         b.flags = *(uint16_t*)(o + 0xe);
         if (b.flags & 1) b.effect = (b.flags & 8) ? ReadTemp(thread, 0) : *(int16_t*)(o + 8);

@@ -117,15 +117,21 @@ végig rajtuk:
    amelyet megnyitsz.
 5. **a mod súgója**.
 
+A munka oldala megmondja a sim munkaidejét; az Enter rajta hozzáteszi, mikor jön a közös autó. Felmondáshoz telefonon hívd a munkahelyet. Minden képesség elmondja a szintjét, és ha a következő előléptetéshez több kell, mennyi: „Főzés, 2/10, a következő előléptetéshez 4 kell”.
+
 ### Simek kiválasztása és a kamera
 
 | Billentyű | Mit csinál |
 |---|---|
 | Control+1 – Control+9 | A család első–kilencedik Simjének kiválasztása. |
 | Control+E | A kiválasztott Sim egy sorban: hol van, mit csinál, sürgős szükségletek. |
-| Control+F | A kamera követi a kiválasztott Simet, vagy szabad marad. |
+| Control+Shift+E | Hogy néz ki egy Sim: kor, haj, bőr, szem, szemüveg, test és ruha, a játék szavaival. A telek dolgai között fókuszban lévő Sim, különben a kiválasztott. A Sim részletei (Control+Fel nyíl rajta) is elmondják. |
+| Control+T | Bemondja az óra minden új óráját („14:00 van”), vagy abbahagyja. Hasznos a legnagyobb sebességnél. |
+| Control+Shift+F | A kamera követi a kiválasztott Simet, vagy szabad marad. |
 
 A kamera követi a kiválasztott Simet, mert a játék hangjai abból jönnek, ami a képernyőn van.
+
+A nagyítást és a kamera irányát elmondja, amikor változnak (Z és X nagyít), és a vezérlőpulton is ott vannak: „kamera: közeli nézet, 5 / 6, északkeletre néz". Az irány az, amerre a képernyő teteje néz.
 
 ### A telek tárgyai
 
@@ -148,6 +154,10 @@ vásárlás és építés módban.
 | Enter | A tárgy interakciói (vásárlás módban: felveszi, hogy áthelyezd). |
 | Control+Enter | A kiválasztott Sim odasétál a tárgyhoz. |
 | Control+Shift+Enter | Odafut. |
+| Control+F | Tárgy keresése: írd be a neve egy részét („tel" megtalálja a telefont, az ékezetek nem számítanak). A Fel és a Le végigmegy a találatokon, az Enter cselekszik vele, a Control+Enter odamegy, a Delete eltávolít egy ajtót vagy ablakot, az Escape visszavisz oda, ahol voltál. |
+| Delete | Ajtón vagy ablakon, vásárló módban vagy az építő mód kezével: felveszi és eladja, visszatérítéssel. |
+
+A simek után jönnek a **gondok**: ami figyelmet kér, például elromlott és takarítandó dolgok, tócsák, szemét, hamu és tűz. Legvégül jönnek az **ajtók, ablakok és lépcsők**. Az a dolog, amelyet egyetlen Sim sem ér el a telek bejáratától, azt mondja: „egyetlen Sim sem éri el”.
 
 ### Interakciós menük
 
@@ -169,10 +179,12 @@ falhoz, kerítéshez, korláthoz, ajtóhoz vagy ablakhoz.
 
 | Billentyű | Mit csinál |
 |---|---|
-| Nyilak | Egy mező; Shifttel öt. Elmondja, mi áll ott és merre néz, a szobát és a padlót, amikor megváltoznak, a falakat, kerítéseket, korlátokat, ajtókat és ablakokat oldalanként, a lépcsőket és a lejtőket. |
+| Nyilak | Egy mező; Shifttel öt. Elmondja, mi áll ott és merre néz, a szobát és a padlót, amikor megváltoznak, a falakat, kerítéseket, korlátokat, ajtókat és ablakokat oldalanként, a lépcsőket és a lejtőket. A falak, kerítések és ablakok megállítják a kurzort; az ajtók átengedik. |
+| Alt+Nyilak | Ugyanez, falakon át. |
+| Vessző, pont | Mit mond minden lépés: mindent, csak tárgyakat, csak padlókat (néven, „Világos gránitcsempe”), csak falakat, csak szobákat. |
 | Home | Vissza a kiválasztott Simhez. |
 | Control+Shift+Page Up, Page Down | A fenti vagy a lenti szint. |
-| Enter | Annak az interakciós menüje, ami ott áll. |
+| Enter | Annak az interakciós menüje, ami ott áll. Az asztalon vagy íróasztalon álló dolog az asztal előtt jön: a számítógép, nem az íróasztala. |
 | Control+Enter | A kiválasztott Sim odasétál (Control+Shift+Enter: odafut). |
 | Page Down, Page Up (és Shift, Control) | A telek tárgyai, mint mindig; a térkép mindegyikhez odaugrik. |
 | R | Minden a mezőről. Control+L a szoba elrendezése. |
@@ -188,13 +200,17 @@ pufferben tartja őket:
   "első csók").
 - **Útvonalak**: "Carlos nem jut oda".
 - A család **cselekvései**, alacsonyra csökkenő **szükségletek**, **látogatók**, valamint a
-  kifizetett vagy kapott pénz.
+  kifizetett vagy kapott pénz. Ha egy cselekvés megszakad és a sorban vár, ezt elmondja: „Carlos abbahagyta ezt: Leülés, emiatt: Pánik; a sorban vár”.
 - **A telekről eltűnő bútorok** (betörő, végrehajtó), az értékükkel.
 
-A család buborékjait kimondja; egy látogatóé csak az események pufferbe kerül.
+A családod gondolatait és sikolyait mondja, és bárki sikolyát. A beszélgetéseket (amit a Simek mondanak és a kapcsolati főcímeket) a Control+Shift+N választása szerint mondja; a többi csak az eseménypufferbe kerül.
 
 A **Control+N** megváltoztatja, mennyi hangozzon el: minden, csak a figyelmeztetések vagy semmi. A
 ki nem mondott sorok is az események pufferbe kerülnek.
+
+A **Control+Shift+N** választja ki, kinek a beszélgetéseit mondja: bárkiét, aki a családoddal beszél (kezdetben), mindenkiét a telken, csak a családodét, vagy senkiét. Ami nem hangzik el, az is az eseménypufferbe kerül.
+
+A másik simmel végzett cselekvések megnevezik azt a simet, bárki indította őket: „Carlos: Köszönés, vele: Elvira".
 
 ## Vásárlás mód
 
@@ -213,7 +229,8 @@ irányban, a kiválasztott Simhez legközelebbitől kezdve.
 | Control+Page Down, Control+Page Up | A szobák, amelyekben vannak helyek. |
 | Shift+Page Down, Shift+Page Up (vagy vessző, pont) | Elforgatja; az irányt kimondja. |
 | Control+Shift+Page Down, Page Up | A telek tárgyai mellé, a legközelebbitől, feléjük fordítva, ha elfér. |
-| Nyilak | Ehelyett egy mezővel mozgatja (Shift: öttel): elfér-e, mibe ütközik, a szobát, amikor megváltozik, a körülötte lévő falakat, merre néz és mi felé, a mezőt; aztán a mező hangjait. |
+| Nyilak | Ehelyett egy mezővel mozgatja (Shift: öttel): elfér-e, mibe ütközik, a szobát, amikor megváltozik, a körülötte lévő falakat, merre néz és mi felé, a mezőt; aztán a mező hangjait. A falak, kerítések és ablakok megállítják; az ajtók átengedik. |
+| Alt+Nyilak | Ugyanez, falakon át. |
 | Home | Vissza a kiválasztott Simhez. |
 | Enter | Megveszi ott; a játék újabb példányt ad, amíg meg nem nyomod az Escape-et. |
 | Escape | Befejezi az elhelyezést (egy áthelyezett tárgy visszakerül). |
@@ -223,14 +240,18 @@ irányban, a kiválasztott Simhez legközelebbitől kezdve.
 A több mezős tárgy elmondja, mennyi padlót foglal ("2 mezőt foglal: 2 nyugatról keletre, 1
 északról délre").
 
+Egy ülőhely helyei ott kezdődnek, ahol valamit ülve használnak, például egy íróasztalon álló számítógépet, és az ülés felé fordul: „nyugat felé, ülve használni ezt: Számítógép”. Egy tárgy elhelyezése után a mod elmondja, hogyan fogják használni: „ülve használni ezt: Számítógép”, „innen használják: Irodai szék”, „a Simek elérik” vagy „egyetlen Sim sem éri el”.
+
 ### Áthelyezés és eladás
 
 Vásárlás módban lépj a Page Downnal a telek egy tárgyára, és nyomj Entert: felveszi, és ugyanazok
-a billentyűk máshová helyezik. A Delete eladja.
+a billentyűk máshová helyezik. A Delete eladja. A helyei ahhoz a legközelebb kezdődnek, ahol állt.
 
 ## Építés mód
 
 Az F3 megnyitja az építés módot. Az eszközei és a stílusai gombok.
+
+Egy eszköz megnyomása a stílusaihoz visz, az eszközről elnevezett csoportba; a Tab visszavisz az eszközökhöz.
 
 ### Az építési kurzor
 
@@ -258,6 +279,8 @@ Az ajtókat, ablakokat és lépcsőket úgy helyezed el, mint a bútort, azokró
 elférnek: egy ajtó helye elmondja, melyik falon van, és melyik szobába vezet. Tetők: a tetők
 oldalának automatikus tető gombjai.
 
+Egy ajtó elhelyezése után a mod megmondja, át tudnak-e menni rajta a simek, vagy mi van útban. Későbbi változtatáshoz keresd meg az **ajtók, ablakok és lépcsők** között vagy a Control+F billentyűvel: az Enter felveszi áthelyezéshez, vásárló módban vagy az építő mód kezével, a Delete pedig eltávolítja.
+
 ## Hangjelzések
 
 Az építési kurzor, az elhelyezés nyilai és a telek térképe minden lépésnél rövid hangot játszik le:
@@ -272,7 +295,7 @@ a mezőn, lejtő, szobaváltás, a telek széle, elhelyezéskor pedig az, hogy e
 | Billentyű | Mit csinál |
 |---|---|
 | Control+Shift+C | A játék csalókonzolja: a bemenete egy szövegmező; az Enter rajta megadja neki a billentyűzetet, gépeld be a csalást, az Enter lefuttatja, és amit kiír, azt felolvassa. |
-| Control+Shift+V | Kiemeli a képernyőn a kijelölt vezérlőt egy látó segítő számára. |
+| Control+Shift+V | Kiemeli a képernyőn a kijelölt vezérlőt egy látó segítő számára. Élet módban, ha a játék ablaka elöl van, a kamera a telek fókuszban lévő dolgára is ránéz, és az egérmutató rámegy. |
 
 ## A játék saját billentyűi
 
@@ -298,6 +321,8 @@ A mod beállításai a játék mappájában lévő `Sims2Access\Sims2Access.ini`
 | `cues` | 1 hangjelzések be, 0 ki (Control+Shift+S). |
 | `cue_volume` | A hangjelzések hangereje, 0-tól 100-ig (alapértelmezés 80). |
 | `show_focus` | 1 kiemeli a képernyőn a kijelölt vezérlőt (Control+Shift+V). |
+| `social` | Kinek a beszélgetéseit mondja: 3 mindenkiét, 2 bárkiét a családoddal, 1 a családodét, 0 senkiét (Control+Shift+N). |
+| `hours` | 1 bemond minden új órát (Control+T). |
 
 ## Ha valami nem működik
 

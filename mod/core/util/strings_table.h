@@ -214,7 +214,7 @@
     X(FamilyTreePicked, "%s picked up: Enter on another Sim to join them, Enter again to put down")                    \
     X(FurnitureGone, "%1$s has left the lot, worth %2$s")                                                              \
     X(BuildShutIn, "careful: %2$s has no door and %1$s is inside; Ctrl+Z undoes the wall")                             \
-    X(KeysLotMore, "Control+L the room's layout, Control+N what the narrator says, Control+F whether the camera follows the Sim.")\
+    X(KeysLotMore, "Control+L the room's layout, Control+N what the narrator says, Control+Shift+F whether the camera follows the Sim.")\
     X(GroupBusiness, "business")                                                                                       \
     X(GroupSeasons, "seasons")                                                                                         \
     X(GroupDate, "date")                                                                                               \
@@ -266,4 +266,79 @@
     X(ManualMissing, "the manual is missing: reinstall the mod")                                                    \
     X(ManualButton, "Sims 2 Accessibility manual")                                                                  \
     X(GroupModHelp, "mod help")                                                                                     \
+    /* Find, problems, doors and windows, the camera's view (ported from the Sims 1 mod, 2026-11-02) */                \
+    X(CategoryProblems, "problems")                                                                                    \
+    X(CategoryPortals, "doors, windows and stairs")                                                                    \
+    X(ConditionBroken, "broken")                                                                                       \
+    X(ConditionDirty, "needs cleaning")                                                                                \
+    X(ObjPuddle, "puddle")                                                                                             \
+    X(ObjAshes, "ashes")                                                                                               \
+    X(ObjFire, "fire")                                                                                                 \
+    X(FindPrompt, "Find a thing of the lot: type part of its name. Up and Down go through what matches, Enter opens it, Escape cancels.")\
+    X(FindCount, "%1$s: %2$d found")                                                                                   \
+    X(FindCountOne, "%s: 1 found")                                                                                     \
+    X(FindNoMatch, "%s: nothing matches")                                                                              \
+    X(FindEmpty, "search empty")                                                                                       \
+    X(FindTypeFirst, "Type part of a name first.")                                                                     \
+    X(FindResults, "found: %s")                                                                                        \
+    X(FindCancelled, "search cancelled")                                                                               \
+    X(FindNotNow, "Finish placing first: Escape, then Control+F.")                                                     \
+    X(KeysFind, "Control+F finds a thing of the lot by typing part of its name.")                                      \
+    X(KeysPortalDelete, "Delete on a door or window of the lot's things removes it.")                                  \
+    X(ZoomFar, "far view")                                                                                             \
+    X(ZoomMedium, "medium view")                                                                                       \
+    X(ZoomNear, "close view")                                                                                          \
+    X(CameraFacing, "camera facing %s")                                                                                \
+    X(CameraStatus, "camera: %1$s, facing %2$s")                                                                       \
+    X(PortalRemoved, "%s removed")                                                                                     \
+    X(PortalNotRemoved, "%s could not be removed")                                                                     \
+    X(PortalNeedsHand, "To remove a door or window: build mode, hand tool.")                                           \
+    X(ActionWithSim, "%1$s, with %2$s")                                                                                \
+    X(DoorUsable, "Sims can walk through it")                                                                          \
+    X(DoorBlocked, "Warning: Sims can't use this door, %s is in the way")                                              \
+    X(DoorNoWay, "Warning: Sims can't get to this door from the lot's entrance")                                       \
+    /* Mess names (ported from the Sims 1 mod, 2026-11-02) */                                                          \
+    X(ObjRoaches, "cockroaches")                                                                                       \
+    X(ObjTrashPile, "pile of trash")                                                                                   \
+    X(ObjDigPile, "pile of dirt a dog dug up")                                                                         \
+    /* Ported from the Sims 1 mod's tester feedback (2026-11-06) */                                                    \
+    X(HourChanged, "it is %s")                                                                                         \
+    X(HoursOn, "each new hour is said")                                                                                \
+    X(HoursOff, "hours are no longer said")                                                                            \
+    X(SocialEveryone, "conversations: everyone's")                                                                     \
+    X(SocialWithFamily, "conversations: anyone with your family")                                                      \
+    X(SocialFamilyOnly, "conversations: only your family's")                                                           \
+    X(SocialNobody, "conversations: none, kept in the events")                                                         \
+    X(ActionInterruptedWaits, "%1$s stopped %2$s for %3$s; it waits in the queue")                                     \
+    X(NobodyReaches, "no Sim can reach it")                                                                            \
+    X(SimsCanUse, "Sims can reach it")                                                                                 \
+    X(MapNoWalls, "no walls")                                                                                          \
+    X(MapLayerAll, "everything")                                                                                       \
+    X(MapLayerObjects, "objects only")                                                                                 \
+    X(MapLayerFloors, "floors only")                                                                                   \
+    X(MapLayerWalls, "walls only")                                                                                     \
+    X(MapLayerRooms, "rooms only")                                                                                     \
+    X(KeysMapMore, "Walls, fences and windows stop the arrows; Alt with the arrows goes through. Comma and period choose what each step says: everything, objects, floors, walls or rooms.")\
+    X(KeysPlacingWalls, "Walls, fences and windows stop the arrows; Alt with the arrows goes through. When moving an object, the first arrow starts where it stood.")\
+    X(KeysLotNarration, "Control+T says each new hour of the clock, or stops. Control+Shift+N chooses whose conversations are said: anyone with your family, everyone, only your family, or nobody.")\
+    X(SkillNeededForPromotion, "the next promotion needs %d")                                                          \
+    X(SimLookUnknown, "%s: the mod has no description of this look")                                                   \
+    X(LookHairDyed, "dyed hair")                                                                                       \
+    X(LookSkinCustom, "custom")                                                                                        \
+    X(LookSkinLight, "light")                                                                                          \
+    X(LookSkinMedium, "medium")                                                                                        \
+    X(LookSkinMediumDark, "medium dark")                                                                               \
+    X(LookSkinDark, "dark")                                                                                            \
+    X(LookSkinAlien, "alien")                                                                                          \
+    X(LookSkinZombie, "zombie")                                                                                        \
+    X(LookEyesCustom, "custom")                                                                                        \
+    X(LookEyesAlien, "alien")                                                                                          \
+    X(LookBodyHeavy, "heavy")                                                                                          \
+    X(LookBodyFit, "fit")                                                                                              \
+    X(LookOutfitNaked, "none")                                                                                         \
+    X(LookOutfitMaternity, "maternity")                                                                                \
+    X(KeysLook, "Control+Shift+E says what a Sim looks like: the Sim focused among the lot's things, else the selected one.")\
+    X(SeatFor, "to use %s sitting down")                                                                               \
+    X(UsedFromSeat, "used from %s")                                                                                    \
+    X(KeysShowFocusThings, "With it on, the mouse pointer also goes to the lot's thing in focus.")                     \
     X(KeysButton, "Keys for this screen")                                                                           \

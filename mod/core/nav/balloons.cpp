@@ -191,6 +191,36 @@ std::string IconName(uint32_t group, int sheet, int cell) {
 
 std::map<std::string, ULONGLONG> g_said;  // "object|line" -> when it was said
 
+bool InFamily(const std::vector<int>& family, int id) {
+    return id && std::find(family.begin(), family.end(), id) != family.end();
+}
+
+// Whether a Sim from outside the family is busy with one of the family: the tree's runner or its
+// stack object (a social runs on one Sim with the other as its stack object), or the selected
+// Sim's running action done with that Sim.
+bool WithFamily(const game::Balloon& b, const std::vector<int>& family) {
+    if (InFamily(family, b.runner) || InFamily(family, b.stackObject)) return true;
+    return game::SelectedSimId() && InFamily(family, game::SelectedSimId()) &&
+           live::RunningActionWith() == b.objectId;
+}
+
+// Whose balloons are spoken (Ctrl+Shift+N chooses for conversations): the family's thoughts and
+// screams, anyone's screams, every thought with the scope "everyone"; conversations (talk
+// balloons, relationship headlines) by the scope. A route failure is always news. The others are
+// only kept in the events buffer.
+bool Speak(Kind kind, bool family, bool withFamily, bool routeFailure) {
+    if (routeFailure && family) return true;
+    int scope = live::SocialScope();
+    if (kind == Kind::Thought || kind == Kind::Scream)
+        return family || kind == Kind::Scream || scope == live::kSocialEveryone;
+    switch (scope) {
+    case live::kSocialEveryone: return true;
+    case live::kSocialWithFamily: return family || withFamily;
+    case live::kSocialFamily: return family;
+    }
+    return false;
+}
+
 }  // namespace
 
 void Tick() {
@@ -225,7 +255,8 @@ void Tick() {
         }
         if (!icon.empty() && icon == who) continue;  // the Sim's own face ("Carmen dice: Carmen") says nothing
         std::string line;
-        if (b.sheet >= 0 && IsRouteFailure(b.group, b.sheet, b.iconValue)) {
+        bool routeFailure = b.sheet >= 0 && IsRouteFailure(b.group, b.sheet, b.iconValue);
+        if (routeFailure) {
             line = util::Format(S(Str::BalloonRouteFailed), who.c_str());
         } else if (e->kind == Kind::Headline) {
             line = util::Format(S(e->headline), who.c_str());
@@ -247,10 +278,13 @@ void Tick() {
         ULONGLONG quiet = e->kind == Kind::Talk ? 15000 : 60000;
         if (said != g_said.end() && now - said->second < quiet) continue;
         g_said[key] = now;
-        // The family's balloons are spoken (a Sim on the phone with them counts); a visitor's only
-        // kept in the events buffer, as the small relationship steps each social gives.
+        // The small relationship steps each social gives are only kept in the events buffer.
         bool small = b.effect == 0x04 || b.effect == 0x06;
-        if (!small && std::find(family.begin(), family.end(), b.objectId) != family.end())
+        bool inFamily = InFamily(family, b.objectId);
+        bool withFamily = !inFamily && WithFamily(b, family);
+        LogVerbose("balloon scope: family %d, with family %d (runner %d, stack object %d)", inFamily, withFamily, b.runner,
+                   b.stackObject);
+        if (!small && Speak(e->kind, inFamily, withFamily, routeFailure))
             live::Narrate(line, e->kind == Kind::Scream);
         else
             buffers::Record(line);

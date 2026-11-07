@@ -30,6 +30,16 @@ goes beside the lot's things, the lot map (Ctrl+M), sound cues for every cursor 
 build data (floors by material, walls, fences, railings, doors, windows, stairs, slopes), the
 player's manual in 20 languages (Ctrl+Shift+F1, a "mod help" group on the main screen), release
 packaging. Multi-tile furniture (beds, sofas, tables) is listed now (it was missing).
+Since 2026-11-02 (the Sims 1 mod's commit of that day ported): Ctrl+F finds a thing by name, the
+kinds "problems" and "doors, windows and stairs", Delete on a door or window, the check after
+placing a door, the camera's zoom and facing, a tool leading to its styles, actions naming the
+other Sim.
+Since 2026-11-07 (the Sims 1 mod's commits of 2026-11-06 ported, each through its Sims 2
+equivalent, found by RE and checked live on the Contreras lot): the map's layers and floor names,
+walls stopping the map's and placing's arrows (Alt goes through), reach ("no Sim can reach it"),
+seats for what is used sitting (routing slots), Ctrl+T hours, Ctrl+Shift+N conversation scope,
+Ctrl+Shift+E a Sim's looks, interrupted actions, skills and promotion needs, the camera and pointer
+on the focused thing (Ctrl+Shift+V), the GitHub release workflow.
 Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARGETS.md`; layouts:
 `STRUCTS.md`.
 
@@ -67,15 +77,20 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
   19 languages), the manual `docs/manual/en.md` and its 19 translations, and `NAVIGATION.md` when the
   grammar changes. `python tools/build_docs.py --check` compares each translation with en.md
   (headings, table rows, list items, the key combinations of each row: an ASCII "+" joins keys).
-- **Release** (offline): `python tools/package.py vX.Y.Z` checks the manual, builds, writes
+- **Release**: `python tools/package.py vX.Y.Z` checks the manual, builds, writes
   `mod\out\Sims2Access-vX.Y.Z.zip` (+ `.map`); the shared installer (`..\installer`) has no Sims 2
-  entry yet (ROADMAP).
+  entry yet (ROADMAP). Pushing a tag (`git tag vX.Y.Z && git push origin vX.Y.Z`) runs
+  `.github/workflows/release.yml` (ported from the Sims 1 mod, 2026-11-07): a Windows runner
+  downloads Prism (`PRISM_VERSION`, `PRISM` for `build.bat` and `package.py`), finds MSVC through
+  vswhere (`build.bat`, when `VCVARS` is not there), builds and publishes the zip and its map;
+  Actions > Release > Run workflow builds without releasing. Not run yet (the repo is private).
 - **Dev loop** (`Sims2Access\dev.txt`): the loader hot-reloads `Sims2Access.dll` within a second of a
   rebuild. Dev builds also take requests from files: `tools/game.py shot <name>` (screenshot),
   `tools/game.py cheat "<line>"` (a cheat console line through the game's cheat system) and
   `tools/game.py cheat "!<command> args"` (mod test commands in `game/cheats.cpp`: `!objects` logs
   the lot's objects, `!pie <id>` opens an object's interaction menu, `!lotinfo <lot> <family> 0`,
-  `!click x y`, `!move x y`, `!release`, `!rooms`, `!check x y n` times n placement checks; the lot
+  `!click x y`, `!move x y`, `!release`, `!rooms`, `!check x y n` times n placement checks, `!doors`
+  logs the check after placing a door for every door of the lot; the lot
   grid: `!probe x y level` floor, room, water, heights and each side's wall layers, `!walls level`
   every edge by its layer signature, `!parts x y level` what stands on a tile with its lead part,
   `!water x y level`, `!world` the world database's fields, `!dump <addr> <n>`).
@@ -135,6 +150,30 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     speaks it. The main screen ends with the group "mod help" (`kModHelpGroup`, `Role::ModManual`):
     "keys for this screen" (Ctrl+F1's) and the manual (Ctrl+Shift+F1, `nav/manual.cpp`, opens
     `Sims2Access\docs\<tag>.html`, `util::DocTag`).
+  - Ctrl+F (lot view): find a thing by typing part of its name, accents and case aside (`tel`:
+    teléfono; `nav::Find*`, `world::SetFindQuery`, `util::FoldForSearch`). Names starting with the
+    text come first, then a word starting with it, then containing it, each nearest first. Moved
+    from the camera's following on 2026-11-02 (that is Ctrl+Shift+F now).
+  - Things kinds (`nav/world.cpp`): **problems** right after Sims (object variable 15 above 0 broken;
+    39 from 200 dirty, garden plants left out because it is also how overgrown they are; messes by
+    internal name, `MessName`, since they have no catalog name) and **doors, windows and stairs**
+    last (OBJD types 8 and 9, "Stair..." by name).
+  - Delete on a door or window of the lot's things (`world::RemoveFocusedPortal`,
+    `placement::BeginRemove`): the hand picks it up and the game's Delete sells it, refunded; only
+    in buy mode or with build mode's hand. Unlike the Sims 1 game the hand takes doors and windows,
+    so Enter on one moves it (verified 2026-11-02 in buy mode; build mode's hand now takes things too).
+    **A minimized game refuses every pick-up silently**: `tools/game.py windows` shows it at -32000.
+  - After a door is placed the mod says whether Sims can use it (`CheckDoor` in `nav/placement.cpp`:
+    what stands on either side, then a flood from it to the lot's edge, or on an upper floor to the
+    stairs; `!doors` gave no false alarm on the Contreras lot's 15 doors).
+  - The camera's zoom and facing are said when they change and are an item of the control panel
+    (`live.cpp` WatchView, `game::CameraView`). Zoom is one of 6 steps (keys Z, X), its word a third
+    of them; facing is the compass direction the view looks toward. Posted zoom keys:
+    `tools/keys.py z`. Facing changes were not heard in the game: the panel's Rotar buttons do
+    nothing to a press (they may want holding).
+  - A build tool's press moves the focus to its styles (`nav::FinishToolPress`, NAVIGATION.md).
+  - Actions with another Sim name it everywhere the queue is read (`live::QueueGroup`, the queue icon's
+    interaction's object; the field verified on an action with an object, not yet with a Sim).
   - Lot map (Ctrl+M, `nav/map.cpp`, verified 2026-11-01 on the Contreras lot): a tile cursor from
     the selected Sim; arrows (Shift five) say what stands there and which way it faces, the room
     ("sales de Exterior, entras en Cocina") and the floor when they change, walls, fences, railings,
@@ -156,6 +195,38 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     family Sim indoors in a room without a door is announced ("cuidado: Baño no tiene puerta y Carmen
     está dentro..."; dev command `!shutin` runs the check).
   - Ctrl+Enter: walk the selected Sim to the thing last focused (Ctrl+Shift+Enter runs).
+  - Ported 2026-11-07 from the Sims 1 mod's tester feedback (keys in `docs/manual/en.md`; the RE in
+    STRUCTS.md "Routing slots", "Looks", "Job panel", "Camera"; verified live on the Contreras lot
+    unless said): the map's comma / period layers (everything, objects, floors, walls, rooms;
+    floors by catalog name, `game::FloorName`: the XFLR's STR# `stringsetgroupid`/`stringsetid`
+    in `catpatterns.bundle.package`, "Pavimento de piedra Lecho de río"); walls, fences, railings
+    and windows stop the map's and placing's arrows (`cues::WallStops`), Alt+arrows go through
+    (`OnSysKeyDown`); the map's Enter takes what stands on a surface before it. Reach
+    (`nav/reach.cpp`, the door check's flood from the lot's edge or the stairs, now shared):
+    "no Sim can reach it" in the lists and after placing, else "Sims can reach it" (0 false
+    alarms on 238 things; a real unreachable thing not yet seen); use tiles are the object's
+    routing slots (`game::UseSpots`, a desk's eight around it, the fridge's in front), else the
+    tiles beside it. Seats: a thing used sitting is electronics, appliances or misc on a desk or a
+    table (`+0xaa`, the container's OBJD field 94 sub-sort: a microwave on a counter was offered a
+    chair before that); its seat tile is the container's sitting slot, else its front spot (desks
+    flag none); a held one-tile comfort object's spots serving one come first, turned to face it
+    (verified: the desk chair picked up, "mirando al oeste, para usar Ordenador Espectrus sentado,
+    1 de 837", put back: "colocado. para usar Ordenador Espectrus sentado"); a placed computer
+    says "se usa desde Silla de oficina" (`!reach`). A moved object's
+    spots are nearest where it stood. Ctrl+T each hour ("son las 8:02", `[mod] hours`).
+    Ctrl+Shift+N whose conversations (`[mod] social`; balloons with the tree's runner or stack
+    object in the family count as with the family: the stack object read not yet seen in a
+    conversation with a visitor). Interrupted actions: the one that ran waits in the queue behind
+    the new one (not yet heard). Names starting with "*" are no names. Ctrl+Shift+E a Sim's looks
+    in the game's words ("Carlos Contreras: Anciano, Hombre, Cabello canoso, Tono de piel: moreno,
+    Color de ojos: Castaño, Sombreros, en forma, Ropa: Cotidiano"; his cap is the hat), also the
+    Sim's details. Job panel: each skill label takes the bar it overlaps most (they overlap two;
+    the values matched the bars 7/1/6/9/2/4/1), and the promotion mark (bar child 5) gives "the next
+    promotion needs N" (not yet seen: Carlos is at his career's top). Ctrl+Shift+V also centres the
+    camera on the focused lot thing (`game::CenterCamera`, verified) and moves the real pointer to
+    the window's middle (live mode, game in front: not tried here, the user works with the mouse).
+    Dev commands: `!slots <id>`, `!look <id>`, `!reach`, `!camera x y [jump]`, `!objd <id>` (the whole object's
+    OBJD fields).
   - Ctrl+L (lot view): the room's layout at the build cursor, else where the selected Sim stands:
     name, floor, tiles, bounds, doors and windows (the details buffer: each with its wall and the
     room behind). Doors and windows are objects whose parts stand on both sides of their wall
@@ -187,7 +258,7 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     buy and build mode start the list over).
   - Camera: in live mode the mod presses the game's Return ("Center on active Sim") when the
     selected Sim has moved four tiles or another Sim is selected (never while a dialog or a text
-    field is up), because the game's sounds come from what is on screen. Ctrl+F turns it off/on.
+    field is up), because the game's sounds come from what is on screen. Ctrl+Shift+F turns it off/on.
     The mod's posted game keys carry lParam bit 26 so its own handler lets them through.
 - Game key bindings: `extracted/accelerators.txt` (from `ui.package`, type 0xA2E3D533). Lot view:
   F1-F5 modes, P/Pause/`/NumPad0 pause, 1-3 speeds, Space/N next Sim, PageUp/PageDown floors,

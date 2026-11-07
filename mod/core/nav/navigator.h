@@ -32,6 +32,22 @@ bool Back();                 // Backspace: up one level (a kind's or room's thin
 // next kind (Shift) or room (Ctrl), opened in its group with focus on its first thing.
 enum class Browse { Thing, Kind, Room };
 void BrowseThings(Browse how, int delta);
+
+// Ctrl+F (lot view): find a thing by typing part of its name. While active, typing goes to the
+// search, Up/Down (Page keys, Home/End) go through what matches, Enter acts on it as on any thing
+// of the lot, Ctrl+Enter walks there, Escape goes back to where the focus was. The matches are a
+// list of the "things by kind" group, so everything else goes on from there once it is over.
+bool FindActive();
+void FindBegin();
+void FindChar(WPARAM ch);    // a typed character (the window's ANSI, a double-byte one in two calls)
+void FindErase();            // Backspace
+void FindMove(int delta);
+void FindEdge(bool last);
+void FindConfirm(bool walk);
+void FindCancel();
+void FindEnd();              // over, with the matches left as they are (another key took over)
+bool FocusOnThing();         // the focus is on a thing of the lot
+
 game::Ptr FocusedWidget();
 bool FocusedIsTextField();
 bool FocusedIsSlider();

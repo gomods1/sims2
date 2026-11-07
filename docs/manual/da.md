@@ -82,15 +82,21 @@ På en grund er skærmen en ring af grupper som enhver anden. Tab går gennem de
 4. Spillets paneler: kontrolpanelet, Sim-panelet (behov, forhold, job, færdigheder, personlighed, interesser...), familien, ønsker og frygt, og ethvert panel du åbner.
 5. **hjælp til modden**.
 
+Jobsiden siger simmens arbejdstider; Enter på dem tilføjer, hvornår samkørslen kommer. For at sige et job op, ring til arbejdet på telefonen. Hver færdighed siger sit niveau og, når den næste forfremmelse kræver mere, hvor meget: "Madlavning, 2 af 10, den næste forfremmelse kræver 4".
+
 ### Vælg Sims og kameraet
 
 | Tast | Hvad den gør |
 |---|---|
 | Ctrl+1 til Ctrl+9 | Vælger familiens første til niende Sim. |
 | Ctrl+E | Den valgte Sim på én linje: hvor, hvad den laver, akutte behov. |
-| Ctrl+F | Kameraet følger den valgte Sim, eller forbliver frit. |
+| Ctrl+Skift+E | Hvordan en Sim ser ud: alder, hår, hud, øjne, briller, krop og tøj, med spillets ord. Den Sim der har fokus blandt grundens ting, ellers den valgte. En Sims detaljer (Ctrl+Pil op på den) siger det også. |
+| Ctrl+T | Siger hver ny time på uret ("klokken er 14:00"), eller holder op. Nyttigt ved højeste hastighed. |
+| Ctrl+Skift+F | Kameraet følger den valgte Sim, eller forbliver frit. |
 
 Kameraet følger den valgte Sim, fordi spillets lyde kommer fra det, der er på skærmen.
+
+Zoom og kameraets retning siges, når de ændrer sig (Z og X zoomer), og kontrolpanelet har dem også: "kamera: tæt på, 5 af 6, mod nordøst". Retningen er den, skærmens top kigger mod.
 
 ### Grundens genstande
 
@@ -106,6 +112,10 @@ Du behøver ikke at gå derhen med Tab: Page-tasterne går gennem genstandene fr
 | Enter | Genstandens handlinger (i købetilstand: samler den op for at flytte den). |
 | Ctrl+Enter | Sender den valgte Sim hen til genstanden. |
 | Ctrl+Skift+Enter | Løb derhen. |
+| Ctrl+F | Find en ting: skriv en del af navnet ("tel" finder telefonen, accenter er ligegyldige). Op og Ned går gennem resultaterne, Enter handler på den, Ctrl+Enter går derhen, Delete fjerner en dør eller et vindue, Escape går tilbage, hvor du var. |
+| Delete | På en dør eller et vindue, i købstilstand eller med byggetilstandens hånd: samler den op og sælger den med refusion. |
+
+Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, såsom ødelagte ting, ting der skal rengøres, vandpytter, affald, aske og ild. Til sidst kommer **døre, vinduer og trapper**. En ting som ingen Sim kan nå fra grundens indgang siger "ingen Sim kan nå den".
 
 ### Handlingsmenuer
 
@@ -123,10 +133,12 @@ Enter på en genstand (eller på en Sim) åbner spillets handlingsmenu. Pil op o
 
 | Tast | Hvad den gør |
 |---|---|
-| Piletaster | Ét felt; med Skift fem. Siger, hvad der står der og hvilken vej det vender, værelset og gulvet når de skifter, væggene, hegnene, rækværkerne, dørene og vinduerne efter side, trapper og skråninger. |
+| Piletaster | Ét felt; med Skift fem. Siger, hvad der står der og hvilken vej det vender, værelset og gulvet når de skifter, væggene, hegnene, rækværkerne, dørene og vinduerne efter side, trapper og skråninger. Vægge, hegn og vinduer stopper markøren; døre lader den komme igennem. |
+| Alt+Piletaster | Det samme, gennem vægge. |
+| Komma, punktum | Hvad hvert skridt siger: alt, kun genstande, kun gulve (ved navn, "Lys granitflise"), kun vægge, kun rum. |
 | Home | Tilbage til den valgte Sim. |
 | Ctrl+Skift+Page Up, Page Down | Etagen over eller under. |
-| Enter | Handlingsmenuen for det, der står der. |
+| Enter | Handlingsmenuen for det, der står der. En ting på et bord eller skrivebord kommer før bordet: computeren, ikke dens skrivebord. |
 | Ctrl+Enter | Sender den valgte Sim derhen (Ctrl+Skift+Enter: løb). |
 | Page Down, Page Up (og Skift, Ctrl) | Grundens genstande som altid; kortet går til hver af dem. |
 | R | Alt om feltet. Ctrl+L værelsets indretning. |
@@ -138,12 +150,16 @@ Spillet viser mange ting kun som billeder. Modden siger dem, når de sker, og ge
 
 - **Bobler** over Sims: "Carlos tænker: Energi", "Carlos siger: Politik", et overstreget ikon ("ingen ..."), skrig og overskrifterne om forhold ("forholdet bliver bedre", "ny ven", "første kys").
 - **Ruter**: "Carlos kan ikke komme derhen".
-- Familiens **handlinger**, **behov** der bliver lave, **besøgende** og penge, der betales eller modtages.
+- Familiens **handlinger**, **behov** der bliver lave, **besøgende** og penge, der betales eller modtages. Når en handling afbrydes og venter i køen, siges det: "Carlos stoppede Sæt dig for Panik; den venter i køen".
 - **Møbler der forlader grunden** (en indbrudstyv, fogeden), med deres værdi.
 
-Familiens bobler bliver sagt; en besøgendes går kun til hændelsesbufferen.
+Din families tanker og skrig siges, og alles skrig. Samtaler (hvad Sims siger og forholdsoverskrifterne) siges som Ctrl+Skift+N vælger; resten går kun til hændelsesbufferen.
 
 **Ctrl+N** ændrer, hvor meget der bliver sagt: alt, kun advarsler eller intet. Linjer, der ikke siges, går stadig til hændelsesbufferen.
+
+**Ctrl+Skift+N** vælger hvis samtaler der siges: alle der taler med din familie (fra start), alle på grunden, kun din familie, eller ingen. Det der ikke siges, går stadig til hændelsesbufferen.
+
+Handlinger med en anden sim nævner den sim, uanset hvem der startede dem: "Carlos: Hilse, med Elvira".
 
 ## Købetilstand
 
@@ -159,7 +175,8 @@ Enter på et produkt samler det op. Modden finder hver plads på grunden, hvor d
 | Ctrl+Page Down, Ctrl+Page Up | De værelser, der har pladser. |
 | Skift+Page Down, Skift+Page Up (eller komma, punktum) | Drejer den; retningen siges. |
 | Ctrl+Skift+Page Down, Page Up | Ved siden af grundens genstande, de nærmeste først, vendt mod dem når det kan lade sig gøre. |
-| Piletaster | Flytter den i stedet ét felt (Skift: fem): om den kan stå der, hvad den støder mod, værelset når det skifter, væggene omkring den, hvilken vej den vender og hvad den vender mod, feltet; derefter feltets lyde. |
+| Piletaster | Flytter den i stedet ét felt (Skift: fem): om den kan stå der, hvad den støder mod, værelset når det skifter, væggene omkring den, hvilken vej den vender og hvad den vender mod, feltet; derefter feltets lyde. Vægge, hegn og vinduer stopper den; døre lader den komme igennem. |
+| Alt+Piletaster | Det samme, gennem vægge. |
 | Home | Tilbage til den valgte Sim. |
 | Enter | Køber den der; spillet giver dig et nyt eksemplar, indtil du trykker Escape. |
 | Escape | Stopper placeringen (en flyttet genstand går tilbage). |
@@ -168,13 +185,17 @@ Enter på et produkt samler det op. Modden finder hver plads på grunden, hvor d
 
 En genstand på flere felter siger, hvor meget gulv den fylder ("fylder 2 felter: 2 fra vest til øst, 1 fra nord til syd").
 
+Et siddemøbels pladser begynder der hvor noget bruges siddende, som en computer på et skrivebord, og sædet drejes mod det: "vendt mod vest, til at bruge Computer siddende". Efter at en genstand er placeret siger mod'en hvordan den bruges: "til at bruge Computer siddende", "bruges fra Kontorstol", "Sims kan nå den" eller "ingen Sim kan nå den".
+
 ### Flyt og sælg
 
-I købetilstand: gå med Page Down til en af grundens genstande, og tryk Enter: den bliver samlet op, og de samme taster stiller den et andet sted. Delete sælger den.
+I købetilstand: gå med Page Down til en af grundens genstande, og tryk Enter: den bliver samlet op, og de samme taster stiller den et andet sted. Delete sælger den. Dens pladser begynder nærmest der hvor den stod.
 
 ## Byggetilstand
 
 F3 åbner byggetilstanden. Dens værktøjer og stilarter er knapper.
+
+Et tryk på et værktøj fører til dets stilarter, i en gruppe med værktøjets navn; Tab går tilbage til værktøjerne.
 
 ### Byggemarkøren
 
@@ -197,6 +218,8 @@ Når en væg er bygget, meldes det, hvis en Sim fra familien er lukket inde i et
 
 Døre, vinduer og trapper placeres som møbler, fra de pladser hvor de kan stå: en dørs plads siger, hvilken væg den sidder i, og hvilket værelse den fører til. Tage: knapperne til automatiske tage på tagsiden.
 
+Når en dør er placeret, siger modden, om simmer kan gå igennem den, eller hvad der er i vejen. For at ændre den senere, find den i **døre, vinduer og trapper** eller med Ctrl+F: Enter samler den op for at flytte den, i købstilstand eller med byggetilstandens hånd, og Delete fjerner den.
+
 ## Lydsignaler
 
 Byggemarkøren, pilene ved placering og grundens kort spiller en kort lyd ved hvert skridt: gulvet (græs, træ, fliser, tæppe, sten, poolkanten, vand, intet gulv ovenpå: hvad gulvet er lavet af, ifølge dets katalogdefinition), hver sides væg, hegn, rækværk, dør eller vindue (vest til venstre, øst til højre, nord højere, syd dybere), trapper, en Sim eller en genstand på feltet, en skråning, et skift af værelse, grundens kant og, ved placering, om genstanden kan stå der. **Ctrl+Skift+S** slår dem fra og til.
@@ -206,7 +229,7 @@ Byggemarkøren, pilene ved placering og grundens kort spiller en kort lyd ved hv
 | Tast | Hvad den gør |
 |---|---|
 | Ctrl+Skift+C | Spillets snydekonsol: dens indtastning er et tekstfelt; Enter på det giver det tastaturet, skriv snydekoden, Enter kører den, og det, den skriver, bliver sagt. |
-| Ctrl+Skift+V | Fremhæver det valgte kontrolelement på skærmen for en seende hjælper. |
+| Ctrl+Skift+V | Fremhæver det valgte kontrolelement på skærmen for en seende hjælper. I live-tilstand, med spillets vindue forrest, ser kameraet også på den ting på grunden der har fokus, og musemarkøren går hen på den. |
 
 ## Spillets egne taster
 
@@ -231,6 +254,8 @@ Moddens indstillinger ligger i `Sims2Access\Sims2Access.ini` i spillets mappe, a
 | `cues` | 1 lydsignaler til, 0 fra (Ctrl+Skift+S). |
 | `cue_volume` | Lydsignalernes lydstyrke, 0 til 100 (standard 80). |
 | `show_focus` | 1 fremhæver det valgte kontrolelement på skærmen (Ctrl+Skift+V). |
+| `social` | Hvis samtaler der siges: 3 alle, 2 alle med din familie, 1 din familie, 0 ingen (Ctrl+Skift+N). |
+| `hours` | 1 siger hver ny time (Ctrl+T). |
 
 ## Når noget går galt
 

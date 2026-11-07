@@ -28,7 +28,7 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   state, the action queue (Enter cancels), family members (Ctrl+1..9), the narrator (actions,
   needs, visitors, balloons and relationship headlines, Ctrl+N verbosity), rooms
   (Ctrl+PageUp/PageDown, Ctrl+L layout), walking (Ctrl+Enter, Ctrl+Shift+Enter runs), the camera
-  following the selected Sim (Ctrl+F).
+  following the selected Sim (Ctrl+Shift+F).
 - The Sim panel: needs, relationships (daily and lifetime), job (column by column, workdays),
   skills, personality, interests, hobby enthusiasm, memories, chemistry, rewards and inventory.
 - Create a Family / Sim / Pet: names, age, sex, skin, body, grids ("3 of 6"; pet breeds by name),
@@ -58,7 +58,40 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   - Text fields take the keyboard when focused and speak the character at the caret; Enter on a
     read-only item speaks its tooltip description (built, not yet tried in the game).
 
+- Ported from the Sims 1 mod's commit of 2026-11-02, verified on the Contreras lot unless noted:
+  - Ctrl+F finds a thing by typing part of its name; the camera's following moved to Ctrl+Shift+F.
+  - The kinds "problems" and "doors, windows and stairs"; broken and dirty said on a thing's line.
+  - Delete on a door or window (picked up and sold); after placing a door, whether Sims can use it.
+  - The camera's zoom said when it changes, zoom and facing in the control panel.
+  - A build tool's press moves to its styles, in a group named after the tool.
+  - Left out, because this game already does it or differs: the arrow cursor naming a door's wall
+    (`WallPart` already did), the job's hours and carpool (the game's own label and hover text),
+    "no menu quits a job" (here the phone has "Phone Call - Work - Quit Job"), the roof panel's colours
+    and its "the game builds the roof" hint (this game's roofs have named tools, and can be
+    drawn), holding off the object a tool brings back (not seen here). Grass painting has no
+    counterpart yet: terrain is not done.
+
 ## Next
+
+- Check in the game what the 2026-11-07 port (the Sims 1 mod's tester feedback of 2026-11-06)
+  could not try on the Contreras lot: a thing no Sim can reach (only "reachable" was heard, 0 of
+  238), a promotion mark (Carlos is at his
+  career's top: try a Sim below it), an interrupted action ("X stopped A for B; it waits in the
+  queue"), a visitor's conversation with the family under Ctrl+Shift+N (the balloon's stack
+  object), the pointer moving with Ctrl+Shift+V (the game must be in front). Pets: Ctrl+Shift+E
+  says only the gender (no outfit data).
+- Not ported from the Sims 1 commit: "Enter on N alike" (the Sims 2 lists never merge identical
+  things: each is its own item already); the travel map's filters (no equivalent: the Sims 2
+  taxi's "Where would you like to go?" dialog, UI script `a99d8a11_cafe0090`, is a list box, a text
+  field and Accept / Cancel; its neighborhood-view form `a99d8a11_49001020` has the usual
+  neighborhood buttons and no lot filters); the relationship numbers of pairs without the selected Sim (the
+  Sims 2 mod has no relationship watch yet: it speaks the game's headlines instead).
+- The shared installer has no Sims 2 entry: when it has one, the release workflow adds its exe.
+
+- Check in the game what the 2026-11-02 port could not try: an action with another Sim (no visitor
+  was on the lot: "Carlos: Saludar, con Elvira"), the facing said when the camera turns (the
+  panel's Rotar buttons do nothing to a press: find out how to turn it by keyboard), the door
+  check's two warnings (it only ever said usable), Delete with build mode's hand.
 
 - Check in the game what the port built but could not try on the Contreras lot: the build
   cursor's line and cues while building, text fields (focus taking the keyboard, caret keys) in
@@ -71,7 +104,8 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   translators without the game's own texts in some languages: check them against the packages'
   STR# tables.
 
-- Build mode: wallpaper (the tool picks walls from the screen: `STRUCTS.md`), drawn roofs, terrain;
+- Build mode: wallpaper (the tool picks walls from the screen: `STRUCTS.md`), drawn roofs, terrain
+  (with it the Sims 1 mod's grass under the cursor);
   checks before building walls (done after: a Sim shut in is announced; still: objects cut off);
   ready-made rooms.
 - Buy mode: the game's reason when a spot is refused (STR# 0x89; the Sims 1 mod says it, and its

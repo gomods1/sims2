@@ -6,6 +6,7 @@
 #include "collect.h"
 #include "model.h"
 #include "placement.h"
+#include "reach.h"
 
 #include <windows.h>
 
@@ -13,6 +14,7 @@
 #include <cmath>
 #include <vector>
 
+#include "../game/addresses.h"
 #include "../game/game_strings.h"
 #include "../game/gz.h"
 #include "../game/objects.h"
@@ -31,12 +33,14 @@ using game::Ptr;
 
 // Buy mode's function sort flags (OBJD, game/addresses.h) with the index of their name in
 // UIText.package STR# 150, in the order the buy catalog shows them.
+constexpr uint16_t kSims = 0, kOther = 0xFFFF, kProblems = 0xFFFE, kPortals = 0xFFFD;
 struct Category {
-    uint16_t flag;   // 0: the Sims; 0xFFFF: objects without a category
+    uint16_t flag;   // or one of the four above, the mod's own kinds
     int nameIndex;   // in STR# 150, or -1 for the mod's own name
 };
 const Category kCategories[] = {
-    {0, -1},         // Sims
+    {kSims, -1},
+    {kProblems, -1},  // what wants attention
     {0x0001, 8},     // Comfort
     {0x0002, 9},     // Surfaces
     {0x0020, 10},    // Decorative
@@ -46,7 +50,8 @@ const Category kCategories[] = {
     {0x0080, 14},    // Lighting
     {0x0040, 15},    // Miscellaneous
     {0x0100, 16},    // Hobbies
-    {0xFFFF, -1},    // other objects (doors, windows, plants, the mailbox...)
+    {kOther, -1},    // other objects (plants, the mailbox...)
+    {kPortals, -1},  // doors, windows and stairs
 };
 constexpr int kCategoryCount = sizeof(kCategories) / sizeof(kCategories[0]);
 constexpr unsigned kCategoryNames = 150;
@@ -61,7 +66,9 @@ bool g_walkRun = false;
 bool g_walkClickPending = false;  // waiting for Ctrl and Shift to come up (else a Ctrl+click)
 
 std::string CategoryName(int c) {
-    if (kCategories[c].flag == 0) return S(Str::CategorySims);
+    if (kCategories[c].flag == kSims) return S(Str::CategorySims);
+    if (kCategories[c].flag == kProblems) return S(Str::CategoryProblems);
+    if (kCategories[c].flag == kPortals) return S(Str::CategoryPortals);
     if (kCategories[c].nameIndex < 0) return S(Str::CategoryOther);
     std::string n = game::GameString("UIText.package", kCategoryNames, kCategories[c].nameIndex);
     return n.empty() ? S(Str::CategoryOther) : n;
@@ -77,18 +84,62 @@ std::string SimName(const LotObject& o) {
 
 }  // namespace
 
+namespace {
+
+// Messes: objects outside the catalog (a "*" name or none), so the mod has their names.
+Str MessName(const std::string& internal) {
+    static const struct {
+        const char* word;
+        size_t length;  // 0: the whole name
+        Str name;
+    } kMesses[] = {
+        {"Puddle", 6, Str::ObjPuddle},      {"Ashes", 0, Str::ObjAshes},      {"Fire", 0, Str::ObjFire},
+        {"Roaches", 0, Str::ObjRoaches},    {"Trash - Trash Pile", 0, Str::ObjTrashPile},
+        {"Trash - Furniture Debris Pile", 0, Str::ObjTrashPile},
+        {"Trash - Electronic Debris Pile", 0, Str::ObjTrashPile},
+        {"Dirt Pile", 9, Str::ObjDigPile},
+    };
+    for (const auto& m : kMesses)
+        if (m.length ? internal.compare(0, m.length, m.word) == 0 : internal == m.word) return m.name;
+    return Str::Count;
+}
+
+bool IsMess(const std::string& internal) { return MessName(internal) != Str::Count; }
+
+}  // namespace
+
 std::string DisplayName(const LotObject& o) {
     if (o.person) return SimName(o);
+    if (IsMess(o.name)) return S(MessName(o.name));
     std::string n = util::CleanForSpeech(o.catalogName.empty() ? o.name : o.catalogName);
     return n;
 }
 
 namespace {
 
+// Variable 39 also keeps how overgrown a garden plant is: not something a Sim cleans.
+bool IsGardenPlant(const std::string& internal) {
+    for (const char* word : {"Shrub", "Flower", "Plant", "Hedge", "Tree"})
+        if (internal.rfind(word, 0) == 0) return true;
+    return false;
+}
+
+bool IsDirty(const LotObject& o) {
+    return !o.person && o.dirt >= game::addr::objvar::kDirtyFrom && !IsGardenPlant(o.name) && !IsMess(o.name);
+}
+
+// What wants someone's attention: what the game's repairman and maid would go for, and messes.
+bool IsProblem(const LotObject& o) { return !o.person && (o.broken || IsDirty(o) || IsMess(o.name)); }
+
+// Doors and windows (OBJD types 8 and 9), and every piece of a staircase.
+bool IsPortal(const LotObject& o) {
+    return !o.person && (o.type == 8 || o.type == 9 || o.name.rfind("Stair", 0) == 0);
+}
+
 // What the browser lists: placed objects with a name a player would know, and the Sims.
 bool Listed(const LotObject& o) {
     if (o.x < 0 || o.y < 0) return false;  // controllers and other objects kept off the lot
-    if (o.person) return true;
+    if (o.person || IsMess(o.name)) return true;
     if (o.catalogName.empty() || o.catalogName[0] == '*') return false;  // internal objects
     if (o.name == "PlumbBob") return false;  // the selected Sim's marker
     return true;
@@ -96,9 +147,11 @@ bool Listed(const LotObject& o) {
 
 bool InCategory(const LotObject& o, int c) {
     uint16_t flag = kCategories[c].flag;
-    if (flag == 0) return o.person;
+    if (flag == kSims) return o.person;
     if (o.person) return false;
-    if (flag == 0xFFFF) return o.functionFlags == 0;
+    if (flag == kProblems) return IsProblem(o);
+    if (flag == kPortals) return IsPortal(o);
+    if (flag == kOther) return o.functionFlags == 0 && !IsPortal(o) && !IsMess(o.name);
     return (o.functionFlags & flag) != 0;
 }
 
@@ -157,6 +210,12 @@ std::string Where(const LotObject& o, const LotObject* sim) {
 std::string Line(const LotObject& o, const LotObject* sim, bool roomMode, const std::vector<LotObject>& all) {
     std::string where = Where(o, sim);
     std::string line = DisplayName(o);
+    if (o.broken && !o.person) line += std::string(", ") + S(Str::ConditionBroken);
+    else if (IsDirty(o)) line += std::string(", ") + S(Str::ConditionDirty);
+    // What no Sim can get to from the lot's entrance (in the Sims 1 mod a tester's Sim never
+    // reached the chair he had placed).
+    if (!o.person && !IsPortal(o) && !IsMess(o.name) && reach::Unreachable(o.id))
+        line += std::string(", ") + S(Str::NobodyReaches);
     if (!roomMode && o.room >= 0) line += ", " + RoomName(o.level, o.room, all);
     if (o.person && sim && o.id == sim->id) line += std::string(", ") + S(Str::SelectedSimSuffix);
     if (!where.empty()) line += ", " + where;
@@ -173,6 +232,18 @@ std::string WhereFromSim(float x, float y, int level) {
     spot.y = y;
     spot.level = level;
     return Where(spot, &simObj);
+}
+
+namespace {
+std::string LookWords(int objectId);  // below, with the lists
+}  // namespace
+
+std::string SimLookLine(int objectId) {
+    LotObject o;
+    if (!game::ReadLotObject(objectId, &o) || !o.person) return "";
+    std::string words = LookWords(objectId);
+    std::string name = DisplayName(o);
+    return words.empty() ? util::Format(S(Str::SimLookUnknown), name.c_str()) : name + ": " + words;
 }
 
 void SayLayout(int x, int y, int level) {
@@ -293,6 +364,99 @@ std::vector<std::pair<int, int>> ListedRooms(const std::vector<LotObject>& all, 
 // A room's item number: never 0 (0 is "no number" for the navigator).
 int RoomNumber(int level, int room) { return level * 10000 + room + 1; }
 
+void SortNearest(std::vector<LotObject>& list, const LotObject* sim) {
+    std::stable_sort(list.begin(), list.end(), [&](const LotObject& a, const LotObject& b) {
+        if (!sim) return a.id < b.id;
+        bool sa = a.level == sim->level, sb = b.level == sim->level;
+        if (sa != sb) return sa;
+        return Distance(a, *sim) < Distance(b, *sim);
+    });
+}
+
+std::string JoinWords(const std::vector<std::string>& parts) {
+    std::string out;
+    for (const std::string& p : parts) out += (out.empty() ? "" : ", ") + p;
+    return out;
+}
+
+// What a Sim looks like, in the game's own words where it has them (Create a Sim's labels, the
+// turn-ons' phrases): "Adulto, Mujer, Cabello rubio, Tono de piel: claro, Color de ojos: Azul,
+// Gafas, en forma, Ropa: Cotidiano". Empty when the game says nothing (a pet has no outfit data).
+std::string LookWords(int objectId) {
+    game::SimLooks l;
+    if (!game::SimLook(objectId, &l)) return "";
+    std::vector<std::string> parts;
+    auto add = [&](const std::string& w) {
+        if (!w.empty()) parts.push_back(util::CleanForSpeech(w));
+    };
+    auto labeled = [&](const std::string& label, const std::string& value) {
+        if (!value.empty()) add(label.empty() ? value : util::Format(S(Str::LabelValue), label.c_str(), value.c_str()));
+    };
+    // The age stage as Create a Sim names it (person data 58 in days, the person interface's slot 22).
+    std::string age;
+    if (l.ageDays <= 1) age = game::GameString("eCAS.package", 1, 72);                // baby
+    else if (l.ageDays == 2) age = game::GameString("CAS.package", 0x85, 2);          // toddler
+    else if (l.ageDays <= 15) age = game::GameString("CAS.package", 0x85, 3);         // child
+    else if (l.ageDays <= 18) age = game::GameString("CAS.package", 0x85, 4);         // teen
+    else if (l.ageDays <= 50 && l.youngAdult) age = game::GameString("CAS_Shared.package", 0xc8, 0);
+    else if (l.ageDays <= 50) age = game::GameString("CAS.package", 0x85, 5);         // adult
+    else age = game::GameString("CAS.package", 0x85, 6);                              // elder
+    if (l.human) add(age);
+    add(game::GameString("CAS.package", 0x85, l.gender == 1 ? 1 : 0));
+    if (!l.human) return parts.empty() ? "" : JoinWords(parts);
+    // Hair: the turn-ons' phrases (UIText STR# 0xe1: 14 blond ... 19 grey).
+    static const int kHair[] = {-1, 18, 17, 16, 14, 15, 19};
+    if (l.hair >= 1 && l.hair <= 6) add(game::GameString("UIText.package", 0xe1, kHair[l.hair]));
+    else if (l.hair == 7) add(S(Str::LookHairDyed));
+    static const Str kSkin[] = {Str::LookSkinCustom, Str::LookSkinLight, Str::LookSkinMedium, Str::LookSkinMediumDark,
+                                Str::LookSkinDark, Str::LookSkinAlien, Str::LookSkinZombie};
+    if (l.skin >= 1 && l.skin <= 7) labeled(game::GameString("CAS.package", 0x85, 7), S(kSkin[l.skin - 1]));
+    // Eyes: Create a Sim's colours (CAS STR# 0x87: 12 brown, 13 blue, 14 grey, 15 green, 16 light blue).
+    std::string eyes;
+    static const int kEyes[] = {-1, -1, 15, 12, 16, 13, 14};
+    if (l.eyes >= 2 && l.eyes <= 6) eyes = game::GameString("CAS.package", 0x87, kEyes[l.eyes]);
+    else if (l.eyes == 1) eyes = S(Str::LookEyesCustom);
+    else if (l.eyes == 7) eyes = S(Str::LookEyesAlien);
+    labeled(game::GameString("eCAS.package", 1, 23), eyes);
+    // What is worn on the face and head: the turn-ons' words.
+    if (l.glasses) add(game::GameString("UIText.package", 0xe1, 9));
+    if (l.facialHair) add(game::GameString("UIText.package", 0xe1, 8));
+    if (l.fullMakeup) add(game::GameString("UIText.package", 0xe1, 11));
+    else if (l.makeup) add(game::GameString("UIText.package", 0xe1, 10));
+    if (l.hat) add(game::GameString("UIText.package", 0xe1, 12));
+    if (l.jewelry) add(game::GameString("UIText.package", 0xe1, 13));
+    if (l.bodyFlags & 1) add(S(Str::LookBodyHeavy));
+    else if (l.bodyFlags & 0x10) add(S(Str::LookBodyFit));
+    // The outfit worn, as Create a Sim's clothing tabs name it (CAS STR# 0x89, 0x9b).
+    std::string outfit;
+    switch (l.outfit) {
+    case 0: case 7: case 9: case 10: case 12: outfit = game::GameString("CAS.package", 0x89, 4); break;
+    case 1: outfit = S(Str::LookOutfitNaked); break;
+    case 2: outfit = game::GameString("CAS.package", 0x89, 8); break;
+    case 3: outfit = game::GameString("CAS.package", 0x89, 9); break;
+    case 4: outfit = game::GameString("CAS.package", 0x89, 5); break;
+    case 5: outfit = game::GameString("CAS.package", 0x89, 7); break;
+    case 8: outfit = S(Str::LookOutfitMaternity); break;
+    case 11: outfit = game::GameString("CAS.package", 0x89, 6); break;
+    case 13: outfit = game::GameString("CAS.package", 0x9b, 2); break;
+    }
+    labeled(game::GameString("CAS.package", 0x89, 2), outfit);
+    return JoinWords(parts);
+}
+
+void AddThings(Group& g, const std::vector<LotObject>& list, const LotObject* sim, bool roomMode,
+               const std::vector<LotObject>& all) {
+    for (const LotObject& o : list) {
+        Item it;
+        it.role = Role::LotObject;
+        it.number = o.id;
+        it.label = Line(o, sim, roomMode, all);
+        if (!o.person && o.price > 0) it.detail = util::Money(o.price);
+        if (o.person) it.detail = LookWords(o.id);  // what the Sim looks like (Control+Up)
+        g.items.push_back(it);
+    }
+}
+
 // The things of a kind or a room, nearest to the selected Sim first, as items.
 Group ThingsGroup(Ptr key, const std::string& title, bool roomMode, int category, int level, int room) {
     Group g;
@@ -304,26 +468,60 @@ Group ThingsGroup(Ptr key, const std::string& title, bool roomMode, int category
     std::vector<LotObject> list;
     for (const LotObject& o : all)
         if (Listed(o) && (roomMode ? (o.level == level && o.room == room) : InCategory(o, category))) list.push_back(o);
-    std::stable_sort(list.begin(), list.end(), [&](const LotObject& a, const LotObject& b) {
-        if (!sim) return a.id < b.id;
-        bool sa = a.level == sim->level, sb = b.level == sim->level;
-        if (sa != sb) return sa;
-        return Distance(a, *sim) < Distance(b, *sim);
-    });
-    for (const LotObject& o : list) {
-        Item it;
-        it.role = Role::LotObject;
-        it.number = o.id;
-        it.label = Line(o, sim, roomMode, all);
-        if (!o.person && o.price > 0) it.detail = util::Money(o.price);
-        g.items.push_back(it);
+    SortNearest(list, sim);
+    AddThings(g, list, sim, roomMode, all);
+    return g;
+}
+
+// Ctrl+F: what the search finds: names starting with the text first, then with a word starting
+// with it, then containing it; within each the nearest first.
+std::string g_findFolded;  // the text, folded (util::FoldForSearch)
+std::string g_findLabel;   // ... as it was typed
+
+std::vector<LotObject> FindMatches(const std::vector<LotObject>& all, const LotObject* sim, const std::string& folded) {
+    std::vector<LotObject> ranked[3];
+    for (const LotObject& o : all) {
+        if (!Listed(o)) continue;
+        std::string name = util::FoldForSearch(DisplayName(o));
+        size_t at = name.find(folded);
+        if (at == std::string::npos) continue;
+        ranked[at == 0 ? 0 : name.find(" " + folded) != std::string::npos ? 1 : 2].push_back(o);
     }
+    std::vector<LotObject> out;
+    for (auto& r : ranked) {
+        SortNearest(r, sim);
+        out.insert(out.end(), r.begin(), r.end());
+    }
+    return out;
+}
+
+Group FindGroup() {
+    Group g;
+    g.key = kKindsGroup;
+    g.name = util::Format(S(Str::FindResults), g_findLabel.c_str());
+    LotObject simObj;
+    const LotObject* sim = SimPosition(&simObj) ? &simObj : nullptr;
+    std::vector<LotObject> all = game::LotObjects();
+    AddThings(g, FindMatches(all, sim, g_findFolded), sim, false, all);
     return g;
 }
 
 }  // namespace
 
+int SetFindQuery(const std::string& utf8) {
+    LotObject simObj;
+    const LotObject* sim = SimPosition(&simObj) ? &simObj : nullptr;
+    std::string folded = util::FoldForSearch(utf8);
+    int count = (int)FindMatches(game::LotObjects(), sim, folded).size();
+    if (count > 0) {  // with none, the list stays as it was
+        g_findFolded = folded;
+        g_findLabel = utf8;
+    }
+    return count;
+}
+
 Group KindsGroup() {
+    if (g_openKind == kFindKind) return FindGroup();
     if (g_openKind > 0) return ThingsGroup(kKindsGroup, CategoryName(g_openKind - 1), false, g_openKind - 1, 0, 0);
     Group g;
     g.key = kKindsGroup;
@@ -426,8 +624,9 @@ void Interact() {
         speech::Say(S(Str::NoObjects));
         return;
     }
-    // Buy mode: Enter picks the object up to move (or sell) it.
-    if (game::CurrentModeClass() == "cTSUIModeBuy") {
+    // Buy mode, and build mode's hand: Enter picks the object up to move (or sell) it.
+    std::string mode = game::CurrentModeClass();
+    if (mode == "cTSUIModeBuy" || (mode == "cTSUIModeBuild" && game::IsKindOf(game::CurrentTool(), "cTSUserToolObject"))) {
         if (o.person) {
             speech::Say(util::Format(S(Str::PlaceCannotPick), DisplayName(o).c_str()));
             return;
@@ -437,6 +636,18 @@ void Interact() {
     }
     Log("interactions of object %d (%s)", o.id, DisplayName(o).c_str());
     if (game::ShowInteractions(o.id)) g_menuAskedAt = GetTickCount64();
+}
+
+bool RemoveFocusedPortal() {
+    LotObject o;
+    if (g_focusId < 0 || !game::ReadLotObject(g_focusId, &o) || (o.type != 8 && o.type != 9)) return false;
+    std::string mode = game::CurrentModeClass();
+    if (mode != "cTSUIModeBuy" && !(mode == "cTSUIModeBuild" && game::IsKindOf(game::CurrentTool(), "cTSUserToolObject"))) {
+        speech::Say(S(Str::PortalNeedsHand));
+        return true;
+    }
+    placement::BeginRemove(o.ptr, o.guid, DisplayName(o), o.x, o.y, o.level);
+    return true;
 }
 
 void WalkTo(bool run) {

@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "../game/addresses.h"
+#include "../game/buy.h"
 #include "../game/cheats.h"
 #include "../game/gz.h"
 #include "../game/mouse.h"
@@ -34,6 +35,7 @@ namespace {
 constexpr ULONGLONG kRefreshMs = 250;   // re-collect the tree this often
 constexpr ULONGLONG kSettleMs = 400;    // a new root or new panels must stay this long to be announced
 constexpr ULONGLONG kPressFeedbackMs = 150;
+constexpr ULONGLONG kToolPressMs = 700;  // a new catalog panel has settled and been announced by then
 
 struct State {
     Ptr root = 0;
@@ -65,6 +67,10 @@ struct State {
     Ptr pageGroup = 0;
     int pageDelta = 0;
     ULONGLONG pageAt = 0;
+    // A build tool was pressed: once the catalog shows what it offers, focus goes to its styles.
+    ULONGLONG toolAt = 0;
+    std::string toolName, toolBefore;
+    bool catalogNamed = false;
 };
 
 using util::AppendSentence;
@@ -97,7 +103,29 @@ bool StillListed(Ptr w) {
     return false;
 }
 
+// A thing of the lot focused while the focus is shown: the camera looks at it and the mouse pointer
+// goes to the middle of the game's window, over it (in the Sims 1 mod a tester's partner saw the
+// pointer resting on a vegetable cart while the mod had the cactus beside it). Live mode only (in
+// buy and build mode the pointer carries the tools), and only while the game's window is in front.
+int g_pointedAt = 0;
+void PointAtThing(const Item* it) {
+    if (!ShowFocus() || !it || it->role != Role::LotObject || it->number == g_pointedAt) return;
+    if (game::CurrentModeClass() != "cTSUIModeLive" || placement::Active() || build::Active()) return;
+    HWND hwnd = game::GameWindow();
+    if (!hwnd || GetForegroundWindow() != hwnd) return;
+    game::LotObject o;
+    if (!game::ReadLotObject(it->number, &o) || o.x < 0) return;
+    if (!game::CenterCamera(o.x, o.y, true)) return;
+    g_pointedAt = it->number;
+    RECT r;
+    if (!GetClientRect(hwnd, &r)) return;
+    POINT p{(r.right - r.left) / 2, (r.bottom - r.top) / 2};
+    ClientToScreen(hwnd, &p);
+    game::MoveRealPointer(p.x, p.y);
+}
+
 void HoverFocused(const Item* it) {
+    PointAtThing(it);
     bool lit = ShowFocus() && it && it->widget && it->role != Role::PieItem && it->role != Role::ListRow;
     Ptr want = lit ? it->widget : 0;
     if (want == g_hovered) return;
@@ -341,7 +369,57 @@ constexpr uint32_t kCatalogPrevious = 0x1004;
 
 void FinishPageTurn(ULONGLONG now);
 
+// What the catalog shows: its products' names (a tool that changes them has styles to offer).
+std::string CatalogContents(const std::vector<Group>& groups) {
+    std::string names;
+    for (const Group& gr : groups)
+        if (gr.proc == "cTSWinProcCatalog")
+            for (const Item& it : gr.items)
+                if (it.role == Role::Product) names += it.label + "\n";
+    return names;
+}
+
+// Build mode's tools and what they offer are two groups (NAVIGATION.md): pressing a tool moves to
+// its styles, in the group named after it, on the first; tools that change no style stay where they
+// are (the day and night switch, undo).
+void FinishToolPress(ULONGLONG now) {
+    if (g.catalogNamed && game::CurrentModeClass() != "cTSUIModeBuild") {
+        g.catalogNamed = false;
+        SetCatalogName("");
+    }
+    if (!g.toolAt || now - g.toolAt < kToolPressMs || g.announcePending) return;
+    g.toolAt = 0;
+    g.groups = Collect(g.root);
+    std::string contents = CatalogContents(g.groups);
+    if (contents.empty() || contents == g.toolBefore) return;
+    SetCatalogName(g.toolName);
+    g.catalogNamed = true;
+    for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+        const Group& gr = g.groups[gi];
+        if (gr.proc != "cTSWinProcCatalog") continue;
+        int at = FirstControl(gr);
+        for (int i = (int)gr.items.size() - 1; i >= 0; i--)
+            if (gr.items[i].role == Role::Product) at = i;
+        SetFocus(gi, at);
+        AnnounceFocus(true);
+        return;
+    }
+}
+
+// Ctrl+F's state (the code further down); where things were, for Escape.
+struct FindState {
+    bool active = false;
+    std::string query;       // UTF-8
+    bool listed = false;     // the matches are the open list of the kinds group
+    char lead = 0;           // the first byte of a double-byte character
+    Ptr beforeWidget = 0, beforeGroup = 0, beforeLast = 0;
+    int beforeNumber = 0, beforeIndex = -1, beforeKind = 0;
+    std::string beforeLabel;
+};
+FindState g_find;
+
 void Reset() {
+    g_find = FindState{};
     g = State();
     g_hovered = 0;
     g_caret = PendingCaret{};
@@ -398,6 +476,9 @@ void Tick() {
         }
     }
     FinishPageTurn(now);
+    FinishToolPress(now);
+    // A dialog or menu came up, or the lot went away: the typing is the game's again.
+    if (g_find.active && (InputRoot() != game::MainWindow() || !world::LotViewActive())) g_find.active = false;
     world::Tick();
     live::Tick();
     placement::Tick();
@@ -595,6 +676,11 @@ void Activate() {
     g.pressed = it->widget;
     g.pressedAt = GetTickCount64();
     g.pressedWasOn = game::ButtonOn(it->widget);
+    if (g.groups[g.group].proc == "cTSWinProcBuildPanel" && it->role != Role::Product) {
+        g.toolAt = GetTickCount64();
+        g.toolName = it->label;
+        g.toolBefore = CatalogContents(g.groups);
+    }
     game::Press(it->widget);
     if (it->role == Role::Product && it->buyObject) placement::Begin(it->label);
     else if (it->role == Role::Product) build::Begin(it->label);
@@ -617,6 +703,161 @@ bool Back() {
     }
     AnnounceFocus(true);
     return true;
+}
+
+// ---- Find (Ctrl+F) ---------------------------------------------------------------------------
+
+namespace {
+
+// Back to the list and the focus from before the search.
+void FindRestore() {
+    world::Open(kKindsGroup, g_find.beforeKind);
+    world::Open(g_find.beforeLast, world::OpenNumber(g_find.beforeLast));  // PageDown's list as it was
+    g_find.listed = false;
+    g.focusWidget = g_find.beforeWidget;
+    g.focusNumber = g_find.beforeNumber;
+    g.focusLabel = g_find.beforeLabel;
+    g.focusGroupKey = g_find.beforeGroup;
+    g.index = g_find.beforeIndex;
+    g.groups = Collect(g.root);
+    if ((g.focusWidget || g.focusNumber) && Relocate()) return;
+    if (!(g.focusGroupKey && StayInGroup())) FocusDefault();
+}
+
+// The matches for the query, focus on the best: "tel: 2 encontrados. Teléfono ..."
+void FindShow() {
+    int count = world::SetFindQuery(g_find.query);
+    if (!count) {
+        speech::Say(util::Format(S(Str::FindNoMatch), g_find.query.c_str()));
+        return;
+    }
+    world::Open(kKindsGroup, world::kFindKind);
+    g_find.listed = true;
+    g.groups = Collect(g.root);
+    for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+        if (g.groups[gi].key != kKindsGroup || g.groups[gi].items.empty()) continue;
+        SetFocus(gi, 0);
+        buffers::SetDetails(DetailLines(*Focused(), g.groups[gi], 0));
+        std::string found = count == 1 ? util::Format(S(Str::FindCountOne), g_find.query.c_str())
+                                       : util::Format(S(Str::FindCount), g_find.query.c_str(), count);
+        speech::Say(found + ". " + Describe(*Focused()));
+        map::FollowFocus();  // the map, when it is on, goes to the thing
+        return;
+    }
+}
+
+}  // namespace
+
+bool FindActive() { return g_find.active; }
+
+void FindBegin() {
+    if (!world::LotViewActive()) {
+        speech::Say(S(Str::NotOnLot));
+        return;
+    }
+    if (placement::Active() || build::Active()) {
+        speech::Say(S(Str::FindNotNow));
+        return;
+    }
+    if (g_find.active) {  // the keys again
+        speech::Say(S(Str::FindPrompt));
+        return;
+    }
+    Refresh(GetTickCount64());
+    g_find = FindState{};
+    g_find.active = true;
+    g_find.beforeWidget = g.focusWidget;
+    g_find.beforeNumber = g.focusNumber;
+    g_find.beforeLabel = g.focusLabel;
+    g_find.beforeGroup = g.focusGroupKey;
+    g_find.beforeIndex = g.index;
+    g_find.beforeKind = world::OpenNumber(kKindsGroup);
+    g_find.beforeLast = world::LastGroup();
+    speech::Say(S(Str::FindPrompt));
+}
+
+void FindChar(WPARAM ch) {
+    if (ch < 0x20 || ch >= 0x100 || ch == 0x7f) {
+        g_find.lead = 0;
+        return;
+    }
+    // The window is ANSI: the character comes in the system code page.
+    char bytes[2] = {(char)ch, 0};
+    int count = 1;
+    if (g_find.lead) {
+        bytes[0] = g_find.lead;
+        bytes[1] = (char)ch;
+        count = 2;
+        g_find.lead = 0;
+    } else if (IsDBCSLeadByte((BYTE)ch)) {
+        g_find.lead = (char)ch;
+        return;
+    }
+    wchar_t wide[4] = {};
+    char utf8[16] = {};
+    int n = MultiByteToWideChar(CP_ACP, 0, bytes, count, wide, 4);
+    if (n <= 0 || WideCharToMultiByte(CP_UTF8, 0, wide, n, utf8, sizeof utf8 - 1, nullptr, nullptr) <= 0) return;
+    if (utf8[0] == ' ' && g_find.query.empty()) return;
+    g_find.query += utf8;
+    FindShow();
+}
+
+void FindErase() {
+    std::string& q = g_find.query;
+    if (q.empty()) {
+        speech::Say(S(Str::FindEmpty));
+        return;
+    }
+    size_t at = q.size() - 1;
+    while (at > 0 && ((unsigned char)q[at] & 0xc0) == 0x80) at--;  // a whole UTF-8 character
+    q.resize(at);
+    if (!q.empty()) {
+        FindShow();
+        return;
+    }
+    if (g_find.listed) FindRestore();
+    speech::Say(S(Str::FindEmpty));
+}
+
+void FindMove(int delta) {
+    if (!g_find.listed) {
+        speech::Say(S(Str::FindTypeFirst));
+        return;
+    }
+    Move(delta);
+    map::FollowFocus();
+}
+
+void FindEdge(bool last) {
+    if (!g_find.listed) {
+        speech::Say(S(Str::FindTypeFirst));
+        return;
+    }
+    MoveToEdge(last);
+    map::FollowFocus();
+}
+
+void FindConfirm(bool walk) {
+    if (!g_find.listed) {
+        speech::Say(S(Str::FindTypeFirst));
+        return;
+    }
+    g_find.active = false;
+    if (walk) world::WalkTo(false);
+    else Activate();
+}
+
+void FindCancel() {
+    g_find.active = false;
+    if (g_find.listed) FindRestore();
+    speech::Say(S(Str::FindCancelled));
+}
+
+void FindEnd() { g_find.active = false; }
+
+bool FocusOnThing() {
+    const Item* it = Focused();
+    return it && it->role == Role::LotObject;
 }
 
 // PageUp/PageDown (nav/world.h): the lot's things from anywhere in the lot view. A kind or room

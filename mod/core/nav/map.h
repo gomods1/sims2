@@ -4,7 +4,11 @@
 // should find out while playing). A spatial tool (NAVIGATION.md): while it is on, the arrows move it.
 //   Ctrl+M                          the map on / off (it starts at the selected Sim)
 //   Arrows                          one tile (Shift: five): what stands there and which way it
-//                                   faces, the room when it changes, walls, doors and windows by side
+//                                   faces, the room when it changes, walls, doors and windows by
+//                                   side. Walls, fences and windows stop it (doors do not)
+//   Alt+arrows                      the same through walls
+//   Comma / period                  the layer said on each step: everything, objects, floors (by
+//                                   name), walls, rooms
 //   Home                            back to the selected Sim
 //   Ctrl+Shift+PageUp / PageDown    the floor above / below
 //   PageDown / PageUp (Shift, Ctrl) the lot's things as everywhere; the cursor goes to the thing
@@ -26,6 +30,7 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl);  // the map's keys while it is on
 
 void Toggle();
 void End();
+void Move(int dx, int dy, bool throughWalls = false);  // walls, fences and windows stop it
 void FollowFocus();  // after the Page keys: the cursor goes to the thing they focused
 
 }  // namespace nav::map

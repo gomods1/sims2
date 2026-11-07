@@ -21,5 +21,8 @@ void MouseDrag(int x0, int y0, int x1, int y1);
 bool MouseDragging();
 void MouseTick();
 HWND GameWindow();
+// The player's real pointer (screen coordinates), past the hook; refused while the virtual mouse
+// is in use. For a sighted helper (Ctrl+Shift+V), never in the mod's own tests.
+bool MoveRealPointer(int screenX, int screenY);
 
 }  // namespace game

@@ -36,3 +36,7 @@ startup are in `mod/core/game/memory.cpp`.
 | framework GetSystemService(0xe92db716, 1) | the main toolbar | thiscall | +0x74 UI mode, +0x90 tool handler |
 | user tool slots 42 (3, pos) then 45 (pos) | a mouse move, synchronously | thiscall | the mod judges thousands of spots this way (0.1 ms each) |
 | 0xa067be89, 0xa067cb69 | object tool: holding?, held object | thiscall () | put down / sold detection |
+| object slots 250 0xa0533fe0, 251 0xa05309d0, 81 0xa05432f0, 83 0xa0545cf0 | routing slots: count, slot, positions, offset | thiscall | `game::UseSpots` (reach, seats); each slot's address is checked before the call; live: the fridge's spot in front of it |
+| person interface slot 10 0xa051aa40 | person data (index, 1) | thiscall | `game::SimLook` (age, gender, body, outfit, neighbor id) |
+| cTSNeighbor slot 44 0xa04b7fc0 | outfit property (flag, property) | thiscall, ret 8 | `game::SimLook` (hair, skin, eyes, glasses...); the address is checked before the call; live: Carlos' cap read as a hat |
+| camera events (camera + 0x4a0) vt[4] | event 0xbb661105 / 0xbb661106 with a point | thiscall (id, 0, event*) | `game::CenterCamera` (Ctrl+Shift+V on a lot thing, `!camera`); live: the desk and the fridge centred |

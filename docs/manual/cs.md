@@ -109,15 +109,21 @@ Na pozemku je obrazovka kruh skupin jako kterákoli jiná. Tab je prochází v t
    zájmy...), rodina, přání a obavy a každý panel, který otevřete.
 5. **nápověda modu**.
 
+Stránka zaměstnání říká pracovní dobu Simíka; Enter na ní přidá, kdy přijede společné auto. Chcete-li dát výpověď, zavolejte do práce telefonem. Každá dovednost řekne svou úroveň a, když další povýšení potřebuje víc, kolik: „Vaření, 2 z 10, další povýšení potřebuje 4“.
+
 ### Výběr Simů a kamera
 
 | Klávesa | Co dělá |
 |---|---|
 | Control+1 až Control+9 | Vybere prvního až devátého Sima rodiny. |
 | Control+E | Vybraný Sim na jednom řádku: kde je, co dělá, naléhavé potřeby. |
-| Control+F | Kamera sleduje vybraného Sima, nebo je volná. |
+| Control+Shift+E | Jak Sim vypadá: věk, vlasy, pleť, oči, brýle, postava a oblečení, slovy hry. Sim zaměřený mezi věcmi pozemku, jinak vybraný. Podrobnosti Sima (Control+Šipka nahoru na něm) to řeknou také. |
+| Control+T | Ohlásí každou novou hodinu na hodinách („je 14:00“), nebo přestane. Hodí se při nejvyšší rychlosti. |
+| Control+Shift+F | Kamera sleduje vybraného Sima, nebo je volná. |
 
 Kamera sleduje vybraného Sima, protože zvuky hry vycházejí z toho, co je na obrazovce.
+
+Přiblížení a směr kamery se řeknou, když se změní (Z a X přibližují), a ovládací panel je má také: „kamera: blízký pohled, 5 ze 6, směr: severovýchod". Směr je to, kam se dívá horní okraj obrazovky.
 
 ### Předměty pozemku
 
@@ -139,6 +145,10 @@ Nemusíte tam chodit Tabem: klávesy Page procházejí předměty odkudkoli na p
 | Enter | Interakce předmětu (v režimu nákupu: zvedne ho, abyste ho přesunuli). |
 | Control+Enter | Vybraný Sim dojde k předmětu. |
 | Control+Shift+Enter | Doběhne tam. |
+| Control+F | Najít předmět: napište část názvu („tel" najde telefon, na diakritice nezáleží). Nahoru a Dolů procházejí nálezy, Enter s ním něco udělá, Control+Enter tam dojde, Delete odstraní dveře nebo okno, Escape se vrátí, kde jste byli. |
+| Delete | Na dveřích nebo okně, v režimu nákupu nebo rukou v režimu stavby: zvedne je a prodá s náhradou. |
+
+Po Simících následují **problémy**: co potřebuje pozornost, třeba rozbité věci, věci k úklidu, kaluže, odpadky, popel a oheň. Nakonec jsou **dveře, okna a schody**. Věc, ke které se žádný Sim nedostane od vstupu na pozemek, řekne „žádný Sim se k tomu nedostane“.
 
 ### Nabídky interakcí
 
@@ -159,10 +169,12 @@ Každý krok přehraje zvuk podlahy a každé zdi, plotu, zábradlí, dveří ne
 
 | Klávesa | Co dělá |
 |---|---|
-| Šipky | Jedno pole; se Shiftem pět. Řekne, co tam stojí a kam je natočeno, místnost a podlahu, když se změní, zdi, ploty, zábradlí, dveře a okna podle stran, schody a svahy. |
+| Šipky | Jedno pole; se Shiftem pět. Řekne, co tam stojí a kam je natočeno, místnost a podlahu, když se změní, zdi, ploty, zábradlí, dveře a okna podle stran, schody a svahy. Zdi, ploty a okna kurzor zastaví; dveře ho pustí. |
+| Alt+Šipky | Totéž, skrz zdi. |
+| Čárka, tečka | Co řekne každý krok: všechno, jen předměty, jen podlahy (jménem, „Světlá žulová dlažba“), jen zdi, jen místnosti. |
 | Home | Zpět k vybranému Simovi. |
 | Control+Shift+Page Up, Page Down | Podlaží nad nebo pod. |
-| Enter | Nabídka interakcí toho, co tam stojí. |
+| Enter | Nabídka interakcí toho, co tam stojí. Věc na stole nebo psacím stole je před stolem: počítač, ne jeho stůl. |
 | Control+Enter | Vybraný Sim tam dojde (Control+Shift+Enter: doběhne). |
 | Page Down, Page Up (a Shift, Control) | Předměty pozemku jako vždy; mapa přejde ke každému z nich. |
 | R | Vše o poli. Control+L uspořádání místnosti. |
@@ -175,13 +187,17 @@ Hra mnoho věcí ukazuje jen obrázky. Mod je říká, když se dějí, a uklád
 - **Bubliny** nad Simy: "Carlos myslí: Energie", "Carlos říká: Politika", přeškrtnutá ikona
   ("ne ..."), výkřiky a titulky vztahů ("vztah se zlepšuje", "nový přítel", "první polibek").
 - **Cesty**: "Carlos se tam nedostane".
-- **Akce** rodiny, klesající **potřeby**, **návštěvy** a zaplacené nebo přijaté peníze.
+- **Akce** rodiny, klesající **potřeby**, **návštěvy** a zaplacené nebo přijaté peníze. Když se akce přeruší a čeká ve frontě, řekne se to: „Carlos přerušil Posadit se kvůli Panika; čeká to ve frontě“.
 - **Nábytek, který opouští pozemek** (zloděj, exekutor), s jeho hodnotou.
 
-Bubliny rodiny se říkají nahlas; bubliny návštěvy jdou jen do paměti událostí.
+Říkají se myšlenky a výkřiky tvé rodiny a výkřiky kohokoli. Rozhovory (co Simíci říkají a titulky o vztazích) se říkají podle volby Control+Shift+N; zbytek jde jen do vyrovnávací paměti událostí.
 
 **Control+N** mění, kolik se říká: vše, jen varování, nebo nic. Neřečené řádky přesto jdou do
 paměti událostí.
+
+**Control+Shift+N** vybírá, čí rozhovory se říkají: kohokoli, kdo mluví s tvou rodinou (na začátku), všech na pozemku, jen tvé rodiny, nebo nikoho. Co se neřekne, jde stejně do vyrovnávací paměti událostí.
+
+Akce s jiným Simíkem jmenují tohoto Simíka, ať je začal kdokoli: „Carlos: Pozdravit, s: Elvira".
 
 ## Režim nákupu
 
@@ -200,7 +216,8 @@ nejbližší k vybranému Simovi první.
 | Control+Page Down, Control+Page Up | Místnosti, ve kterých jsou místa. |
 | Shift+Page Down, Shift+Page Up (nebo čárka, tečka) | Otočí ho; natočení se řekne. |
 | Control+Shift+Page Down, Page Up | Vedle předmětů pozemku, nejbližší první, natočený k nim, když se vejde. |
-| Šipky | Místo toho ho posune o jedno pole (Shift: o pět): zda se vejde, na co naráží, místnost, když se změní, zdi kolem něj, kam je natočený a k čemu, pole; potom zvuky pole. |
+| Šipky | Místo toho ho posune o jedno pole (Shift: o pět): zda se vejde, na co naráží, místnost, když se změní, zdi kolem něj, kam je natočený a k čemu, pole; potom zvuky pole. Zdi, ploty a okna ho zastaví; dveře ho pustí. |
+| Alt+Šipky | Totéž, skrz zdi. |
 | Home | Zpět k vybranému Simovi. |
 | Enter | Koupí ho tam; hra vám dává další kus, dokud nestisknete Escape. |
 | Escape | Ukončí umísťování (přesouvaný předmět se vrátí). |
@@ -210,14 +227,18 @@ nejbližší k vybranému Simovi první.
 Předmět na více polích řekne, kolik podlahy zabírá ("zabírá polí: 2, 2 ze západu na východ, 1 ze
 severu na jih").
 
+Místa sedadla začínají tam, kde se něco používá vsedě, třeba počítač na psacím stole, a sedadlo se k tomu otočí: „směrem na západ, k používání Počítač vsedě“. Po umístění předmětu mod řekne, jak se bude používat: „k používání Počítač vsedě“, „používá se z Kancelářská židle“, „Simíci se k tomu dostanou“ nebo „žádný Sim se k tomu nedostane“.
+
 ### Přesouvání a prodej
 
 V režimu nákupu přejděte klávesou Page Down na předmět pozemku a stiskněte Enter: zvedne se a
-stejné klávesy ho umístí jinam. Delete ho prodá.
+stejné klávesy ho umístí jinam. Delete ho prodá. Jeho místa začínají nejblíž tomu, kde stál.
 
 ## Režim stavby
 
 F3 otevře režim stavby. Jeho nástroje a styly jsou tlačítka.
+
+Stisk nástroje přejde na jeho styly, ve skupině pojmenované podle nástroje; Tab se vrátí k nástrojům.
 
 ### Kurzor stavby
 
@@ -243,6 +264,8 @@ vrátí.
 Dveře, okna a schody se umísťují jako nábytek, z míst, kam se vejdou: místo dveří řekne, na které
 zdi jsou a do které místnosti vedou. Střechy: tlačítka automatické střechy na stránce střech.
 
+Po umístění dveří mod řekne, zda jimi Simíci projdou, nebo co překáží. Chcete-li je později změnit, najděte je v **dveře, okna a schody** nebo pomocí Control+F: Enter je zvedne k přesunu, v režimu nákupu nebo rukou v režimu stavby, a Delete je odstraní.
+
 ## Zvukové signály
 
 Kurzor stavby, šipky při umísťování a mapa pozemku přehrají při každém kroku krátký zvuk: podlaha
@@ -257,7 +280,7 @@ zapne.
 | Klávesa | Co dělá |
 |---|---|
 | Control+Shift+C | Konzole cheatů hry: její vstup je textové pole; Enter na něm mu dá klávesnici, napište cheat, Enter ho spustí a to, co konzole vypíše, se přečte. |
-| Control+Shift+V | Zvýrazní vybraný ovládací prvek na obrazovce pro vidícího pomocníka. |
+| Control+Shift+V | Zvýrazní vybraný ovládací prvek na obrazovce pro vidícího pomocníka. V režimu Život, když je okno hry vpředu, se kamera také podívá na věc pozemku, která má fokus, a ukazatel myši na ni přejde. |
 
 ## Vlastní klávesy hry
 
@@ -283,6 +306,8 @@ Klávesy, které je mění, je hned uloží.
 | `cues` | 1 zvukové signály zapnuty, 0 vypnuty (Control+Shift+S). |
 | `cue_volume` | Hlasitost zvukových signálů, 0 až 100 (výchozí 80). |
 | `show_focus` | 1 zvýrazní vybraný ovládací prvek na obrazovce (Control+Shift+V). |
+| `social` | Čí rozhovory se říkají: 3 všech, 2 kohokoli s tvou rodinou, 1 tvé rodiny, 0 nikoho (Control+Shift+N). |
+| `hours` | 1 ohlašuje každou novou hodinu (Control+T). |
 
 ## Když něco nefunguje
 

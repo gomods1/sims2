@@ -207,6 +207,8 @@ void Corner(int level, int x, int y) {
 
 void LotEdge() { Play("edge"); }
 
+void Blocked() { Play("blocked", 0, 1, 0.8f, 30); }
+
 void Fit(bool fits) { Play(fits ? "fits" : "nofit", 0, 1, 0.7f, 0); }
 
 std::string SurfaceWord(game::Surface s) {
@@ -256,6 +258,19 @@ std::string CornerEdgesLine(int level, int x, int y) {
     Edge lines[kSides] = {EdgeOf(level, x, y - 1, kWest), EdgeOf(level, x, y, kNorth), EdgeOf(level, x, y, kWest),
                           EdgeOf(level, x - 1, y, kNorth)};
     return SidesLine(lines);
+}
+
+bool WallStops(int level, int x, int y, int dx, int dy, std::string* what) {
+    if (!dx && !dy) return false;
+    int side = dy < 0 ? kNorth : dx > 0 ? kEast : dy > 0 ? kSouth : kWest;
+    Edge e = EdgeOf(level, x, y, side);
+    if (e == Edge::None || e == Edge::Door) return false;
+    if (what) {
+        Edge only[kSides] = {};
+        only[side] = e;
+        *what = SidesLine(only);
+    }
+    return true;
 }
 
 }  // namespace nav::cues

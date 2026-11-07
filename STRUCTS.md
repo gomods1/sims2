@@ -96,6 +96,92 @@ subclass used for labels showing a value (tooltip names it).
 - Interaction menu builder 0xa0621f50 (thiscall(objectId, second)): the main toolbar calls it for
   message 0xC0 (handler 0xa061b99c) with the object in data 1, the second id in data 2.
 
+- Object variables: shorts from `cTSObject + 0xa6` (1 the direction at +0xa8, 8 the flags at +0xb6, 11
+  the id at +0xbc: read live on 665 objects). The global trees say what they mean: "Repair - X is
+  Broken?" (0x207) tests 15 > 0; "Dirty - Set To Dirty" (0x265) and "Set To Clean" (0x2e0) write 39;
+  "Clean - Interaction TEST" (0x125) offers cleaning from BCON 0x138 ("G - Cleaning Tuning") entry 7,
+  200 (100 for neat Sims). 39 also holds how overgrown a shrub is (800 read live). Flags & 0x1c: a Sim
+  walks over or through it (a rug 0x4, a door 0x2490, a staircase 0x90; a chair 0, a table 0x100).
+  Messes are objects outside the catalog ("*..." names): Puddle, Puddle - Chocolate, Puddle - Rain, Ashes,
+  Fire, Roaches, Trash - Trash Pile / Furniture Debris Pile / Electronic Debris Pile, Dirt Pile.
+- Action queue: an icon (`cTSWinActionQueueIcon`, from the cIGZWin pointer) has its `cTSInteraction` at
+  +0xfc, whose +0x0e is the short id of the object it is done with (slot 16 finds the object by it;
+  read live: "Usar" gave the toilet). The person interface's slots 126 and 129 (Lua's
+  getNumQueuedInteractions, getQueuedInteractionObjectId) read a deque at its +0x2a8 that was empty
+  with an action running: not what the icons show.
+- Camera: `nTSSG::cCameraLive` (vtable 0xa0dba6fc, three instances; the lot's has the most zoom steps,
+  and it stays in use in buy and build mode, `cCameraBuild` stays at the origin). No path from the
+  globals was found: `game::CameraView` finds it by its vtable once (0.4 s). +0x2c float x, y, z (tiles;
+  z up); +0x38 float x, y, z, w orientation, the view's direction being it turning +y: (2(xy - wz),
+  1 - 2(x^2 + z^2), 2(yz + wx)), checked against the motion a zoom makes; +0x70 std::vector<float> zoom
+  distances (70, 40, 25, 15, 8, 3); +0xe0 the distance it is going to. Keys Z and X; the accelerators have
+  no key to turn it.
+- Camera centring (disassembly 2026-11-07, verified live: `!camera 19 13 1` put the Contreras desk in
+  the middle of the screen, `!camera 27 18` glided to the fridge): the live panel's "Center on active
+  Sim" (command 0xaceca4ee, `cTSWinProcLivePanel` slot 3 0xa07786ed, branch 0xa07787a4) calls the main
+  toolbar's slot 38 (0xa061b36c, thiscall(object)): the floor shown (toolbar slot 27), the follow node
+  (controller slot 2, "root_trans"), the bone's world position, then event 0xbb661105 to the camera.
+  The camera's events: E = camera + 0x4a0 (vbtable at +4: its +4 holds 0x49c, its +0x14 0x4c4, the
+  controller interface at +0x4c8), bool thiscall E->vt[4](id, 0, event*) (0xa0358ba6 -> 0xa0b48110,
+  synchronous), the event 16 bytes {vtable 0xa0db5e70 cVectorEvent<cVector<3,float>>, float x, y, z}
+  in tiles. 0xbb661105 sets the target look-at (+0x178, clamped to the lot plus a margin) and the
+  look-at (+0x16c) glides to it; 0xbb661106 copies every target to now (a jump). Both stop the
+  following (controller slot 0 SetFollowing(false), a byte near +0x202, inferred); the toolbar's
+  slots 40 (bool) and 41 (object, bool) turn it back on. The cleaner way to the instance than the
+  vtable scan: `0xa0211da3()` (cTSSGSystem) -> vt[53]() -> vt[37]() (not used yet).
+
+## Routing slots, containers, looks (disassembly 2026-11-07, checked live on the Contreras lot)
+
+- A `cTSObject` keeps three std::vectors of slot interfaces: containment `+0x248`, routing `+0x254`,
+  target `+0x260` (built by 0xa0531320 through the slot loader). Virtual slots (thiscall): 250
+  0xa0533fe0 `int RoutingSlotCount()`, 251 0xa05309d0 `cITSRoutingSlot* (int i)`; 81 0xa05432f0
+  `int (cTSSlot* base, bool)` the positions a slot has (a bone slot lists several bones), 83
+  0xa0545cf0 `float3* (float3* out, cTSSlot* base, int index, float radius)` its offset from the
+  object: a bone's place in the model (bone slots, `base + 0x18` bit 0x20000) or the SLOT's x, y.
+  The slot object is the interface - 0x20. Interface: +4 standing, +8 sitting, +0x10 flags (bits
+  0-7 the sides, bit 9 absolute), +0x14 snap target, +0x18/+0x1c/+0x20 min/max/optimal proximity
+  (tiles), +0x28 facing. World position (route goals 0xa04e0f10): (a, b) = (-y, x) turned by the
+  object's direction (0xa04e5e80, quarter turns: 2 (b, -a), 4 (-a, -b), 6 (-b, a)) plus the
+  object's location; local +y is the front. Live: the fridge (facing north) gives one spot on the
+  tile north of it; a desk eight spots around it (none flagged sitting); an office chair four.
+  The SLOT resources (type 0x534C4F54, instance OBJD field 0x14) give no positions for bone slots
+  (2230 of the base game's 2857 routing slots), so the game is asked live (`game::UseSpots`).
+- `+0xaa` short: the object it stands on (a computer: its desk), 0 none; `+0xac` the slot index in
+  it; object slot 71 returns the container.
+- OBJD field 94 (offset 4 + 2 * 94 of the whole object's OBJD, a multi-tile part's master's): the
+  catalog sub-sort within the function; surfaces read live: 1 counter, 2 dining table, 8 desk, 16
+  coffee table (`game::ObjdField`, `!objd <id>` dumps fields 0-119).
+- Person data: the person interface (object + 752) slot 10 0xa051aa40 `short (int index, int 1)`
+  reads `iface + 0x356 + 2 * index` (object + 0x646); indices from the Lua PersonData table
+  (ObjectScripts 0xFF10C589): 8 current outfit, 31 neighbor id, 58 age in days (<=1 baby, 2
+  toddler, 3-15 child, 16-18 teen, 19-50 adult, young adult with 175 set, above elder: slot 22),
+  65 gender (0 male), 81 body flags (bit 0 fat, bit 4 fit), 82 fatness, 186 species (0 human).
+- Looks (Lua getOutfitProperty 0xa0566b20): the cTSNeighbor (neighbor manager slot 16 with
+  (neighbor id, 1)) slot 44 0xa04b7fc0, `uint16 thiscall (uint16 outfit flag, uint16 property)`;
+  the outfit flag from person data 8 (0xa023f55f: 0 everyday 1, 2 swimwear 8, 3 athletic 0x200, 4
+  formal 0x20, 5 sleepwear 0x10, 11 underwear 0x40, 13 outerwear 0x1000...). Properties (Lua
+  OutfitProperty 0xFFB4A6D8): 0 hair (2 black, 3 brown, 4 blond, 5 red, 6 grey, 7 dyed, 1
+  custom), 1 skin (2 light ... 5 dark, 6 alien, 7 zombie), 2 eyes (2 green, 3 brown, 4 light
+  blue, 5 dark blue, 6 grey, 7 alien), 3 facial hair, 4 glasses, 5 makeup, 6 full-face makeup, 7
+  hat, 11 jewelry. Live: Carlos read grey hair, a hat (his red cap on screen), elder, fit. Words:
+  CAS.package STR# 0x85 (genders, ages, "Tono de piel"), 0x87 (eye colours 12-16), 0x89 (outfits
+  4-9, "Ropa" 2), 0x9b #2 outerwear; CAS_Shared 0xc8 #0 young adult; eCAS STR# 1 #72 baby, #23
+  "Color de ojos"; UIText 0xe1 (turn-ons: hair phrases 14-19, glasses 9, facial hair 8, makeup
+  10/11, hats 12, jewelry 13). Skin tones have no game words (mod strings).
+
+## Job panel (cTSWinProcPanelJob, disassembly 2026-11-07)
+
+- Seven step bars, windows 0x4bdeff01..07 (cooking, mechanical, charisma, body, logic, creativity,
+  cleaning), 0..1000 in 10 steps, set by 0xa065a98d from person data {0x0a, 0x0c, 0x0b, 0x11, 0x12,
+  0x0f, 0x09} (table 0xa0de5d50). The labels (16 px) overlap two bars (14 px rows): the mod pairs
+  each with the bar it overlaps most (live: 7/1/6/9/2/4/1 matched the screen).
+- The promotion mark: each bar's child 5 (a 9x16 bitmap) at x = (needed level - 1) tenths of the
+  bar, hidden when nothing is needed or at the career's top; from the person interface slot +0xf8
+  (`uint16 (int BCON instance)`: the career's BCON[instance][level + 1] in hundreds; 0x1004 cooking,
+  0x1005 mechanical, 0x1007 charisma, 0x1006 body, 0x1009 logic, 0x1008 creativity, 0x100b
+  cleaning; table 0xa0de5d6c). Friends: window 0xa8, captions 0x4c3cc65c (now) and 0x4c3cc65d
+  ("( + N )"). Career data: GUID person data 0x5a << 16 | 0x59, level 0x39, performance 0x3f.
+
 ## The lot grid (world database; verified on the Contreras lot, 2026-11-01)
 
 - The world service (`world::kServiceId`) hands out `nTSWorld::cWorldDB`'s `cIWorldDB` interface

@@ -159,11 +159,37 @@ constexpr int kSlotName = 92;          // const char* name
 constexpr int kSlotLocation = 33;      // -> {int x, int y}, 16.16 fixed point, in tiles
 constexpr int kSlotLevel = 36;         // short: 0 the terrain, 1 the ground floor of a house on a
                                        // foundation (a patio set outside reads 0, the rooms 1)
+// Routing slots (where a Sim stands or sits to use the object; found by disassembly 2026-11-07,
+// STRUCTS.md "Routing slots"): slot 250 int count (0xa0533fe0), slot 251 cITSRoutingSlot* (int i)
+// (0xa05309d0); the slot's object is the interface - 0x20. Slot 81 int (slot object, bool) the
+// positions it has (a bone slot names several bones, 0xa05432f0); slot 83 float3* (float3* out,
+// slot object, int index, float radius) its offset from the object (0xa0545cf0: a bone's place in
+// the model, else the SLOT's x, y). The interface: +4 standing, +8 sitting, +0x10 flags (bits 0-7 the
+// sides, bit 9 absolute: the object's facing is not applied), +0x20 the optimal proximity (tiles).
+constexpr int kSlotRoutingCount = 250, kSlotRoutingSlot = 251, kSlotSlotPositions = 81, kSlotSlotOffset = 83;
+constexpr uintptr_t kRoutingCount = 0xa0533fe0, kRoutingSlot = 0xa05309d0, kSlotPositions = 0xa05432f0,
+                    kSlotOffset = 0xa0545cf0;
+constexpr int kContainer = 0xaa;       // short: the object id it stands on (the desk of a computer), 0 none
 constexpr int kDirection = 0xa8;       // short, SimAntics direction: 0 faces -x, 2 +y, 4 +x, 6 -y (a
                                        // dining set: each chair faces its table); the object tool's
                                        // rotation is the same number for the held object
 constexpr int kDefinition = 0x238;     // -> cTSPersistResourceT<cEdithObjectDefinition> (OBJD)
 }  // namespace object
+
+// SimAntics object variables: shorts from +0xa6 (variable 1 is object::kDirection, 11 the object's
+// id: read live on every object). The global trees say what two of them mean: "Repair - X is
+// Broken?" (0x207) tests 15 > 0; "Dirty - Set To Dirty" (0x265) and "Set To Clean" (0x2e0) write 39,
+// and "Clean - Interaction TEST" (0x125) offers cleaning from G - Cleaning Tuning's 200 up.
+namespace objvar {
+constexpr int kBase = 0xa6;
+constexpr int kBroken = 15;
+constexpr int kDirt = 39;
+constexpr int kDirtyFrom = 200;
+// Variable 8, the flags: any of these and a Sim walks over or through it (a rug 0x4, a door 0x2490,
+// a staircase 0x90; a chair 0, a table 0x100).
+constexpr int kFlags = 8;
+constexpr int kWalkThrough = 0x1c;
+}  // namespace objvar
 
 // The object definition (OBJD, parsed), from the resource above.
 namespace objd {
@@ -180,6 +206,12 @@ constexpr int kRatings = 0xa8;         // s16 [7]: hunger, comfort, hygiene, bla
 constexpr int kFunctionFlags = 0x54;   // u16 buy mode categories: 1 comfort, 2 surfaces, 4 appliances,
                                        // 8 electronics, 0x10 plumbing, 0x20 decorative, 0x40 misc,
                                        // 0x80 lighting, 0x100 hobbies (checked on known objects)
+constexpr uint16_t kFnComfort = 0x1, kFnSurfaces = 0x2, kFnAppliances = 0x4, kFnElectronics = 0x8,
+                   kFnMiscellaneous = 0x40;
+// OBJD field 94: the buy catalog's sub-sort within the function. Surfaces (read live 2026-11-07 on the
+// whole objects' OBJDs): 1 counter, 2 dining table, 8 desk, 16 coffee table.
+constexpr int kFieldFunctionSubsort = 94;
+constexpr uint16_t kSurfaceCounter = 1, kSurfaceTable = 2, kSurfaceDesk = 8, kSurfaceCoffeeTable = 16;
 }  // namespace objd
 
 // Buy mode catalog: each cTSWinProcCatalogThumbnail (a thumbnail window's proc, win::kProc) holds
@@ -316,7 +348,56 @@ constexpr uintptr_t kRZStringVtable = 0xa0d9b470;
 constexpr uint32_t kIid = 0x5a69d3d5;
 constexpr int kSlotMotive = 13;
 constexpr int kMotiveCount = 16;
+// Person data (Lua's GetPersonData, 0xa0573f20, calls this slot): short (int index, int 1), ret 8;
+// it reads iface + 0x356 + 2 * index. Indices (the Lua PersonData table, ObjectScripts 0xFF10C589):
+// 8 current outfit, 31 neighbor id, 58 age (days), 65 gender (0 male, 1 female), 81 body flags
+// (bit 0 fat, bit 4 fit: the body morphs at 0xa065d2fe), 175 young adult, 186 species (0 human).
+constexpr int kSlotPersonData = 10;
+constexpr int kDataOutfit = 8, kDataNeighborId = 31, kDataAge = 58, kDataGender = 65, kDataBodyFlags = 81,
+              kDataYoungAdult = 175, kDataSpecies = 186;
 }  // namespace person
+
+// A neighbor's looks (Lua's getOutfitProperty, 0xa0566b20): cTSNeighbor slot 44 (0xa04b7fc0),
+// uint16 thiscall (uint16 outfit flag, uint16 property), ret 8: the outfit data's answer (cached by
+// the game per flag and property). Properties (Lua OutfitProperty, 0xFFB4A6D8): 0 hair (1 custom,
+// 2 black, 3 brown, 4 blond, 5 red, 6 grey, 7 dyed), 1 skin (1 custom, 2 light, 3 medium, 4 medium
+// dark, 5 dark, 6 alien, 7 zombie), 2 eyes (1 custom, 2 green, 3 brown, 4 light blue, 5 dark blue,
+// 6 grey, 7 alien), then 1 when present: 3 facial hair, 4 glasses, 5 makeup, 6 full-face makeup,
+// 7 hat, 11 jewelry. The outfit flag from person data 8: 0xa023f55f's table (outfitFlagOf below).
+namespace looks {
+constexpr int kNeighborSlotOutfitProperty = 44;
+constexpr uintptr_t kOutfitProperty = 0xa04b7fc0;  // checked before the call
+enum Property { kHair = 0, kSkin = 1, kEyes = 2, kFacialHair = 3, kGlasses = 4, kMakeup = 5, kFullMakeup = 6,
+                kHat = 7, kJewelry = 11 };
+}  // namespace looks
+
+// An action queue icon (cTSWinActionQueueIcon, from the cIGZWin pointer) holds its cTSInteraction,
+// whose +0x0e is the short id of the object it is done with (its slot 16 finds the object by it).
+namespace interaction {
+constexpr int kIconInteraction = 0xfc;
+constexpr int kObjectId = 0x0e;
+}  // namespace interaction
+
+// The camera (cTSCameraSmoothSims1Controller; nTSSG::cCameraLive its leaf). The lot's own is the one
+// with the most zoom steps (other instances keep 2 or 5, at the origin): 70, 40, 25, 15, 8, 3. Keys Z
+// and X go through the list. It stays the one in use in buy and build mode (read live: cCameraBuild
+// stays at the origin).
+namespace camera {
+constexpr uint32_t kLiveVtable = 0xa0dba6fc;
+constexpr int kOrientation = 0x38;  // float x, y, z, w: the view's direction is this turning +y
+constexpr int kZoomSteps = 0x70;    // std::vector<float>, the distances, farthest first
+constexpr int kZoomTarget = 0xe0;   // float: the distance it is going to
+// Centring it (found by disassembly 2026-11-07; the live panel's "Center on active Sim" 0xa07787a4 ->
+// the main toolbar's slot 38 0xa061b36c): an event to the camera's event interface E = camera +
+// 0x4a0 (the vbtable at +4 holds 0x49c at its +4): bool thiscall E->vt[4](id, 0, event*), the event
+// {vtable 0xa0db5e70 (nGZEvent::cVectorEvent<cVector<3,float>>), float x, y, z} in world units
+// (tiles). 0xbb661105 glides there, 0xbb661106 jumps; both stop the camera following the Sim. The
+// look-at: +0x16c now, +0x178 the target.
+constexpr int kVbtable = 4, kEventBaseOffset = 0x49c, kEventInterface = 0x4a0;
+constexpr uint32_t kEventGlide = 0xbb661105, kEventJump = 0xbb661106;
+constexpr uintptr_t kVectorEventVtable = 0xa0db5e70;
+constexpr int kLookAt = 0x16c;
+}  // namespace camera
 
 // Messages (cRZMessage2Standard, 0x2c bytes, constructor 0xa01c033d) posted to the game's message
 // server ([0xa10f519c], cGZMessageServer2, slot 4 = post(msg, 0)). The main toolbar

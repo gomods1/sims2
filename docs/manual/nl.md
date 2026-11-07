@@ -82,15 +82,21 @@ Op een kavel is het scherm een ring van groepen zoals elk ander. Tab gaat er in 
 4. De panelen van het spel: het bedieningspaneel, het Sim-paneel (behoeften, relaties, baan, vaardigheden, persoonlijkheid, interesses...), het gezin, wensen en angsten, en elk paneel dat je opent.
 5. **mod-hulp**.
 
+De baanpagina noemt de werktijden van de Sim; Enter daarop voegt toe wanneer de carpool komt. Om een baan op te zeggen, bel je via de telefoon naar je werk. Elke vaardigheid zegt haar niveau en, als de volgende promotie meer vraagt, hoeveel: "Koken, 2 van 10, de volgende promotie vraagt 4".
+
 ### Sims selecteren en de camera
 
 | Toets | Wat hij doet |
 |---|---|
 | Ctrl+1 tot Ctrl+9 | De eerste tot negende Sim van het gezin selecteren. |
 | Ctrl+E | De gekozen Sim in één regel: waar, wat hij doet, dringende behoeften. |
-| Ctrl+F | De camera volgt de gekozen Sim, of blijft vrij. |
+| Ctrl+Shift+E | Hoe een Sim eruitziet: leeftijd, haar, huid, ogen, bril, lichaam en kleding, in de woorden van het spel. De Sim met focus tussen de dingen van het kavel, anders de geselecteerde. De details van een Sim (Ctrl+Pijl omhoog erop) zeggen het ook. |
+| Ctrl+T | Zegt elk nieuw uur van de klok ("het is 14:00"), of stopt. Handig op de hoogste snelheid. |
+| Ctrl+Shift+F | De camera volgt de gekozen Sim, of blijft vrij. |
 
 De camera volgt de gekozen Sim, omdat de geluiden van het spel komen van wat er op het scherm is.
+
+De zoom en de kijkrichting van de camera worden gezegd als ze veranderen (Z en X zoomen), en het bedieningspaneel heeft ze ook: "camera: dichtbij, 5 van 6, kijkt naar het noordoosten". De kijkrichting is waar de bovenkant van het scherm heen kijkt.
 
 ### De objecten op het kavel
 
@@ -106,6 +112,10 @@ Je hoeft er niet met Tab naartoe: de Page-toetsen bladeren van overal op het kav
 | Enter | De interacties van het object (in de koopmodus: het oppakken om het te verplaatsen). |
 | Ctrl+Enter | De gekozen Sim naar het object laten lopen. |
 | Ctrl+Shift+Enter | Erheen laten rennen. |
+| Ctrl+F | Iets zoeken: typ een deel van de naam ("tel" vindt de telefoon, accenten tellen niet). Omhoog en Omlaag gaan door de resultaten, Enter handelt erop, Ctrl+Enter loopt erheen, Delete verwijdert een deur of raam, Escape gaat terug naar waar je was. |
+| Delete | Op een deur of raam, in koopmodus of met de hand van de bouwmodus: pakt die op en verkoopt die, met terugbetaling. |
+
+Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, dingen die schoongemaakt moeten worden, plassen, afval, as en vuur. Als laatste komt **deuren, ramen en trappen**. Iets waar geen Sim vanaf de ingang van het kavel bij kan, zegt "geen Sim kan erbij".
 
 ### Interactiemenu's
 
@@ -123,10 +133,12 @@ Enter op een object (of op een Sim) opent het interactiemenu van het spel. Pijl 
 
 | Toets | Wat hij doet |
 |---|---|
-| Pijltjes | Eén vak; met Shift vijf. Zegt wat er staat en welke kant het op kijkt, de kamer en de vloer als die veranderen, de muren, hekken, balustrades, deuren en ramen per kant, trappen en hellingen. |
+| Pijltjes | Eén vak; met Shift vijf. Zegt wat er staat en welke kant het op kijkt, de kamer en de vloer als die veranderen, de muren, hekken, balustrades, deuren en ramen per kant, trappen en hellingen. Muren, hekken en ramen houden de cursor tegen; deuren laten hem door. |
+| Alt+Pijltjes | Hetzelfde, door muren heen. |
+| Komma, punt | Wat elke stap zegt: alles, alleen objecten, alleen vloeren (met naam, "Lichte granieten tegel"), alleen muren, alleen kamers. |
 | Home | Terug naar de gekozen Sim. |
 | Ctrl+Shift+Page Up, Page Down | De verdieping erboven of eronder. |
-| Enter | Het interactiemenu van wat er staat. |
+| Enter | Het interactiemenu van wat er staat. Iets op een tafel of bureau komt vóór de tafel: de computer, niet zijn bureau. |
 | Ctrl+Enter | De gekozen Sim erheen laten lopen (Ctrl+Shift+Enter: rennen). |
 | Page Down, Page Up (en Shift, Ctrl) | De objecten op het kavel zoals altijd; de plattegrond gaat naar elk ervan. |
 | R | Alles over het vak. Ctrl+L de indeling van de kamer. |
@@ -138,12 +150,16 @@ Het spel laat veel dingen alleen als plaatjes zien. De mod zegt ze wanneer ze ge
 
 - **Ballonnen** boven Sims: "Carlos denkt: Energie", "Carlos zegt: Politiek", een doorgestreept pictogram ("geen ..."), geschreeuw, en de koppen over relaties ("relatie verbetert", "nieuwe vriend", "eerste kus").
 - **Routes**: "Carlos kan er niet komen".
-- **Acties** van het gezin, **behoeften** die laag worden, **bezoekers**, en geld dat betaald of ontvangen wordt.
+- **Acties** van het gezin, **behoeften** die laag worden, **bezoekers**, en geld dat betaald of ontvangen wordt. Als een actie wordt onderbroken en in de wachtrij wacht, wordt dat gezegd: "Carlos stopte met Zitten voor Paniek; het wacht in de wachtrij".
 - **Meubels die het kavel verlaten** (een inbreker, de deurwaarder), met hun waarde.
 
-De ballonnen van het gezin worden uitgesproken; die van een bezoeker gaan alleen naar de gebeurtenissenbuffer.
+De gedachten en kreten van je familie worden gezegd, en ieders kreten. Gesprekken (wat Sims zeggen en de relatiekoppen) worden gezegd zoals Ctrl+Shift+N kiest; de rest gaat alleen naar de gebeurtenissenbuffer.
 
 **Ctrl+N** verandert hoeveel er gezegd wordt: alles, alleen waarschuwingen, of niets. Regels die niet worden uitgesproken gaan toch naar de gebeurtenissenbuffer.
+
+**Ctrl+Shift+N** kiest wiens gesprekken gezegd worden: iedereen die met je familie praat (bij het begin), iedereen op het kavel, alleen je familie, of niemand. Wat niet gezegd wordt, gaat nog steeds naar de gebeurtenissenbuffer.
+
+Acties met een andere Sim noemen die Sim, wie ze ook begon: "Carlos: Begroeten, met Elvira".
 
 ## Kopen
 
@@ -159,7 +175,8 @@ Enter op een product pakt het op. De mod vindt elke plek op het kavel waar het p
 | Ctrl+Page Down, Ctrl+Page Up | De kamers die plekken hebben. |
 | Shift+Page Down, Shift+Page Up (of komma, punt) | Het draaien; de richting wordt genoemd. |
 | Ctrl+Shift+Page Down, Page Up | Naast de objecten op het kavel, dichtstbijzijnde eerst, ernaartoe gericht als het past. |
-| Pijltjes | Het in plaats daarvan één vak verplaatsen (Shift: vijf): of het past, waar het tegenaan botst, de kamer als die verandert, de muren eromheen, welke kant het op kijkt en waar het naartoe gericht is, het vak; daarna de geluiden van het vak. |
+| Pijltjes | Het in plaats daarvan één vak verplaatsen (Shift: vijf): of het past, waar het tegenaan botst, de kamer als die verandert, de muren eromheen, welke kant het op kijkt en waar het naartoe gericht is, het vak; daarna de geluiden van het vak. Muren, hekken en ramen houden het tegen; deuren laten het door. |
+| Alt+Pijltjes | Hetzelfde, door muren heen. |
 | Home | Terug naar de gekozen Sim. |
 | Enter | Het daar kopen; het spel geeft je nog een exemplaar tot je op Escape drukt. |
 | Escape | Stoppen met plaatsen (een verplaatst object gaat terug). |
@@ -168,13 +185,17 @@ Enter op een product pakt het op. De mod vindt elke plek op het kavel waar het p
 
 Een object van meerdere vakken zegt hoeveel vloer het beslaat ("beslaat 2 vakken: 2 van west naar oost, 1 van noord naar zuid").
 
+De plekken van een zitmeubel beginnen waar iets zittend gebruikt wordt, zoals een computer op een bureau, en het zitmeubel wordt ernaartoe gedraaid: "naar het westen, om Computer zittend te gebruiken". Na het plaatsen zegt de mod hoe het gebruikt wordt: "om Computer zittend te gebruiken", "gebruikt vanaf Bureaustoel", "Sims kunnen erbij" of "geen Sim kan erbij".
+
 ### Verplaatsen en verkopen
 
-Ga in de koopmodus met Page Down naar een object op het kavel en druk op Enter: het wordt opgepakt, en met dezelfde toetsen zet je het ergens anders neer. Delete verkoopt het.
+Ga in de koopmodus met Page Down naar een object op het kavel en druk op Enter: het wordt opgepakt, en met dezelfde toetsen zet je het ergens anders neer. Delete verkoopt het. Zijn plekken beginnen het dichtst bij waar het stond.
 
 ## Bouwen
 
 F3 opent de bouwmodus. De gereedschappen en stijlen zijn knoppen.
+
+Op een gereedschap drukken brengt je naar de stijlen ervan, in een groep met de naam van het gereedschap; Tab gaat terug naar de gereedschappen.
 
 ### De bouwcursor
 
@@ -197,6 +218,8 @@ Nadat een muur is gebouwd, wordt een Sim van het gezin gemeld die opgesloten zit
 
 Deuren, ramen en trappen worden geplaatst zoals meubels, vanaf de plekken waar ze passen: de plek van een deur zegt in welke muur ze zit en naar welke kamer ze leidt. Daken: de knoppen voor automatische daken op de dakpagina.
 
+Na het plaatsen van een deur zegt de mod of Sims erdoor kunnen of wat in de weg staat. Om er later een te veranderen, zoek hem in **deuren, ramen en trappen** of met Ctrl+F: Enter pakt hem op om te verplaatsen, in koopmodus of met de hand van de bouwmodus, en Delete verwijdert hem.
+
 ## Geluidssignalen
 
 De bouwcursor, de pijltjes bij het plaatsen en de plattegrond spelen bij elke stap een kort geluid: de vloer (gras, hout, tegels, vloerbedekking, steen, de zwembadrand, water, geen vloer op een verdieping: waar de vloer van gemaakt is, volgens zijn catalogusdefinitie), de muur, het hek, de balustrade, de deur of het raam van elke kant (west links, oost rechts, noord hoger, zuid lager), trappen, een Sim of een object op het vak, een helling, een kamerwissel, de rand van het kavel, en bij het plaatsen of het object past. **Ctrl+Shift+S** zet ze uit en aan.
@@ -206,7 +229,7 @@ De bouwcursor, de pijltjes bij het plaatsen en de plattegrond spelen bij elke st
 | Toets | Wat hij doet |
 |---|---|
 | Ctrl+Shift+C | De cheatconsole van het spel: de invoer ervan is een tekstveld; Enter erop geeft het het toetsenbord, typ de cheat, Enter voert hem uit, en wat hij schrijft wordt uitgesproken. |
-| Ctrl+Shift+V | Het gekozen bedieningselement op het scherm oplichten, voor een ziende helper. |
+| Ctrl+Shift+V | Het gekozen bedieningselement op het scherm oplichten, voor een ziende helper. In de leefmodus, met het spelvenster op de voorgrond, kijkt de camera ook naar het ding van het kavel met de focus en gaat de muisaanwijzer erop. |
 
 ## De eigen toetsen van het spel
 
@@ -231,6 +254,8 @@ De instellingen van de mod staan in `Sims2Access\Sims2Access.ini` in de map van 
 | `cues` | 1 geluidssignalen aan, 0 uit (Ctrl+Shift+S). |
 | `cue_volume` | Volume van de geluidssignalen, 0 tot 100 (standaard 80). |
 | `show_focus` | 1 licht het gekozen bedieningselement op het scherm op (Ctrl+Shift+V). |
+| `social` | Wiens gesprekken gezegd worden: 3 iedereen, 2 iedereen met je familie, 1 je familie, 0 niemand (Ctrl+Shift+N). |
+| `hours` | 1 zegt elk nieuw uur (Ctrl+T). |
 
 ## Als er iets misgaat
 

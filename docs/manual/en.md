@@ -107,15 +107,21 @@ On a lot the screen is a ring of groups like any other. Tab goes through them in
    personality, interests...), the family, wants and fears, and any panel you open.
 5. **mod help**.
 
+The job page says the Sim's hours; Enter on them adds when the carpool comes. To quit a job, call work on the phone. Each skill says its level and, when the next promotion needs more, how much: "Cooking, 2 of 10, the next promotion needs 4".
+
 ### Selecting Sims and the camera
 
 | Key | What it does |
 |---|---|
 | Control+1 to Control+9 | Select the first to ninth Sim of the family. |
 | Control+E | The selected Sim in one line: where, what it is doing, urgent needs. |
-| Control+F | The camera follows the selected Sim, or stays free. |
+| Control+Shift+E | What a Sim looks like: age, hair, skin, eyes, glasses, body and outfit, in the game's words. The Sim focused among the lot's things, else the selected one. A Sim's details (Control+Up on it) say it too. |
+| Control+T | Say each new hour of the clock ("it is 14:00"), or stop. Useful at the fastest speed. |
+| Control+Shift+F | The camera follows the selected Sim, or stays free. |
 
 The camera follows the selected Sim, because the game's sounds come from what is on screen.
+
+The zoom and the way the camera faces are said when they change (Z and X zoom), and the control panel has them too: "camera: close view, 5 of 6, facing north-east". The facing is what the top of the screen looks toward.
 
 ### The lot's things
 
@@ -137,6 +143,10 @@ buy and build mode.
 | Enter | The thing's interactions (in buy mode: pick it up to move it). |
 | Control+Enter | Walk the selected Sim to the thing. |
 | Control+Shift+Enter | Run there. |
+| Control+F | Find a thing: type part of its name ("tel" finds the telephone, accents do not matter). Up and Down go through what matches, Enter acts on it, Control+Enter walks there, Delete removes a door or window, Escape goes back to where you were. |
+| Delete | On a door or window, in buy mode or with build mode's hand: picks it up and sells it, refunded. |
+
+After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes and fire. Last comes **doors, windows and stairs**. A thing no Sim can get to from the lot's entrance says "no Sim can reach it".
 
 ### Interaction menus
 
@@ -158,10 +168,12 @@ window around it.
 
 | Key | What it does |
 |---|---|
-| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and the floor when they change, the walls, fences, railings, doors and windows by side, stairs and slopes. |
+| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and the floor when they change, the walls, fences, railings, doors and windows by side, stairs and slopes. Walls, fences and windows stop the cursor; doors let it through. |
+| Alt+Arrows | The same, through walls. |
+| Comma, period | What each step says: everything, objects only, floors only (by name, "Light granite tile"), walls only, rooms only. |
 | Home | Back to the selected Sim. |
 | Control+Shift+Page Up, Page Down | The floor above or below. |
-| Enter | The interaction menu of what stands there. |
+| Enter | The interaction menu of what stands there. A thing on a table or desk comes before the table: the computer, not its desk. |
 | Control+Enter | Walk the selected Sim there (Control+Shift+Enter: run). |
 | Page Down, Page Up (and Shift, Control) | The lot's things as always; the map goes to each one. |
 | R | Everything about the tile. Control+L the room's layout. |
@@ -176,13 +188,17 @@ the events buffer:
   ("no ..."), screams, and the relationship headlines ("the relationship improves", "new
   friend", "first kiss").
 - **Routes**: "Carlos cannot get there".
-- **Actions** of the family, **needs** falling low, **visitors**, and money paid or received.
+- **Actions** of the family, **needs** falling low, **visitors**, and money paid or received. When an action is interrupted and waits in the queue, that is said: "Carlos stopped Sit for Panic; it waits in the queue".
 - **Furniture leaving the lot** (a burglar, the repo man), with its value.
 
-The family's balloons are spoken; a visitor's only go to the events buffer.
+Your family's thoughts and screams are spoken, and anyone's screams. Conversations (what Sims say and the relationship headlines) are spoken as Control+Shift+N chooses; the rest only goes to the events buffer.
 
 **Control+N** changes how much is spoken: everything, warnings only, or off. Lines not spoken
 still go to the events buffer.
+
+**Control+Shift+N** chooses whose conversations are spoken: anyone talking with your family (the start), everyone on the lot, only your family, or nobody. Lines not spoken still go to the events buffer.
+
+Actions with another Sim name that Sim, whoever started them: "Carlos: Greet, with Elvira".
 
 ## Buy mode
 
@@ -201,7 +217,8 @@ direction, nearest to the selected Sim first.
 | Control+Page Down, Control+Page Up | The rooms that have spots. |
 | Shift+Page Down, Shift+Page Up (or comma, period) | Turn it; the facing is said. |
 | Control+Shift+Page Down, Page Up | Beside the lot's things, nearest first, facing them when it fits. |
-| Arrows | Move it one tile instead (Shift: five): whether it fits, what it runs into, the room when it changes, the walls around it, its facing and what it faces, the tile; then the tile's sounds. |
+| Arrows | Move it one tile instead (Shift: five): whether it fits, what it runs into, the room when it changes, the walls around it, its facing and what it faces, the tile; then the tile's sounds. Walls, fences and windows stop it; doors let it through. |
+| Alt+Arrows | The same, through walls. |
 | Home | Back to the selected Sim. |
 | Enter | Buy it there; the game hands you another copy until Escape. |
 | Escape | Stop placing (a moved object goes back). |
@@ -211,14 +228,18 @@ direction, nearest to the selected Sim first.
 A multi-tile object says how much floor it takes ("takes 2 tiles: 2 west to east, 1 north to
 south").
 
+A seat's spots come first where something is used sitting down, such as a computer on a desk, and the seat is turned toward it: "facing west, to use Computer sitting down". After an object is placed the mod says how it will be used: "to use Computer sitting down", "used from Office chair", "Sims can reach it" or "no Sim can reach it".
+
 ### Moving and selling
 
 In buy mode, Page Down to a thing of the lot and press Enter: it is picked up, and the same keys
-place it somewhere else. Delete sells it.
+place it somewhere else. Delete sells it. Its spots start nearest where it stood.
 
 ## Build mode
 
 F3 opens build mode. Its tools and styles are buttons.
+
+Pressing a tool moves you to its styles, in a group named after the tool; Tab goes back to the tools.
 
 ### The build cursor
 
@@ -245,6 +266,8 @@ Doors, windows and stairs are placed like furniture, from the spots where they f
 spot says which wall it is on and the room it leads to. Roofs: the roof page's automatic roof
 buttons.
 
+After a door is placed the mod says whether Sims can walk through it, or what is in the way. To change one later, find it in **doors, windows and stairs** or with Control+F: Enter picks it up to move it, in buy mode or with build mode's hand, and Delete removes it.
+
 ## Sound cues
 
 The build cursor, placing's arrows and the lot map play a short sound on each step: the floor
@@ -259,7 +282,7 @@ slope, a room change, the lot's edge, and while placing whether the object fits.
 | Key | What it does |
 |---|---|
 | Control+Shift+C | The game's cheat console: its input is a text field; Enter on it gives it the keyboard, type the cheat, Enter runs it, and what it writes is spoken. |
-| Control+Shift+V | Light the focused control on screen, for a sighted helper. |
+| Control+Shift+V | Light the focused control on screen, for a sighted helper. In live mode, with the game's window in front, the camera also looks at the lot's thing in focus and the mouse pointer goes onto it. |
 
 ## The game's own keys
 
@@ -285,6 +308,8 @@ The keys that change them save them at once.
 | `cues` | 1 sound cues on, 0 off (Control+Shift+S). |
 | `cue_volume` | Volume of the sound cues, 0 to 100 (default 80). |
 | `show_focus` | 1 lights the focused control on screen (Control+Shift+V). |
+| `social` | Whose conversations are spoken: 3 everyone, 2 anyone with your family, 1 your family, 0 nobody (Control+Shift+N). |
+| `hours` | 1 says each new hour (Control+T). |
 
 ## When something goes wrong
 

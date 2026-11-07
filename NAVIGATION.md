@@ -36,6 +36,8 @@ groups or items to this model; it never invents its own keys for moving.
 | Shift+PageDown / Shift+PageUp | next / previous kind of things, on its nearest thing |
 | Ctrl+PageDown / Ctrl+PageUp | next / previous room (the first press: the selected Sim's), on its nearest thing |
 | Ctrl+Enter | walk the selected Sim to the thing last focused (Ctrl+Shift+Enter: run) |
+| Ctrl+F (lot view, every mode) | find a thing by typing part of its name: the matches are a list of "things by kind", best first; Up / Down (Page keys, Home / End) go through them, Enter acts, Ctrl+Enter walks, Delete removes a door or window, Tab leaves with the list kept, Escape goes back to where the focus was |
+| Delete (buy mode, build mode's hand) | on a door or window of the lot's things: picks it up and sells it |
 | R | the item again, with its group |
 | Alt+letter | the next group whose spoken name starts with that letter (so the letters follow the game's language) |
 | Ctrl+Up / Ctrl+Down, Ctrl+Left / Ctrl+Right | the review buffers (details, events) |
@@ -49,6 +51,14 @@ groups or items to this model; it never invents its own keys for moving.
   habitación" groups (`nav::BrowseThings`), so Tab, the arrows, Enter and Backspace go on from
   there. Any later list of things on the lot follows this: Page for the items, a modifier for
   the filter.
+- **Find owns the keyboard while it is on** (the user's request in the Sims 1 mod, 2026-11-02): what
+  types goes to the search, so letters reach neither the game's hotkeys nor R. Its results are
+  ordinary items of the kinds group, so everything after it (Page keys, Backspace, Tab) goes on as
+  usual.
+- **A build tool leads to its styles**: the build panel and the catalog are two groups (by their
+  procs); pressing a tool that changes the catalog moves the focus to its first style, in the
+  catalog group named after the tool (`nav::FinishToolPress`); Tab goes back to the tools. Tools
+  that change no style (day and night, undo) leave the focus alone.
 - When the focused item goes away (a thing the Sim picked up), the focus stays in its group
   (the item now at its place). When an interaction menu closes, the focus returns to where it
   was opened from.
@@ -59,9 +69,15 @@ When the task is a place, the arrows move in space:
 
 | Tool | Arrows | PageDown / PageUp | Ctrl+PageDown / PageUp | Shift+PageDown / PageUp | Tab / Shift+Tab | Other |
 |---|---|---|---|---|---|---|
-| Placing (buy mode, `nav/placement.cpp`) | one tile, Shift five | the spots where it fits | the rooms with spots | turn it (the game's period / comma) | the spots too | Ctrl+Shift+PageDown/Up beside the lot's things, comma / period turn (the game's), Home back to the Sim, Enter puts it down, Delete sells, Escape stops |
+| Placing (buy mode, `nav/placement.cpp`) | one tile, Shift five; walls, fences and windows stop it, Alt+arrows go through | the spots where it fits (a seat: where something is used sitting first; a moved object: nearest where it stood) | the rooms with spots | turn it (the game's period / comma) | the spots too | Ctrl+Shift+PageDown/Up beside the lot's things, comma / period turn (the game's), Home back to the Sim, Enter puts it down, Delete sells, Escape stops |
 | Build cursor (`nav/build.cpp`) | one tile, Shift five | the level above / below | | | (none yet) | Space marks, Enter builds, Ctrl+Enter removes, Home back to the Sim, Escape |
-| Lot map (`nav/map.cpp`, Ctrl+M) | one tile, Shift five | the lot's things (the map goes to each) | the rooms, as the lot's things | the kinds, as the lot's things | the groups as usual | Ctrl+Shift+PageUp/Down the floors, Enter the menu of what stands there, Ctrl+Enter walks there, Home back to the Sim, R, Escape or Ctrl+M leaves |
+| Lot map (`nav/map.cpp`, Ctrl+M) | one tile, Shift five; walls, fences and windows stop it, Alt+arrows go through | the lot's things (the map goes to each) | the rooms, as the lot's things | the kinds, as the lot's things | the groups as usual | comma / period the layer each step says (everything, objects, floors, walls, rooms), Ctrl+Shift+PageUp/Down the floors, Enter the menu of what stands there, Ctrl+Enter walks there, Home back to the Sim, R, Escape or Ctrl+M leaves |
+
+A spatial tool that walks the house stops at walls (a Sims 1 tester's "Zones" idea, 2026-11-06: a
+room was left by accident); Alt with the arrows goes through, since Ctrl+arrows are the review
+buffers everywhere. The build cursor keeps crossing walls: walls are its work. Placing's comma /
+period stay the game's turn; the map's are its layers (from Oxygen Not Included's overlays: one kind
+of thing per step on a furnished lot).
 
 Every spatial tool also plays the sound cues of `nav/cues.h` on each step (Ctrl+Shift+S turns them
 off): the floor, each side's wall, fence, railing, door or window, stairs, what stands on the tile.

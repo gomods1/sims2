@@ -112,15 +112,21 @@ Tontilla näkymä on ryhmien kehä kuten mikä tahansa muu. Sarkain käy ne läp
    kiinnostukset...), perhe, toiveet ja pelot sekä mikä tahansa avaamasi paneeli.
 5. **modin ohje**.
 
+Työsivu kertoo simin työajat; Enter niiden kohdalla lisää, milloin kimppakyyti tulee. Irtisanoutuaksesi soita puhelimella töihin. Jokainen taito kertoo tasonsa ja, kun seuraava ylennys vaatii enemmän, kuinka paljon: "Ruoanlaitto, 2/10, seuraava ylennys vaatii 4".
+
 ### Simien valinta ja kamera
 
 | Näppäin | Mitä se tekee |
 |---|---|
 | Control+1–Control+9 | Valitse perheen ensimmäinen–yhdeksäs simi. |
 | Control+E | Valittu simi yhdellä rivillä: missä se on, mitä se tekee, kiireelliset tarpeet. |
-| Control+F | Kamera seuraa valittua simiä tai on vapaa. |
+| Control+Vaihto+E | Miltä Sim näyttää: ikä, hiukset, iho, silmät, silmälasit, vartalo ja vaatteet, pelin sanoin. Tontin asioista kohdistettu Sim, muuten valittu. Simin tiedot (Control+Nuoli ylös sen kohdalla) kertovat sen myös. |
+| Control+T | Kertoo kellon jokaisen uuden tunnin ("kello on 14:00"), tai lopettaa. Hyödyllinen suurimmalla nopeudella. |
+| Control+Vaihto+F | Kamera seuraa valittua simiä tai on vapaa. |
 
 Kamera seuraa valittua simiä, koska pelin äänet tulevat siitä, mitä näytöllä on.
+
+Zoom ja kameran suunta sanotaan, kun ne muuttuvat (Z ja X zoomaavat), ja ohjauspaneelissa ne ovat myös: "kamera: lähinäkymä, 5/6, suunta koilliseen". Suunta on se, mihin ruudun yläreuna katsoo.
 
 ### Tontin esineet
 
@@ -142,6 +148,10 @@ tontilla, elämä-, osto- ja rakennustilassa.
 | Enter | Esineen toiminnot (ostotilassa: nosta se siirrettäväksi). |
 | Control+Enter | Lähetä valittu simi kävellen esineen luo. |
 | Control+Vaihto+Enter | Juokse sinne. |
+| Control+F | Etsi jotakin: kirjoita osa nimestä ("pu" löytää puhelimen, aksenteilla ei ole väliä). Ylös ja Alas käyvät läpi osumat, Enter toimii sen kanssa, Control+Enter kävelee sinne, Delete poistaa oven tai ikkunan, Escape palaa siihen missä olit. |
+| Delete | Ovella tai ikkunalla, ostotilassa tai rakennustilan kädellä: nostaa sen ja myy sen hyvityksellä. |
+
+Simien jälkeen tulee **ongelmat**: se mikä vaatii huomiota, kuten rikkinäiset ja siivottavat esineet, lätäköt, roskat, tuhka ja tuli. Viimeisenä tulee **ovet, ikkunat ja portaat**. Asia, jota mikään Sim ei saavuta tontin sisäänkäynniltä, sanoo "mikään Sim ei pääse sen luo".
 
 ### Toimintovalikot
 
@@ -163,10 +173,12 @@ kaiteelle, ovelle tai ikkunalle.
 
 | Näppäin | Mitä se tekee |
 |---|---|
-| Nuolinäppäimet | Yksi ruutu; Vaihdon kanssa viisi. Kertoo, mitä siinä on ja mihin suuntaan se on käännetty, huoneen ja lattian kun ne vaihtuvat, seinät, aidat, kaiteet, ovet ja ikkunat sivuittain, portaat ja rinteet. |
+| Nuolinäppäimet | Yksi ruutu; Vaihdon kanssa viisi. Kertoo, mitä siinä on ja mihin suuntaan se on käännetty, huoneen ja lattian kun ne vaihtuvat, seinät, aidat, kaiteet, ovet ja ikkunat sivuittain, portaat ja rinteet. Seinät, aidat ja ikkunat pysäyttävät kohdistimen; ovet päästävät sen läpi. |
+| Alt+Nuolinäppäimet | Sama, seinien läpi. |
+| Pilkku, piste | Mitä kukin askel kertoo: kaiken, vain esineet, vain lattiat (nimeltä, "Vaalea graniittilaatta"), vain seinät, vain huoneet. |
 | Home | Takaisin valitun simin luo. |
 | Control+Vaihto+Page Up, Page Down | Ylempi tai alempi kerros. |
-| Enter | Siinä olevan asian toimintovalikko. |
+| Enter | Siinä olevan asian toimintovalikko. Pöydällä tai kirjoituspöydällä oleva asia tulee ennen pöytää: tietokone, ei sen pöytä. |
 | Control+Enter | Lähetä valittu simi sinne kävellen (Control+Vaihto+Enter: juosten). |
 | Page Down, Page Up (ja Vaihto, Control) | Tontin esineet kuten aina; kartta siirtyy kuhunkin. |
 | R | Kaikki ruudusta. Control+L huoneen pohjapiirros. |
@@ -180,13 +192,17 @@ tapahtumat-puskuriin:
 - **Puhekuplat** simien yllä: "Carlos ajattelee: Energia", "Carlos sanoo: Politiikka", yliviivattu
   kuvake ("ei ..."), huudot ja suhdeotsikot ("suhde paranee", "uusi ystävä", "ensisuudelma").
 - **Reitit**: "Carlos ei pääse sinne".
-- Perheen **toiminnot**, laskevat **tarpeet**, **vieraat** sekä maksetut tai saadut rahat.
+- Perheen **toiminnot**, laskevat **tarpeet**, **vieraat** sekä maksetut tai saadut rahat. Kun toiminto keskeytyy ja jää odottamaan jonoon, se kerrotaan: "Carlos keskeytti Istu toiminnon Paniikki vuoksi; se odottaa jonossa".
 - **Tontilta lähtevät huonekalut** (murtovaras, ulosottomies) arvoineen.
 
-Perheen puhekuplat sanotaan ääneen; vieraan kuplat menevät vain tapahtumat-puskuriin.
+Perheesi ajatukset ja huudot sanotaan, ja kenen tahansa huudot. Keskustelut (mitä simit sanovat ja suhdeotsikot) sanotaan sen mukaan, mitä Control+Vaihto+N valitsee; muu menee vain tapahtumapuskuriin.
 
 **Control+N** muuttaa sitä, kuinka paljon puhutaan: kaikki, vain varoitukset tai pois. Puhumatta
 jääneet rivit menevät silti tapahtumat-puskuriin.
+
+**Control+Vaihto+N** valitsee, kenen keskustelut sanotaan: kaikki, jotka puhuvat perheesi kanssa (aluksi), kaikki tontilla, vain perheesi tai ei kenenkään. Sanomatta jäävä menee silti tapahtumapuskuriin.
+
+Toiminnot toisen simin kanssa nimeävät tämän simin, aloitti ne kuka tahansa: "Carlos: Tervehdi, kanssa: Elvira".
 
 ## Ostotila
 
@@ -205,7 +221,8 @@ suuntaan, lähimmät valittua simiä ensin.
 | Control+Page Down, Control+Page Up | Huoneet, joissa on paikkoja. |
 | Vaihto+Page Down, Vaihto+Page Up (tai pilkku, piste) | Käännä sitä; suunta kerrotaan. |
 | Control+Vaihto+Page Down, Page Up | Tontin esineiden vieressä, lähin ensin, niitä kohti käännettynä, kun se mahtuu. |
-| Nuolinäppäimet | Siirrä sitä sen sijaan ruutu kerrallaan (Vaihto: viisi): mahtuuko se, mihin se osuu, huone kun se vaihtuu, sitä ympäröivät seinät, mihin suuntaan se on käännetty ja mitä kohti se on, ruutu; sitten ruudun äänet. |
+| Nuolinäppäimet | Siirrä sitä sen sijaan ruutu kerrallaan (Vaihto: viisi): mahtuuko se, mihin se osuu, huone kun se vaihtuu, sitä ympäröivät seinät, mihin suuntaan se on käännetty ja mitä kohti se on, ruutu; sitten ruudun äänet. Seinät, aidat ja ikkunat pysäyttävät sen; ovet päästävät sen läpi. |
+| Alt+Nuolinäppäimet | Sama, seinien läpi. |
 | Home | Takaisin valitun simin luo. |
 | Enter | Osta se siihen; peli antaa uuden kappaleen, kunnes painat Escape. |
 | Escape | Lopeta sijoittaminen (siirretty esine palaa paikalleen). |
@@ -215,14 +232,18 @@ suuntaan, lähimmät valittua simiä ensin.
 Usean ruudun esine kertoo, kuinka paljon lattiaa se vie ("vie 2 ruutua: 2 lännestä itään, 1
 pohjoisesta etelään").
 
+Istuimen paikat alkavat sieltä, missä jotain käytetään istuen, kuten kirjoituspöydän tietokone, ja istuin käännetään sitä kohti: "länteen päin, käyttämään Tietokone istuen". Esineen sijoittamisen jälkeen modi kertoo, miten sitä käytetään: "käyttämään Tietokone istuen", "käytetään paikasta Toimistotuoli", "simit pääsevät sen luo" tai "mikään Sim ei pääse sen luo".
+
 ### Siirtäminen ja myyminen
 
 Ostotilassa siirry Page Downilla tontin esineeseen ja paina Enter: se nostetaan, ja samat
-näppäimet sijoittavat sen muualle. Delete myy sen.
+näppäimet sijoittavat sen muualle. Delete myy sen. Sen paikat alkavat lähimpää sitä, missä se oli.
 
 ## Rakennustila
 
 F3 avaa rakennustilan. Sen työkalut ja tyylit ovat painikkeita.
+
+Työkalun painaminen vie sen tyyleihin, työkalun mukaan nimettyyn ryhmään; Tab palaa työkaluihin.
 
 ### Rakennuskohdistin
 
@@ -250,6 +271,8 @@ Ovet, ikkunat ja portaat sijoitetaan kuten huonekalut, paikoista, joihin ne maht
 kertoo, missä seinässä se on ja mihin huoneeseen se johtaa. Katot: kattosivun automaattisen katon
 painikkeet.
 
+Kun ovi on asetettu, modi kertoo, pääsevätkö simit siitä läpi tai mikä on tiellä. Muuttaaksesi sitä myöhemmin, etsi se kohdasta **ovet, ikkunat ja portaat** tai painamalla Control+F: Enter nostaa sen siirrettäväksi, ostotilassa tai rakennustilan kädellä, ja Delete poistaa sen.
+
 ## Äänivihjeet
 
 Rakennuskohdistin, sijoittamisen nuolet ja tontin kartta soittavat lyhyen äänen jokaisella
@@ -264,7 +287,7 @@ oleva simi tai esine, rinne, huoneen vaihtuminen, tontin reuna sekä sijoittaess
 | Näppäin | Mitä se tekee |
 |---|---|
 | Control+Vaihto+C | Pelin huijauskonsoli: sen syöte on tekstikenttä; Enter sen kohdalla antaa sille näppäimistön, kirjoita huijaus, Enter suorittaa sen, ja mitä se kirjoittaa, luetaan ääneen. |
-| Control+Vaihto+V | Korosta valittu säädin näytöllä näkevää auttajaa varten. |
+| Control+Vaihto+V | Korosta valittu säädin näytöllä näkevää auttajaa varten. Elä-tilassa, kun pelin ikkuna on edessä, kamera katsoo myös tontin kohdistettua asiaa ja hiiren osoitin menee sen päälle. |
 
 ## Pelin omat näppäimet
 
@@ -290,6 +313,8 @@ Asetuksia muuttavat näppäimet tallentavat ne heti.
 | `cues` | 1 äänivihjeet päällä, 0 pois (Control+Vaihto+S). |
 | `cue_volume` | Äänivihjeiden voimakkuus, 0–100 (oletus 80). |
 | `show_focus` | 1 korostaa valitun säätimen näytöllä (Control+Vaihto+V). |
+| `social` | Kenen keskustelut sanotaan: 3 kaikkien, 2 kenen tahansa perheesi kanssa, 1 perheesi, 0 ei kenenkään (Control+Vaihto+N). |
+| `hours` | 1 kertoo jokaisen uuden tunnin (Control+T). |
 
 ## Kun jokin menee vikaan
 

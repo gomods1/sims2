@@ -47,6 +47,7 @@ void Tile(int level, int x, int y, int ignore = 0);
 // the floor south-east of it.
 void Corner(int level, int x, int y);
 void LotEdge();       // the cursor could not move further
+void Blocked();       // a wall, fence or window stopped the cursor
 void Fit(bool fits);  // placing: the held object fits here or not
 
 // Words for speech.
@@ -55,5 +56,10 @@ Str SideWord(int side);                     // north, east, south, west
 std::string EdgesLine(const TileSense& t);  // "pared al norte, puerta al este"; empty when none
 // The walls, fences, doors and windows on the four grid lines leaving a corner (the wall tools).
 std::string CornerEdgesLine(int level, int x, int y);
+// A step of one tile (dx, dy: -1, 0 or 1, not both) from the tile: whether a wall, fence, railing
+// or window on that side stops it (a door does not); `what` gets its words ("pared al este").
+// The map's and placing's arrows stop there (a tester of the Sims 1 mod left rooms by accident);
+// Alt with the arrows goes through.
+bool WallStops(int level, int x, int y, int dx, int dy, std::string* what);
 
 }  // namespace nav::cues

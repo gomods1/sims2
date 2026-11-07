@@ -126,6 +126,36 @@ bool g_visitorsPrimed = false;  // the Sims already there when the lot loaded ar
 // (urgent needs, visitors), or nothing spoken; every line still goes to the events buffer.
 int Verbosity() { return util::GetSetting("narrator", 2); }
 
+// Whose conversations are spoken (Ctrl+Shift+N): testers of the Sims 1 mod wanted to hear what
+// visitors answer their Sims and how other Sims get on.
+int g_social = -1;  // read from the settings on first use
+int CurrentSocial() {
+    if (g_social < 0) {
+        g_social = util::GetSetting("social", kSocialWithFamily);
+        if (g_social < kSocialNobody || g_social > kSocialEveryone) g_social = kSocialWithFamily;
+    }
+    return g_social;
+}
+
+// Every new hour of the game's clock, spoken when the player asked for it (Ctrl+T; a tester of the
+// Sims 1 mod went past the hour he wanted at the fastest speed): "son las 14:00".
+int g_hours = -1;        // -1: not read from the settings yet
+std::string g_hourSeen;  // the clock's hour part ("14", "2 PM") last read
+
+bool HoursOn() {
+    if (g_hours < 0) g_hours = util::GetSetting("hours", 0) ? 1 : 0;
+    return g_hours == 1;
+}
+
+// The clock's text without its minutes: "11:46" -> "11", "2:05 PM" -> "2 PM".
+std::string HourPart(const std::string& clock) {
+    size_t colon = clock.find(':');
+    if (colon == std::string::npos) return clock;
+    size_t end = colon + 1;
+    while (end < clock.size() && clock[end] >= '0' && clock[end] <= '9') end++;
+    return clock.substr(0, colon) + clock.substr(end);
+}
+
 }  // namespace
 
 void Narrate(const std::string& line, bool warning) {
@@ -209,6 +239,17 @@ void WatchFamily() {
     Group q = QueueGroup();
     std::string action = q.items.empty() ? "" : q.items[0].label;
     if (action != g_lastAction) {
+        // The action that ran is still in the queue behind the new one: something pushed in (in
+        // the Sims 1 mod a tester's Sim left what it was doing for garden gnomes, unsaid).
+        bool requeued = false;
+        for (size_t i = 1; i < q.items.size() && !g_lastAction.empty() && !action.empty(); i++)
+            requeued |= q.items[i].label == g_lastAction;
+        if (requeued) {
+            Log("action change: '%s' -> '%s', the first waits in the queue", g_lastAction.c_str(), action.c_str());
+            Narrate(util::Format(S(Str::ActionInterruptedWaits), name.c_str(), g_lastAction.c_str(), action.c_str()), true);
+            g_lastAction = action;
+            return;
+        }
         if (!g_lastAction.empty()) buffers::Record(util::Format(S(Str::ActionFinished), name.c_str(), g_lastAction.c_str()));
         if (!action.empty()) {
             // An action the Sim keeps coming back to (stomping, examining on its own) is said once
@@ -267,13 +308,20 @@ Group QueueGroup() {
     g.name = S(Str::GroupActionQueue);
     std::vector<Ptr> icons = TopLevel("cTSWinActionQueueIcon");
     std::sort(icons.begin(), icons.end(), [](Ptr a, Ptr b) { return game::Area(a).left < game::Area(b).left; });
+    int self = game::SelectedSimId();
     for (Ptr w : icons) {
         Item it;
         it.widget = w;
         it.role = Role::QueuedAction;
         it.label = util::CleanForSpeech(game::Caption(w));
         it.rect = game::ScreenRect(w);
-        if (!it.label.empty()) g.items.push_back(it);
+        if (it.label.empty()) continue;
+        // The other Sim of an action done with one, whoever chose it ("Saludar, con Elvira").
+        int with = game::QueueIconObject(w);
+        game::LotObject other;
+        if (with && with != self && game::ReadLotObject(with, &other) && other.person)
+            it.label = util::Format(S(Str::ActionWithSim), it.label.c_str(), SimName(with).c_str());
+        g.items.push_back(it);
     }
     return g;
 }
@@ -318,6 +366,40 @@ std::string FundsText() {
     return funds ? util::CleanForSpeech(game::Caption(funds)) : "";
 }
 
+// ---- The camera's zoom and facing ----------------------------------------------------------------
+// The game's keys and buttons change them: a player can't tell otherwise. Zoom 0 is the farthest.
+namespace {
+
+const Str kCompass[8] = {Str::DirNorth, Str::DirNorthEast, Str::DirEast, Str::DirSouthEast,
+                         Str::DirSouth, Str::DirSouthWest, Str::DirWest, Str::DirNorthWest};
+
+std::string ZoomText(int zoom, int steps) {
+    Str word = zoom * 3 < steps ? Str::ZoomFar : zoom * 3 < steps * 2 ? Str::ZoomMedium : Str::ZoomNear;
+    return std::string(S(word)) + ", " + util::Format(S(Str::ValueOfMax), zoom + 1, steps);
+}
+
+int g_viewZoom = -1, g_viewCompass = -1;
+
+void WatchView() {
+    int zoom, steps, compass;
+    if (!game::CameraView(&zoom, &steps, &compass)) return;
+    bool first = g_viewZoom < 0;
+    bool zoomed = zoom != g_viewZoom, turned = compass != g_viewCompass;
+    g_viewZoom = zoom;
+    g_viewCompass = compass;
+    if (first) return;
+    if (zoomed) buffers::Event(ZoomText(zoom, steps));
+    if (turned) buffers::Event(util::Format(S(Str::CameraFacing), S(kCompass[compass])));
+}
+
+}  // namespace
+
+std::string CameraLine() {
+    int zoom, steps, compass;
+    if (!game::CameraView(&zoom, &steps, &compass)) return "";
+    return util::Format(S(Str::CameraStatus), ZoomText(zoom, steps).c_str(), S(kCompass[compass]));
+}
+
 // ---- Camera following the selected Sim --------------------------------------------------------
 bool g_follow = true;
 int g_followSim = 0;
@@ -338,6 +420,48 @@ void FollowTick() {
     g_followY = o.y;
     g_followAt = now;
     input::PostGameKey(VK_RETURN);  // "Center on active Sim"
+}
+
+void WatchHour() {
+    Ptr clock = FindById(game::MainWindow(), kClockId, 0);
+    std::string text = clock ? util::CleanForSpeech(game::Caption(clock)) : "";
+    if (text.find(':') == std::string::npos) return;
+    // The caption starts with the weekday ("Sab 7:01"): the time is from its first digit.
+    size_t digit = text.find_first_of("0123456789");
+    if (digit != std::string::npos) text = text.substr(digit);
+    std::string hour = HourPart(text);
+    bool changed = !g_hourSeen.empty() && hour != g_hourSeen;
+    g_hourSeen = hour;
+    if (changed && HoursOn()) buffers::Event(util::Format(S(Str::HourChanged), text.c_str()));
+}
+
+void CycleSocial() {
+    int v = CurrentSocial();
+    g_social = v == kSocialWithFamily ? kSocialEveryone
+             : v == kSocialEveryone   ? kSocialFamily
+             : v == kSocialFamily     ? kSocialNobody
+                                      : kSocialWithFamily;
+    util::SetSetting("social", g_social);
+    speech::Say(S(g_social == kSocialEveryone     ? Str::SocialEveryone
+                  : g_social == kSocialWithFamily ? Str::SocialWithFamily
+                  : g_social == kSocialFamily     ? Str::SocialFamilyOnly
+                                                  : Str::SocialNobody));
+}
+
+int SocialScope() { return CurrentSocial(); }
+
+int RunningActionWith() {
+    std::vector<Ptr> icons = TopLevel("cTSWinActionQueueIcon");
+    if (icons.empty()) return 0;
+    Ptr first = *std::min_element(icons.begin(), icons.end(),
+                                  [](Ptr a, Ptr b) { return game::Area(a).left < game::Area(b).left; });
+    return game::QueueIconObject(first);
+}
+
+void ToggleHours() {
+    g_hours = HoursOn() ? 0 : 1;
+    util::SetSetting("hours", g_hours);
+    speech::Say(S(g_hours ? Str::HoursOn : Str::HoursOff));
 }
 
 void CycleNarrator() {
@@ -432,8 +556,12 @@ void Tick() {
         g_visitorsPrimed = false;
         g_lastFunds = -1;  // another lot, another family: its funds are not a payment
         g_furniturePrimed = false;
+        g_viewZoom = -1;
+        g_hourSeen.clear();
         return;
     }
+    WatchView();
+    WatchHour();
     WatchFamily();
     WatchVisitors();
     WatchFurniture();

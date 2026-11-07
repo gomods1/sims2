@@ -23,6 +23,8 @@ struct LotObject {
     int room = -1;               // the room the object stands in (RoomAt), -1 unknown
     int direction = 0;           // 0 faces -x (west), 2 +y (south), 4 +x (east), 6 -y (north)
     int type = 0;                // OBJD object type: 4 normal, 8 door, 9 window
+    bool broken = false;         // what the game's repairman looks for (object variable 15)
+    int dirt = 0;                // object variable 39: from addr::objvar::kDirtyFrom a Sim would clean it
     std::string catalogName;  // UTF-8, the name the catalog shows (empty for objects outside it)
 };
 
@@ -44,6 +46,31 @@ bool SimMotive(int objectId, int index, float* value);
 bool SimName(int objectId, std::string* first, std::string* last);
 // A Sim's name by neighbor id (the neighborhood's Sims, on the lot or not); last may be null.
 bool NeighborName(int neighborId, std::string* first, std::string* last);
+
+// What a Sim looks like, as the game's outfit data says (the Lua scripts' getOutfitProperty): the
+// values of game/addresses.h looks (0 when unknown), its age stage and the outfit it wears.
+struct SimLooks {
+    bool human = true;
+    int ageDays = 0;
+    bool youngAdult = false;
+    int gender = 0;      // 0 male, 1 female
+    int bodyFlags = 0;   // bit 0 fat, bit 4 fit
+    int outfit = 0;      // person data 8: 0 everyday, 2 swimwear, 4 formal, 5 sleepwear...
+    int hair = 0, skin = 0, eyes = 0;
+    bool facialHair = false, glasses = false, makeup = false, fullMakeup = false, hat = false, jewelry = false;
+};
+bool SimLook(int objectId, SimLooks* out);
+
+// The object an action queue icon's action is done with (its id), 0 when unknown.
+int QueueIconObject(Ptr icon);
+
+// The view: its zoom step (0 the farthest) of `steps`, and its compass direction 0 north, 1
+// north-east ... 7 north-west: what the top of the screen looks toward. False when no lot's camera
+// is found.
+bool CameraView(int* zoom, int* steps, int* compass);
+// The lot camera looks at a point of the lot (tiles; z keeps the camera's own height): at once, or
+// gliding there as the game's Return does for the selected Sim. false when the camera is unknown.
+bool CenterCamera(float x, float y, bool jump);
 
 // The doors (type 8) and windows (type 9) of the lot, by their lead part: the tile in front of
 // the wall (the part faces its direction from there; the tile behind is one step back).
@@ -68,8 +95,20 @@ struct PlacedPart {
     int direction = 0;   // 0 faces -x (west), 2 +y (south), 4 +x (east), 6 -y (north)
     int sub = 0;         // the part's place in its object, (column << 8) | row; row 0 stands in front
     bool stairs = false; // a piece of a staircase ("Stair..." by its internal name)
+    bool walkThrough = false;  // a Sim can walk over it or through it (a rug, a door)
 };
 std::vector<PlacedPart> PlacedParts();
+// Where Sims stand or sit to use an object: its routing slots (and its parts'), as the game places
+// them (a bone of the model, or the SLOT's offset turned by the object's facing), in tiles of the
+// lot. Empty when it has none (a computer: it is used from its desk's) or they cannot be read.
+struct UseSpot {
+    float x = 0, y = 0;
+    int tileX = 0, tileY = 0;
+    bool sitting = false;
+};
+std::vector<UseSpot> UseSpots(int objectId);
+int ContainerOf(int objectId);  // the object it stands on (a computer's desk), 0 none
+int ObjdField(int objectId, int index);  // a u16 field of the whole object's OBJD, -1 unknown
 // The tiles a whole object covers (its own and its parts'), from PlacedParts.
 std::vector<std::pair<int, int>> ObjectTiles(int id, const std::vector<PlacedPart>& parts);
 

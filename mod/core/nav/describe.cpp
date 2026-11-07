@@ -39,8 +39,15 @@ std::string Describe(const Item& it) {
     }
 }
 
+namespace {
+std::string g_catalogName;
+}
+
+void SetCatalogName(const std::string& name) { g_catalogName = name; }
+
 std::string GroupName(const Group& g) {
     if (!g.name.empty()) return g.name;
+    if (g.proc == "cTSWinProcCatalog" && !g_catalogName.empty()) return g_catalogName;
     // Panels known by their proc.
     static const struct {
         const char* proc;

@@ -263,9 +263,9 @@ void ForEachResource(const std::vector<uint8_t>& d, uint32_t type, Fn fn) {
         const uint8_t* raw = d.data() + off;
         if (compressed.count((uint64_t)group << 32 | inst) && size > 9 && raw[4] == 0x10 && raw[5] == 0xFB) {
             size_t usz = (raw[6] << 16) | (raw[7] << 8) | raw[8];
-            fn(RefPack(raw + 9, size - 9, usz));
+            fn(RefPack(raw + 9, size - 9, usz), group, inst);
         } else {
-            fn(std::vector<uint8_t>(raw, raw + size));
+            fn(std::vector<uint8_t>(raw, raw + size), group, inst);
         }
     }
 }
@@ -280,32 +280,66 @@ std::string XmlProperty(const std::string& xml, const char* key) {
 }
 
 std::map<uint32_t, std::string> g_surfaces;  // floor GUID -> "surfacetype/subsort"
+std::map<uint32_t, std::string> g_floorNames;  // floor GUID -> its catalog name, the game's language
 bool g_surfacesLoaded = false;
 
 }  // namespace
 
-std::string FloorSurfaceType(uint32_t guid) {
-    if (!g_surfacesLoaded) {
-        g_surfacesLoaded = true;
-        ULONGLONG t0 = GetTickCount64();
-        // Every pack's floor definitions (XFLR property sets, type 0xCCA8E925) in its patterns catalog.
-        static const wchar_t* const kPacks[] = {L"Base", L"EP1", L"EP2", L"EP3", L"SP1", L"SP2", L"EP4", L"EP5",
-                                                 L"EP6", L"SP4", L"SP5", L"EP7", L"SP6", L"EP8", L"SP7", L"EP9"};
-        for (const wchar_t* pack : kPacks) {
-            std::vector<uint8_t> data =
-                ReadFileBytes(InstallDir() + L"\\" + pack + L"\\TSData\\Res\\Catalog\\Patterns\\catpatterns.bundle.package");
-            ForEachResource(data, 0xCCA8E925, [](const std::vector<uint8_t>& r) {
-                std::string xml(r.begin(), r.end());
-                if (XmlProperty(xml, "type") != "floor") return;
-                std::string id = XmlProperty(xml, "guid");
-                if (!id.empty()) g_surfaces[(uint32_t)strtoul(id.c_str(), nullptr, 10)] =
-                        XmlProperty(xml, "surfacetype") + "/" + XmlProperty(xml, "subsort");
-            });
-        }
-        Log("floor definitions: %d surface types in %llu ms", (int)g_surfaces.size(), GetTickCount64() - t0);
+namespace {
+
+// Every pack's floor definitions (XFLR property sets, type 0xCCA8E925) in its patterns catalog: the
+// surface type and the name, which is entry 0 of the STR# the definition points at
+// ("stringsetgroupid", "stringsetid"; English "name" when the language has none).
+void LoadFloors() {
+    if (g_surfacesLoaded) return;
+    g_surfacesLoaded = true;
+    ULONGLONG t0 = GetTickCount64();
+    int language = StringLanguageCode();
+    static const wchar_t* const kPacks[] = {L"Base", L"EP1", L"EP2", L"EP3", L"SP1", L"SP2", L"EP4", L"EP5",
+                                             L"EP6", L"SP4", L"SP5", L"EP7", L"SP6", L"EP8", L"SP7", L"EP9"};
+    for (const wchar_t* pack : kPacks) {
+        std::vector<uint8_t> data =
+            ReadFileBytes(InstallDir() + L"\\" + pack + L"\\TSData\\Res\\Catalog\\Patterns\\catpatterns.bundle.package");
+        std::map<uint64_t, std::string> names;  // (group << 32 | instance) -> entry 0
+        ForEachResource(data, kTypeStr, [&](const std::vector<uint8_t>& r, uint32_t group, uint32_t inst) {
+            std::vector<std::string> e = ParseStr(r, language);
+            if (e.empty() && language != 1) e = ParseStr(r, 1);
+            if (!e.empty()) names[(uint64_t)group << 32 | inst] = e[0];
+        });
+        ForEachResource(data, 0xCCA8E925, [&](const std::vector<uint8_t>& r, uint32_t, uint32_t) {
+            std::string xml(r.begin(), r.end());
+            if (XmlProperty(xml, "type") != "floor") return;
+            std::string id = XmlProperty(xml, "guid");
+            if (id.empty()) return;
+            uint32_t guid = (uint32_t)strtoul(id.c_str(), nullptr, 10);
+            g_surfaces[guid] = XmlProperty(xml, "surfacetype") + "/" + XmlProperty(xml, "subsort");
+            uint64_t key = (uint64_t)strtoul(XmlProperty(xml, "stringsetgroupid").c_str(), nullptr, 10) << 32 |
+                           strtoul(XmlProperty(xml, "stringsetid").c_str(), nullptr, 10);
+            auto n = names.find(key);
+            if (n != names.end() && !n->second.empty()) g_floorNames[guid] = n->second;
+            else g_floorNames[guid] = XmlProperty(xml, "name");  // XML-escaped: &quot; is rare in floors
+        });
     }
+    Log("floor definitions: %d surface types, %d names in %llu ms", (int)g_surfaces.size(), (int)g_floorNames.size(),
+        GetTickCount64() - t0);
+}
+
+}  // namespace
+
+std::string FloorSurfaceType(uint32_t guid) {
+    LoadFloors();
     auto it = g_surfaces.find(guid);
     return it == g_surfaces.end() ? "" : it->second;
+}
+
+std::string FloorCatalogName(uint32_t guid) {
+    LoadFloors();
+    auto it = g_floorNames.find(guid);
+    if (it == g_floorNames.end()) return "";
+    std::string n = it->second;
+    for (size_t at; (at = n.find("&quot;")) != std::string::npos;) n.replace(at, 6, "\"");
+    for (size_t at; (at = n.find("&amp;")) != std::string::npos;) n.replace(at, 5, "&");
+    return n;
 }
 
 std::string ObjectString(uint32_t group, unsigned instance, int index, bool english) {

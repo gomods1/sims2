@@ -82,15 +82,21 @@ Sur un terrain, l'écran est un cercle de groupes comme n'importe quel autre. Ta
 4. Les panneaux du jeu : le panneau de contrôle, le panneau du Sim (besoins, relations, emploi, compétences, personnalité, centres d'intérêt...), la famille, les souhaits et peurs, et tout panneau que vous ouvrez.
 5. **aide du mod**.
 
+La page de l'emploi indique les horaires du Sim ; Entrée dessus ajoute l'heure du covoiturage. Pour quitter un emploi, appelez le travail au téléphone. Chaque compétence dit son niveau et, quand la prochaine promotion demande davantage, combien : « Cuisine, 2 sur 10, la prochaine promotion demande 4 ».
+
 ### Sélectionner des Sims et la caméra
 
 | Touche | Ce qu'elle fait |
 |---|---|
 | Contrôle+1 à Contrôle+9 | Sélectionne le premier au neuvième Sim de la famille. |
 | Contrôle+E | Le Sim sélectionné en une phrase : où il est, ce qu'il fait, besoins urgents. |
-| Contrôle+F | La caméra suit le Sim sélectionné, ou reste libre. |
+| Contrôle+Maj+E | À quoi ressemble un Sim : âge, cheveux, peau, yeux, lunettes, corps et tenue, avec les mots du jeu. Le Sim sélectionné parmi les choses du terrain, sinon le Sim actif. Les détails d'un Sim (Contrôle+Flèche haut dessus) le disent aussi. |
+| Contrôle+T | Annonce chaque nouvelle heure de l'horloge (« il est 14:00 »), ou arrête. Utile à la vitesse maximale. |
+| Contrôle+Maj+F | La caméra suit le Sim sélectionné, ou reste libre. |
 
 La caméra suit le Sim sélectionné, car les sons du jeu viennent de ce qui est à l'écran.
+
+Le zoom et l'orientation de la caméra sont annoncés quand ils changent (Z et X zooment), et le panneau de contrôle les indique aussi : « caméra : vue proche, 5 sur 6, orientée au nord-est ». L'orientation est la direction que regarde le haut de l'écran.
 
 ### Les objets du terrain
 
@@ -106,6 +112,10 @@ Pas besoin d'y aller avec Tab : les touches Page parcourent les objets depuis n'
 | Entrée | Les interactions de l'objet (en mode Achat : le prendre pour le déplacer). |
 | Contrôle+Entrée | Envoie le Sim sélectionné jusqu'à l'objet. |
 | Contrôle+Maj+Entrée | Y aller en courant. |
+| Contrôle+F | Trouver une chose : tapez une partie de son nom (« tel » trouve le téléphone, les accents ne comptent pas). Haut et Bas parcourent les résultats, Entrée agit dessus, Contrôle+Entrée y va, Suppr retire une porte ou une fenêtre, Échap revient là où vous étiez. |
+| Suppr | Sur une porte ou une fenêtre, en mode Achat ou avec la main du mode Construction : la prend et la vend, remboursée. |
+
+Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les choses cassées, à nettoyer, les flaques, les déchets, les cendres et le feu. En dernier vient **portes, fenêtres et escaliers**. Une chose qu'aucun Sim ne peut atteindre depuis l'entrée du terrain dit « aucun Sim ne peut l'atteindre ».
 
 ### Menus d'interactions
 
@@ -123,10 +133,12 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 | Touche | Ce qu'elle fait |
 |---|---|
-| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et le sol quand ils changent, les murs, clôtures, garde-corps, portes et fenêtres de chaque côté, les escaliers et les pentes. |
+| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et le sol quand ils changent, les murs, clôtures, garde-corps, portes et fenêtres de chaque côté, les escaliers et les pentes. Les murs, clôtures et fenêtres arrêtent le curseur ; les portes le laissent passer. |
+| Alt+Flèches | Pareil, à travers les murs. |
+| Virgule, point | Ce que dit chaque pas : tout, seulement les objets, seulement les sols (par leur nom, « Carrelage en granit clair »), seulement les murs, seulement les pièces. |
 | Origine | Revient au Sim sélectionné. |
 | Contrôle+Maj+Page précédente, Page suivante | Le niveau du dessus ou du dessous. |
-| Entrée | Le menu d'interactions de ce qui s'y trouve. |
+| Entrée | Le menu d'interactions de ce qui s'y trouve. Une chose posée sur une table ou un bureau passe avant la table : l'ordinateur, pas son bureau. |
 | Contrôle+Entrée | Envoie le Sim sélectionné à cet endroit (Contrôle+Maj+Entrée : en courant). |
 | Page suivante, Page précédente (et Maj, Contrôle) | Les objets du terrain comme toujours ; la carte va sur chacun. |
 | R | Tout sur la case. Contrôle+L, le plan de la pièce. |
@@ -138,12 +150,16 @@ Le jeu montre beaucoup de choses seulement en images. Le mod les dit quand elles
 
 - **Les bulles** au-dessus des Sims : « Carlos pense : Énergie », « Carlos dit : Politique », une icône barrée (« pas ... »), les cris, et les titres des relations (« la relation s'améliore », « nouvel ami », « premier baiser »).
 - **Les trajets** : « Carlos ne peut pas y aller ».
-- **Les actions** de la famille, **les besoins** qui baissent, **les visiteurs**, et l'argent payé ou reçu.
+- **Les actions** de la famille, **les besoins** qui baissent, **les visiteurs**, et l'argent payé ou reçu. Quand une action est interrompue et attend dans la file, c'est dit : « Carlos a arrêté S'asseoir pour Panique ; elle attend dans la file ».
 - **Les meubles qui quittent le terrain** (un cambrioleur, l'huissier), avec leur valeur.
 
-Les bulles de la famille sont dites ; celles d'un visiteur vont seulement dans le tampon des événements.
+Les pensées et les cris de ta famille sont dits, et les cris de n'importe qui. Les conversations (ce que disent les Sims et les titres de relation) sont dites selon le choix de Contrôle+Maj+N ; le reste va seulement dans le tampon des événements.
 
 **Contrôle+N** change ce qui est dit : tout, les alertes seulement, ou rien. Les lignes non dites vont quand même dans le tampon des événements.
+
+**Contrôle+Maj+N** choisit quelles conversations sont dites : toute personne qui parle avec ta famille (au début), tout le monde sur le terrain, seulement ta famille, ou personne. Ce qui n'est pas dit va quand même dans le tampon des événements.
+
+Les actions avec un autre Sim nomment ce Sim, quel que soit celui qui les a lancées : « Carlos : Saluer, avec Elvira ».
 
 ## Le mode Achat
 
@@ -159,7 +175,8 @@ Entrée sur un produit le prend. Le mod trouve toutes les places du terrain où 
 | Contrôle+Page suivante, Contrôle+Page précédente | Les pièces qui ont des places. |
 | Maj+Page suivante, Maj+Page précédente (ou virgule, point) | Le tournent ; l'orientation est annoncée. |
 | Contrôle+Maj+Page suivante, Page précédente | À côté des objets du terrain, les plus proches d'abord, tourné vers eux quand il tient. |
-| Flèches | Le déplacent plutôt d'une case (Maj : cinq) : s'il tient, ce qu'il heurte, la pièce quand elle change, les murs autour, son orientation et vers quoi il est tourné, la case ; puis les sons de la case. |
+| Flèches | Le déplacent plutôt d'une case (Maj : cinq) : s'il tient, ce qu'il heurte, la pièce quand elle change, les murs autour, son orientation et vers quoi il est tourné, la case ; puis les sons de la case. Les murs, clôtures et fenêtres l'arrêtent ; les portes le laissent passer. |
+| Alt+Flèches | Pareil, à travers les murs. |
 | Origine | Revient au Sim sélectionné. |
 | Entrée | L'achète à cet endroit ; le jeu vous en donne un autre exemplaire jusqu'à Échap. |
 | Échap | Arrête le placement (un objet déplacé revient à sa place). |
@@ -168,13 +185,17 @@ Entrée sur un produit le prend. Le mod trouve toutes les places du terrain où 
 
 Un objet de plusieurs cases dit la surface qu'il occupe (« occupe 2 cases : 2 d'ouest en est, 1 du nord au sud »).
 
+Les emplacements d'un siège commencent là où quelque chose s'utilise assis, comme un ordinateur sur un bureau, et le siège est tourné vers lui : « face à l'ouest, pour utiliser Ordinateur assis ». Après avoir posé un objet, le mod dit comment il sera utilisé : « pour utiliser Ordinateur assis », « utilisé depuis Chaise de bureau », « les Sims peuvent l'atteindre » ou « aucun Sim ne peut l'atteindre ».
+
 ### Déplacer et vendre
 
-En mode Achat, allez avec Page suivante sur un objet du terrain et appuyez sur Entrée : il est pris, et les mêmes touches le placent ailleurs. Suppr le vend.
+En mode Achat, allez avec Page suivante sur un objet du terrain et appuyez sur Entrée : il est pris, et les mêmes touches le placent ailleurs. Suppr le vend. Ses emplacements commencent au plus près de là où il était.
 
 ## Le mode Construction
 
 F3 ouvre le mode Construction. Ses outils et ses styles sont des boutons.
+
+Appuyer sur un outil vous amène à ses styles, dans un groupe portant le nom de l'outil ; Tab revient aux outils.
 
 ### Le curseur de construction
 
@@ -197,6 +218,8 @@ Après la construction d'un mur, un Sim de la famille enfermé dans une pièce s
 
 Les portes, fenêtres et escaliers se placent comme les meubles, depuis les places où ils tiennent : la place d'une porte dit sur quel mur elle est et la pièce où elle mène. Toits : les boutons de toit automatique de la page des toits.
 
+Après la pose d'une porte, le mod dit si les Sims peuvent la franchir ou ce qui gêne. Pour la changer plus tard, trouvez-la dans **portes, fenêtres et escaliers** ou avec Contrôle+F : Entrée la prend pour la déplacer, en mode Achat ou avec la main du mode Construction, et Suppr la retire.
+
 ## Repères sonores
 
 Le curseur de construction, les flèches du placement et la carte du terrain jouent un son court à chaque pas : le sol (herbe, bois, carrelage, moquette, pierre, le bord de la piscine, l'eau, pas de sol à l'étage : ce dont le sol est fait, d'après sa définition dans le catalogue), le mur, la clôture, le garde-corps, la porte ou la fenêtre de chaque côté (l'ouest à gauche, l'est à droite, le nord plus aigu, le sud plus grave), les escaliers, un Sim ou un objet sur la case, une pente, un changement de pièce, le bord du terrain et, pendant le placement, si l'objet tient. **Contrôle+Maj+S** les coupe et les remet.
@@ -206,7 +229,7 @@ Le curseur de construction, les flèches du placement et la carte du terrain jou
 | Touche | Ce qu'elle fait |
 |---|---|
 | Contrôle+Maj+C | La console des codes du jeu : sa saisie est un champ de texte ; Entrée dessus lui donne le clavier, tapez le code, Entrée l'exécute, et ce que la console écrit est dit. |
-| Contrôle+Maj+V | Éclaire à l'écran la commande sélectionnée, pour une personne voyante qui vous aide. |
+| Contrôle+Maj+V | Éclaire à l'écran la commande sélectionnée, pour une personne voyante qui vous aide. En mode Vivre, avec la fenêtre du jeu au premier plan, la caméra regarde aussi la chose du terrain qui a le focus et le pointeur de la souris va dessus. |
 
 ## Les touches du jeu
 
@@ -231,6 +254,8 @@ Les réglages du mod sont dans `Sims2Access\Sims2Access.ini` dans le dossier du 
 | `cues` | 1 repères sonores activés, 0 coupés (Contrôle+Maj+S). |
 | `cue_volume` | Volume des repères sonores, de 0 à 100 (80 par défaut). |
 | `show_focus` | 1 éclaire à l'écran la commande sélectionnée (Contrôle+Maj+V). |
+| `social` | Quelles conversations sont dites : 3 tout le monde, 2 toute personne avec ta famille, 1 ta famille, 0 personne (Contrôle+Maj+N). |
+| `hours` | 1 annonce chaque nouvelle heure (Contrôle+T). |
 
 ## En cas de problème
 

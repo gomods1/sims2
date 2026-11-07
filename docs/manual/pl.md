@@ -113,15 +113,21 @@ kolejności:
    zainteresowania...), rodzina, pragnienia i lęki oraz każdy panel, który otworzysz.
 5. **pomoc moda**.
 
+Strona pracy podaje godziny pracy Sima; Enter na nich dodaje, kiedy przyjeżdża wspólny transport. Aby rzucić pracę, zadzwoń do pracy przez telefon. Każda umiejętność mówi swój poziom i, gdy następny awans wymaga więcej, ile: „Gotowanie, 2 z 10, następny awans wymaga 4”.
+
 ### Wybieranie Simów i kamera
 
 | Klawisz | Co robi |
 |---|---|
 | Control+1 do Control+9 | Wybiera od pierwszego do dziewiątego Sima z rodziny. |
 | Control+E | Wybrany Sim w jednym zdaniu: gdzie jest, co robi, pilne potrzeby. |
-| Control+F | Kamera śledzi wybranego Sima albo jest swobodna. |
+| Control+Shift+E | Jak wygląda Sim: wiek, włosy, skóra, oczy, okulary, ciało i strój, słowami gry. Sim w fokusie wśród rzeczy parceli, w przeciwnym razie wybrany. Szczegóły Sima (Control+Strzałka w górę na nim) też to mówią. |
+| Control+T | Mówi każdą nową godzinę zegara („jest 14:00”) albo przestaje. Przydatne przy największej prędkości. |
+| Control+Shift+F | Kamera śledzi wybranego Sima albo jest swobodna. |
 
 Kamera śledzi wybranego Sima, bo dźwięki gry pochodzą z tego, co jest na ekranie.
+
+Przybliżenie i kierunek kamery są mówione, gdy się zmieniają (Z i X przybliżają), a panel sterowania też je podaje: „kamera: widok bliski, 5 z 6, w stronę północny wschód". Kierunek to strona, w którą patrzy górna krawędź ekranu.
 
 ### Obiekty na parceli
 
@@ -144,6 +150,10 @@ trybie życia, kupowania i budowania.
 | Enter | Interakcje obiektu (w trybie kupowania: podnosi go, aby go przenieść). |
 | Control+Enter | Wybrany Sim idzie do obiektu. |
 | Control+Shift+Enter | Biegnie tam. |
+| Control+F | Znajdź coś: wpisz część nazwy („tel" znajdzie telefon, akcenty nie mają znaczenia). Góra i Dół przechodzą przez wyniki, Enter działa na nim, Control+Enter idzie tam, Delete usuwa drzwi lub okno, Escape wraca tam, gdzie byłeś. |
+| Delete | Na drzwiach lub oknie, w trybie kupowania lub ręką trybu budowania: podnosi je i sprzedaje ze zwrotem. |
+
+Po Simach są **problemy**: to, co wymaga uwagi, na przykład zepsute rzeczy, rzeczy do sprzątnięcia, kałuże, śmieci, popiół i ogień. Na końcu są **drzwi, okna i schody**. Rzecz, do której żaden Sim nie dojdzie od wejścia na parcelę, mówi „żaden Sim nie może do tego dojść”.
 
 ### Menu działań
 
@@ -164,10 +174,12 @@ Sima. Każdy krok odtwarza dźwięk podłogi i każdej ściany, płotu, balustra
 
 | Klawisz | Co robi |
 |---|---|
-| Strzałki | Jedno pole; z Shift pięć. Mówi, co tam stoi i w którą stronę jest zwrócone, pokój i podłogę, gdy się zmieniają, ściany, płoty, balustrady, drzwi i okna według stron, schody i spadki terenu. |
+| Strzałki | Jedno pole; z Shift pięć. Mówi, co tam stoi i w którą stronę jest zwrócone, pokój i podłogę, gdy się zmieniają, ściany, płoty, balustrady, drzwi i okna według stron, schody i spadki terenu. Ściany, płoty i okna zatrzymują kursor; drzwi go przepuszczają. |
+| Alt+Strzałki | To samo, przez ściany. |
+| Przecinek, kropka | Co mówi każdy krok: wszystko, tylko obiekty, tylko podłogi (z nazwy, „Jasna płytka granitowa”), tylko ściany, tylko pokoje. |
 | Home | Wraca do wybranego Sima. |
 | Control+Shift+Page Up, Page Down | Kondygnacja wyżej lub niżej. |
-| Enter | Menu działań tego, co tam stoi. |
+| Enter | Menu działań tego, co tam stoi. Rzecz na stole lub biurku jest przed stołem: komputer, nie jego biurko. |
 | Control+Enter | Wybrany Sim idzie tam (Control+Shift+Enter: biegnie). |
 | Page Down, Page Up (oraz Shift, Control) | Obiekty na parceli jak zawsze; mapa przechodzi do każdego z nich. |
 | R | Wszystko o polu. Control+L układ pokoju. |
@@ -182,13 +194,17 @@ zdarzeń:
   ("nie ..."), krzyki i nagłówki relacji ("relacja się poprawia", "nowy przyjaciel", "pierwszy
   pocałunek").
 - **Trasy**: "Carlos nie może tam dojść".
-- **Działania** rodziny, spadające **potrzeby**, **goście** oraz zapłacone lub otrzymane pieniądze.
+- **Działania** rodziny, spadające **potrzeby**, **goście** oraz zapłacone lub otrzymane pieniądze. Gdy czynność zostaje przerwana i czeka w kolejce, jest to mówione: „Carlos przerwał Usiądź dla Panika; czeka w kolejce”.
 - **Meble znikające z parceli** (włamywacz, komornik), z ich wartością.
 
-Dymki rodziny są wypowiadane; dymki gościa trafiają tylko do bufora zdarzeń.
+Mówione są myśli i krzyki twojej rodziny oraz krzyki każdego. Rozmowy (co mówią Simowie i nagłówki relacji) są mówione tak, jak wybierze Control+Shift+N; reszta trafia tylko do bufora zdarzeń.
 
 **Control+N** zmienia, ile jest mówione: wszystko, tylko ostrzeżenia albo nic. Wiersze
 niewypowiedziane i tak trafiają do bufora zdarzeń.
+
+**Control+Shift+N** wybiera, czyje rozmowy są mówione: każdego, kto rozmawia z twoją rodziną (na początku), wszystkich na parceli, tylko twojej rodziny albo nikogo. To, co nie jest mówione, i tak trafia do bufora zdarzeń.
+
+Czynności z innym Simem podają tego Sima, niezależnie od tego, kto je zaczął: „Carlos: Przywitaj się, z: Elvira".
 
 ## Tryb kupowania
 
@@ -207,7 +223,8 @@ każdym kierunku, najpierw najbliższe wybranego Sima.
 | Control+Page Down, Control+Page Up | Pokoje, w których są miejsca. |
 | Shift+Page Down, Shift+Page Up (lub przecinek, kropka) | Obraca obiekt; kierunek jest mówiony. |
 | Control+Shift+Page Down, Page Up | Obok obiektów na parceli, najpierw najbliższych, zwrócony w ich stronę, gdy się mieści. |
-| Strzałki | Zamiast tego przesuwa obiekt o jedno pole (Shift: o pięć): czy się mieści, z czym się zderza, pokój, gdy się zmienia, ściany wokół niego, w którą stronę jest zwrócony i co ma przed sobą, pole; potem dźwięki pola. |
+| Strzałki | Zamiast tego przesuwa obiekt o jedno pole (Shift: o pięć): czy się mieści, z czym się zderza, pokój, gdy się zmienia, ściany wokół niego, w którą stronę jest zwrócony i co ma przed sobą, pole; potem dźwięki pola. Ściany, płoty i okna go zatrzymują; drzwi go przepuszczają. |
+| Alt+Strzałki | To samo, przez ściany. |
 | Home | Wraca do wybranego Sima. |
 | Enter | Kupuje go tam; gra daje kolejny egzemplarz aż do Escape. |
 | Escape | Kończy ustawianie (przenoszony obiekt wraca na miejsce). |
@@ -217,14 +234,18 @@ każdym kierunku, najpierw najbliższe wybranego Sima.
 Obiekt zajmujący kilka pól mówi, ile podłogi zajmuje ("zajmuje pól: 2, 2 z zachodu na wschód, 1
 z północy na południe").
 
+Miejsca siedziska zaczynają się tam, gdzie czegoś używa się na siedząco, jak komputera na biurku, a siedzisko jest obrócone w jego stronę: „zwrócony na zachód, aby używać Komputer na siedząco”. Po postawieniu obiektu mod mówi, jak będzie używany: „aby używać Komputer na siedząco”, „używany z Krzesło biurowe”, „Simowie mogą do tego dojść” lub „żaden Sim nie może do tego dojść”.
+
 ### Przenoszenie i sprzedawanie
 
 W trybie kupowania przejdź Page Down do obiektu na parceli i naciśnij Enter: zostaje podniesiony,
-a te same klawisze ustawiają go gdzie indziej. Delete go sprzedaje.
+a te same klawisze ustawiają go gdzie indziej. Delete go sprzedaje. Jego miejsca zaczynają się od najbliższych temu, gdzie stał.
 
 ## Tryb budowania
 
 F3 otwiera tryb budowania. Jego narzędzia i style to przyciski.
+
+Naciśnięcie narzędzia przenosi do jego stylów, w grupie nazwanej jak narzędzie; Tab wraca do narzędzi.
 
 ### Kursor budowy
 
@@ -252,6 +273,8 @@ Drzwi, okna i schody ustawia się jak meble, w miejscach, w których się mieszc
 mówi, na której ścianie są i do którego pokoju prowadzą. Dachy: przyciski automatycznego dachu
 na stronie dachów.
 
+Po postawieniu drzwi mod mówi, czy Simowie mogą przez nie przejść lub co przeszkadza. Aby je później zmienić, znajdź je w **drzwi, okna i schody** lub przez Control+F: Enter podnosi je, by przenieść, w trybie kupowania lub ręką trybu budowania, a Delete je usuwa.
+
 ## Sygnały dźwiękowe
 
 Kursor budowy, strzałki ustawiania i mapa parceli odtwarzają krótki dźwięk przy każdym kroku:
@@ -266,7 +289,7 @@ się mieści. **Control+Shift+S** wyłącza je i włącza.
 | Klawisz | Co robi |
 |---|---|
 | Control+Shift+C | Konsola kodów gry: jej wiersz wpisywania to pole tekstowe; Enter na nim daje mu klawiaturę, wpisz kod, Enter go wykonuje, a to, co konsola wypisze, jest odczytywane. |
-| Control+Shift+V | Podświetla na ekranie wybraną kontrolkę dla widzącej osoby pomagającej. |
+| Control+Shift+V | Podświetla na ekranie wybraną kontrolkę dla widzącej osoby pomagającej. W trybie życia, gdy okno gry jest na wierzchu, kamera patrzy też na rzecz parceli w fokusie, a wskaźnik myszy przechodzi na nią. |
 
 ## Klawisze samej gry
 
@@ -292,6 +315,8 @@ Klawisze, które je zmieniają, od razu je zapisują.
 | `cues` | 1 sygnały dźwiękowe włączone, 0 wyłączone (Control+Shift+S). |
 | `cue_volume` | Głośność sygnałów dźwiękowych, od 0 do 100 (domyślnie 80). |
 | `show_focus` | 1 podświetla wybraną kontrolkę na ekranie (Control+Shift+V). |
+| `social` | Czyje rozmowy są mówione: 3 wszystkich, 2 każdego z twoją rodziną, 1 twojej rodziny, 0 nikogo (Control+Shift+N). |
+| `hours` | 1 mówi każdą nową godzinę (Control+T). |
 
 ## Gdy coś nie działa
 

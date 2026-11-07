@@ -20,6 +20,8 @@ struct Balloon {
     int iconThing = 0;          // the icon is a thumbnail of this lot object (object id)...
     uint32_t iconGuid = 0;      // ...or of this object definition
     uint32_t group = 0;         // the running tree's resource group (its own string tables)
+    int runner = 0;             // the object running the tree (its id: My data 11)
+    int stackObject = 0;        // the tree's stack object (the other Sim of a social), 0 none
     uint8_t operands[24] = {};  // the instruction object: a vtable, then the operands
 };
 

@@ -131,6 +131,16 @@ Surface SurfaceAt(int level, int x, int y) {
     return s;
 }
 
+std::string FloorName(int level, int x, int y) {
+    int id = FloorPatternAt(level, x, y);
+    if (!id) return "";
+    std::string name = FloorPatternName(id);
+    char* end = nullptr;
+    unsigned long guid = strtoul(name.c_str(), &end, 16);
+    if (name.empty() || !end || *end != 0) return "";  // a built-in floor ("sidewalk"): no catalog name
+    return FloorCatalogName((uint32_t)guid);
+}
+
 bool WallBetween(int level, int x0, int y0, int x1, int y1, int layer) {
     Ptr w = WorldDB();
     if (!w) return false;

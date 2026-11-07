@@ -82,15 +82,21 @@ Auf einem Grundstück ist die Oberfläche ein Ring von Gruppen wie jeder andere.
 4. Die Leisten des Spiels: die Steuerleiste, die Sim-Leiste (Bedürfnisse, Beziehungen, Beruf, Fähigkeiten, Persönlichkeit, Hobbys...), die Familie, Wünsche und Ängste und jede Leiste, die Du öffnest.
 5. **Mod-Hilfe**.
 
+Die Seite zum Job nennt die Arbeitszeiten des Sims; die Eingabetaste darauf ergänzt, wann die Fahrgemeinschaft kommt. Um einen Job zu kündigen, ruf per Telefon bei der Arbeit an. Jede Fähigkeit sagt ihre Stufe und, wenn die nächste Beförderung mehr verlangt, wie viel: „Kochen, 2 von 10, die nächste Beförderung verlangt 4“.
+
 ### Sims auswählen und die Kamera
 
 | Taste | Was sie tut |
 |---|---|
 | Strg+1 bis Strg+9 | Wählt den ersten bis neunten Sim der Familie aus. |
 | Strg+E | Der ausgewählte Sim in einer Zeile: wo er ist, was er tut, dringende Bedürfnisse. |
-| Strg+F | Die Kamera folgt dem ausgewählten Sim oder bleibt frei. |
+| Strg+Umschalt+E | Wie ein Sim aussieht: Alter, Haare, Haut, Augen, Brille, Körper und Kleidung, mit den Worten des Spiels. Der fokussierte Sim unter den Dingen des Grundstücks, sonst der ausgewählte. Die Details eines Sims (Strg+Pfeil nach oben darauf) sagen es auch. |
+| Strg+T | Sagt jede neue Stunde der Uhr an („es ist 14:00“), oder hört damit auf. Nützlich bei höchster Geschwindigkeit. |
+| Strg+Umschalt+F | Die Kamera folgt dem ausgewählten Sim oder bleibt frei. |
 
 Die Kamera folgt dem ausgewählten Sim, weil die Klänge des Spiels von dem kommen, was auf dem Bildschirm ist.
+
+Zoom und Blickrichtung der Kamera werden gesagt, wenn sie sich ändern (Z und X zoomen), und das Bedienfeld zeigt sie auch: „Kamera: nahe Ansicht, 5 von 6, Blick nach Nordosten". Die Blickrichtung ist die, in die der obere Bildschirmrand schaut.
 
 ### Die Objekte des Grundstücks
 
@@ -106,6 +112,10 @@ Du musst nicht mit Tab dorthin: die Bild-Tasten gehen von überall auf dem Grund
 | Eingabe | Die Interaktionen des Objekts (im Kaufmodus: es zum Verschieben aufheben). |
 | Strg+Eingabe | Schickt den ausgewählten Sim zum Objekt. |
 | Strg+Umschalt+Eingabe | Lässt ihn dorthin rennen. |
+| Strg+F | Etwas finden: Tippe einen Teil des Namens („tel" findet das Telefon, Akzente sind egal). Auf und Ab gehen durch die Treffer, die Eingabetaste handelt daran, Strg+Eingabe geht dorthin, Entf entfernt eine Tür oder ein Fenster, Escape führt zurück. |
+| Entf | Auf einer Tür oder einem Fenster, im Kaufmodus oder mit der Hand des Baumodus: nimmt sie auf und verkauft sie mit Erstattung. |
+
+Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, zu Putzendes, Pfützen, Müll, Asche und Feuer. Zuletzt kommt **Türen, Fenster und Treppen**. Ein Ding, das kein Sim vom Eingang des Grundstücks aus erreichen kann, sagt „kein Sim kann es erreichen“.
 
 ### Interaktionsmenüs
 
@@ -123,10 +133,12 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 
 | Taste | Was sie tut |
 |---|---|
-| Pfeiltasten | Ein Feld; mit Umschalt fünf. Sagt, was dort steht und wohin es zeigt, das Zimmer und den Boden, wenn sie wechseln, die Wände, Zäune, Geländer, Türen und Fenster nach Seite, Treppen und Hänge. |
+| Pfeiltasten | Ein Feld; mit Umschalt fünf. Sagt, was dort steht und wohin es zeigt, das Zimmer und den Boden, wenn sie wechseln, die Wände, Zäune, Geländer, Türen und Fenster nach Seite, Treppen und Hänge. Wände, Zäune und Fenster halten den Cursor an; Türen lassen ihn durch. |
+| Alt+Pfeiltasten | Dasselbe, durch Wände hindurch. |
+| Komma, Punkt | Was jeder Schritt sagt: alles, nur Objekte, nur Böden (mit Namen, „Helle Granitfliese“), nur Wände, nur Zimmer. |
 | Pos1 | Zurück zum ausgewählten Sim. |
 | Strg+Umschalt+Bild auf, Bild ab | Die Etage darüber oder darunter. |
-| Eingabe | Das Interaktionsmenü dessen, was dort steht. |
+| Eingabe | Das Interaktionsmenü dessen, was dort steht. Ein Ding auf einem Tisch oder Schreibtisch kommt vor dem Tisch: der Computer, nicht sein Schreibtisch. |
 | Strg+Eingabe | Schickt den ausgewählten Sim dorthin (Strg+Umschalt+Eingabe: rennen). |
 | Bild ab, Bild auf (und Umschalt, Strg) | Die Objekte des Grundstücks wie immer; der Plan geht zu jedem. |
 | R | Alles über das Feld. Strg+L der Aufbau des Zimmers. |
@@ -138,12 +150,16 @@ Das Spiel zeigt vieles nur als Bild. Der Mod sagt es, wenn es passiert, und beh�
 
 - **Sprechblasen** über Sims: „Carlos denkt: Energie“, „Carlos sagt: Politik“, ein durchgestrichenes Symbol („kein ...“), Schreie und die Beziehungsschlagzeilen („Beziehung wird besser“, „neuer Freund“, „erster Kuss“).
 - **Wege**: „Carlos kommt nicht hin“.
-- **Aktionen** der Familie, **Bedürfnisse**, die niedrig werden, **Besucher** und gezahltes oder erhaltenes Geld.
+- **Aktionen** der Familie, **Bedürfnisse**, die niedrig werden, **Besucher** und gezahltes oder erhaltenes Geld. Wird eine Aktion unterbrochen und wartet in der Warteschlange, wird das gesagt: „Carlos hat Hinsetzen für Panik unterbrochen; es wartet in der Warteschlange“.
 - **Möbel, die das Grundstück verlassen** (ein Einbrecher, der Gerichtsvollzieher), mit ihrem Wert.
 
-Die Sprechblasen der Familie werden gesprochen; die eines Besuchers gehen nur in den Ereignis-Puffer.
+Die Gedanken und Schreie deiner Familie werden gesagt, und die Schreie von allen. Gespräche (was Sims sagen und die Beziehungs-Schlagzeilen) werden gesagt, wie Strg+Umschalt+N es wählt; der Rest kommt nur in den Ereignispuffer.
 
 **Strg+N** ändert, wie viel gesprochen wird: alles, nur Warnungen oder nichts. Nicht gesprochene Zeilen gehen trotzdem in den Ereignis-Puffer.
+
+**Strg+Umschalt+N** wählt, wessen Gespräche gesagt werden: alle, die mit deiner Familie sprechen (zu Beginn), alle auf dem Grundstück, nur deine Familie oder niemand. Was nicht gesagt wird, kommt trotzdem in den Ereignispuffer.
+
+Aktionen mit einem anderen Sim nennen diesen Sim, egal wer sie begonnen hat: „Carlos: Begrüßen, mit Elvira".
 
 ## Der Kaufmodus
 
@@ -159,7 +175,8 @@ Eingabe auf einem Produkt nimmt es auf. Der Mod findet jeden Platz des Grundstü
 | Strg+Bild ab, Strg+Bild auf | Die Zimmer, die Plätze haben. |
 | Umschalt+Bild ab, Umschalt+Bild auf (oder Komma, Punkt) | Dreht es; die Ausrichtung wird gesagt. |
 | Strg+Umschalt+Bild ab, Bild auf | Neben die Objekte des Grundstücks, die nächsten zuerst, ihnen zugewandt, wenn es passt. |
-| Pfeiltasten | Verschiebt es stattdessen um ein Feld (Umschalt: fünf): ob es passt, woran es stößt, das Zimmer, wenn es wechselt, die Wände ringsum, seine Ausrichtung und was ihm gegenübersteht, das Feld; dann die Klänge des Felds. |
+| Pfeiltasten | Verschiebt es stattdessen um ein Feld (Umschalt: fünf): ob es passt, woran es stößt, das Zimmer, wenn es wechselt, die Wände ringsum, seine Ausrichtung und was ihm gegenübersteht, das Feld; dann die Klänge des Felds. Wände, Zäune und Fenster halten es an; Türen lassen es durch. |
+| Alt+Pfeiltasten | Dasselbe, durch Wände hindurch. |
 | Pos1 | Zurück zum ausgewählten Sim. |
 | Eingabe | Kauft es dort; das Spiel gibt Dir ein weiteres Exemplar, bis Du Esc drückst. |
 | Esc | Beendet das Platzieren (ein verschobenes Objekt kehrt zurück). |
@@ -168,13 +185,17 @@ Eingabe auf einem Produkt nimmt es auf. Der Mod findet jeden Platz des Grundstü
 
 Ein Objekt über mehrere Felder sagt, wie viel Boden es belegt („belegt 2 Felder: 2 von West nach Ost, 1 von Nord nach Süd“).
 
+Die Plätze einer Sitzgelegenheit beginnen dort, wo etwas im Sitzen benutzt wird, etwa ein Computer auf einem Schreibtisch, und der Sitz wird dorthin gedreht: „nach Westen, um Computer im Sitzen zu benutzen“. Nach dem Platzieren sagt der Mod, wie das Objekt benutzt wird: „um Computer im Sitzen zu benutzen“, „benutzt von Bürostuhl aus“, „Sims können es erreichen“ oder „kein Sim kann es erreichen“.
+
 ### Verschieben und verkaufen
 
-Geh im Kaufmodus mit Bild ab zu einem Objekt des Grundstücks und drücke Eingabe: es wird aufgehoben, und dieselben Tasten stellen es woanders hin. Entf verkauft es.
+Geh im Kaufmodus mit Bild ab zu einem Objekt des Grundstücks und drücke Eingabe: es wird aufgehoben, und dieselben Tasten stellen es woanders hin. Entf verkauft es. Seine Plätze beginnen am nächsten dort, wo es stand.
 
 ## Der Baumodus
 
 F3 öffnet den Baumodus. Seine Werkzeuge und Stile sind Schalter.
+
+Das Drücken eines Werkzeugs führt zu seinen Stilen, in einer Gruppe mit dem Namen des Werkzeugs; Tab geht zurück zu den Werkzeugen.
 
 ### Der Bau-Cursor
 
@@ -197,6 +218,8 @@ Nachdem eine Wand gebaut ist, wird ein Sim der Familie angesagt, der in einem Zi
 
 Türen, Fenster und Treppen werden wie Möbel platziert, von den Plätzen aus, an die sie passen: der Platz einer Tür sagt, in welcher Wand sie ist und zu welchem Zimmer sie führt. Dächer: die Schalter für automatische Dächer auf der Dachseite.
 
+Nach dem Platzieren einer Tür sagt die Mod, ob Sims hindurchgehen können oder was im Weg steht. Um sie später zu ändern, finde sie unter **Türen, Fenster und Treppen** oder mit Strg+F: Die Eingabetaste nimmt sie zum Versetzen auf, im Kaufmodus oder mit der Hand des Baumodus, und Entf entfernt sie.
+
 ## Klanghinweise
 
 Der Bau-Cursor, die Pfeiltasten beim Platzieren und der Grundstücksplan spielen bei jedem Schritt einen kurzen Klang: den Boden (Rasen, Holz, Fliesen, Teppich, Stein, den Beckenrand, Wasser, kein Boden im Obergeschoss: woraus der Boden ist, laut seiner Katalogdefinition), die Wand, den Zaun, das Geländer, die Tür oder das Fenster jeder Seite (Westen links, Osten rechts, Norden höher, Süden tiefer), Treppen, einen Sim oder ein Objekt auf dem Feld, einen Hang, einen Zimmerwechsel, den Rand des Grundstücks und beim Platzieren, ob das Objekt passt. **Strg+Umschalt+S** schaltet sie aus und an.
@@ -206,7 +229,7 @@ Der Bau-Cursor, die Pfeiltasten beim Platzieren und der Grundstücksplan spielen
 | Taste | Was sie tut |
 |---|---|
 | Strg+Umschalt+C | Die Cheat-Konsole des Spiels: ihre Eingabe ist ein Textfeld; Eingabe darauf gibt ihm die Tastatur, tippe den Cheat, Eingabe führt ihn aus, und was er schreibt, wird gesprochen. |
-| Strg+Umschalt+V | Hebt das gewählte Steuerelement auf dem Bildschirm hervor, für eine sehende Hilfe. |
+| Strg+Umschalt+V | Hebt das gewählte Steuerelement auf dem Bildschirm hervor, für eine sehende Hilfe. Im Lebensmodus, mit dem Spielfenster im Vordergrund, schaut die Kamera auch auf das fokussierte Ding des Grundstücks, und der Mauszeiger geht darauf. |
 
 ## Die Tasten des Spiels
 
@@ -231,6 +254,8 @@ Die Einstellungen des Mods stehen in `Sims2Access\Sims2Access.ini` im Ordner des
 | `cues` | 1 Klanghinweise an, 0 aus (Strg+Umschalt+S). |
 | `cue_volume` | Lautstärke der Klanghinweise, 0 bis 100 (Standard 80). |
 | `show_focus` | 1 hebt das gewählte Steuerelement auf dem Bildschirm hervor (Strg+Umschalt+V). |
+| `social` | Wessen Gespräche gesagt werden: 3 alle, 2 alle mit deiner Familie, 1 deine Familie, 0 niemand (Strg+Umschalt+N). |
+| `hours` | 1 sagt jede neue Stunde an (Strg+T). |
 
 ## Wenn etwas nicht klappt
 

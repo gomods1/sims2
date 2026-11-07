@@ -11,6 +11,8 @@
 //   Enter        its interaction menu (buy mode: pick it up to move it)
 //   Ctrl+Enter   walk the selected Sim there (Ctrl+Shift+Enter: run), through the game's own
 //                "go here" menu on a click on that tile
+// The kinds begin with the Sims and "problems" (broken, dirty, messes) and end with "doors, windows
+// and stairs".
 #pragma once
 
 #include <string>
@@ -23,6 +25,11 @@ namespace nav::world {
 
 bool LotViewActive();  // live, buy or build mode of a lot is on screen
 void Reset();
+// Ctrl+F: the things whose name contains the text (accents and case aside) as a list of the kinds
+// group, those starting with it first, then the nearest. Returns how many match; with none the
+// list stays as it was. Open(kKindsGroup, kFindKind) shows it.
+constexpr int kFindKind = 1000;
+int SetFindQuery(const std::string& utf8);
 Group KindsGroup();    // kKindsGroup: the kinds, or the things of the open kind
 Group RoomsGroup();    // kRoomsGroup: the rooms, or the things of the open room
 // Enter on a kind or room (its item's number): its things. Backspace: back to the kinds or
@@ -37,12 +44,17 @@ Ptr LastGroup();            // the group a kind or room was opened in last (kKin
 int FocusedId();            // object id of the thing focus was last on, -1: none
 void Focus(int objectId);   // the thing focus is on (Ctrl+Enter and Enter act on it)
 void Interact();
+// Delete on a door or window: picked up and sold (refunded), in buy mode or with build mode's hand.
+// false when the focused thing is neither (the key is then the game's).
+bool RemoveFocusedPortal();
 void WalkTo(bool run);
 bool HasFocus();            // a thing has been focused
 std::string RoomNameAt(float x, float y, int level);  // the room there, by its contents
 std::string WhereFromSim(float x, float y, int level);
 // Ctrl+L: the room at a tile: its name, size, bounds, doors and windows (where each leads).
-void SayLayout(int x, int y, int level);  // "3 tiles north" from the selected Sim
+void SayLayout(int x, int y, int level);
+// Ctrl+Shift+E: "Ana Contreras: Adulto, Mujer, Cabello rubio, ..., Ropa: Cotidiano".
+std::string SimLookLine(int objectId);  // "3 tiles north" from the selected Sim
 void Tick();  // says when an object's interaction menu did not open (it has none now)
 
 // A thing's name as the lists say it (a Sim's full name, an object's catalog name).

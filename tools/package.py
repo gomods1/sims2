@@ -16,6 +16,7 @@
    no Sims 2 entry yet: ROADMAP.md).
 """
 import argparse
+import os
 import re
 import shutil
 import subprocess
@@ -25,7 +26,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "mod" / "out"
-PRISM = Path(r"C:\Users\Nitropc\code\libs\prism\prism-windows-x64")
+# The release workflow downloads Prism and sets PRISM (mod\build.bat reads it too).
+PRISM = Path(os.environ.get("PRISM", r"C:\Users\Nitropc\code\libs\prism\prism-windows-x64"))
 INSTALLER = ROOT.parent / "installer"
 
 FILES = [  # (source, path in the zip)
