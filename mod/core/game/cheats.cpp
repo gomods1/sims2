@@ -90,6 +90,26 @@ void DevCommand(const std::string& line) {
             Log("  objd %d [%d]:%s", a, row, line.c_str());
         }
     }
+    else if (!strcmp(name, "lots")) {
+        // !lots: the neighborhood's lots (id, type, size, flags, name)
+        for (const LotEntry& l : Lots())
+            Log("  lot %d type %d at %d,%d size %dx%d flags %08x %s", l.id, l.type, l.x, l.y, l.width, l.depth, l.flags,
+                l.name.c_str());
+    }
+    else if (!strcmp(name, "pd")) {
+        // !pd <index>: that person data of every Sim on the lot
+        for (const LotObject& o : LotObjects()) {
+            int v = 0;
+            if (o.person && PersonDatum(o.id, a, &v)) Log("  pd %d of %d %s: %d", a, o.id, o.name.c_str(), v);
+        }
+    }
+    else if (!strcmp(name, "msg")) {
+        // !msg <type hex> <data1>: posts a message to the game's message server
+        unsigned type = 0;
+        int data = 0;
+        sscanf_s(line.c_str(), "%*s %x %d", &type, &data);
+        Log("message %08x %d: %d", type, data, PostGameMessage(type, (uint32_t)data) ? 1 : 0);
+    }
     else if (!strcmp(name, "camera")) Log("camera to %d,%d: %d", a, b, CenterCamera(a + 0.5f, b + 0.5f, c != 0) ? 1 : 0);
     else if (!strcmp(name, "slots")) {
         // !slots <object id>: where Sims stand or sit to use it (its routing slots), what it stands on

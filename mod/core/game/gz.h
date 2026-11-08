@@ -58,6 +58,11 @@ bool StepBar(Ptr w, int* value, int* steps);
 // Sets a step bar to a step (0..steps) by a click on the bar, as the mouse does.
 bool SetStepBar(Ptr w, int step);
 
+// A slider (cGZWinScrollbar2): its value, from min to max (inclusive), and a page's size.
+bool Scrollbar(Ptr w, int* value, int* min, int* max, int* page);
+// Sets it as a drag does (the game is told: the volume changes).
+bool SetScrollbar(Ptr w, int value);
+
 // Text (cGZWinText, cGZWinTextEdit)
 bool IsText(Ptr w);
 bool IsTextEdit(Ptr w);

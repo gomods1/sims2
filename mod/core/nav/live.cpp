@@ -8,6 +8,7 @@
 #include <map>
 
 #include "../game/game_strings.h"
+#include "../game/addresses.h"
 #include "../game/gz.h"
 #include "../game/objects.h"
 #include "../game/rtti.h"
@@ -118,7 +119,23 @@ struct Visitor {
     std::string name;
     ULONGLONG since;
     bool announced;
+    bool atDoorSaid = false;
 };
+ULONGLONG g_doorCheckAt = 0;
+
+// A visitor not greeted yet (person data 34 = 0) standing by a door: knocking or ringing, waiting
+// for someone of the family to greet them before coming in (a tester did not know who rang).
+bool WaitingAtDoor(int id) {
+    int greet = -1, npc = 0;
+    if (!game::PersonDatum(id, game::addr::person::kDataGreetStatus, &greet) || greet != 0) return false;
+    if (game::PersonDatum(id, game::addr::person::kDataNpcType, &npc) && npc != 0) return false;  // a service Sim
+    game::LotObject o;
+    if (!game::ReadLotObject(id, &o) || o.x < 0) return false;
+    for (const game::WallObject& w : game::WallObjects())
+        if (w.type == 8 && std::max(o.level, 1) == std::max(w.level, 1) && std::hypot(w.x - o.x, w.y - o.y) <= 2.0f)
+            return true;
+    return false;
+}
 std::vector<Visitor> g_visitors;
 bool g_visitorsPrimed = false;  // the Sims already there when the lot loaded are not "arriving"
 
@@ -184,13 +201,115 @@ void WatchVisitors() {
             std::string first, last;
             std::string name = game::SimName(id, &first, &last) ? (last.empty() ? first : first + " " + last) : "";
             if (name.empty()) continue;
+            std::string role = world::SimRole(id);  // "Ravi Pérez, cartero"
+            if (!role.empty()) name += ", " + role;
             g_visitors.push_back({id, name, now, !g_visitorsPrimed});
         } else if (!it->announced && now - it->since > 1000) {
             it->announced = true;
             Narrate(util::Format(S(Str::VisitorArrived), it->name.c_str()), true);
         }
     }
+    if (now - g_doorCheckAt > 1000) {
+        g_doorCheckAt = now;
+        for (Visitor& v : g_visitors) {
+            if (v.atDoorSaid || !WaitingAtDoor(v.id)) continue;
+            v.atDoorSaid = true;
+            Narrate(util::Format(S(Str::VisitorAtDoor), v.name.c_str()), true);
+        }
+    }
     g_visitorsPrimed = true;
+}
+
+// Wants and fears coming true (a tester heard nothing of either): a family Sim's aspiration
+// reward points (person data 161, x10) going up is a want fulfilled, named by the want that left
+// the wants and fears panel (cTSWinProcPanelWantsAndFears: its buttons' tooltips name them, for
+// the selected Sim, while the panel shows); a sharp drop of the aspiration score (160, -100..100)
+// with a fear gone from the panel is a fear come true.
+struct AspirationState {
+    int points = -1, score = -1000;
+};
+std::map<int, AspirationState> g_aspiration;
+std::vector<std::string> g_wishes;  // the panel's wants and fears last seen ("title|body" tooltips)
+int g_wishesSim = 0;
+ULONGLONG g_wishesAt = 0;  // when they were seen (only a look a second before tells what left)
+ULONGLONG g_aspirationAt = 0;
+
+void CollectWishes(Ptr w, int depth, std::vector<std::string>* out) {
+    if (!w || depth > 12 || !game::Visible(w)) return;
+    for (Ptr c : game::Children(w)) {
+        if (game::IsButton(c) && game::Visible(c)) {
+            std::string tip = game::Tooltip(c);
+            if (!tip.empty()) out->push_back(tip);
+        }
+        CollectWishes(c, depth + 1, out);
+    }
+}
+
+Ptr FindByProc(Ptr w, const char* proc, int depth) {
+    if (!w || depth > 25 || !game::Visible(w)) return 0;
+    if (game::ProcClass(w) == proc) return w;
+    for (Ptr c : game::Children(w))
+        if (Ptr f = FindByProc(c, proc, depth + 1)) return f;
+    return 0;
+}
+
+// "Hacer ejercicios con máquina|+500 ..." -> "Hacer ejercicios con máquina".
+std::string WishTitle(const std::string& tip) {
+    size_t bar = tip.find('|');
+    return util::CleanForSpeech(bar == std::string::npos ? tip : tip.substr(0, bar));
+}
+
+void WatchAspiration() {
+    ULONGLONG now = GetTickCount64();
+    if (now - g_aspirationAt < 1000) return;
+    g_aspirationAt = now;
+    int selected = game::SelectedSimId();
+    std::vector<std::string> wishes;
+    if (Ptr panel = FindByProc(game::MainWindow(), "cTSWinProcPanelWantsAndFears", 0)) CollectWishes(panel, 0, &wishes);
+    std::vector<std::string> gone;  // what left the panel since the last look (same Sim)
+    if (selected == g_wishesSim && !wishes.empty() && now - g_wishesAt < 2500)
+        for (const std::string& w : g_wishes)
+            if (std::find(wishes.begin(), wishes.end(), w) == wishes.end()) gone.push_back(w);
+    for (int id : game::FamilySimIds()) {
+        int points = 0, score = 0;
+        if (!game::PersonDatum(id, game::addr::person::kDataRewardPoints, &points) ||
+            !game::PersonDatum(id, game::addr::person::kDataAspirationScore, &score))
+            continue;
+        AspirationState& st = g_aspiration[id];
+        bool first = st.points < 0;
+        int gained = (points - st.points) * 10, dropped = st.score - score;
+        st.points = points;
+        st.score = score;
+        if (first) continue;
+        std::string who = SimName(id);
+        if (gained > 0) {
+            // Named only when one want alone left the panel (a want fulfilled brings others).
+            std::string want;
+            int wants = 0;
+            if (id == selected)
+                for (const std::string& g : gone)
+                    if (g.find('+') != std::string::npos) {
+                        want = WishTitle(g);
+                        wants++;
+                    }
+            if (wants != 1) want.clear();
+            Narrate(want.empty() ? util::Format(S(Str::AspirationPointsGained), who.c_str(), gained)
+                                 : util::Format(S(Str::WantFulfilled), who.c_str(), want.c_str(), gained),
+                    true);
+        } else if ((dropped >= 10 || gained < 0) && id == selected && !gone.empty()) {
+            std::string fear;
+            int fears = 0;
+            for (const std::string& g : gone)
+                if (g.find('+') == std::string::npos) {
+                    fear = WishTitle(g);
+                    fears++;
+                }
+            if (fears == 1 && !fear.empty()) Narrate(util::Format(S(Str::FearRealized), who.c_str(), fear.c_str()), true);
+        }
+    }
+    g_wishes = wishes;
+    g_wishesSim = selected;
+    if (!wishes.empty()) g_wishesAt = now;
 }
 
 // Furniture that leaves the lot in live mode (a burglar, the repo man, a fire): the lot's catalog
@@ -380,16 +499,28 @@ std::string ZoomText(int zoom, int steps) {
 
 int g_viewZoom = -1, g_viewCompass = -1;
 
+// Said once the camera has settled (half a second unchanged): a turn glides through the compass
+// points between (turning a held object turns the camera with it; a tester heard four lines a turn).
+int g_viewSaidZoom = -1, g_viewSaidCompass = -1;
+ULONGLONG g_viewChangedAt = 0;
 void WatchView() {
     int zoom, steps, compass;
     if (!game::CameraView(&zoom, &steps, &compass)) return;
+    ULONGLONG now = GetTickCount64();
     bool first = g_viewZoom < 0;
-    bool zoomed = zoom != g_viewZoom, turned = compass != g_viewCompass;
+    if (zoom != g_viewZoom || compass != g_viewCompass) g_viewChangedAt = now;
     g_viewZoom = zoom;
     g_viewCompass = compass;
-    if (first) return;
-    if (zoomed) buffers::Event(ZoomText(zoom, steps));
-    if (turned) buffers::Event(util::Format(S(Str::CameraFacing), S(kCompass[compass])));
+    if (first) {
+        g_viewSaidZoom = zoom;
+        g_viewSaidCompass = compass;
+        return;
+    }
+    if (now - g_viewChangedAt < 500) return;
+    if (zoom != g_viewSaidZoom) buffers::Event(ZoomText(zoom, steps));
+    if (compass != g_viewSaidCompass) buffers::Event(util::Format(S(Str::CameraFacing), S(kCompass[compass])));
+    g_viewSaidZoom = zoom;
+    g_viewSaidCompass = compass;
 }
 
 }  // namespace
@@ -554,6 +685,8 @@ void Tick() {
         g_watchedSim = 0;
         g_visitors.clear();
         g_visitorsPrimed = false;
+        g_aspiration.clear();
+        g_wishes.clear();
         g_lastFunds = -1;  // another lot, another family: its funds are not a payment
         g_furniturePrimed = false;
         g_viewZoom = -1;
@@ -566,6 +699,7 @@ void Tick() {
     WatchVisitors();
     WatchFurniture();
     WatchFunds();
+    WatchAspiration();
     FollowTick();
     // 0 paused, else the chosen speed (the speed buttons show the choice, not the pause).
     Ptr main = game::MainWindow();

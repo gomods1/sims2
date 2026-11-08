@@ -58,7 +58,7 @@ Non tutto sta in una frase. La mod tiene due buffer che puoi leggere riga per ri
 
 ## Il quartiere
 
-Il primo gruppo del quartiere è **lotti**: ognuno dice il suo nome, il suo tipo e chi ci abita (i condomini con i loro inquilini). Invio su un lotto apre il pannello del lotto del gioco.
+Il primo gruppo del quartiere è **lotti**: ognuno dice il suo nome, il suo tipo, chi ci abita (i condomini con i loro inquilini) e la sua grandezza («40 per 30 caselle»). Invio su un lotto apre il pannello del lotto del gioco.
 
 Per trasferire una famiglia, sceglila nel contenitore delle famiglie (il pannello delle famiglie), poi premi Invio su un lotto: il gioco chiede se trasferirla e quanto costa.
 
@@ -82,6 +82,10 @@ In un lotto la schermata è un anello di gruppi come qualsiasi altra. Tab li sco
 4. I pannelli del gioco: il pannello di controllo, il pannello del Sim (bisogni, relazioni, lavoro, abilità, personalità, interessi...), la famiglia, i desideri e le paure, e qualsiasi pannello tu apra.
 5. **aiuto della mod**.
 
+Il pannello del Sim dice l'aspirazione del Sim («Aspirazione: 24 per cento»); il pannello dei premi (Premi e Inventario, poi Premi per le aspirazioni) dice i punti di aspirazione da spendere.
+
+Le opzioni del gioco (il pulsante Opzioni del pannello di controllo) si leggono allo stesso modo: ogni scelta dice la sua impostazione («Ombre: Alto») e i cursori, come il volume della musica, cambiano con freccia sinistra e freccia destra («Musica, cursore, 35 su 100»). I brani di una stazione radio sono un gruppo a parte; Invio attiva o disattiva un brano.
+
 La pagina del lavoro dice gli orari del Sim; Invio su di essi aggiunge quando arriva l'auto di servizio. Per lasciare un lavoro, chiama il lavoro al telefono. Ogni abilità dice il suo livello e, quando la prossima promozione chiede di più, quanto: «Cucina, 2 su 10, la prossima promozione chiede 4».
 
 ### Selezionare i Sim e la telecamera
@@ -94,7 +98,7 @@ La pagina del lavoro dice gli orari del Sim; Invio su di essi aggiunge quando ar
 | Control+T | Annuncia ogni nuova ora dell'orologio («sono le 14:00»), o smette. Utile alla velocità massima. |
 | Control+Maiusc+F | La telecamera segue il Sim selezionato, o resta libera. |
 
-La telecamera segue il Sim selezionato, perché i suoni del gioco vengono da ciò che è sullo schermo.
+La telecamera segue il Sim selezionato, perché i suoni del gioco vengono da ciò che è sullo schermo. Quando il focus è mostrato sullo schermo (Control+Maiusc+V), la telecamera scivola verso ogni cosa che scorri invece di saltare.
 
 Lo zoom e la direzione della telecamera vengono detti quando cambiano (Z e X zoomano), e li ha anche il pannello di controllo: "telecamera: vista vicina, 5 di 6, rivolta a nord-est". La direzione è quella verso cui guarda il lato alto dello schermo.
 
@@ -115,7 +119,9 @@ Non serve arrivarci con Tab: i tasti Pagina scorrono gli oggetti da qualsiasi pu
 | Control+F | Trova una cosa: digita parte del nome ("tel" trova il telefono, gli accenti non contano). Su e Giù scorrono i risultati, Invio agisce su di essa, Control+Invio ci va, Canc rimuove una porta o una finestra, Esc torna dov'eri. |
 | Canc | Su una porta o una finestra, in modalità Acquisto o con la mano della modalità Costruzione: la prende e la vende, con il rimborso. |
 
-Dopo i Sim viene **problemi**: ciò che richiede attenzione, come cose rotte, da pulire, pozzanghere, rifiuti, cenere e fuoco. Per ultimo viene **porte, finestre e scale**. Una cosa che nessun Sim può raggiungere dall'ingresso del lotto dice «nessun Sim può raggiungerlo».
+I Sim con un lavoro sul lotto lo dicono: «Ravi Pérez, postino», il cameriere, il cuoco, il giardiniere, la domestica. La ciotola di un animale dice se c'è cibo. Il taxi e le altre auto sul marciapiede sono tra gli altri oggetti mentre aspettano.
+
+Dopo i Sim viene **problemi**: ciò che richiede attenzione, come cose rotte, da pulire, una ciotola per animali vuota, pozzanghere, rifiuti, cenere e fuoco. Per ultimo viene **porte, finestre e scale**. Una cosa che nessun Sim può raggiungere dall'ingresso del lotto dice «nessun Sim può raggiungerlo».
 
 ### Menu delle interazioni
 
@@ -149,7 +155,10 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 Il gioco mostra molte cose solo con immagini. La mod le dice quando accadono e le tiene nel buffer degli eventi:
 
 - **I fumetti** sopra i Sim: "Carlos pensa: Energia", "Carlos dice: Politica", un'icona barrata ("niente ..."), le urla, e i titoli delle relazioni ("la relazione migliora", "nuovo amico", "primo bacio").
+- **Cosa manca per un pasto**: "Carlos pensa: serve un bancone" (un forno, un fornello, un barbecue, un microonde).
 - **I percorsi**: "Carlos non riesce ad arrivarci".
+- **I visitatori alla porta**: "Elvira è alla porta e aspetta di essere salutata"; salutala (il suo menu delle interazioni) per farla entrare.
+- **Desideri e timori**: "Carlos ha esaudito un desiderio: Andare a nuotare, 500 punti di aspirazione", "Carlos: un timore si è avverato: ...".
 - **Le azioni** della famiglia, **i bisogni** che calano, **i visitatori**, e il denaro pagato o ricevuto. Quando un'azione viene interrotta e aspetta in coda, viene detto: «Carlos ha interrotto Sedersi per Panico; aspetta in coda».
 - **I mobili che lasciano il lotto** (un ladro, l'ufficiale giudiziario), con il loro valore.
 
@@ -175,7 +184,7 @@ Invio su un prodotto lo prende. La mod trova tutti i posti del lotto dove entra,
 | Control+Pagina giù, Control+Pagina su | Le stanze che hanno posti. |
 | Maiusc+Pagina giù, Maiusc+Pagina su (o virgola, punto) | Lo girano; viene detto l'orientamento. |
 | Control+Maiusc+Pagina giù, Pagina su | Accanto agli oggetti del lotto, prima i più vicini, rivolto verso di loro quando entra. |
-| Frecce | Lo spostano invece di una casella (Maiusc: cinque): se entra, contro cosa urta, la stanza quando cambia, i muri intorno, il suo orientamento e verso cosa è rivolto, la casella; poi i suoni della casella. Muri, recinzioni e finestre lo fermano; le porte lo lasciano passare. |
+| Frecce | Lo spostano invece di una casella (Maiusc: cinque): se entra, contro cosa urta, la stanza quando cambia, i muri intorno, il suo orientamento e verso cosa è rivolto (anche più lontano: "verso Divano, a 3 caselle"), la casella; poi i suoni della casella. Muri, recinzioni e finestre lo fermano; le porte lo lasciano passare. |
 | Alt+Frecce | Lo stesso, attraverso i muri. |
 | Inizio | Torna al Sim selezionato. |
 | Invio | Lo compra lì; il gioco te ne dà un'altra copia fino a Esc. |
@@ -265,4 +274,4 @@ Le impostazioni della mod sono in `Sims2Access\Sims2Access.ini` nella cartella d
 
 ## Non ancora fatto
 
-La carta da parati, i tetti disegnati e il terreno in modalità Costruisci; i nomi di teste, acconciature e vestiti in Crea un Sim; le schermate proprie delle espansioni (università, vita notturna, attività commerciali, stagioni, vacanze, appartamenti, magia) per ora sono lette solo dalla navigazione generica.
+La carta da parati, i tetti disegnati e il terreno in modalità Costruisci; i nomi dei premi per le aspirazioni; mettere sul lotto un oggetto dell'inventario di un Sim; i nomi di teste, acconciature e vestiti in Crea un Sim; le schermate proprie delle espansioni (università, vita notturna, attività commerciali, stagioni, vacanze, appartamenti, magia) per ora sono lette solo dalla navigazione generica.

@@ -58,7 +58,7 @@ Ikke alt får plass på én talt linje. Modden har to buffere du kan lese linje 
 
 ## Nabolaget
 
-Nabolagets første gruppe er **tomter**: hver tomt sier navnet sitt, slaget sitt og hvem som bor der (leiligheter med leieboerne sine). Enter på en tomt åpner spillets tomtepanel.
+Nabolagets første gruppe er **tomter**: hver tomt sier navnet sitt, slaget sitt, hvem som bor der (leiligheter med leieboerne sine) og størrelsen sin ("40 ganger 30 ruter"). Enter på en tomt åpner spillets tomtepanel.
 
 For å flytte inn en familie velger du familien i familiebeholderen (familiepanelet), og trykker deretter Enter på en tomt: spillet spør om de skal flytte inn og hva det koster.
 
@@ -82,6 +82,10 @@ På en tomt er skjermen en ring av grupper som alle andre. Tab går gjennom dem 
 4. Spillets paneler: kontrollpanelet, Sim-panelet (behov, forhold, jobb, ferdigheter, personlighet, interesser...), familien, ønsker og frykt, og alle paneler du åpner.
 5. **modhjelp**.
 
+Sim-panelet sier simmens ambisjon ("Ambisjon: 24 prosent"); belønningspanelet (Belønninger, så Ambisjonsbelønninger) sier ambisjonspoengene du kan bruke.
+
+Spillets alternativer (kontrollpanelets Alternativer-knapp) leses på samme måte: hvert valg sier innstillingen sin ("Skygger: Høy"), og glidebryterne, som musikkvolumet, endres med Venstre pil og Høyre pil ("Musikk, glidebryter, 35 av 100"). En radiostasjons sanger er en egen gruppe; Enter slår en sang på eller av.
+
 Jobbsiden sier simmens arbeidstider; Enter på dem legger til når samkjøringen kommer. For å si opp en jobb, ring til jobben på telefonen. Hver ferdighet sier nivået sitt og, når neste forfremmelse krever mer, hvor mye: "Matlaging, 2 av 10, neste forfremmelse krever 4".
 
 ### Velge simmer og kameraet
@@ -94,7 +98,7 @@ Jobbsiden sier simmens arbeidstider; Enter på dem legger til når samkjøringen
 | Ctrl+T | Sier hver ny time på klokken ("klokken er 14:00"), eller slutter. Nyttig på høyeste hastighet. |
 | Ctrl+Skift+F | Kameraet følger den valgte simen, eller forblir fritt. |
 
-Kameraet følger den valgte simen, fordi spillets lyder kommer fra det som er på skjermen.
+Kameraet følger den valgte simen, fordi spillets lyder kommer fra det som er på skjermen. Når fokus vises på skjermen (Ctrl+Skift+V), glir kameraet til hver ting du blar til i stedet for å hoppe.
 
 Zoom og kameraets retning sies når de endres (Z og X zoomer), og kontrollpanelet har dem også: "kamera: nær, 5 av 6, mot nordøst". Retningen er dit toppen av skjermen ser.
 
@@ -115,7 +119,9 @@ Du trenger ikke å gå dit med Tab: Page-tastene blar gjennom gjenstandene fra h
 | Ctrl+F | Finn en ting: skriv en del av navnet ("tel" finner telefonen, aksenter spiller ingen rolle). Opp og Ned går gjennom treffene, Enter handler på den, Ctrl+Enter går dit, Delete fjerner en dør eller et vindu, Escape går tilbake dit du var. |
 | Delete | På en dør eller et vindu, i kjøpemodus eller med byggemodusens hånd: plukker den opp og selger den med refusjon. |
 
-Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, ting som må vaskes, dammer, søppel, aske og ild. Sist kommer **dører, vinduer og trapper**. En ting som ingen simmer kan nå fra tomtens inngang sier "ingen simmer kan nå den".
+Simmer med en jobb på tomten sier den: "Ravi Pérez, postbud", servitøren, kokken, gartneren, hushjelpen. Et kjæledyrs matskål sier om den har mat. Taxien og andre biler ved fortauskanten er blant de andre gjenstandene mens de venter.
+
+Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, ting som må vaskes, en tom matskål for kjæledyr, dammer, søppel, aske og ild. Sist kommer **dører, vinduer og trapper**. En ting som ingen simmer kan nå fra tomtens inngang sier "ingen simmer kan nå den".
 
 ### Handlingsmenyer
 
@@ -149,7 +155,10 @@ Enter på en gjenstand (eller på en sim) åpner spillets handlingsmeny. Pil opp
 Spillet viser mange ting bare som bilder. Modden sier dem når de skjer, og tar vare på dem i hendelsesbufferen:
 
 - **Bobler** over simmer: "Carlos tenker: Energi", "Carlos sier: Politikk", et overstreket ikon ("ingen ..."), skrik og overskriftene om forhold ("forholdet blir bedre", "ny venn", "første kyss").
+- **Hva et måltid mangler**: "Carlos tenker: det trengs en benk" (en ovn, en komfyr, en grill, en mikrobølgeovn).
 - **Ruter**: "Carlos kommer seg ikke dit".
+- **Besøkende ved døren**: "Elvira står ved døren og venter på å bli hilst på"; hils på henne (handlingsmenyen hennes) for å slippe henne inn.
+- **Ønsker og frykt**: "Carlos oppfylte et ønske: Gå og svømme, 500 ambisjonspoeng", "Carlos: en frykt ble virkelig: ...".
 - Familiens **handlinger**, **behov** som blir lave, **besøkende** og penger som betales eller mottas. Når en handling blir avbrutt og venter i køen, sies det: "Carlos stoppet Sett deg for Panikk; den venter i køen".
 - **Møbler som forlater tomten** (en innbruddstyv, namsmannen), med verdien sin.
 
@@ -175,7 +184,7 @@ Enter på et produkt plukker det opp. Modden finner hver plass på tomten der de
 | Ctrl+Page Down, Ctrl+Page Up | Rommene som har plasser. |
 | Skift+Page Down, Skift+Page Up (eller komma, punktum) | Snur den; retningen sies. |
 | Ctrl+Skift+Page Down, Page Up | Ved siden av tomtens gjenstander, de nærmeste først, vendt mot dem når det går. |
-| Piltaster | Flytter den i stedet én rute (Skift: fem): om den får plass, hva den støter mot, rommet når det skifter, veggene rundt den, hvilken vei den vender og hva den vender mot, ruten; deretter rutens lyder. Vegger, gjerder og vinduer stopper den; dører slipper den gjennom. |
+| Piltaster | Flytter den i stedet én rute (Skift: fem): om den får plass, hva den støter mot, rommet når det skifter, veggene rundt den, hvilken vei den vender og hva den vender mot (også lenger unna: "mot Sofa, 3 ruter unna"), ruten; deretter rutens lyder. Vegger, gjerder og vinduer stopper den; dører slipper den gjennom. |
 | Alt+Piltaster | Det samme, gjennom vegger. |
 | Home | Tilbake til den valgte simen. |
 | Enter | Kjøper den der; spillet gir deg et nytt eksemplar til du trykker Escape. |
@@ -265,4 +274,4 @@ Moddens innstillinger ligger i `Sims2Access\Sims2Access.ini` i spillets mappe, a
 
 ## Ikke ferdig ennå
 
-Tapet, tegnede tak og terreng i byggmodus; navn på hoder, frisyrer og klær i Lag sim; utvidelsenes egne skjermer (universitet, natteliv, forretning, årstider, ferie, leiligheter, magi) leses foreløpig bare av den generelle navigasjonen.
+Tapet, tegnede tak og terreng i byggmodus; navnene på ambisjonsbelønningene; å sette en gjenstand fra en sims inventar på tomten; navn på hoder, frisyrer og klær i Lag sim; utvidelsenes egne skjermer (universitet, natteliv, forretning, årstider, ferie, leiligheter, magi) leses foreløpig bare av den generelle navigasjonen.

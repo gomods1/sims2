@@ -73,6 +73,14 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
 
 ## Next
 
+- The 2026-11-08 tester feedback, still open: the aspiration rewards' names (the rewards catalog
+  proc's list, STRUCTS.md "People"); putting an object from a Sim's inventory on the lot (the
+  inventory panel was empty on the Contreras lot: try dragging an item through the mod's virtual
+  mouse or the hand tool); eating out (a restaurant lot: the host, waiter and chef are now named;
+  the destination dialog does not say a lot's kind); build mode "needs a lot of love". Not seen
+  live: a "counter is needed" thought (the sheet lookup is the game's, the cells from the
+  texture), "$Subject" in a thought, a fear come true.
+
 - Check in the game what the 2026-11-07 port (the Sims 1 mod's tester feedback of 2026-11-06)
   could not try on the Contreras lot: a thing no Sim can reach (only "reachable" was heard, 0 of
   238), a promotion mark (Carlos is at his

@@ -83,8 +83,8 @@ olvashatsz:
 
 ## A szomszédság
 
-A szomszédság első csoportja a **telkek**: mindegyik elmondja a nevét, a fajtáját és azt, ki lakik
-ott (a társasházak a lakóikkal). Az Enter egy telken megnyitja a játék telekpaneljét.
+A szomszédság első csoportja a **telkek**: mindegyik elmondja a nevét, a fajtáját, azt, ki lakik
+ott (a társasházak a lakóikkal), és a méretét („40 × 30 mező”). Az Enter egy telken megnyitja a játék telekpaneljét.
 
 Család beköltöztetéséhez válaszd ki a családot a családtárolóban (a családok panelje), majd nyomj
 Entert egy telken: a játék megkérdezi, beköltöztesse-e őket, és mennyibe kerül.
@@ -117,6 +117,10 @@ végig rajtuk:
    amelyet megnyitsz.
 5. **a mod súgója**.
 
+A Sim-panel elmondja a Sim törekvését („Törekvés: 24 százalék”); a jutalmak panelje (Jutalmak, aztán Törekvésjutalmak) elmondja, mennyi elkölthető törekvéspont van.
+
+A játék beállításait (a vezérlőpult Beállítások gombja) ugyanígy olvassa: minden választás elmondja a beállítását („Árnyékok: Magas”), a csúszkák, például a zene hangereje, a Balra és a Jobbra nyíllal változnak („Zene, csúszka, 35 / 100”). Egy rádióállomás dalai külön csoportot alkotnak; az Enter be- vagy kikapcsol egy dalt.
+
 A munka oldala megmondja a sim munkaidejét; az Enter rajta hozzáteszi, mikor jön a közös autó. Felmondáshoz telefonon hívd a munkahelyet. Minden képesség elmondja a szintjét, és ha a következő előléptetéshez több kell, mennyi: „Főzés, 2/10, a következő előléptetéshez 4 kell”.
 
 ### Simek kiválasztása és a kamera
@@ -129,7 +133,7 @@ A munka oldala megmondja a sim munkaidejét; az Enter rajta hozzáteszi, mikor j
 | Control+T | Bemondja az óra minden új óráját („14:00 van”), vagy abbahagyja. Hasznos a legnagyobb sebességnél. |
 | Control+Shift+F | A kamera követi a kiválasztott Simet, vagy szabad marad. |
 
-A kamera követi a kiválasztott Simet, mert a játék hangjai abból jönnek, ami a képernyőn van.
+A kamera követi a kiválasztott Simet, mert a játék hangjai abból jönnek, ami a képernyőn van. Ha a fókusz látszik a képernyőn (Control+Shift+V), a kamera ugrás helyett odasiklik minden dologhoz, amelyre lépsz.
 
 A nagyítást és a kamera irányát elmondja, amikor változnak (Z és X nagyít), és a vezérlőpulton is ott vannak: „kamera: közeli nézet, 5 / 6, északkeletre néz". Az irány az, amerre a képernyő teteje néz.
 
@@ -157,7 +161,9 @@ vásárlás és építés módban.
 | Control+F | Tárgy keresése: írd be a neve egy részét („tel" megtalálja a telefont, az ékezetek nem számítanak). A Fel és a Le végigmegy a találatokon, az Enter cselekszik vele, a Control+Enter odamegy, a Delete eltávolít egy ajtót vagy ablakot, az Escape visszavisz oda, ahol voltál. |
 | Delete | Ajtón vagy ablakon, vásárló módban vagy az építő mód kezével: felveszi és eladja, visszatérítéssel. |
 
-A simek után jönnek a **gondok**: ami figyelmet kér, például elromlott és takarítandó dolgok, tócsák, szemét, hamu és tűz. Legvégül jönnek az **ajtók, ablakok és lépcsők**. Az a dolog, amelyet egyetlen Sim sem ér el a telek bejáratától, azt mondja: „egyetlen Sim sem éri el”.
+A telken munkát végző Simek elmondják a munkájukat: „Ravi Pérez, postás”, a pincér, a szakács, a kertész, a takarítónő. Egy háziállat etetőtálja elmondja, van-e benne étel. A taxi és a járdaszélen álló többi autó az egyéb tárgyak között van, amíg várakozik.
+
+A simek után jönnek a **gondok**: ami figyelmet kér, például elromlott és takarítandó dolgok, üres háziállat-etetőtál, tócsák, szemét, hamu és tűz. Legvégül jönnek az **ajtók, ablakok és lépcsők**. Az a dolog, amelyet egyetlen Sim sem ér el a telek bejáratától, azt mondja: „egyetlen Sim sem éri el”.
 
 ### Interakciós menük
 
@@ -198,7 +204,10 @@ pufferben tartja őket:
 - **Buborékok** a Simek fölött: "Carlos gondolja: Energia", "Carlos mondja: Politika", egy
   áthúzott ikon ("nem ..."), kiabálások és a kapcsolati hírek ("a kapcsolat javul", "új barát",
   "első csók").
+- **Ami egy ételhez hiányzik**: „Carlos gondolja: pult kellene” (sütő, tűzhely, grill, mikrohullámú sütő).
 - **Útvonalak**: "Carlos nem jut oda".
+- **Látogatók az ajtóban**: „Elvira az ajtóban vár, hogy üdvözöljék”; üdvözöld (az interakciós menüjéből), hogy beengedd.
+- **Vágyak és félelmek**: „Carlos teljesített egy vágyat: Menj úszni, 500 törekvéspont”, „Carlos: egy félelem valóra vált: ...”.
 - A család **cselekvései**, alacsonyra csökkenő **szükségletek**, **látogatók**, valamint a
   kifizetett vagy kapott pénz. Ha egy cselekvés megszakad és a sorban vár, ezt elmondja: „Carlos abbahagyta ezt: Leülés, emiatt: Pánik; a sorban vár”.
 - **A telekről eltűnő bútorok** (betörő, végrehajtó), az értékükkel.
@@ -229,7 +238,7 @@ irányban, a kiválasztott Simhez legközelebbitől kezdve.
 | Control+Page Down, Control+Page Up | A szobák, amelyekben vannak helyek. |
 | Shift+Page Down, Shift+Page Up (vagy vessző, pont) | Elforgatja; az irányt kimondja. |
 | Control+Shift+Page Down, Page Up | A telek tárgyai mellé, a legközelebbitől, feléjük fordítva, ha elfér. |
-| Nyilak | Ehelyett egy mezővel mozgatja (Shift: öttel): elfér-e, mibe ütközik, a szobát, amikor megváltozik, a körülötte lévő falakat, merre néz és mi felé, a mezőt; aztán a mező hangjait. A falak, kerítések és ablakok megállítják; az ajtók átengedik. |
+| Nyilak | Ehelyett egy mezővel mozgatja (Shift: öttel): elfér-e, mibe ütközik, a szobát, amikor megváltozik, a körülötte lévő falakat, merre néz és mi felé (távolabbra is: „felé: Kanapé, 3 mezőnyire”), a mezőt; aztán a mező hangjait. A falak, kerítések és ablakok megállítják; az ajtók átengedik. |
 | Alt+Nyilak | Ugyanez, falakon át. |
 | Home | Vissza a kiválasztott Simhez. |
 | Enter | Megveszi ott; a játék újabb példányt ad, amíg meg nem nyomod az Escape-et. |
@@ -334,6 +343,6 @@ A mod beállításai a játék mappájában lévő `Sims2Access\Sims2Access.ini`
 
 ## Még nincs kész
 
-Tapéták, rajzolt tetők és terep építés módban; a Sim készítése fejeinek, frizuráinak és ruháinak
+Tapéták, rajzolt tetők és terep építés módban; a törekvésjutalmak neve; egy tárgy letétele a telekre egy Sim leltárából; a Sim készítése fejeinek, frizuráinak és ruháinak
 neve; a kiegészítők saját képernyőit (egyetem, éjszakai élet, vállalkozás, évszakok, nyaralás,
 bérlakások, varázslat) egyelőre csak az általános navigáció olvassa.

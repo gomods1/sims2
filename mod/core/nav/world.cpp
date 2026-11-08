@@ -106,11 +106,58 @@ Str MessName(const std::string& internal) {
 
 bool IsMess(const std::string& internal) { return MessName(internal) != Str::Count; }
 
+// Cars at the curb (the taxi, a service NPC's car): internal objects ("*Car - Service - Taxi (was
+// Car -Prototype)", internal name "Car - Prototype - 0,5"), so the mod names them; a tester could
+// not find the taxi he had called.
+Str VehicleName(const LotObject& o) {
+    if (o.name.rfind("Car - ", 0) != 0 || o.person) return Str::Count;
+    return o.catalogName.find("Taxi") != std::string::npos ? Str::ObjTaxi : Str::ObjCar;
+}
+
 }  // namespace
+
+// NPC types (person data 155) confirmed in the game's data (2026-11-08): the debug NPC generator
+// (group 0x7fb55274) pairs its BCON 0x1002 "Create - NPC Type" (19, 16, 11, 4, 31, 9, 5, 30, 2,
+// 10, 12, 13, 20, 22, 23, 26, 21, 29, three each) with its strings "Maid, Handyman, Exterminator,
+// Burglar, Ambulance Driver, Cop, Bus Driver, Social Worker, Bartender, Delivery Person,
+// Firefighter, Gardener, Mail Carrier, Paper Delivery Person, Pizza Person, Repoman, Nanny,
+// Register Clerk" and BCON 0x1008 (36, 34, 37, 35, 18) with "Chef, Host, DJ, Server, Gypsy"; the
+// others are the types each "NPC - Template - <role> Function - Init" checks (bar objects check 1
+// for their bartender, the espresso stand 14, the Chinese takeout car 33...). Read live: the
+// mail carrier Ravi had 20.
+std::string SimRole(int objectId) {
+    static const struct {
+        int type;
+        Str name;
+    } kRoles[] = {
+        {1, Str::RoleBartender},      {2, Str::RoleBartender},      {4, Str::RoleBurglar},
+        {5, Str::RoleDriver},         {6, Str::RoleStreaker},       {9, Str::RolePolice},
+        {10, Str::RoleDelivery},      {11, Str::RoleExterminator},  {12, Str::RoleFirefighter},
+        {13, Str::RoleGardener},      {14, Str::RoleBarista},       {15, Str::RoleGrimReaper},
+        {16, Str::RoleHandyman},      {18, Str::RoleMatchmaker},    {19, Str::RoleMaid},
+        {20, Str::RoleMailCarrier},   {21, Str::RoleNanny},         {22, Str::RolePaperDelivery},
+        {23, Str::RolePizzaDelivery}, {24, Str::RoleProfessor},     {26, Str::RoleRepoMan},
+        {29, Str::RoleClerk},         {30, Str::RoleSocialWorker},  {31, Str::RoleParamedic},
+        {33, Str::RoleFoodDelivery},  {34, Str::RoleHost},          {35, Str::RoleWaiter},
+        {36, Str::RoleChef},          {37, Str::RoleDJ},            {41, Str::RoleReporter},
+        {42, Str::RoleStylist},       {46, Str::RoleAnimalControl}, {47, Str::RoleTrainer},
+        {48, Str::RoleMasseuse},      {49, Str::RoleBellhop},       {50, Str::RolePickpocket},
+        {51, Str::RoleTourGuide},     {55, Str::RoleHousekeeper},   {56, Str::RoleFoodStandChef},
+        {57, Str::RoleFireDancer},    {58, Str::RoleWitchDoctor},   {60, Str::RoleFoodJudge},
+        {64, Str::RoleWitch},         {65, Str::RoleBreakdancer},   {68, Str::RoleLandlord},
+        {69, Str::RoleButler},        {70, Str::RoleFoodStandChef},
+    };
+    int type = 0;
+    if (!game::PersonDatum(objectId, game::addr::person::kDataNpcType, &type) || type <= 0) return "";
+    for (const auto& r : kRoles)
+        if (r.type == type) return S(r.name);
+    return "";
+}
 
 std::string DisplayName(const LotObject& o) {
     if (o.person) return SimName(o);
     if (IsMess(o.name)) return S(MessName(o.name));
+    if (VehicleName(o) != Str::Count) return S(VehicleName(o));
     std::string n = util::CleanForSpeech(o.catalogName.empty() ? o.name : o.catalogName);
     return n;
 }
@@ -128,8 +175,19 @@ bool IsDirty(const LotObject& o) {
     return !o.person && o.dirt >= game::addr::objvar::kDirtyFrom && !IsGardenPlant(o.name) && !IsMess(o.name);
 }
 
-// What wants someone's attention: what the game's repairman and maid would go for, and messes.
-bool IsProblem(const LotObject& o) { return !o.person && (o.broken || IsDirty(o) || IsMess(o.name)); }
+// A pet food dish's food (semi attribute 0, "Food Units"): -1 when o is no dish (a tester asked in the
+// Sims 1 mod whether the bowl was empty).
+int BowlFood(const LotObject& o) {
+    if (o.person || o.name.rfind("Pet Food Dish", 0) != 0) return -1;
+    int food = -1;
+    return game::ObjectAttribute(o.id, 0, &food, true) ? food : -1;
+}
+
+// What wants someone's attention: what the game's repairman and maid would go for, messes and
+// an empty pet bowl.
+bool IsProblem(const LotObject& o) {
+    return !o.person && (o.broken || IsDirty(o) || IsMess(o.name) || BowlFood(o) == 0);
+}
 
 // Doors and windows (OBJD types 8 and 9), and every piece of a staircase.
 bool IsPortal(const LotObject& o) {
@@ -139,7 +197,7 @@ bool IsPortal(const LotObject& o) {
 // What the browser lists: placed objects with a name a player would know, and the Sims.
 bool Listed(const LotObject& o) {
     if (o.x < 0 || o.y < 0) return false;  // controllers and other objects kept off the lot
-    if (o.person || IsMess(o.name)) return true;
+    if (o.person || IsMess(o.name) || VehicleName(o) != Str::Count) return true;
     if (o.catalogName.empty() || o.catalogName[0] == '*') return false;  // internal objects
     if (o.name == "PlumbBob") return false;  // the selected Sim's marker
     return true;
@@ -210,11 +268,17 @@ std::string Where(const LotObject& o, const LotObject* sim) {
 std::string Line(const LotObject& o, const LotObject* sim, bool roomMode, const std::vector<LotObject>& all) {
     std::string where = Where(o, sim);
     std::string line = DisplayName(o);
+    if (o.person) {
+        std::string role = SimRole(o.id);
+        if (!role.empty()) line += ", " + role;
+    }
     if (o.broken && !o.person) line += std::string(", ") + S(Str::ConditionBroken);
+    int food = BowlFood(o);
+    if (food >= 0) line += std::string(", ") + S(food > 0 ? Str::BowlHasFood : Str::BowlEmpty);
     else if (IsDirty(o)) line += std::string(", ") + S(Str::ConditionDirty);
     // What no Sim can get to from the lot's entrance (in the Sims 1 mod a tester's Sim never
     // reached the chair he had placed).
-    if (!o.person && !IsPortal(o) && !IsMess(o.name) && reach::Unreachable(o.id))
+    if (!o.person && !IsPortal(o) && !IsMess(o.name) && VehicleName(o) == Str::Count && reach::Unreachable(o.id))
         line += std::string(", ") + S(Str::NobodyReaches);
     if (!roomMode && o.room >= 0) line += ", " + RoomName(o.level, o.room, all);
     if (o.person && sim && o.id == sim->id) line += std::string(", ") + S(Str::SelectedSimSuffix);

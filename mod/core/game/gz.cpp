@@ -1,5 +1,7 @@
 #include "gz.h"
 
+#include <algorithm>
+
 #include "../util/log.h"
 #include "addresses.h"
 #include "mouse.h"
@@ -229,6 +231,25 @@ bool SetStepBar(Ptr w, int step) {
     auto set = Slot<SetFn>(iface, addr::stepbar::kSlotSetValue);
     if (!set) return false;
     return Guarded([&] { set(iface, step * max / steps, 1, 0); });
+}
+
+bool Scrollbar(Ptr w, int* value, int* min, int* max, int* page) {
+    if (!IsKindOf(w, "cGZWinScrollbar2")) return false;
+    *value = Rd<int>(w + addr::scrollbar::kValue);
+    *min = Rd<int>(w + addr::scrollbar::kMin);
+    *page = Rd<int>(w + addr::scrollbar::kPage);
+    *max = Rd<int>(w + addr::scrollbar::kMax) - *page;
+    return *max >= *min;
+}
+
+bool SetScrollbar(Ptr w, int value) {
+    int v, lo, hi, page;
+    if (!Scrollbar(w, &v, &lo, &hi, &page)) return false;
+    Ptr iface = w + addr::scrollbar::kInterface;
+    typedef bool(__thiscall * SetFn)(Ptr, int, bool);
+    auto set = Slot<SetFn>(iface, addr::scrollbar::kSlotSetValue);
+    if (!set) return false;
+    return Guarded([&] { set(iface, std::clamp(value, lo, hi), true); });
 }
 
 bool PressAt(Ptr w, int x, int y) {

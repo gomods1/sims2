@@ -245,11 +245,13 @@ std::string SizeLine(const std::vector<std::pair<int, int>>& tiles) {
 }
 
 // The names of the things standing on these tiles (the held object left out), each once.
-std::string NamesOn(const std::vector<std::pair<int, int>>& tiles, int level, int heldId) {
+std::string NamesOn(const std::vector<std::pair<int, int>>& tiles, int level, int heldId, bool faced = false) {
     std::vector<std::string> names;
     for (const auto& t : tiles)
         for (const game::LotObject& o : world::ThingsAt(t.first, t.second, level)) {
             if (o.id == heldId) continue;
+            // What a thing faces stands on the floor: not a ceiling lamp above the tile.
+            if (faced && o.name.find("Ceiling") != std::string::npos) continue;
             std::string n = world::DisplayName(o);
             if (!n.empty() && std::find(names.begin(), names.end(), n) == names.end()) names.push_back(n);
         }
@@ -271,6 +273,42 @@ std::vector<std::pair<int, int>> FrontTiles(const std::vector<std::pair<int, int
         out.push_back(n);
     }
     return out;
+}
+
+// What the held object looks at further off when nothing stands just in front (a tester turning a
+// television heard nothing of the sofa three tiles away): the first thing along its facing, up
+// to 8 tiles, in its room and before a wall. Its names, and in *distance the tiles to it.
+std::string AheadNames(const std::vector<std::pair<int, int>>& tiles, int direction, int heldId, int* distance) {
+    int d = (direction / 2) & 3;
+    std::vector<std::pair<int, int>> row;  // the front edge's tiles, walked forward together
+    for (const auto& t : tiles) {
+        std::pair<int, int> n = {t.first + kStepX[d], t.second + kStepY[d]};
+        if (std::find(tiles.begin(), tiles.end(), n) == tiles.end()) row.push_back(t);
+    }
+    std::vector<int> room(row.size());
+    for (size_t i = 0; i < row.size(); i++) room[i] = game::RoomAt(row[i].first + 0.5f, row[i].second + 0.5f, g.level);
+    std::vector<bool> alive(row.size(), true);
+    for (int k = 1; k <= 8; k++) {
+        std::vector<std::pair<int, int>> step;
+        for (size_t i = 0; i < row.size(); i++) {
+            if (!alive[i]) continue;
+            std::pair<int, int> n = {row[i].first + kStepX[d], row[i].second + kStepY[d]};
+            if (cues::WallStops(g.level, row[i].first, row[i].second, kStepX[d], kStepY[d], nullptr) ||
+                game::RoomAt(n.first + 0.5f, n.second + 0.5f, g.level) != room[i]) {
+                alive[i] = false;
+                continue;
+            }
+            row[i] = n;
+            step.push_back(n);
+        }
+        if (step.empty()) return "";
+        std::string names = NamesOn(step, g.level, heldId, true);
+        if (!names.empty()) {
+            *distance = k;
+            return names;
+        }
+    }
+    return "";
 }
 
 // "no cabe, choca con Sofá, saliendo de cocina, entrando en salón, mirando al norte, hacia
@@ -310,8 +348,13 @@ std::string SpotLine(bool withFacing, bool full = false) {
         parts.push_back(Facing(held.direction));
     }
     if (wall.empty()) {
-        std::string faced = NamesOn(FrontTiles(tiles, held.direction), g.level, heldId);
-        if (!faced.empty()) parts.push_back(util::Format(S(Str::FacingThing), faced.c_str()));
+        std::string faced = NamesOn(FrontTiles(tiles, held.direction), g.level, heldId, true);
+        int distance = 0;
+        if (faced.empty()) faced = AheadNames(tiles, held.direction, heldId, &distance);
+        if (!faced.empty() && distance > 1)
+            parts.push_back(util::Format(S(Str::FacingThingAway), faced.c_str(), distance));
+        else if (!faced.empty())
+            parts.push_back(util::Format(S(Str::FacingThing), faced.c_str()));
     }
     parts.push_back(tile);
     std::string line;

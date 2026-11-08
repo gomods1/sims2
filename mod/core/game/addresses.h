@@ -156,6 +156,13 @@ constexpr int kSelector = 0x240;        // cTSObjectSelector of the object
 constexpr int kSelectorMaster = 0x68;   // selector: a multi-tile part's master selector, whose OBJD
                                         // (+0x60, product::kSelectorObjd) is the whole object's
 constexpr int kSlotName = 92;          // const char* name
+// Attributes (SimAntics "My attribute"; Lua's GetObjectAttribute 0xa0573b60 calls slot 15
+// 0xa052f0b0): int16 array at +0x88, its count (int16) at +0x8c. Semi attributes (the ones a
+// semi-global's STR# 0x100 names; GetObjectSemiAttribute 0xa0573e60, slot 17 0xa0530a20): +0x90,
+// count +0x94. A pet food dish's semi attribute 0 is its food units (PetFoodDishGlobals: "Food
+// Units", "Eat Loops Played", "Current Dirty State", "Snapping?"; read live: 0, then 200 once
+// Carlos had filled it).
+constexpr int kAttributes = 0x88, kAttributeCount = 0x8c, kSemiAttributes = 0x90, kSemiAttributeCount = 0x94;
 constexpr int kSlotLocation = 33;      // -> {int x, int y}, 16.16 fixed point, in tiles
 constexpr int kSlotLevel = 36;         // short: 0 the terrain, 1 the ground floor of a house on a
                                        // foundation (a patio set outside reads 0, the rooms 1)
@@ -355,6 +362,14 @@ constexpr int kMotiveCount = 16;
 constexpr int kSlotPersonData = 10;
 constexpr int kDataOutfit = 8, kDataNeighborId = 31, kDataAge = 58, kDataGender = 65, kDataBodyFlags = 81,
               kDataYoungAdult = 175, kDataSpecies = 186;
+// 34 greet status (0 not greeted yet: a visitor knocks and waits at the door, "Controller - Visitor"
+// 0x7f92c86e "CT - Wait to be Greeted"; 1 greeted, set by the greet social and "Start Visiting";
+// 2 leaving, set by goodbye and shoo), 155 NPC type (the global BCON 0x132 "NPC Types": the code
+// compares with its entries, constant data 0x4000 | 0x32 << 7 | index), 160 aspiration score
+// (-100..100, the live panel's aspiration bar), 162 aspiration reward points / 10 not spent.
+// The Lua table names 161 "Aspiration Reward Points Spent (/10)", but it holds the points the
+// rewards panel shows (read live: 1010, the panel's "10.100").
+constexpr int kDataGreetStatus = 34, kDataNpcType = 155, kDataAspirationScore = 160, kDataRewardPoints = 161;
 }  // namespace person
 
 // A neighbor's looks (Lua's getOutfitProperty, 0xa0566b20): cTSNeighbor slot 44 (0xa04b7fc0),
@@ -441,6 +456,18 @@ constexpr int kTip = 0x188;     // cRZString tooltip ("Title|Description"), std:
 
 // cTSWinProcStepFillBar (Create a Sim's personality bars; the window's proc). Its message handler
 // (0xa0624391) steps the value on message 3 / 0x287259f6 (data 1 down, 2 up) through SetValue.
+// cGZWinScrollbar2 (the options' volume and quality sliders, lists' scroll bars): the window is the
+// complete object, its cIGZWinScrollbar2 interface at +0xf8 (vtable 0xa0e57ca4): +0xfc value, +0x100
+// minimum, +0x104 maximum (the value goes to maximum - page), +0x108 page. Slot 6 (0xa095b015)
+// SetValue(int value, bool notify), ret 8: clamps, redraws, and with notify sends the parent the
+// scroll notification 0x4b42dcc7 as a drag does (the sound panel applies the volume). Read live
+// 2026-11-08 on the audio options: Música 40 (0..105, page 5), Calidad de audio 3 (1..4, page 1).
+namespace scrollbar {
+constexpr int kInterface = 0xf8;
+constexpr int kValue = 0xfc, kMin = 0x100, kMax = 0x104, kPage = 0x108;
+constexpr int kSlotSetValue = 6;
+}  // namespace scrollbar
+
 namespace stepbar {
 constexpr int kValue = 0x6c;  // int, 0..kMax (a personality point is 100)
 constexpr int kMax = 0x74;    // int (1000)

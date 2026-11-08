@@ -79,8 +79,8 @@ Ne všechno se vejde do jednoho vysloveného řádku. Mod vede dvě vyrovnávac�
 
 ## Sousedství
 
-První skupina sousedství jsou **parcely**: každá řekne svůj název, druh a kdo na ní bydlí
-(bytové domy s nájemníky). Enter na pozemku otevře panel pozemku hry.
+První skupina sousedství jsou **parcely**: každá řekne svůj název, druh, kdo na ní bydlí
+(bytové domy s nájemníky) a svou velikost („40 krát 30 polí“). Enter na pozemku otevře panel pozemku hry.
 
 Chcete-li nastěhovat rodinu, vyberte ji v zásobníku rodin (panel rodin) a potom stiskněte Enter
 na pozemku: hra se zeptá, zda ji nastěhovat a kolik to stojí.
@@ -109,6 +109,10 @@ Na pozemku je obrazovka kruh skupin jako kterákoli jiná. Tab je prochází v t
    zájmy...), rodina, přání a obavy a každý panel, který otevřete.
 5. **nápověda modu**.
 
+Panel simíka řekne Simovu aspiraci („Aspirace: 24 procent“); panel odměn (Odměny, potom Odměny za aspiraci) řekne aspirační body, které lze utratit.
+
+Možnosti hry (tlačítko Možnosti na ovládacím panelu) se čtou stejně: každá volba řekne své nastavení („Stíny: Vysoké“) a posuvníky, například hlasitost hudby, se mění šipkami vlevo a vpravo („Hudba, posuvník, 35 ze 100“). Skladby rozhlasové stanice jsou samostatná skupina; Enter skladbu zapne nebo vypne.
+
 Stránka zaměstnání říká pracovní dobu Simíka; Enter na ní přidá, kdy přijede společné auto. Chcete-li dát výpověď, zavolejte do práce telefonem. Každá dovednost řekne svou úroveň a, když další povýšení potřebuje víc, kolik: „Vaření, 2 z 10, další povýšení potřebuje 4“.
 
 ### Výběr Simů a kamera
@@ -121,7 +125,7 @@ Stránka zaměstnání říká pracovní dobu Simíka; Enter na ní přidá, kdy
 | Control+T | Ohlásí každou novou hodinu na hodinách („je 14:00“), nebo přestane. Hodí se při nejvyšší rychlosti. |
 | Control+Shift+F | Kamera sleduje vybraného Sima, nebo je volná. |
 
-Kamera sleduje vybraného Sima, protože zvuky hry vycházejí z toho, co je na obrazovce.
+Kamera sleduje vybraného Sima, protože zvuky hry vycházejí z toho, co je na obrazovce. Když se fokus ukazuje na obrazovce (Control+Shift+V), kamera ke každé procházené věci plynule přejede, místo aby skočila.
 
 Přiblížení a směr kamery se řeknou, když se změní (Z a X přibližují), a ovládací panel je má také: „kamera: blízký pohled, 5 ze 6, směr: severovýchod". Směr je to, kam se dívá horní okraj obrazovky.
 
@@ -148,7 +152,9 @@ Nemusíte tam chodit Tabem: klávesy Page procházejí předměty odkudkoli na p
 | Control+F | Najít předmět: napište část názvu („tel" najde telefon, na diakritice nezáleží). Nahoru a Dolů procházejí nálezy, Enter s ním něco udělá, Control+Enter tam dojde, Delete odstraní dveře nebo okno, Escape se vrátí, kde jste byli. |
 | Delete | Na dveřích nebo okně, v režimu nákupu nebo rukou v režimu stavby: zvedne je a prodá s náhradou. |
 
-Po Simících následují **problémy**: co potřebuje pozornost, třeba rozbité věci, věci k úklidu, kaluže, odpadky, popel a oheň. Nakonec jsou **dveře, okna a schody**. Věc, ke které se žádný Sim nedostane od vstupu na pozemek, řekne „žádný Sim se k tomu nedostane“.
+Simíci, kteří mají na pozemku práci, ji řeknou: „Ravi Pérez, pošťák“, číšník, kuchař, zahradník, služebná. Miska zvířete řekne, zda je v ní jídlo. Taxík a další auta u obrubníku jsou mezi ostatními předměty, dokud čekají.
+
+Po Simících následují **problémy**: co potřebuje pozornost, třeba rozbité věci, věci k úklidu, prázdná miska zvířete, kaluže, odpadky, popel a oheň. Nakonec jsou **dveře, okna a schody**. Věc, ke které se žádný Sim nedostane od vstupu na pozemek, řekne „žádný Sim se k tomu nedostane“.
 
 ### Nabídky interakcí
 
@@ -186,7 +192,10 @@ Hra mnoho věcí ukazuje jen obrázky. Mod je říká, když se dějí, a uklád
 
 - **Bubliny** nad Simy: "Carlos myslí: Energie", "Carlos říká: Politika", přeškrtnutá ikona
   ("ne ..."), výkřiky a titulky vztahů ("vztah se zlepšuje", "nový přítel", "první polibek").
+- **Co chybí k jídlu**: „Carlos myslí: je potřeba kuchyňská linka“ (trouba, sporák, gril, mikrovlnka).
 - **Cesty**: "Carlos se tam nedostane".
+- **Návštěvy u dveří**: „Elvira stojí u dveří a čeká na přivítání“; pozdravte ji (její nabídka interakcí), abyste ji pustili dovnitř.
+- **Přání a obavy**: „Carlos splnil přání: Jít si zaplavat, 500 aspiračních bodů“, „Carlos: obava se naplnila: ...“.
 - **Akce** rodiny, klesající **potřeby**, **návštěvy** a zaplacené nebo přijaté peníze. Když se akce přeruší a čeká ve frontě, řekne se to: „Carlos přerušil Posadit se kvůli Panika; čeká to ve frontě“.
 - **Nábytek, který opouští pozemek** (zloděj, exekutor), s jeho hodnotou.
 
@@ -216,7 +225,7 @@ nejbližší k vybranému Simovi první.
 | Control+Page Down, Control+Page Up | Místnosti, ve kterých jsou místa. |
 | Shift+Page Down, Shift+Page Up (nebo čárka, tečka) | Otočí ho; natočení se řekne. |
 | Control+Shift+Page Down, Page Up | Vedle předmětů pozemku, nejbližší první, natočený k nim, když se vejde. |
-| Šipky | Místo toho ho posune o jedno pole (Shift: o pět): zda se vejde, na co naráží, místnost, když se změní, zdi kolem něj, kam je natočený a k čemu, pole; potom zvuky pole. Zdi, ploty a okna ho zastaví; dveře ho pustí. |
+| Šipky | Místo toho ho posune o jedno pole (Shift: o pět): zda se vejde, na co naráží, místnost, když se změní, zdi kolem něj, kam je natočený a k čemu (i dál: „k: Pohovka, 3 pole daleko“), pole; potom zvuky pole. Zdi, ploty a okna ho zastaví; dveře ho pustí. |
 | Alt+Šipky | Totéž, skrz zdi. |
 | Home | Zpět k vybranému Simovi. |
 | Enter | Koupí ho tam; hra vám dává další kus, dokud nestisknete Escape. |
@@ -318,6 +327,6 @@ Klávesy, které je mění, je hned uloží.
 
 ## Zatím nehotové
 
-Tapety, kreslené střechy a terén v režimu stavby; názvy hlav, účesů a oblečení na obrazovce Vytvořit
+Tapety, kreslené střechy a terén v režimu stavby; názvy odměn za aspiraci; položení předmětu z inventáře Sima na pozemek; názvy hlav, účesů a oblečení na obrazovce Vytvořit
 Sima; vlastní obrazovky rozšíření (univerzita, noční život, podnikání, roční období, dovolená, byty,
 magie) zatím čte jen obecná navigace.

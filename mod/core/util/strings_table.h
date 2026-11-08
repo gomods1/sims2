@@ -48,6 +48,7 @@
     X(GroupBuildPanel, "build mode")                                                                                   \
     X(GroupCatalog, "catalog")                                                                                         \
     X(GroupStarSign, "star sign")                                                                                      \
+    X(GroupSongs, "songs")                                                                                             \
     X(GroupAspiration, "aspiration")                                                                                   \
     X(GroupSteps, "steps")                                                                                             \
     X(GroupAge, "age")                                                                                                 \
@@ -124,6 +125,56 @@
     X(NoSuchSim, "no Sim %d")                                                                                          \
     /* Narrator: visitors */                                                                                           \
     X(VisitorArrived, "%s arrived")                                                                                    \
+    X(VisitorAtDoor, "%s is at the door waiting to be greeted")                                                        \
+    X(WantFulfilled, "%1$s fulfilled a want: %2$s, %3$d aspiration points")                                            \
+    X(AspirationPointsGained, "%1$s gains %2$d aspiration points")                                                     \
+    X(FearRealized, "%1$s: a fear came true: %2$s")                                                                    \
+    X(AspirationMeter, "Aspiration: %d percent")                                                                        \
+    X(RoleBartender, "bartender")                                                                                      \
+    X(RoleBurglar, "burglar")                                                                                          \
+    X(RoleDriver, "driver")                                                                                            \
+    X(RoleStreaker, "streaker")                                                                                        \
+    X(RolePolice, "police officer")                                                                                    \
+    X(RoleDelivery, "delivery person")                                                                                 \
+    X(RoleExterminator, "exterminator")                                                                                \
+    X(RoleFirefighter, "firefighter")                                                                                  \
+    X(RoleGardener, "gardener")                                                                                        \
+    X(RoleBarista, "barista")                                                                                          \
+    X(RoleGrimReaper, "Grim Reaper")                                                                                   \
+    X(RoleHandyman, "handyman")                                                                                        \
+    X(RoleMatchmaker, "matchmaker")                                                                                    \
+    X(RoleMaid, "maid")                                                                                                \
+    X(RoleMailCarrier, "mail carrier")                                                                                 \
+    X(RoleNanny, "nanny")                                                                                              \
+    X(RolePaperDelivery, "newspaper delivery")                                                                         \
+    X(RolePizzaDelivery, "pizza delivery")                                                                             \
+    X(RoleProfessor, "professor")                                                                                      \
+    X(RoleRepoMan, "repo man")                                                                                         \
+    X(RoleClerk, "shop clerk")                                                                                         \
+    X(RoleSocialWorker, "social worker")                                                                               \
+    X(RoleParamedic, "paramedic")                                                                                      \
+    X(RoleFoodDelivery, "takeout delivery")                                                                            \
+    X(RoleHost, "restaurant host")                                                                                     \
+    X(RoleWaiter, "waiter")                                                                                            \
+    X(RoleChef, "chef")                                                                                                \
+    X(RoleDJ, "DJ")                                                                                                    \
+    X(RoleReporter, "reporter")                                                                                        \
+    X(RoleStylist, "stylist")                                                                                          \
+    X(RoleAnimalControl, "animal control officer")                                                                     \
+    X(RoleTrainer, "obedience trainer")                                                                                \
+    X(RoleMasseuse, "massage therapist")                                                                               \
+    X(RoleBellhop, "bellhop")                                                                                          \
+    X(RolePickpocket, "pickpocket")                                                                                    \
+    X(RoleTourGuide, "tour guide")                                                                                     \
+    X(RoleHousekeeper, "housekeeper")                                                                                  \
+    X(RoleFoodStandChef, "food stand chef")                                                                            \
+    X(RoleFireDancer, "fire dancer")                                                                                   \
+    X(RoleWitchDoctor, "witch doctor")                                                                                 \
+    X(RoleFoodJudge, "food judge")                                                                                     \
+    X(RoleWitch, "witch")                                                                                              \
+    X(RoleBreakdancer, "breakdancer")                                                                                  \
+    X(RoleLandlord, "landlord")                                                                                        \
+    X(RoleButler, "butler")                                                                                            \
     X(VisitorLeft, "%s left")                                                                                          \
     /* Lot: rooms */                                                                                                   \
     X(RoomObjects, "%s, %d objects")                                                                                   \
@@ -211,6 +262,13 @@
     X(IconBaby, "baby")                                                                                                \
     X(IconDoor, "door")                                                                                                \
     X(IconBabyQuestion, "a baby?")                                                                                     \
+    X(IconNeedOven, "an oven is needed")                                                                               \
+    X(IconNeedStove, "a stove is needed")                                                                              \
+    X(IconNeedGrill, "a grill is needed")                                                                              \
+    X(IconNeedCounter, "a counter is needed")                                                                          \
+    X(IconNeedToasterOven, "a toaster oven is needed")                                                                 \
+    X(IconNeedMicrowave, "a microwave is needed")                                                                      \
+    X(BalloonSomeone, "someone")                                                                                       \
     X(FamilyTreePicked, "%s picked up: Enter on another Sim to join them, Enter again to put down")                    \
     X(FurnitureGone, "%1$s has left the lot, worth %2$s")                                                              \
     X(BuildShutIn, "careful: %2$s has no door and %1$s is inside; Ctrl+Z undoes the wall")                             \
@@ -228,6 +286,7 @@
     X(ObjectSize, "takes %1$d tiles: %2$d west to east, %3$d north to south")                                       \
     X(CollidesWith, "runs into %s")                                                                                 \
     X(FacingThing, "toward %s")                                                                                     \
+    X(FacingThingAway, "toward %1$s, %2$d tiles away")                                                                 \
     X(RoomChange, "leaving %1$s, entering %2$s")                                                                    \
     X(BesideThing, "beside %s")                                                                                     \
     X(KeysPlacingThings, "Control Shift Page Down and Page Up: put it beside the next thing of the lot, nearest first.")\
@@ -301,6 +360,11 @@
     X(ObjRoaches, "cockroaches")                                                                                       \
     X(ObjTrashPile, "pile of trash")                                                                                   \
     X(ObjDigPile, "pile of dirt a dog dug up")                                                                         \
+    X(ObjTaxi, "taxi")                                                                                                 \
+    X(ObjCar, "car")                                                                                                   \
+    X(BowlHasFood, "with food")                                                                                        \
+    X(BowlEmpty, "empty")                                                                                              \
+    X(LotSize, "%1$d by %2$d tiles")                                                                                   \
     /* Ported from the Sims 1 mod's tester feedback (2026-11-06) */                                                    \
     X(HourChanged, "it is %s")                                                                                         \
     X(HoursOn, "each new hour is said")                                                                                \

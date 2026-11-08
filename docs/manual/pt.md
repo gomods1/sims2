@@ -58,7 +58,7 @@ Nem tudo cabe em uma frase. O mod guarda dois buffers que você pode ler linha p
 
 ## A vizinhança
 
-O primeiro grupo da vizinhança é **lotes**: cada um diz seu nome, seu tipo e quem mora nele (os prédios de apartamentos com seus inquilinos). Enter em um lote abre o painel do lote do jogo.
+O primeiro grupo da vizinhança é **lotes**: cada um diz seu nome, seu tipo, quem mora nele (os prédios de apartamentos com seus inquilinos) e seu tamanho ("40 por 30 quadrados"). Enter em um lote abre o painel do lote do jogo.
 
 Para mudar uma família, escolha-a na caixa de famílias (o painel de famílias) e pressione Enter em um lote: o jogo pergunta se deve mudá-la para lá e quanto custa.
 
@@ -82,6 +82,10 @@ Em um lote a tela é um anel de grupos como qualquer outra. Tab percorre os grup
 4. Os painéis do jogo: o painel de controle, o painel do Sim (necessidades, relacionamentos, emprego, habilidades, personalidade, interesses...), a família, os desejos e medos, e qualquer painel que você abrir.
 5. **ajuda do mod**.
 
+O painel do Sim diz a aspiração do Sim ("Aspiração: 24 por cento"); o painel de recompensas (Recompensas, depois Recompensas de aspiração) diz os pontos de aspiração para gastar.
+
+As opções do jogo (o botão Opções do painel de controle) são lidas da mesma forma: cada escolha diz sua configuração ("Sombras: Alta") e os controles deslizantes, como o volume da música, mudam com Seta para a esquerda e Seta para a direita ("Música, controle deslizante, 35 de 100"). As músicas de uma estação de rádio são um grupo próprio; Enter liga ou desliga uma música.
+
 A página do emprego diz o horário do Sim; Enter sobre ele acrescenta quando chega a carona. Para deixar um emprego, ligue para o trabalho pelo telefone. Cada habilidade diz o seu nível e, quando a próxima promoção pede mais, quanto: «Culinária, 2 de 10, a próxima promoção pede 4».
 
 ### Selecionar Sims e a câmera
@@ -94,7 +98,7 @@ A página do emprego diz o horário do Sim; Enter sobre ele acrescenta quando ch
 | Control+T | Diz cada nova hora do relógio («são 14:00»), ou deixa de dizer. Útil na velocidade máxima. |
 | Control+Shift+F | A câmera segue o Sim selecionado ou fica livre. |
 
-A câmera segue o Sim selecionado, porque os sons do jogo vêm do que está na tela.
+A câmera segue o Sim selecionado, porque os sons do jogo vêm do que está na tela. Quando o foco é mostrado na tela (Control+Shift+V), a câmera desliza até cada coisa que você percorre em vez de saltar.
 
 O zoom e a direção da câmera são ditos quando mudam (Z e X aproximam e afastam), e o painel de controle também os mostra: "câmera: vista próxima, 5 de 6, voltada para nordeste". A direção é para onde olha a parte de cima da tela.
 
@@ -115,7 +119,9 @@ Você não precisa ir até lá com Tab: as teclas Page percorrem os objetos de q
 | Control+F | Procurar algo: digite parte do nome ("tel" encontra o telefone, acentos não importam). Cima e Baixo percorrem os resultados, Enter age sobre ele, Control+Enter vai até lá, Delete remove uma porta ou janela, Escape volta para onde você estava. |
 | Delete | Em uma porta ou janela, no modo Comprar ou com a mão do modo Construir: pega e vende, com reembolso. |
 
-Depois dos Sims vem **problemas**: o que pede atenção, como coisas quebradas, coisas para limpar, poças, lixo, cinzas e fogo. Por último vem **portas, janelas e escadas**. Uma coisa a que nenhum Sim consegue chegar a partir da entrada do lote diz «nenhum Sim consegue chegar».
+Os Sims com um trabalho no lote dizem qual: "Ravi Pérez, carteiro", o garçom, o chef, o jardineiro, a empregada. A tigela de comida de um animal diz se tem comida. O táxi e outros carros junto à calçada estão entre os outros objetos enquanto esperam.
+
+Depois dos Sims vem **problemas**: o que pede atenção, como coisas quebradas, coisas para limpar, uma tigela de animal vazia, poças, lixo, cinzas e fogo. Por último vem **portas, janelas e escadas**. Uma coisa a que nenhum Sim consegue chegar a partir da entrada do lote diz «nenhum Sim consegue chegar».
 
 ### Menus de interações
 
@@ -149,7 +155,10 @@ Enter em um objeto (ou em um Sim) abre o menu de interações do jogo. Seta para
 O jogo mostra muitas coisas só como imagens. O mod as diz quando acontecem e as guarda no buffer de eventos:
 
 - **Os balões** sobre os Sims: "Carlos pensa: Energia", "Carlos diz: Política", um ícone riscado ("sem ..."), os gritos, e as manchetes de relacionamento ("o relacionamento melhora", "novo amigo", "primeiro beijo").
+- **O que falta a uma refeição**: "Carlos pensa: é preciso uma bancada" (um forno, um fogão, uma churrasqueira, um micro-ondas).
 - **Os trajetos**: "Carlos não consegue chegar lá".
+- **As visitas à porta**: "Elvira está à porta esperando ser cumprimentada"; cumprimente-a (o menu de interações dela) para deixá-la entrar.
+- **Os desejos e medos**: "Carlos realizou um desejo: Ir nadar, 500 pontos de aspiração", "Carlos: um medo se realizou: ...".
 - **As ações** da família, **as necessidades** que caem, **as visitas**, e o dinheiro pago ou recebido. Quando uma ação é interrompida e espera na fila, isso é dito: «Carlos parou Sentar por Pânico; espera na fila».
 - **Os móveis que saem do lote** (um ladrão, o oficial de justiça), com o seu valor.
 
@@ -175,7 +184,7 @@ Enter em um produto o pega. O mod encontra todos os lugares do lote onde ele cab
 | Control+Page Down, Control+Page Up | Os cômodos que têm lugares. |
 | Shift+Page Down, Shift+Page Up (ou vírgula, ponto) | Giram o objeto; a direção é dita. |
 | Control+Shift+Page Down, Page Up | Ao lado dos objetos do lote, os mais próximos primeiro, virado para eles quando cabe. |
-| Setas | Movem o objeto um quadrado em vez disso (Shift: cinco): se cabe, no que esbarra, o cômodo quando muda, as paredes em volta, sua direção e para o que está virado, o quadrado; depois os sons do quadrado. Paredes, cercas e janelas param-no; as portas deixam-no passar. |
+| Setas | Movem o objeto um quadrado em vez disso (Shift: cinco): se cabe, no que esbarra, o cômodo quando muda, as paredes em volta, sua direção e para o que está virado (também mais longe: "para Sofá, a 3 quadrados"), o quadrado; depois os sons do quadrado. Paredes, cercas e janelas param-no; as portas deixam-no passar. |
 | Alt+Setas | O mesmo, através das paredes. |
 | Home | Volta ao Sim selecionado. |
 | Enter | Compra ali; o jogo entrega outra cópia até você pressionar Esc. |
@@ -265,4 +274,4 @@ As configurações do mod ficam em `Sims2Access\Sims2Access.ini` na pasta do jog
 
 ## Ainda não feito
 
-Papel de parede, telhados desenhados e terreno no modo Construção; nomes para as cabeças, cabelos e roupas de Criar um Sim; as telas próprias das expansões (universidade, vida noturna, negócios, estações, férias, apartamentos, magia) por enquanto só são lidas pela navegação genérica.
+Papel de parede, telhados desenhados e terreno no modo Construção; os nomes das recompensas de aspiração; colocar no lote um objeto do inventário de um Sim; nomes para as cabeças, cabelos e roupas de Criar um Sim; as telas próprias das expansões (universidade, vida noturna, negócios, estações, férias, apartamentos, magia) por enquanto só são lidas pela navegação genérica.

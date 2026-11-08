@@ -78,8 +78,8 @@ Not everything fits in one spoken line. The mod keeps two buffers you can read l
 
 ## The neighborhood
 
-The neighborhood's first group is **lots**: each says its name, its kind and who lives there
-(apartments with their tenants). Enter on a lot opens the game's lot panel.
+The neighborhood's first group is **lots**: each says its name, its kind, who lives there
+(apartments with their tenants) and its size ("40 by 30 tiles"). Enter on a lot opens the game's lot panel.
 
 To move a family in, choose the family in the family bin (the families panel), then press Enter
 on a lot: the game asks whether to move them in and what it costs.
@@ -107,6 +107,10 @@ On a lot the screen is a ring of groups like any other. Tab goes through them in
    personality, interests...), the family, wants and fears, and any panel you open.
 5. **mod help**.
 
+The Sim panel says the Sim's aspiration ("Aspiration: 24 percent"); the rewards panel (Rewards, then Aspiration rewards) says the aspiration points to spend.
+
+The game's options (the control panel's Options button) are read the same way: each choice says its setting ("Shadows: High") and the sliders, such as the music volume, change with Left and Right ("Music, slider, 35 of 100"). A radio station's songs are a group of their own; Enter switches a song on or off.
+
 The job page says the Sim's hours; Enter on them adds when the carpool comes. To quit a job, call work on the phone. Each skill says its level and, when the next promotion needs more, how much: "Cooking, 2 of 10, the next promotion needs 4".
 
 ### Selecting Sims and the camera
@@ -119,7 +123,7 @@ The job page says the Sim's hours; Enter on them adds when the carpool comes. To
 | Control+T | Say each new hour of the clock ("it is 14:00"), or stop. Useful at the fastest speed. |
 | Control+Shift+F | The camera follows the selected Sim, or stays free. |
 
-The camera follows the selected Sim, because the game's sounds come from what is on screen.
+The camera follows the selected Sim, because the game's sounds come from what is on screen. When the focus is shown on screen (Control+Shift+V), the camera glides to each thing you browse rather than jumping.
 
 The zoom and the way the camera faces are said when they change (Z and X zoom), and the control panel has them too: "camera: close view, 5 of 6, facing north-east". The facing is what the top of the screen looks toward.
 
@@ -146,7 +150,9 @@ buy and build mode.
 | Control+F | Find a thing: type part of its name ("tel" finds the telephone, accents do not matter). Up and Down go through what matches, Enter acts on it, Control+Enter walks there, Delete removes a door or window, Escape goes back to where you were. |
 | Delete | On a door or window, in buy mode or with build mode's hand: picks it up and sells it, refunded. |
 
-After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, puddles, rubbish, ashes and fire. Last comes **doors, windows and stairs**. A thing no Sim can get to from the lot's entrance says "no Sim can reach it".
+Sims with a job on the lot say it: "Ravi Pérez, mail carrier", the waiter, the chef, the gardener, the maid. A pet's food bowl says whether it has food. The taxi and other cars at the curb are among the other things while they wait.
+
+After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, an empty pet bowl, puddles, rubbish, ashes and fire. Last comes **doors, windows and stairs**. A thing no Sim can get to from the lot's entrance says "no Sim can reach it".
 
 ### Interaction menus
 
@@ -187,7 +193,10 @@ the events buffer:
 - **Balloons** over Sims: "Carlos thinks: Energy", "Carlos says: Politics", a crossed-out icon
   ("no ..."), screams, and the relationship headlines ("the relationship improves", "new
   friend", "first kiss").
+- **What a meal lacks**: "Carlos thinks: a counter is needed" (an oven, a stove, a grill, a microwave).
 - **Routes**: "Carlos cannot get there".
+- **Visitors at the door**: "Elvira is at the door waiting to be greeted"; greet her (her interaction menu) to let her in.
+- **Wants and fears**: "Carlos fulfilled a want: Go swimming, 500 aspiration points", "Carlos: a fear came true: ...".
 - **Actions** of the family, **needs** falling low, **visitors**, and money paid or received. When an action is interrupted and waits in the queue, that is said: "Carlos stopped Sit for Panic; it waits in the queue".
 - **Furniture leaving the lot** (a burglar, the repo man), with its value.
 
@@ -217,7 +226,7 @@ direction, nearest to the selected Sim first.
 | Control+Page Down, Control+Page Up | The rooms that have spots. |
 | Shift+Page Down, Shift+Page Up (or comma, period) | Turn it; the facing is said. |
 | Control+Shift+Page Down, Page Up | Beside the lot's things, nearest first, facing them when it fits. |
-| Arrows | Move it one tile instead (Shift: five): whether it fits, what it runs into, the room when it changes, the walls around it, its facing and what it faces, the tile; then the tile's sounds. Walls, fences and windows stop it; doors let it through. |
+| Arrows | Move it one tile instead (Shift: five): whether it fits, what it runs into, the room when it changes, the walls around it, its facing and what it faces (further off too: "toward Sofa, 3 tiles away"), the tile; then the tile's sounds. Walls, fences and windows stop it; doors let it through. |
 | Alt+Arrows | The same, through walls. |
 | Home | Back to the selected Sim. |
 | Enter | Buy it there; the game hands you another copy until Escape. |
@@ -320,6 +329,6 @@ The keys that change them save them at once.
 
 ## Not done yet
 
-Wallpaper, drawn roofs and terrain in build mode; names for Create a Sim's heads, hair and
+Wallpaper, drawn roofs and terrain in build mode; the names of the aspiration rewards; putting an object from a Sim's inventory on the lot; names for Create a Sim's heads, hair and
 clothes; the expansions' own screens (university, nightlife, business, seasons, vacations,
 apartments, magic) are only read by the generic navigation so far.

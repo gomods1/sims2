@@ -82,8 +82,8 @@ czytać wiersz po wierszu:
 
 ## Okolica
 
-Pierwsza grupa okolicy to **parcele**: każda mówi swoją nazwę, rodzaj i kto na niej mieszka
-(bloki mieszkalne z lokatorami). Enter na parceli otwiera panel parceli gry.
+Pierwsza grupa okolicy to **parcele**: każda mówi swoją nazwę, rodzaj, kto na niej mieszka
+(bloki mieszkalne z lokatorami) i swój rozmiar („40 na 30 pól”). Enter na parceli otwiera panel parceli gry.
 
 Aby wprowadzić rodzinę, wybierz ją w pojemniku rodzin (panel rodzin), a potem naciśnij Enter na
 parceli: gra zapyta, czy ją wprowadzić i ile to kosztuje.
@@ -113,6 +113,10 @@ kolejności:
    zainteresowania...), rodzina, pragnienia i lęki oraz każdy panel, który otworzysz.
 5. **pomoc moda**.
 
+Panel Sima mówi aspirację Sima („Aspiracja: 24 procent”); panel nagród (Nagrody, potem Nagrody aspiracji) mówi, ile punktów aspiracji można wydać.
+
+Opcje gry (przycisk Opcje w panelu sterowania) są czytane tak samo: każdy wybór mówi swoje ustawienie („Cienie: Wysokie”), a suwaki, takie jak głośność muzyki, zmienia się strzałkami w lewo i w prawo („Muzyka, suwak, 35 z 100”). Utwory stacji radiowej są osobną grupą; Enter włącza lub wyłącza utwór.
+
 Strona pracy podaje godziny pracy Sima; Enter na nich dodaje, kiedy przyjeżdża wspólny transport. Aby rzucić pracę, zadzwoń do pracy przez telefon. Każda umiejętność mówi swój poziom i, gdy następny awans wymaga więcej, ile: „Gotowanie, 2 z 10, następny awans wymaga 4”.
 
 ### Wybieranie Simów i kamera
@@ -125,7 +129,7 @@ Strona pracy podaje godziny pracy Sima; Enter na nich dodaje, kiedy przyjeżdża
 | Control+T | Mówi każdą nową godzinę zegara („jest 14:00”) albo przestaje. Przydatne przy największej prędkości. |
 | Control+Shift+F | Kamera śledzi wybranego Sima albo jest swobodna. |
 
-Kamera śledzi wybranego Sima, bo dźwięki gry pochodzą z tego, co jest na ekranie.
+Kamera śledzi wybranego Sima, bo dźwięki gry pochodzą z tego, co jest na ekranie. Gdy fokus jest pokazywany na ekranie (Control+Shift+V), kamera płynnie przesuwa się do każdej przeglądanej rzeczy zamiast przeskakiwać.
 
 Przybliżenie i kierunek kamery są mówione, gdy się zmieniają (Z i X przybliżają), a panel sterowania też je podaje: „kamera: widok bliski, 5 z 6, w stronę północny wschód". Kierunek to strona, w którą patrzy górna krawędź ekranu.
 
@@ -153,7 +157,9 @@ trybie życia, kupowania i budowania.
 | Control+F | Znajdź coś: wpisz część nazwy („tel" znajdzie telefon, akcenty nie mają znaczenia). Góra i Dół przechodzą przez wyniki, Enter działa na nim, Control+Enter idzie tam, Delete usuwa drzwi lub okno, Escape wraca tam, gdzie byłeś. |
 | Delete | Na drzwiach lub oknie, w trybie kupowania lub ręką trybu budowania: podnosi je i sprzedaje ze zwrotem. |
 
-Po Simach są **problemy**: to, co wymaga uwagi, na przykład zepsute rzeczy, rzeczy do sprzątnięcia, kałuże, śmieci, popiół i ogień. Na końcu są **drzwi, okna i schody**. Rzecz, do której żaden Sim nie dojdzie od wejścia na parcelę, mówi „żaden Sim nie może do tego dojść”.
+Simowie, którzy mają pracę na parceli, mówią ją: „Ravi Pérez, listonosz”, kelner, szef kuchni, ogrodnik, pokojówka. Miska zwierzęcia mówi, czy jest w niej jedzenie. Taksówka i inne samochody przy krawężniku są wśród innych obiektów, dopóki czekają.
+
+Po Simach są **problemy**: to, co wymaga uwagi, na przykład zepsute rzeczy, rzeczy do sprzątnięcia, pusta miska zwierzęcia, kałuże, śmieci, popiół i ogień. Na końcu są **drzwi, okna i schody**. Rzecz, do której żaden Sim nie dojdzie od wejścia na parcelę, mówi „żaden Sim nie może do tego dojść”.
 
 ### Menu działań
 
@@ -193,7 +199,10 @@ zdarzeń:
 - **Dymki** nad Simami: "Carlos myśli: Energia", "Carlos mówi: Polityka", przekreślona ikona
   ("nie ..."), krzyki i nagłówki relacji ("relacja się poprawia", "nowy przyjaciel", "pierwszy
   pocałunek").
+- **Czego brakuje do posiłku**: „Carlos myśli: potrzebny jest blat” (piekarnik, kuchenka, grill, mikrofalówka).
 - **Trasy**: "Carlos nie może tam dojść".
+- **Goście przy drzwiach**: „Elvira stoi przy drzwiach i czeka na powitanie”; przywitaj ją (jej menu działań), aby ją wpuścić.
+- **Pragnienia i lęki**: „Carlos spełnił pragnienie: Idź popływać, 500 punktów aspiracji”, „Carlos: spełnił się lęk: ...”.
 - **Działania** rodziny, spadające **potrzeby**, **goście** oraz zapłacone lub otrzymane pieniądze. Gdy czynność zostaje przerwana i czeka w kolejce, jest to mówione: „Carlos przerwał Usiądź dla Panika; czeka w kolejce”.
 - **Meble znikające z parceli** (włamywacz, komornik), z ich wartością.
 
@@ -223,7 +232,7 @@ każdym kierunku, najpierw najbliższe wybranego Sima.
 | Control+Page Down, Control+Page Up | Pokoje, w których są miejsca. |
 | Shift+Page Down, Shift+Page Up (lub przecinek, kropka) | Obraca obiekt; kierunek jest mówiony. |
 | Control+Shift+Page Down, Page Up | Obok obiektów na parceli, najpierw najbliższych, zwrócony w ich stronę, gdy się mieści. |
-| Strzałki | Zamiast tego przesuwa obiekt o jedno pole (Shift: o pięć): czy się mieści, z czym się zderza, pokój, gdy się zmienia, ściany wokół niego, w którą stronę jest zwrócony i co ma przed sobą, pole; potem dźwięki pola. Ściany, płoty i okna go zatrzymują; drzwi go przepuszczają. |
+| Strzałki | Zamiast tego przesuwa obiekt o jedno pole (Shift: o pięć): czy się mieści, z czym się zderza, pokój, gdy się zmienia, ściany wokół niego, w którą stronę jest zwrócony i co ma przed sobą (także dalej: „w stronę: Sofa, 3 pola dalej”), pole; potem dźwięki pola. Ściany, płoty i okna go zatrzymują; drzwi go przepuszczają. |
 | Alt+Strzałki | To samo, przez ściany. |
 | Home | Wraca do wybranego Sima. |
 | Enter | Kupuje go tam; gra daje kolejny egzemplarz aż do Escape. |
@@ -327,6 +336,6 @@ Klawisze, które je zmieniają, od razu je zapisują.
 
 ## Jeszcze nie gotowe
 
-Tapety, rysowane dachy i teren w trybie budowania; nazwy głów, fryzur i ubrań w Stwórz Sima;
+Tapety, rysowane dachy i teren w trybie budowania; nazwy nagród aspiracji; stawianie na parceli obiektu z ekwipunku Sima; nazwy głów, fryzur i ubrań w Stwórz Sima;
 własne ekrany dodatków (studia, nocne życie, biznes, pory roku, wakacje, mieszkania, magia) są na
 razie odczytywane tylko przez ogólną nawigację.

@@ -103,10 +103,13 @@ bool Fill(Ptr o, int id, LotObject* out) {
 }
 
 // The lead part of a multi-tile object's part (the part itself for the lead), 0 when o is no part.
+// A lead placed since the lot loaded keeps 0 in its own +0x2f4 (its parts point at it; the game
+// fills it in when the lot loads again): a tester's new bed was missing from every list until he
+// left the lot (read live 2026-11-08: a bought bed's lead 425 held 0, its parts 464 and 465 it).
 Ptr LeadOf(Ptr o) {
     if (!IsKindOf(o, "cEdithMTObject")) return 0;
     Ptr lead = Rd<Ptr>(o + addr::object::kLeadPart);
-    return lead ? lead - addr::object::kLeadInterface : 0;
+    return lead ? lead - addr::object::kLeadInterface : o;
 }
 
 }  // namespace
@@ -437,6 +440,30 @@ int OutfitFlagOf(int outfit) {
 
 }  // namespace
 
+bool ObjectAttribute(int objectId, int index, int* value, bool semi) {
+    Ptr o = ObjectById(objectId);
+    if (!o) return false;
+    int count = Rd<int16_t>(o + (semi ? addr::object::kSemiAttributeCount : addr::object::kAttributeCount));
+    Ptr values = Rd<Ptr>(o + (semi ? addr::object::kSemiAttributes : addr::object::kAttributes));
+    if (index < 0 || index >= count || !values) return false;
+    *value = Rd<int16_t>(values + 2 * index);
+    return true;
+}
+
+bool PersonDatum(int objectId, int index, int* value) {
+    LotObject o;
+    if (!ReadLotObject(objectId, &o) || !o.person) return false;
+    Ptr iface = o.ptr + addr::person::kInterface;
+    if (!IsKindOf(iface, "cTSPerson")) return false;
+    typedef short(__thiscall * DataFn)(Ptr, int, int);
+    auto fn = Slot<DataFn>(iface, addr::person::kSlotPersonData);
+    if (!fn) return false;
+    short v = 0;
+    if (!Guarded([&] { v = fn(iface, index, 1); })) return false;
+    *value = v;
+    return true;
+}
+
 bool SimLook(int objectId, SimLooks* out) {
     LotObject o;
     if (!ReadLotObject(objectId, &o) || !o.person) return false;
@@ -676,7 +703,7 @@ bool CameraView(int* zoom, int* steps, int* compass) {
     return true;
 }
 
-bool ShowInteractions(int objectId) {
+bool PostGameMessage(uint32_t type, uint32_t data1) {
     typedef void*(__cdecl * AllocFn)(size_t);
     typedef Ptr(__thiscall * CtorFn)(Ptr);
     auto alloc = (AllocFn)Va(addr::message::kAlloc);
@@ -688,16 +715,22 @@ bool ShowInteractions(int objectId) {
     typedef bool(__thiscall * SetFn)(Ptr, uint32_t);
     ok = ok && Guarded([&] {
         Slot<RefFn>(msg, 1)(msg);  // AddRef
-        Slot<SetFn>(msg, addr::message::kSlotSetType)(msg, addr::message::kShowPieMenu);
-        Slot<SetFn>(msg, addr::message::kSlotSetData1)(msg, (uint32_t)objectId);
+        Slot<SetFn>(msg, addr::message::kSlotSetType)(msg, type);
+        Slot<SetFn>(msg, addr::message::kSlotSetData1)(msg, data1);
     });
     Ptr server = Rd<Ptr>(Va(addr::message::kServer));
     typedef bool(__thiscall * PostFn)(Ptr, Ptr, uint32_t);
     bool posted = false;
     if (ok && server) ok = Guarded([&] { posted = Slot<PostFn>(server, addr::message::kSlotPost)(server, msg, 0); });
     Guarded([&] { Slot<RefFn>(msg, 2)(msg); });  // Release: the server holds its own reference
-    Log("interaction menu for object %d: %s", objectId, ok ? (posted ? "posted" : "refused") : "crashed");
+    LogVerbose("message %08x (%u): %s", type, data1, ok ? (posted ? "posted" : "refused") : "crashed");
     return ok && posted;
+}
+
+bool ShowInteractions(int objectId) {
+    bool posted = PostGameMessage(addr::message::kShowPieMenu, (uint32_t)objectId);
+    Log("interaction menu for object %d: %s", objectId, posted ? "posted" : "not posted");
+    return posted;
 }
 
 }  // namespace game

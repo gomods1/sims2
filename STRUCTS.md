@@ -212,6 +212,44 @@ subclass used for labels showing a value (tooltip names it).
 - Stairs: objects whose internal name starts "Stair" ("Stair Modular - Deck - Hi Cutout"; types
   4 and 11 both occur).
 
+## People, NPC roles, aspiration, attributes (2026-11-08)
+
+- Person data (Lua PersonData table, ObjectScripts 0xFF10C589, its index/name pairs dumped to
+  `re/persondata.txt`): 32 person type (0 family, 1 visitor, 2 the mail carrier read live), 34 greet
+  status (0 not greeted: a visitor knocks, "CT - Knock on Door", and waits, "Controller - Visitor"
+  0x7f92c86e "CT - Wait to be Greeted"; 1 greeted, set by "Social - Greet" and "Start Visiting"; 2
+  leaving, goodbye/shoo), 155 NPC type, 160 aspiration score (-100..100, the live panel's
+  "aspiration bar" gradient, read -44 = 28%), 161 named "Reward Points Spent (/10)" but the points
+  the rewards panel shows (1010 = "10.100"), 162 raw score /10.
+- NPC types: the global BCON 0x132 "NPC Types" (77 entries, index -> type); behaviors compare
+  person data 155 with constant data `0x4000 | 0x32 << 7 | index` (no labels shipped). Confirmed by
+  the debug NPC generator (group 0x7fb55274: BCON 0x1002 "Create - NPC Type" 19, 16, 11, 4, 31, 9,
+  5, 30, 2, 10, 12, 13, 20, 22, 23, 26, 21, 29 in threes, its STR# 0x12d "Maid, Handyman,
+  Exterminator, Burglar, Ambulance Driver, Cop, Bus Driver, Social Worker, Bartender, Delivery
+  Person, Firefighter, Gardener, Mail Carrier, Paper Delivery Person, Pizza Person, Repoman,
+  Nanny, Register Clerk"; BCON 0x1008 36, 34, 37, 35, 18 = Chef, Host, DJ, Server, Gypsy) and by
+  the type each "NPC - Template - <role> Function - Init" checks (1 bar bartender, 6 streaker, 14
+  barista, 15 Grim Reaper, 24 professor, 33 Chinese delivery, 41 reporter, 42 stylist, 46 animal
+  control, 47 obedience trainer, 48 masseuse, 49 bellhop, 50 pickpocket ("Villain"), 51 tour guide,
+  55 hotel housekeeper, 56/70 food stand chef, 57 fire dancer, 58 witch doctor, 60 food judge, 64
+  witch, 65 breakdancer, 68 landlord, 69 butler). Read live: the mail carrier 20, the taxi driver 5.
+  Not named (one weak use only): 8 (cafeteria duty), 27/28 (cheerleader watch).
+- Object attributes: int16 array at +0x88 (count int16 +0x8c; Lua GetObjectAttribute 0xa0573b60 ->
+  slot 15 0xa052f0b0); semi attributes (named by the semi-global's STR# 0x100) at +0x90 (count
+  +0x94; GetObjectSemiAttribute 0xa0573e60 -> slot 17 0xa0530a20). Pet food dishes ("Pet Food
+  Dish...", PetFoodDishGlobals): semi attribute 0 food units (0, then 200 once filled), 2 dirty.
+- Cars at the curb: the taxi is "Car - Prototype - 0,5" with catalog name "*Car - Service - Taxi
+  (was Car -Prototype)" (an internal name), on the lot's street edge while its driver waits.
+- Wants and fears panel (cTSWinProcPanelWantsAndFears): one button per want or fear, tooltip
+  "Title|+500 Aspiraciones" (fears "-3.500"). The aspiration rewards panel
+  (cTSWinProcAspirationRewardsCatalog) keeps its rewards elsewhere: each
+  cTSWinProcAspirationRewardThumbnail (0x28 bytes) holds only its window, button and bitmap, the
+  price as the overlay button's tooltip (names not found yet).
+- The options panels: sliders are `cGZWinScrollbar2` (game/addresses.h `scrollbar`), the radio
+  choices plain buttons under a heading (a text or a word-like button: "Sombras"). The sound
+  panel (cTSWinProcOptionsPanelSound) saves the volumes to `Config/userProps.xml` (MusicVolume...)
+  when the game quits.
+
 ## Multi-tile objects (verified 2026-11-01)
 
 A multi-tile object (a table, a sofa, a 2-tile window, a door) is only its parts, `cEdithMTObject`
@@ -220,7 +258,9 @@ points at the lead part's interface at +0x2f0 (the lead is the "- 0,0" part), +0
 parts. The part's OBJD is the part's own (GUID with an internal "*..." catalog name, no categories);
 the whole object's is its selector's master's: object +0x240 `cTSObjectSelector` -> +0x68 master
 selector -> +0x60 OBJD (GUID, price, categories, room flags). OBJD +0x1a is the part's sub index
-(column << 8 | row; row 0 stands in front of a door's or window's wall).
+(column << 8 | row; row 0 stands in front of a door's or window's wall). A lead placed since the
+lot loaded holds 0 in its own +0x2f4 (its parts point at it) until the lot loads again (read live
+2026-11-08: a bought bed's lead 425 held 0, its parts 464 and 465 pointed at it).
 
 ## Buy mode
 
@@ -344,6 +384,16 @@ selector -> +0x60 OBJD (GUID, price, categories, room flags). OBJD +0x1a is the 
   - +0x10 scope, +0x11 data: the icon variable (the cell, or the neighbor id); +0x13 the sheet:
     entry +0x13 + 1 of STR# 0x95 ("Balloon Icon Texture Names") of the running tree's group,
     else the global one.
+- The sheet's name (0xa0581a11): the thread's +0x40 slot 24 is the object folder; its slot 14
+  with the tree's key (the behavior's slot 38, +0x20: the GUID of the object the tree belongs to)
+  gives that object's cTSObjectSelector; its slot 18 (+0x18) holds its groups (+0xc global, +0x14
+  semi-global, +0x1c own; slot 11 reads the own), slot 70 (+0x10) the semi-global's file reference
+  (slot 11: +4, the group). STR# 0x95 entry sheet + 1 is looked up in the own group, then the
+  semi-global's, then the global one. The game calls slot 11 with (1, 0x2026960b), which it ignores
+  (a plain getter). The food objects' semi-global (0x7f3c9675, Food_Globals) holds
+  `conversation-foodchainicons` at sheet 0: oven, stove top, grill, counter, toaster oven,
+  microwave, each with an exclamation mark (what a meal lacks); read through the global table it
+  was the needs sheet (counter = cell 3 = hygiene).
 - Sheets (textures `uieffects-headlines-<name>_txtr` in `Sims3D\Objects06.package`, their big
   mips as LIFO resources in `Objects07-09`; `tools/sims2_texture.py` saves one as PNG): cells of
   64 px in a 1024x64 strip. `motives-thought-02` / `motives-scream-02`: 1 energy, 2 bladder,

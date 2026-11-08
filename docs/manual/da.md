@@ -58,7 +58,7 @@ Ikke alt kan være i én talt linje. Modden har to buffere, som du kan læse lin
 
 ## Nabolaget
 
-Nabolagets første gruppe er **grunde**: hver siger sit navn, sin slags og hvem der bor der (lejligheder med deres lejere). Enter på en grund åbner spillets grundpanel.
+Nabolagets første gruppe er **grunde**: hver siger sit navn, sin slags, hvem der bor der (lejligheder med deres lejere) og sin størrelse ("40 gange 30 felter"). Enter på en grund åbner spillets grundpanel.
 
 For at flytte en familie ind skal du vælge familien i familiebeholderen (familiepanelet) og derefter trykke Enter på en grund: spillet spørger, om de skal flytte ind, og hvad det koster.
 
@@ -82,6 +82,10 @@ På en grund er skærmen en ring af grupper som enhver anden. Tab går gennem de
 4. Spillets paneler: kontrolpanelet, Sim-panelet (behov, forhold, job, færdigheder, personlighed, interesser...), familien, ønsker og frygt, og ethvert panel du åbner.
 5. **hjælp til modden**.
 
+Sim-panelet siger simmens stræben ("Stræben: 24 procent"); belønningspanelet (Belønninger, så Stræberbelønninger) siger de stræberpoint, der kan bruges.
+
+Spillets indstillinger (knappen Indstillinger på kontrolpanelet) læses på samme måde: hvert valg siger sin indstilling ("Skygger: Høj"), og skyderne, som musikkens lydstyrke, ændres med Venstre pil og Højre pil ("Musik, skyder, 35 af 100"). En radiostations sange er en gruppe for sig; Enter slår en sang til eller fra.
+
 Jobsiden siger simmens arbejdstider; Enter på dem tilføjer, hvornår samkørslen kommer. For at sige et job op, ring til arbejdet på telefonen. Hver færdighed siger sit niveau og, når den næste forfremmelse kræver mere, hvor meget: "Madlavning, 2 af 10, den næste forfremmelse kræver 4".
 
 ### Vælg Sims og kameraet
@@ -94,7 +98,7 @@ Jobsiden siger simmens arbejdstider; Enter på dem tilføjer, hvornår samkørsl
 | Ctrl+T | Siger hver ny time på uret ("klokken er 14:00"), eller holder op. Nyttigt ved højeste hastighed. |
 | Ctrl+Skift+F | Kameraet følger den valgte Sim, eller forbliver frit. |
 
-Kameraet følger den valgte Sim, fordi spillets lyde kommer fra det, der er på skærmen.
+Kameraet følger den valgte Sim, fordi spillets lyde kommer fra det, der er på skærmen. Når fokus vises på skærmen (Ctrl+Skift+V), glider kameraet hen til hver ting, du går igennem, i stedet for at springe.
 
 Zoom og kameraets retning siges, når de ændrer sig (Z og X zoomer), og kontrolpanelet har dem også: "kamera: tæt på, 5 af 6, mod nordøst". Retningen er den, skærmens top kigger mod.
 
@@ -115,7 +119,9 @@ Du behøver ikke at gå derhen med Tab: Page-tasterne går gennem genstandene fr
 | Ctrl+F | Find en ting: skriv en del af navnet ("tel" finder telefonen, accenter er ligegyldige). Op og Ned går gennem resultaterne, Enter handler på den, Ctrl+Enter går derhen, Delete fjerner en dør eller et vindue, Escape går tilbage, hvor du var. |
 | Delete | På en dør eller et vindue, i købstilstand eller med byggetilstandens hånd: samler den op og sælger den med refusion. |
 
-Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, såsom ødelagte ting, ting der skal rengøres, vandpytter, affald, aske og ild. Til sidst kommer **døre, vinduer og trapper**. En ting som ingen Sim kan nå fra grundens indgang siger "ingen Sim kan nå den".
+Sims med et job på grunden siger det: "Ravi Pérez, postbud", tjeneren, kokken, gartneren, rengøringshjælpen. Et kæledyrs madskål siger, om der er mad i den. Taxaen og andre biler ved kantstenen er blandt andet, mens de venter.
+
+Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, såsom ødelagte ting, ting der skal rengøres, en tom madskål, vandpytter, affald, aske og ild. Til sidst kommer **døre, vinduer og trapper**. En ting som ingen Sim kan nå fra grundens indgang siger "ingen Sim kan nå den".
 
 ### Handlingsmenuer
 
@@ -149,7 +155,10 @@ Enter på en genstand (eller på en Sim) åbner spillets handlingsmenu. Pil op o
 Spillet viser mange ting kun som billeder. Modden siger dem, når de sker, og gemmer dem i hændelsesbufferen:
 
 - **Bobler** over Sims: "Carlos tænker: Energi", "Carlos siger: Politik", et overstreget ikon ("ingen ..."), skrig og overskrifterne om forhold ("forholdet bliver bedre", "ny ven", "første kys").
+- **Hvad et måltid mangler**: "Carlos tænker: der mangler et køkkenbord" (en ovn, et komfur, en grill, en mikroovn).
 - **Ruter**: "Carlos kan ikke komme derhen".
+- **Besøgende ved døren**: "Elvira står ved døren og venter på at blive hilst på"; hils på hende (hendes handlingsmenu) for at lukke hende ind.
+- **Ønsker og bekymringer**: "Carlos opfyldte et ønske: Tag ud at svømme, 500 stræberpoint", "Carlos: en bekymring gik i opfyldelse: ...".
 - Familiens **handlinger**, **behov** der bliver lave, **besøgende** og penge, der betales eller modtages. Når en handling afbrydes og venter i køen, siges det: "Carlos stoppede Sæt dig for Panik; den venter i køen".
 - **Møbler der forlader grunden** (en indbrudstyv, fogeden), med deres værdi.
 
@@ -175,7 +184,7 @@ Enter på et produkt samler det op. Modden finder hver plads på grunden, hvor d
 | Ctrl+Page Down, Ctrl+Page Up | De værelser, der har pladser. |
 | Skift+Page Down, Skift+Page Up (eller komma, punktum) | Drejer den; retningen siges. |
 | Ctrl+Skift+Page Down, Page Up | Ved siden af grundens genstande, de nærmeste først, vendt mod dem når det kan lade sig gøre. |
-| Piletaster | Flytter den i stedet ét felt (Skift: fem): om den kan stå der, hvad den støder mod, værelset når det skifter, væggene omkring den, hvilken vej den vender og hvad den vender mod, feltet; derefter feltets lyde. Vægge, hegn og vinduer stopper den; døre lader den komme igennem. |
+| Piletaster | Flytter den i stedet ét felt (Skift: fem): om den kan stå der, hvad den støder mod, værelset når det skifter, væggene omkring den, hvilken vej den vender og hvad den vender mod (også længere væk: "mod Sofa, 3 felter væk"), feltet; derefter feltets lyde. Vægge, hegn og vinduer stopper den; døre lader den komme igennem. |
 | Alt+Piletaster | Det samme, gennem vægge. |
 | Home | Tilbage til den valgte Sim. |
 | Enter | Køber den der; spillet giver dig et nyt eksemplar, indtil du trykker Escape. |
@@ -265,4 +274,4 @@ Moddens indstillinger ligger i `Sims2Access\Sims2Access.ini` i spillets mappe, a
 
 ## Ikke færdigt endnu
 
-Tapet, tegnede tage og terræn i byggetilstand; navne på hoveder, frisurer og tøj i Lav en simmer; udvidelsernes egne skærme (universitet, natteliv, forretning, årstider, ferie, lejligheder, magi) læses indtil videre kun af den generelle navigation.
+Tapet, tegnede tage og terræn i byggetilstand; navnene på stræberbelønningerne; at stille en genstand fra en sims inventar på grunden; navne på hoveder, frisurer og tøj i Lav en simmer; udvidelsernes egne skærme (universitet, natteliv, forretning, årstider, ferie, lejligheder, magi) læses indtil videre kun af den generelle navigation.

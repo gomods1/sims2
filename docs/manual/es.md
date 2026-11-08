@@ -58,7 +58,7 @@ No todo cabe en una frase. El mod guarda dos búferes que puedes leer línea a l
 
 ## El barrio
 
-El primer grupo del barrio es **solares**: cada uno dice su nombre, su tipo y quién vive en él (los edificios de apartamentos, con sus inquilinos). Intro sobre un solar abre el panel del solar del juego.
+El primer grupo del barrio es **solares**: cada uno dice su nombre, su tipo, quién vive en él (los edificios de apartamentos, con sus inquilinos) y su tamaño («40 por 30 casillas»). Intro sobre un solar abre el panel del solar del juego.
 
 Para mudar una familia, elígela en el contenedor de familias (el panel de familias) y pulsa Intro sobre un solar: el juego pregunta si quieres mudarla y cuánto cuesta.
 
@@ -82,6 +82,10 @@ En un solar, la pantalla es un anillo de grupos como cualquier otra. Tab los rec
 4. Los paneles del juego: el panel de control, el panel del Sim (necesidades, relaciones, empleo, habilidades, personalidad, intereses...), la familia, los deseos y miedos, y cualquier panel que abras.
 5. **ayuda del mod**.
 
+El panel del Sim dice la aspiración del Sim («Aspiración: 24 por ciento»); el panel de recompensas (Recompensas, luego Recompensas por aspiraciones) dice los puntos de aspiración que puedes gastar.
+
+Las opciones del juego (el botón Opciones del panel de control) se leen igual: cada opción dice su valor («Sombras: Alto») y los controles deslizantes, como el volumen de la música, cambian con Izquierda y Derecha («Música, control deslizante, 35 de 100»). Las canciones de una emisora de radio son un grupo aparte; Intro activa o desactiva una canción.
+
 La página del empleo dice el horario del Sim; Intro sobre él añade cuándo llega el coche compartido. Para dejar un empleo, llama al trabajo por teléfono. Cada habilidad dice su nivel y, cuando el próximo ascenso pide más, cuánto: «Cocina, 2 de 10, el próximo ascenso pide 4».
 
 ### Seleccionar Sims y la cámara
@@ -94,7 +98,7 @@ La página del empleo dice el horario del Sim; Intro sobre él añade cuándo ll
 | Control+T | Dice cada hora nueva del reloj («son las 14:00»), o deja de hacerlo. Útil a la velocidad máxima. |
 | Control+Mayúsculas+F | La cámara sigue al Sim seleccionado, o queda libre. |
 
-La cámara sigue al Sim seleccionado porque los sonidos del juego salen de lo que hay en pantalla.
+La cámara sigue al Sim seleccionado porque los sonidos del juego salen de lo que hay en pantalla. Cuando el foco se muestra en pantalla (Control+Mayúsculas+V), la cámara se desliza hasta cada cosa que recorres en lugar de saltar.
 
 El zoom y hacia dónde mira la cámara se dicen cuando cambian (Z y X acercan y alejan), y el panel de control también los tiene: "cámara: vista cercana, 5 de 6, mirando al noreste". Hacia dónde mira es hacia dónde da la parte de arriba de la pantalla.
 
@@ -115,7 +119,9 @@ No hace falta ir hasta allí con Tab: las teclas de página recorren los objetos
 | Control+F | Buscar algo: escribe parte de su nombre ("tel" encuentra el teléfono, los acentos no importan). Arriba y Abajo recorren lo que coincide, Intro actúa sobre ello, Control+Intro va hasta allí, Supr quita una puerta o ventana, Escape vuelve a donde estabas. |
 | Supr | Sobre una puerta o ventana, en modo Comprar o con la mano del modo Construir: la coge y la vende, con su reembolso. |
 
-Después de los Sims viene **problemas**: lo que pide atención, como cosas rotas, cosas por limpiar, charcos, basura, cenizas y fuego. Al final viene **puertas, ventanas y escaleras**. Una cosa a la que ningún Sim puede llegar desde la entrada del solar dice «ningún Sim puede llegar».
+Los Sims con un trabajo en el solar lo dicen: «Ravi Pérez, cartero», el camarero, el cocinero, el jardinero, la asistenta. El comedero de una mascota dice si tiene comida. El taxi y los demás coches junto a la acera están entre los otros objetos mientras esperan.
+
+Después de los Sims viene **problemas**: lo que pide atención, como cosas rotas, cosas por limpiar, un comedero de mascota vacío, charcos, basura, cenizas y fuego. Al final viene **puertas, ventanas y escaleras**. Una cosa a la que ningún Sim puede llegar desde la entrada del solar dice «ningún Sim puede llegar».
 
 ### Menús de interacciones
 
@@ -149,7 +155,10 @@ Intro sobre un objeto (o sobre un Sim) abre el menú de interacciones del juego.
 El juego muestra muchas cosas solo con imágenes. El mod las dice cuando pasan y las guarda en el búfer de eventos:
 
 - **Los globos** sobre los Sims: «Carlos piensa: Energía», «Carlos dice: Política», un icono tachado («no ...»), los gritos y los titulares de las relaciones («la relación mejora», «nuevo amigo», «primer beso»).
+- **Lo que le falta a una comida**: «Carlos piensa: falta una encimera» (un horno, una cocina, una parrilla, un microondas).
 - **Los caminos**: «Carlos no puede llegar».
+- **Las visitas en la puerta**: «Elvira está en la puerta esperando que lo saluden»; salúdala (su menú de interacciones) para dejarla entrar.
+- **Deseos y miedos**: «Carlos cumplió un deseo: Ir a nadar, 500 puntos de aspiración», «Carlos: se cumplió un miedo: ...».
 - **Las acciones** de la familia, **las necesidades** que bajan, **las visitas** y el dinero pagado o recibido. Cuando una acción se interrumpe y espera en la cola, se dice: «Carlos dejó Sentarse por Pánico; espera en la cola».
 - **Los muebles que salen del solar** (un ladrón, el embargador), con su valor.
 
@@ -175,7 +184,7 @@ Intro sobre un producto lo recoge. El mod encuentra todos los sitios del solar d
 | Control+Avance de página, Control+Retroceso de página | Las habitaciones que tienen sitios. |
 | Mayúsculas+Avance de página, Mayúsculas+Retroceso de página (o coma, punto) | Lo giran; se dice la orientación. |
 | Control+Mayúsculas+Avance de página, Retroceso de página | Junto a los objetos del solar, los más cercanos primero, mirando hacia ellos cuando cabe. |
-| Flechas | Lo mueven una casilla en su lugar (Mayúsculas: cinco): si cabe, con qué choca, la habitación cuando cambia, las paredes de alrededor, su orientación y hacia qué mira, la casilla; luego los sonidos de la casilla. Las paredes, vallas y ventanas lo detienen; las puertas lo dejan pasar. |
+| Flechas | Lo mueven una casilla en su lugar (Mayúsculas: cinco): si cabe, con qué choca, la habitación cuando cambia, las paredes de alrededor, su orientación y hacia qué mira (también más lejos: «hacia Sofá, a 3 casillas»), la casilla; luego los sonidos de la casilla. Las paredes, vallas y ventanas lo detienen; las puertas lo dejan pasar. |
 | Alt+Flechas | Lo mismo, atravesando paredes. |
 | Inicio | Vuelve al Sim seleccionado. |
 | Intro | Lo compra ahí; el juego te da otra copia hasta que pulses Escape. |
@@ -265,4 +274,4 @@ Los ajustes del mod están en `Sims2Access\Sims2Access.ini` en la carpeta del ju
 
 ## Aún sin hacer
 
-El papel pintado, los tejados dibujados a mano y el terreno en el modo Construir; los nombres de las cabezas, peinados y ropa de Crear un Sim; las pantallas propias de las expansiones (universidad, vida nocturna, negocios, estaciones, vacaciones, apartamentos, magia) por ahora solo las lee la navegación genérica.
+El papel pintado, los tejados dibujados a mano y el terreno en el modo Construir; los nombres de las recompensas por aspiraciones; poner en el solar un objeto del inventario de un Sim; los nombres de las cabezas, peinados y ropa de Crear un Sim; las pantallas propias de las expansiones (universidad, vida nocturna, negocios, estaciones, vacaciones, apartamentos, magia) por ahora solo las lee la navegación genérica.

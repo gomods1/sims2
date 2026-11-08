@@ -20,6 +20,9 @@ struct Balloon {
     int iconThing = 0;          // the icon is a thumbnail of this lot object (object id)...
     uint32_t iconGuid = 0;      // ...or of this object definition
     uint32_t group = 0;         // the running tree's resource group (its own string tables)
+    // Where the game looks a sheet's name up (0xa0581a11): the tree's object file's own group,
+    // then its semi-global's, then the global one. 0 when not read (no sheet, or a call failed).
+    uint32_t sheetGroup = 0, semiGroup = 0;
     int runner = 0;             // the object running the tree (its id: My data 11)
     int stackObject = 0;        // the tree's stack object (the other Sim of a social), 0 none
     uint8_t operands[24] = {};  // the instruction object: a vtable, then the operands

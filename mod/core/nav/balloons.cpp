@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include <algorithm>
+#include <cctype>
 #include <map>
 #include <string>
 #include <vector>
@@ -26,12 +27,26 @@ constexpr unsigned kInterestNames = 0x8c;  // Live.package: the interests (conve
 constexpr unsigned kHobbyNames = 0xf2;     // Live.package: the hobbies (Free Time)
 constexpr unsigned kAspirationNames = 0x8b;  // CAS.package: the aspirations
 
+// A sheet's texture name, looked up as the game does: the tree's object file's own STR# 0x95, then
+// its semi-global's, then the global one (the tree's group when the hook could not read the files).
+// Lower case.
+std::string SheetName(const game::Balloon& b) {
+    if (b.sheet < 0) return "";
+    uint32_t groups[] = {b.sheetGroup ? b.sheetGroup : b.group, b.semiGroup, kGlobalGroup};
+    std::string name;
+    for (uint32_t g : groups) {
+        if (!g) continue;
+        name = game::ObjectString(g, kSheetNames, b.sheet, true);
+        if (!name.empty() && name != "-") break;
+    }
+    for (char& c : name)
+        if (c >= 'A' && c <= 'Z') c = (char)(c - 'A' + 'a');
+    return name;
+}
+
 // A route failure: the misc sheet's crossed-out footsteps (the global "Route Failure Feedback").
-bool IsRouteFailure(uint32_t group, int sheet, int cell) {
-    if (cell != 8) return false;
-    std::string name = game::ObjectString(group, 0x95, sheet, true);
-    if (name.empty() || name == "-") name = game::ObjectString(0x7fd46cd0, 0x95, sheet, true);
-    return name.find("misc01") != std::string::npos;
+bool IsRouteFailure(const std::string& sheet, int cell) {
+    return cell == 8 && sheet.find("misc01") != std::string::npos;
 }
 
 // The global effects (STR# 0x8f of the global group, by index) the narrator knows.
@@ -111,18 +126,16 @@ const Effect* FindEffect(int index) {
 // (STR# 130: 1 hunger, 3 energy, 5 comfort, 7 fun, 9 hygiene, 11 social, 13 bladder, 15 environment.)
 const int kNeedCells[] = {-1, 3, 13, 9, 15, 7, 5, 1, 11, 1};
 
-std::string Lower(std::string s) {
-    for (char& c : s)
-        if (c >= 'A' && c <= 'Z') c = (char)(c - 'A' + 'a');
-    return s;
-}
-
 // What a sheet's cell pictures, in the game's words; empty when the mod does not know it.
-std::string IconName(uint32_t group, int sheet, int cell) {
-    // The tree's own sheet names first, then the global ones (as the game looks them up).
-    std::string name = game::ObjectString(group, kSheetNames, sheet, true);
-    if (name.empty() || name == "-") name = game::ObjectString(kGlobalGroup, kSheetNames, sheet, true);
-    name = Lower(name);
+// name: the sheet's texture name (SheetName).
+std::string IconName(const std::string& name, int cell) {
+    // The food objects' sheet (their semi-global's): what a meal lacks, with an exclamation mark
+    // (a Sim told to cook without a counter thinks of one).
+    if (name.find("foodchainicons") != std::string::npos) {
+        static const Str kFood[] = {Str::IconNeedOven, Str::IconNeedStove, Str::IconNeedGrill,
+                                    Str::IconNeedCounter, Str::IconNeedToasterOven, Str::IconNeedMicrowave};
+        return cell >= 0 && cell < 6 ? S(kFood[cell]) : "";
+    }
     if (name.find("motives-thought") != std::string::npos || name.find("motives-scream") != std::string::npos) {
         if (cell >= 1 && cell < (int)(sizeof kNeedCells / sizeof kNeedCells[0]))
             return game::GameString("Live.package", kNeedNames, kNeedCells[cell]);
@@ -189,6 +202,24 @@ std::string IconName(uint32_t group, int sheet, int cell) {
     return "";
 }
 
+// A memory's or a want's name keeps the game's tokens ("$Subject se casa"): the balloon does not say
+// who, so "$Subject" is "someone" and other tokens go.
+std::string FillTokens(std::string s) {
+    for (size_t at = s.find('$'); at != std::string::npos; at = s.find('$', at)) {
+        size_t end = at + 1;
+        while (end < s.size() && (isalnum((unsigned char)s[end]) || s[end] == ':' || s[end] == '_')) end++;
+        std::string token = s.substr(at + 1, end - at - 1);
+        std::string with = token.rfind("Subject", 0) == 0 ? S(Str::BalloonSomeone) : "";
+        s.replace(at, end - at, with);
+        at += with.size();
+    }
+    std::string out;
+    for (char c : s)
+        if (c != ' ' || (!out.empty() && out.back() != ' ')) out += c;
+    while (!out.empty() && out.back() == ' ') out.pop_back();
+    return out;
+}
+
 std::map<std::string, ULONGLONG> g_said;  // "object|line" -> when it was said
 
 bool InFamily(const std::vector<int>& family, int id) {
@@ -232,18 +263,19 @@ void Tick() {
     for (int i = 0; i < n; i++) {
         const game::Balloon& b = got[i];
         if (b.mode != 0 && b.mode != 0xf) continue;  // starts only: 2-4 stop effects, 1 and 3 refresh them
-        LogVerbose("balloon: over %d, effect 0x%x, flags %04x, group %08x, sheet %d, icon %d%s, thing %d, guid %08x",
-                   b.objectId, b.effect, b.flags, b.group, b.sheet, b.iconValue, b.iconObject ? " (a Sim)" : "",
-                   b.iconThing, b.iconGuid);
+        LogVerbose("balloon: over %d, effect 0x%x, flags %04x, group %08x (sheets %08x, %08x), sheet %d, icon %d%s, "
+                   "thing %d, guid %08x",
+                   b.objectId, b.effect, b.flags, b.group, b.sheetGroup, b.semiGroup, b.sheet, b.iconValue,
+                   b.iconObject ? " (a Sim)" : "", b.iconThing, b.iconGuid);
         const Effect* e = FindEffect(b.effect);
         if (!e) continue;
         std::string who, last;
         if (!game::SimName(b.objectId, &who, &last)) continue;  // over an object
-        std::string icon;
+        std::string icon, sheet = SheetName(b);
         if (b.iconObject) {
             game::NeighborName(b.iconValue, &icon, nullptr);
         } else if (b.sheet >= 0) {
-            icon = IconName(b.group, b.sheet, b.iconValue);
+            icon = IconName(sheet, b.iconValue);
         } else if (b.iconGuid) {
             icon = game::CatalogName(b.iconGuid);
         } else if (b.iconThing > 0) {
@@ -253,9 +285,10 @@ void Tick() {
             else if (game::ReadLotObject(b.iconThing, &o)) icon = !o.catalogName.empty() ? o.catalogName : o.name;
             if (!icon.empty() && icon[0] == '*') icon.clear();  // an internal part ("*Head Slots Holder")
         }
+        if (icon.find('$') != std::string::npos) icon = FillTokens(icon);
         if (!icon.empty() && icon == who) continue;  // the Sim's own face ("Carmen dice: Carmen") says nothing
         std::string line;
-        bool routeFailure = b.sheet >= 0 && IsRouteFailure(b.group, b.sheet, b.iconValue);
+        bool routeFailure = IsRouteFailure(sheet, b.iconValue);
         if (routeFailure) {
             line = util::Format(S(Str::BalloonRouteFailed), who.c_str());
         } else if (e->kind == Kind::Headline) {
@@ -266,8 +299,7 @@ void Tick() {
         } else if (e->kind == Kind::Scream) {
             line = util::Format(S(Str::BalloonScreamsNothing), who.c_str());
         } else {
-            LogVerbose("balloon: no name for sheet %d cell %d (%s)", b.sheet, b.iconValue,
-                       b.sheet >= 0 ? game::ObjectString(b.group, kSheetNames, b.sheet, true).c_str() : "");
+            LogVerbose("balloon: no name for sheet %d cell %d (%s)", b.sheet, b.iconValue, sheet.c_str());
             continue;  // a topic the mod cannot name
         }
         LogVerbose("balloon line: %s", line.c_str());

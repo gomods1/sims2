@@ -58,7 +58,7 @@ Allt får inte plats på en talad rad. Modden har två buffertar som du kan läs
 
 ## Grannskapet
 
-Grannskapets första grupp är **tomter**: varje tomt säger sitt namn, sin sort och vem som bor där (lägenheter med sina hyresgäster). Enter på en tomt öppnar spelets tomtpanel.
+Grannskapets första grupp är **tomter**: varje tomt säger sitt namn, sin sort, vem som bor där (lägenheter med sina hyresgäster) och sin storlek ("40 gånger 30 rutor"). Enter på en tomt öppnar spelets tomtpanel.
 
 För att flytta in en familj väljer du familjen i familjekorgen (familjepanelen) och trycker sedan Enter på en tomt: spelet frågar om de ska flytta in och vad det kostar.
 
@@ -82,6 +82,10 @@ På en tomt är skärmen en ring av grupper som vilken annan som helst. Tabb gå
 4. Spelets paneler: kontrollpanelen, Sim-panelen (behov, relationer, jobb, färdigheter, personlighet, intressen...), familjen, önskningar och rädslor, och varje panel du öppnar.
 5. **modhjälp**.
 
+Sim-panelen säger simmens ambition ("Ambition: 24 procent"); belöningspanelen (Belöningar, sedan Ambitionsbelöningar) säger ambitionspoängen du kan spendera.
+
+Spelets alternativ (knappen Alternativ på kontrollpanelen) läses på samma sätt: varje val säger sin inställning ("Skuggor: Hög") och skjutreglagen, som musikens volym, ändras med Pil vänster och Pil höger ("Musik, skjutreglage, 35 av 100"). En radiostations låtar är en egen grupp; Enter slår på eller av en låt.
+
 Jobbsidan säger simmens arbetstider; Enter på dem lägger till när samåkningen kommer. För att säga upp ett jobb, ring till jobbet på telefonen. Varje färdighet säger sin nivå och, när nästa befordran kräver mer, hur mycket: "Matlagning, 2 av 10, nästa befordran kräver 4".
 
 ### Välja simmar och kameran
@@ -94,7 +98,7 @@ Jobbsidan säger simmens arbetstider; Enter på dem lägger till när samåkning
 | Ctrl+T | Säger varje ny timme på klockan ("klockan är 14:00"), eller slutar. Användbart på högsta hastighet. |
 | Ctrl+Skift+F | Kameran följer den valda simmen, eller förblir fri. |
 
-Kameran följer den valda simmen, eftersom spelets ljud kommer från det som syns på skärmen.
+Kameran följer den valda simmen, eftersom spelets ljud kommer från det som syns på skärmen. När fokus visas på skärmen (Ctrl+Skift+V) glider kameran till varje sak du bläddrar till i stället för att hoppa.
 
 Zoomen och kamerans riktning sägs när de ändras (Z och X zoomar), och kontrollpanelen har dem också: "kamera: nära, 5 av 6, mot nordost". Riktningen är dit skärmens överkant tittar.
 
@@ -115,7 +119,9 @@ Du behöver inte gå dit med Tabb: Page-tangenterna bläddrar genom föremålen 
 | Ctrl+F | Hitta en sak: skriv en del av namnet ("tel" hittar telefonen, accenter spelar ingen roll). Upp och Ned går genom träffarna, Enter agerar på den, Ctrl+Enter går dit, Delete tar bort en dörr eller ett fönster, Escape går tillbaka dit du var. |
 | Delete | På en dörr eller ett fönster, i köpläge eller med byggläges hand: plockar upp den och säljer den med återbetalning. |
 
-Efter simmarna kommer **problem**: det som kräver uppmärksamhet, som trasiga saker, saker som behöver städas, pölar, skräp, aska och eld. Sist kommer **dörrar, fönster och trappor**. En sak som ingen Sim kan nå från tomtens ingång säger "ingen Sim kan nå den".
+Simmar med ett jobb på tomten säger det: "Ravi Pérez, brevbärare", servitören, kocken, trädgårdsmästaren, hembiträdet. Ett husdjurs matskål säger om det finns mat i den. Taxin och andra bilar vid trottoarkanten finns bland övrigt medan de väntar.
+
+Efter simmarna kommer **problem**: det som kräver uppmärksamhet, som trasiga saker, saker som behöver städas, en tom matskål, pölar, skräp, aska och eld. Sist kommer **dörrar, fönster och trappor**. En sak som ingen Sim kan nå från tomtens ingång säger "ingen Sim kan nå den".
 
 ### Interaktionsmenyer
 
@@ -149,7 +155,10 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 Spelet visar många saker bara som bilder. Modden säger dem när de händer och sparar dem i händelsebufferten:
 
 - **Pratbubblor** över simmar: "Carlos tänker: Energi", "Carlos säger: Politik", en överkryssad ikon ("ingen ..."), skrik och rubrikerna om relationer ("relationen förbättras", "ny vän", "första kyssen").
+- **Vad en måltid saknar**: "Carlos tänker: det behövs en köksbänk" (en ugn, en spis, en grill, en mikrovågsugn).
 - **Vägar**: "Carlos kan inte ta sig dit".
+- **Besökare vid dörren**: "Elvira står vid dörren och väntar på att bli hälsad på"; hälsa på henne (hennes interaktionsmeny) för att släppa in henne.
+- **Önskningar och farhågor**: "Carlos uppfyllde en önskan: Ta en simtur, 500 ambitionspoäng", "Carlos: en farhåga besannades: ...".
 - Familjens **handlingar**, **behov** som blir låga, **besökare** och pengar som betalas eller tas emot. När en handling avbryts och väntar i kön sägs det: "Carlos slutade Sätta sig för Panik; den väntar i kön".
 - **Möbler som lämnar tomten** (en inbrottstjuv, utmätningsmannen), med sitt värde.
 
@@ -175,7 +184,7 @@ Enter på en produkt plockar upp den. Modden hittar varje plats på tomten där 
 | Ctrl+Page Down, Ctrl+Page Up | De rum som har platser. |
 | Skift+Page Down, Skift+Page Up (eller komma, punkt) | Vrider den; riktningen sägs. |
 | Ctrl+Skift+Page Down, Page Up | Bredvid tomtens föremål, de närmaste först, vänd mot dem när det går. |
-| Pilar | Flyttar den i stället en ruta (Skift: fem): om den får plats, vad den krockar med, rummet när det byts, väggarna runt den, åt vilket håll den är vänd och vad den är vänd mot, rutan; sedan rutans ljud. Väggar, staket och fönster stoppar det; dörrar släpper igenom det. |
+| Pilar | Flyttar den i stället en ruta (Skift: fem): om den får plats, vad den krockar med, rummet när det byts, väggarna runt den, åt vilket håll den är vänd och vad den är vänd mot (även längre bort: "mot Soffa, 3 rutor bort"), rutan; sedan rutans ljud. Väggar, staket och fönster stoppar det; dörrar släpper igenom det. |
 | Alt+Pilar | Samma sak, genom väggar. |
 | Home | Tillbaka till den valda simmen. |
 | Enter | Köper den där; spelet ger dig ett nytt exemplar tills du trycker Escape. |
@@ -265,4 +274,4 @@ Moddens inställningar finns i `Sims2Access\Sims2Access.ini` i spelets mapp, avs
 
 ## Inte klart än
 
-Tapeter, ritade tak och terräng i byggläge; namn på huvuden, frisyrer och kläder i Skapa en sim; expansionernas egna skärmar (universitet, nattliv, företag, årstider, semester, lägenheter, magi) läses än så länge bara av den allmänna navigeringen.
+Tapeter, ritade tak och terräng i byggläge; namnen på ambitionsbelöningarna; att ställa ett föremål från en sims inventarie på tomten; namn på huvuden, frisyrer och kläder i Skapa en sim; expansionernas egna skärmar (universitet, nattliv, företag, årstider, semester, lägenheter, magi) läses än så länge bara av den allmänna navigeringen.

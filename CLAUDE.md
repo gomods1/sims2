@@ -40,6 +40,23 @@ walls stopping the map's and placing's arrows (Alt goes through), reach ("no Sim
 seats for what is used sitting (routing slots), Ctrl+T hours, Ctrl+Shift+N conversation scope,
 Ctrl+Shift+E a Sim's looks, interrupted actions, skills and promotion needs, the camera and pointer
 on the focused thing (Ctrl+Shift+V), the GitHub release workflow.
+Since 2026-11-08 (Sims 2 tester feedback, each found by RE and checked live on the Contreras lot
+unless said): balloons look their icon sheet up as the game does (the object's own group, its
+semi-global, then the global one: the food objects' "foodchainicons" sheet was read as the needs
+sheet, so "a counter is needed" was spoken as "hygiene"; the counter case itself not seen live),
+"$Subject" in a memory's name is "someone" (not seen live); a multi-tile object placed since the
+lot loaded is listed (its lead's +0x2f4 is 0 until the lot loads again: the bought bed); the
+options panel's sliders (`cGZWinScrollbar2`: Left/Right, the game's own SetValue with notify) and
+choices named by the heading above ("Sombras: Alto"), the mute buttons by their row, a station's
+songs as one group; turning a held object no longer speaks the camera at every compass point (the
+game turns the camera with it), and says what it faces further off ("hacia Sofá, a 3 casillas");
+NPC roles from person data 155 ("Ravi, cartero"; the numbers confirmed in the game's own NPC
+generator and template behaviors, STRUCTS.md "People"), a visitor waiting at the door to be
+greeted (greet status 34 = 0 beside a door), wants fulfilled and fears come true (reward points
+161 x10, the wants panel's tooltips), the aspiration meter in the Sim panel, pet bowls' food
+(semi attribute 0, empty ones among the problems), the taxi and cars at the curb in the lists,
+the lots' size in the neighborhood, the camera gliding to the focused thing. The music volume
+set through the mod was saved (userProps.xml MusicVolume 35 after quitting).
 Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARGETS.md`; layouts:
 `STRUCTS.md`.
 
@@ -226,7 +243,9 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     camera on the focused lot thing (`game::CenterCamera`, verified) and moves the real pointer to
     the window's middle (live mode, game in front: not tried here, the user works with the mouse).
     Dev commands: `!slots <id>`, `!look <id>`, `!reach`, `!camera x y [jump]`, `!objd <id>` (the whole object's
-    OBJD fields).
+    OBJD fields), `!pd <index>` (that person data of every Sim on the lot), `!lots` (the
+    neighborhood's lots with their size), `!msg <type hex> <data>` (a message to the game's
+    message server; careful: "rotate object" 0xacb3a629 also spins the camera until stopped).
   - Ctrl+L (lot view): the room's layout at the build cursor, else where the selected Sim stands:
     name, floor, tiles, bounds, doors and windows (the details buffer: each with its wall and the
     room behind). Doors and windows are objects whose parts stand on both sides of their wall

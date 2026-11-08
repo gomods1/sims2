@@ -115,7 +115,9 @@ void PointAtThing(const Item* it) {
     if (!hwnd || GetForegroundWindow() != hwnd) return;
     game::LotObject o;
     if (!game::ReadLotObject(it->number, &o) || o.x < 0) return;
-    if (!game::CenterCamera(o.x, o.y, true)) return;
+    // Gliding as the game's own Return does: a jump to each thing browsed made a tester's partner
+    // dizzy (both mods, 2026-11-07).
+    if (!game::CenterCamera(o.x, o.y, false)) return;
     g_pointedAt = it->number;
     RECT r;
     if (!GetClientRect(hwnd, &r)) return;
@@ -984,6 +986,16 @@ void AdjustFocused(int delta) {
     if (!it || it->role != Role::Slider) return;
     Ptr w = it->widget;
     int step, steps;
+    // An options slider (a volume): a step of a page (5 of 100), or of 1 on a short one.
+    int value, lo, hi, page;
+    if (game::Scrollbar(w, &value, &lo, &hi, &page)) {
+        int by = hi - lo > 20 ? std::max(page, 1) : 1;
+        game::SetScrollbar(w, value + delta * by);
+        game::Scrollbar(w, &value, &lo, &hi, &page);
+        Log("scrollbar %p: %d of %d..%d", (void*)w, value, lo, hi);
+        speech::Say(util::Format(S(Str::ValueOfMax), value - lo, hi - lo));
+        return;
+    }
     if (!game::StepBar(w, &step, &steps)) return;
     int before = step;
     int left = PointsLeft(w);  // the total bar follows a change a little later: counted here

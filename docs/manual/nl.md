@@ -58,7 +58,7 @@ Niet alles past in één gesproken regel. De mod houdt twee buffers bij die je r
 
 ## De buurt
 
-De eerste groep van de buurt is **kavels**: elk kavel noemt zijn naam, zijn soort en wie er woont (appartementen met hun huurders). Enter op een kavel opent het kavelpaneel van het spel.
+De eerste groep van de buurt is **kavels**: elk kavel noemt zijn naam, zijn soort, wie er woont (appartementen met hun huurders) en zijn grootte ("40 bij 30 vakken"). Enter op een kavel opent het kavelpaneel van het spel.
 
 Om een familie te laten intrekken, kies je de familie in het familiedepot (het familiepaneel) en druk je daarna op Enter op een kavel: het spel vraagt of ze er moeten intrekken en wat het kost.
 
@@ -82,6 +82,10 @@ Op een kavel is het scherm een ring van groepen zoals elk ander. Tab gaat er in 
 4. De panelen van het spel: het bedieningspaneel, het Sim-paneel (behoeften, relaties, baan, vaardigheden, persoonlijkheid, interesses...), het gezin, wensen en angsten, en elk paneel dat je opent.
 5. **mod-hulp**.
 
+Het Sim-paneel noemt de wens van de Sim ("Wens: 24 procent"); het beloningenpaneel (Bevorderdingen, dan Wensvervullers) noemt de wenspunten die je kunt uitgeven.
+
+De opties van het spel (de knop Opties op het bedieningspaneel) worden net zo gelezen: elke keuze noemt haar instelling ("Schaduwen: Hoog") en de schuifregelaars, zoals het volume van de muziek, veranderen met pijl links en pijl rechts ("Muziek, schuifregelaar, 35 van 100"). De nummers van een radiozender zijn een eigen groep; Enter zet een nummer aan of uit.
+
 De baanpagina noemt de werktijden van de Sim; Enter daarop voegt toe wanneer de carpool komt. Om een baan op te zeggen, bel je via de telefoon naar je werk. Elke vaardigheid zegt haar niveau en, als de volgende promotie meer vraagt, hoeveel: "Koken, 2 van 10, de volgende promotie vraagt 4".
 
 ### Sims selecteren en de camera
@@ -94,7 +98,7 @@ De baanpagina noemt de werktijden van de Sim; Enter daarop voegt toe wanneer de 
 | Ctrl+T | Zegt elk nieuw uur van de klok ("het is 14:00"), of stopt. Handig op de hoogste snelheid. |
 | Ctrl+Shift+F | De camera volgt de gekozen Sim, of blijft vrij. |
 
-De camera volgt de gekozen Sim, omdat de geluiden van het spel komen van wat er op het scherm is.
+De camera volgt de gekozen Sim, omdat de geluiden van het spel komen van wat er op het scherm is. Als de focus op het scherm getoond wordt (Ctrl+Shift+V), glijdt de camera naar elk ding waar je doorheen bladert in plaats van te springen.
 
 De zoom en de kijkrichting van de camera worden gezegd als ze veranderen (Z en X zoomen), en het bedieningspaneel heeft ze ook: "camera: dichtbij, 5 van 6, kijkt naar het noordoosten". De kijkrichting is waar de bovenkant van het scherm heen kijkt.
 
@@ -115,7 +119,9 @@ Je hoeft er niet met Tab naartoe: de Page-toetsen bladeren van overal op het kav
 | Ctrl+F | Iets zoeken: typ een deel van de naam ("tel" vindt de telefoon, accenten tellen niet). Omhoog en Omlaag gaan door de resultaten, Enter handelt erop, Ctrl+Enter loopt erheen, Delete verwijdert een deur of raam, Escape gaat terug naar waar je was. |
 | Delete | Op een deur of raam, in koopmodus of met de hand van de bouwmodus: pakt die op en verkoopt die, met terugbetaling. |
 
-Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, dingen die schoongemaakt moeten worden, plassen, afval, as en vuur. Als laatste komt **deuren, ramen en trappen**. Iets waar geen Sim vanaf de ingang van het kavel bij kan, zegt "geen Sim kan erbij".
+Sims met een baan op het kavel zeggen die: "Ravi Pérez, postbode", de ober, de kok, de tuinman, de huishoudster. De voerbak van een huisdier zegt of er voer in zit. De taxi en andere auto's langs de stoep staan bij overige zolang ze wachten.
+
+Na de Sims komt **problemen**: wat aandacht vraagt, zoals kapotte dingen, dingen die schoongemaakt moeten worden, een lege voerbak, plassen, afval, as en vuur. Als laatste komt **deuren, ramen en trappen**. Iets waar geen Sim vanaf de ingang van het kavel bij kan, zegt "geen Sim kan erbij".
 
 ### Interactiemenu's
 
@@ -149,7 +155,10 @@ Enter op een object (of op een Sim) opent het interactiemenu van het spel. Pijl 
 Het spel laat veel dingen alleen als plaatjes zien. De mod zegt ze wanneer ze gebeuren en bewaart ze in de gebeurtenissenbuffer:
 
 - **Ballonnen** boven Sims: "Carlos denkt: Energie", "Carlos zegt: Politiek", een doorgestreept pictogram ("geen ..."), geschreeuw, en de koppen over relaties ("relatie verbetert", "nieuwe vriend", "eerste kus").
+- **Wat een maaltijd mist**: "Carlos denkt: er is een aanrecht nodig" (een oven, een fornuis, een grill, een magnetron).
 - **Routes**: "Carlos kan er niet komen".
+- **Bezoekers aan de deur**: "Elvira staat aan de deur en wacht om begroet te worden"; begroet haar (haar interactiemenu) om haar binnen te laten.
+- **Verlangens en angsten**: "Carlos vervulde een verlangen: Zwemmen, 500 wenspunten", "Carlos: een angst kwam uit: ...".
 - **Acties** van het gezin, **behoeften** die laag worden, **bezoekers**, en geld dat betaald of ontvangen wordt. Als een actie wordt onderbroken en in de wachtrij wacht, wordt dat gezegd: "Carlos stopte met Zitten voor Paniek; het wacht in de wachtrij".
 - **Meubels die het kavel verlaten** (een inbreker, de deurwaarder), met hun waarde.
 
@@ -175,7 +184,7 @@ Enter op een product pakt het op. De mod vindt elke plek op het kavel waar het p
 | Ctrl+Page Down, Ctrl+Page Up | De kamers die plekken hebben. |
 | Shift+Page Down, Shift+Page Up (of komma, punt) | Het draaien; de richting wordt genoemd. |
 | Ctrl+Shift+Page Down, Page Up | Naast de objecten op het kavel, dichtstbijzijnde eerst, ernaartoe gericht als het past. |
-| Pijltjes | Het in plaats daarvan één vak verplaatsen (Shift: vijf): of het past, waar het tegenaan botst, de kamer als die verandert, de muren eromheen, welke kant het op kijkt en waar het naartoe gericht is, het vak; daarna de geluiden van het vak. Muren, hekken en ramen houden het tegen; deuren laten het door. |
+| Pijltjes | Het in plaats daarvan één vak verplaatsen (Shift: vijf): of het past, waar het tegenaan botst, de kamer als die verandert, de muren eromheen, welke kant het op kijkt en waar het naartoe gericht is (ook verderop: "naar Bank toe, 3 vakken verder"), het vak; daarna de geluiden van het vak. Muren, hekken en ramen houden het tegen; deuren laten het door. |
 | Alt+Pijltjes | Hetzelfde, door muren heen. |
 | Home | Terug naar de gekozen Sim. |
 | Enter | Het daar kopen; het spel geeft je nog een exemplaar tot je op Escape drukt. |
@@ -265,4 +274,4 @@ De instellingen van de mod staan in `Sims2Access\Sims2Access.ini` in de map van 
 
 ## Nog niet klaar
 
-Behang, getekende daken en terrein in de bouwmodus; namen voor de hoofden, kapsels en kleding in Sim creëren; de eigen schermen van de uitbreidingen (studeren, nachtleven, bedrijven, seizoenen, vakanties, appartementen, magie) worden tot nu toe alleen door de algemene navigatie gelezen.
+Behang, getekende daken en terrein in de bouwmodus; de namen van de wensvervullers; een object uit de inventaris van een Sim op het kavel zetten; namen voor de hoofden, kapsels en kleding in Sim creëren; de eigen schermen van de uitbreidingen (studeren, nachtleven, bedrijven, seizoenen, vakanties, appartementen, magie) worden tot nu toe alleen door de algemene navigatie gelezen.

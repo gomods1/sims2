@@ -58,7 +58,7 @@ Nicht alles passt in eine gesprochene Zeile. Der Mod hält zwei Puffer bereit, d
 
 ## Die Nachbarschaft
 
-Die erste Gruppe der Nachbarschaft ist **Grundstücke**: jedes sagt seinen Namen, seine Art und wer dort wohnt (Wohnungen mit ihren Mietern). Eingabe auf einem Grundstück öffnet die Grundstücksleiste des Spiels.
+Die erste Gruppe der Nachbarschaft ist **Grundstücke**: jedes sagt seinen Namen, seine Art, wer dort wohnt (Wohnungen mit ihren Mietern) und seine Größe („40 mal 30 Felder“). Eingabe auf einem Grundstück öffnet die Grundstücksleiste des Spiels.
 
 Um eine Familie einziehen zu lassen, wähle die Familie im Familienbehälter (der Familienleiste) und drücke dann Eingabe auf einem Grundstück: das Spiel fragt, ob sie einziehen soll und was es kostet.
 
@@ -82,6 +82,10 @@ Auf einem Grundstück ist die Oberfläche ein Ring von Gruppen wie jeder andere.
 4. Die Leisten des Spiels: die Steuerleiste, die Sim-Leiste (Bedürfnisse, Beziehungen, Beruf, Fähigkeiten, Persönlichkeit, Hobbys...), die Familie, Wünsche und Ängste und jede Leiste, die Du öffnest.
 5. **Mod-Hilfe**.
 
+Die Sim-Leiste sagt die Laufbahn des Sims („Laufbahn: 24 Prozent“); die Belohnungsleiste (Belohnungen, dann Laufbahn-Belohnungen) sagt die Laufbahnpunkte, die Du ausgeben kannst.
+
+Die Optionen des Spiels (der Schalter Optionen in der Steuerleiste) werden genauso gelesen: jede Auswahl sagt ihre Einstellung („Schatten: Hoch“), und die Schieberegler, etwa die Lautstärke der Musik, ändern sich mit Pfeil nach links und Pfeil nach rechts („Musik, Schieberegler, 35 von 100“). Die Lieder eines Radiosenders sind eine eigene Gruppe; die Eingabetaste schaltet ein Lied ein oder aus.
+
 Die Seite zum Job nennt die Arbeitszeiten des Sims; die Eingabetaste darauf ergänzt, wann die Fahrgemeinschaft kommt. Um einen Job zu kündigen, ruf per Telefon bei der Arbeit an. Jede Fähigkeit sagt ihre Stufe und, wenn die nächste Beförderung mehr verlangt, wie viel: „Kochen, 2 von 10, die nächste Beförderung verlangt 4“.
 
 ### Sims auswählen und die Kamera
@@ -94,7 +98,7 @@ Die Seite zum Job nennt die Arbeitszeiten des Sims; die Eingabetaste darauf erg�
 | Strg+T | Sagt jede neue Stunde der Uhr an („es ist 14:00“), oder hört damit auf. Nützlich bei höchster Geschwindigkeit. |
 | Strg+Umschalt+F | Die Kamera folgt dem ausgewählten Sim oder bleibt frei. |
 
-Die Kamera folgt dem ausgewählten Sim, weil die Klänge des Spiels von dem kommen, was auf dem Bildschirm ist.
+Die Kamera folgt dem ausgewählten Sim, weil die Klänge des Spiels von dem kommen, was auf dem Bildschirm ist. Wenn der Fokus auf dem Bildschirm gezeigt wird (Strg+Umschalt+V), gleitet die Kamera zu jedem Ding, durch das Du gehst, statt zu springen.
 
 Zoom und Blickrichtung der Kamera werden gesagt, wenn sie sich ändern (Z und X zoomen), und das Bedienfeld zeigt sie auch: „Kamera: nahe Ansicht, 5 von 6, Blick nach Nordosten". Die Blickrichtung ist die, in die der obere Bildschirmrand schaut.
 
@@ -115,7 +119,9 @@ Du musst nicht mit Tab dorthin: die Bild-Tasten gehen von überall auf dem Grund
 | Strg+F | Etwas finden: Tippe einen Teil des Namens („tel" findet das Telefon, Akzente sind egal). Auf und Ab gehen durch die Treffer, die Eingabetaste handelt daran, Strg+Eingabe geht dorthin, Entf entfernt eine Tür oder ein Fenster, Escape führt zurück. |
 | Entf | Auf einer Tür oder einem Fenster, im Kaufmodus oder mit der Hand des Baumodus: nimmt sie auf und verkauft sie mit Erstattung. |
 
-Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, zu Putzendes, Pfützen, Müll, Asche und Feuer. Zuletzt kommt **Türen, Fenster und Treppen**. Ein Ding, das kein Sim vom Eingang des Grundstücks aus erreichen kann, sagt „kein Sim kann es erreichen“.
+Sims mit einem Job auf dem Grundstück sagen ihn: „Ravi Pérez, Briefträger“, der Kellner, der Koch, der Gärtner, das Hausmädchen. Der Futternapf eines Haustiers sagt, ob Futter darin ist. Das Taxi und andere Autos am Straßenrand stehen unter Sonstiges, solange sie warten.
+
+Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, zu Putzendes, ein leerer Futternapf, Pfützen, Müll, Asche und Feuer. Zuletzt kommt **Türen, Fenster und Treppen**. Ein Ding, das kein Sim vom Eingang des Grundstücks aus erreichen kann, sagt „kein Sim kann es erreichen“.
 
 ### Interaktionsmenüs
 
@@ -149,7 +155,10 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 Das Spiel zeigt vieles nur als Bild. Der Mod sagt es, wenn es passiert, und behält es im Ereignis-Puffer:
 
 - **Sprechblasen** über Sims: „Carlos denkt: Energie“, „Carlos sagt: Politik“, ein durchgestrichenes Symbol („kein ...“), Schreie und die Beziehungsschlagzeilen („Beziehung wird besser“, „neuer Freund“, „erster Kuss“).
+- **Was einer Mahlzeit fehlt**: „Carlos denkt: eine Arbeitsplatte fehlt“ (ein Ofen, ein Herd, ein Grill, eine Mikrowelle).
 - **Wege**: „Carlos kommt nicht hin“.
+- **Besucher an der Tür**: „Elvira ist an der Tür und wartet darauf, begrüßt zu werden“; begrüße sie (ihr Interaktionsmenü), um sie hereinzulassen.
+- **Wünsche und Ängste**: „Carlos hat einen Wunsch erfüllt: Schwimmen gehen, 500 Laufbahnpunkte“, „Carlos: eine Angst ist eingetreten: ...“.
 - **Aktionen** der Familie, **Bedürfnisse**, die niedrig werden, **Besucher** und gezahltes oder erhaltenes Geld. Wird eine Aktion unterbrochen und wartet in der Warteschlange, wird das gesagt: „Carlos hat Hinsetzen für Panik unterbrochen; es wartet in der Warteschlange“.
 - **Möbel, die das Grundstück verlassen** (ein Einbrecher, der Gerichtsvollzieher), mit ihrem Wert.
 
@@ -175,7 +184,7 @@ Eingabe auf einem Produkt nimmt es auf. Der Mod findet jeden Platz des Grundstü
 | Strg+Bild ab, Strg+Bild auf | Die Zimmer, die Plätze haben. |
 | Umschalt+Bild ab, Umschalt+Bild auf (oder Komma, Punkt) | Dreht es; die Ausrichtung wird gesagt. |
 | Strg+Umschalt+Bild ab, Bild auf | Neben die Objekte des Grundstücks, die nächsten zuerst, ihnen zugewandt, wenn es passt. |
-| Pfeiltasten | Verschiebt es stattdessen um ein Feld (Umschalt: fünf): ob es passt, woran es stößt, das Zimmer, wenn es wechselt, die Wände ringsum, seine Ausrichtung und was ihm gegenübersteht, das Feld; dann die Klänge des Felds. Wände, Zäune und Fenster halten es an; Türen lassen es durch. |
+| Pfeiltasten | Verschiebt es stattdessen um ein Feld (Umschalt: fünf): ob es passt, woran es stößt, das Zimmer, wenn es wechselt, die Wände ringsum, seine Ausrichtung und was ihm gegenübersteht (auch weiter weg: „zu Sofa hin, 3 Felder entfernt“), das Feld; dann die Klänge des Felds. Wände, Zäune und Fenster halten es an; Türen lassen es durch. |
 | Alt+Pfeiltasten | Dasselbe, durch Wände hindurch. |
 | Pos1 | Zurück zum ausgewählten Sim. |
 | Eingabe | Kauft es dort; das Spiel gibt Dir ein weiteres Exemplar, bis Du Esc drückst. |
@@ -265,4 +274,4 @@ Die Einstellungen des Mods stehen in `Sims2Access\Sims2Access.ini` im Ordner des
 
 ## Noch nicht fertig
 
-Tapeten, gezeichnete Dächer und Gelände im Baumodus; Namen für die Köpfe, Frisuren und Kleidung in „Einen Sim erstellen“; die eigenen Bildschirme der Erweiterungen (Uni, Nightlife, Geschäfte, Jahreszeiten, Urlaub, Wohnungen, Magie) werden bisher nur von der allgemeinen Navigation gelesen.
+Tapeten, gezeichnete Dächer und Gelände im Baumodus; die Namen der Laufbahn-Belohnungen; ein Objekt aus dem Inventar eines Sims auf das Grundstück stellen; Namen für die Köpfe, Frisuren und Kleidung in „Einen Sim erstellen“; die eigenen Bildschirme der Erweiterungen (Uni, Nightlife, Geschäfte, Jahreszeiten, Urlaub, Wohnungen, Magie) werden bisher nur von der allgemeinen Navigation gelesen.

@@ -38,6 +38,35 @@ short ReadTemp(Ptr thread, int n) {
     return value;
 }
 
+// The groups whose STR# 0x95 names a balloon's sheet, as the handler finds them (0xa0580703 and
+// 0xa0581a11): the thread's +0x40 slot 24 is the object folder (cTSObjectFolder), whose slot 14
+// gives the cTSObjectSelector of the tree's key (the behavior's slot 38, its +0x20: a GUID). The
+// selector's slot 18 (+0x18) holds the object's groups (global +0xc, semi-global +0x14, own +0x1c;
+// slot 11 reads the own one) and its slot 70 (+0x10) the semi-global's file reference (slot 11:
+// its +4, the group). The game passes (1, 0x2026960b) to slot 11, which ignores them: called here
+// without (a getter's plain ret would unbalance the stack). Read live 2026-11-08: Carlos's thought
+// gave his own group 0x7fedfe16, the semi-global 0x7f01ec29 (motives-thought-02 at sheet 0). The
+// food objects' sheet (counters, stoves...) is only in their semi-global group.
+void SheetGroups(Ptr thread, Ptr behavior, uint32_t* own, uint32_t* semi) {
+    typedef Ptr(__thiscall * GetFn)(Ptr);
+    typedef Ptr(__thiscall * LookupFn)(Ptr, Ptr);
+    auto vcall = [](Ptr self, int offset) -> Ptr {
+        Ptr vt = self ? Rd<Ptr>(self) : 0;
+        if (!InImage(vt)) return 0;
+        return ((GetFn)Rd<Ptr>(vt + offset))(self);
+    };
+    Guarded([&] {
+        Ptr folder = vcall(Rd<Ptr>(thread + 0x40), 0x60);
+        Ptr key = vcall(behavior, 0x98);
+        Ptr vt = folder ? Rd<Ptr>(folder) : 0;
+        if (!InImage(vt)) return;
+        Ptr selector = ((LookupFn)Rd<Ptr>(vt + 0x38))(folder, key);
+        if (!selector) return;
+        *own = (uint32_t)vcall(vcall(selector, 0x48), 0x2c);
+        *semi = (uint32_t)vcall(vcall(selector, 0x118), 0x2c);
+    });
+}
+
 // Opcode 0x70 (the balloon): thiscall (thread, stack frame, operands).
 typedef int(__fastcall* BalloonFn)(Ptr thread, void* edx, Ptr frame, const uint8_t* operands);
 BalloonFn g_balloon = nullptr;
@@ -88,8 +117,12 @@ int __fastcall BalloonDetour(Ptr thread, void* edx, Ptr frame, const uint8_t* op
                 b.iconThing = ReadVariable(thread, o[0x10], *(uint16_t*)(o + 0x11));
         } else if (b.flags & 0x30) {
             b.iconValue = ReadVariable(thread, o[0x10], *(uint16_t*)(o + 0x11));
-            if (b.flags & 0x20) b.sheet = o[0x13];
-            else b.iconObject = true;
+            if (b.flags & 0x20) {
+                b.sheet = o[0x13];
+                if (b.mode == 0 || b.mode == 0xf) SheetGroups(thread, behavior, &b.sheetGroup, &b.semiGroup);
+            } else {
+                b.iconObject = true;
+            }
         }
         std::lock_guard<std::mutex> hold(g_lock);
         if (g_count < 32) g_balloons[g_count++] = b;

@@ -125,5 +125,13 @@ bool GamePaused();
 // Opens the interaction menu of an object for the selected Sim, as a click on it does: posts the
 // message the live mode tool sends to the main toolbar (type 0xC0, data 1 = the object id).
 bool ShowInteractions(int objectId);
+// A Sim's person data (Lua's GetPersonData; the indices in addresses.h person::), false for no Sim.
+bool PersonDatum(int objectId, int index, int* value);
+// An object's attribute (its own variables, named by its STR# 0x100), or with semi its semi
+// attribute (named by its semi-global's STR# 0x100); false when it has no such.
+bool ObjectAttribute(int objectId, int index, int* value, bool semi = false);
+// Posts a message to the game's message server (cRZMessage2Standard: type, data 1), as the
+// accelerators do for their commands (accelerators.txt: "Rotate object clockwise" 0xacb3a629 +1).
+bool PostGameMessage(uint32_t type, uint32_t data1);
 
 }  // namespace game

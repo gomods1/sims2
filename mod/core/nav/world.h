@@ -59,6 +59,9 @@ void Tick();  // says when an object's interaction menu did not open (it has non
 
 // A thing's name as the lists say it (a Sim's full name, an object's catalog name).
 std::string DisplayName(const game::LotObject& o);
+// A Sim's job on the lot as the game knows it (person data 155: "camarero", "cartero"), empty for
+// none or for a type the mod has not confirmed.
+std::string SimRole(int objectId);
 bool IsListed(int objectId);  // a thing the lists show (a Sim, an object a player knows)
 // What stands on a tile (whole objects and the parts of multi-tile ones), each thing once, Sims
 // first; doors and windows left out (they are the walls' openings).

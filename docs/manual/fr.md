@@ -58,7 +58,7 @@ Tout ne tient pas en une phrase. Le mod garde deux tampons que vous pouvez lire 
 
 ## Le quartier
 
-Le premier groupe du quartier est **terrains** : chacun dit son nom, son type et qui y habite (les immeubles avec leurs locataires). Entrée sur un terrain ouvre le panneau du terrain du jeu.
+Le premier groupe du quartier est **terrains** : chacun dit son nom, son type, qui y habite (les immeubles avec leurs locataires) et sa taille (« 40 sur 30 cases »). Entrée sur un terrain ouvre le panneau du terrain du jeu.
 
 Pour installer une famille, choisissez-la dans la réserve de familles (le panneau des familles), puis appuyez sur Entrée sur un terrain : le jeu demande s'il faut l'y installer et ce que cela coûte.
 
@@ -82,6 +82,10 @@ Sur un terrain, l'écran est un cercle de groupes comme n'importe quel autre. Ta
 4. Les panneaux du jeu : le panneau de contrôle, le panneau du Sim (besoins, relations, emploi, compétences, personnalité, centres d'intérêt...), la famille, les souhaits et peurs, et tout panneau que vous ouvrez.
 5. **aide du mod**.
 
+Le panneau du Sim dit l'aspiration du Sim (« Aspiration : 24 pour cent ») ; le panneau des récompenses (Récompenses, puis Récompenses d'aspiration) dit les points d'aspiration à dépenser.
+
+Les options du jeu (le bouton Options du panneau de contrôle) se lisent de la même façon : chaque choix dit son réglage (« Ombres : Elevé(e) ») et les glissières, comme le volume de la musique, changent avec flèche gauche et flèche droite (« Musique, glissière, 35 sur 100 »). Les morceaux d'une station de radio forment un groupe à part ; Entrée active ou désactive un morceau.
+
 La page de l'emploi indique les horaires du Sim ; Entrée dessus ajoute l'heure du covoiturage. Pour quitter un emploi, appelez le travail au téléphone. Chaque compétence dit son niveau et, quand la prochaine promotion demande davantage, combien : « Cuisine, 2 sur 10, la prochaine promotion demande 4 ».
 
 ### Sélectionner des Sims et la caméra
@@ -94,7 +98,7 @@ La page de l'emploi indique les horaires du Sim ; Entrée dessus ajoute l'heure 
 | Contrôle+T | Annonce chaque nouvelle heure de l'horloge (« il est 14:00 »), ou arrête. Utile à la vitesse maximale. |
 | Contrôle+Maj+F | La caméra suit le Sim sélectionné, ou reste libre. |
 
-La caméra suit le Sim sélectionné, car les sons du jeu viennent de ce qui est à l'écran.
+La caméra suit le Sim sélectionné, car les sons du jeu viennent de ce qui est à l'écran. Quand le focus est montré à l'écran (Contrôle+Maj+V), la caméra glisse vers chaque chose que vous parcourez au lieu de sauter.
 
 Le zoom et l'orientation de la caméra sont annoncés quand ils changent (Z et X zooment), et le panneau de contrôle les indique aussi : « caméra : vue proche, 5 sur 6, orientée au nord-est ». L'orientation est la direction que regarde le haut de l'écran.
 
@@ -115,7 +119,9 @@ Pas besoin d'y aller avec Tab : les touches Page parcourent les objets depuis n'
 | Contrôle+F | Trouver une chose : tapez une partie de son nom (« tel » trouve le téléphone, les accents ne comptent pas). Haut et Bas parcourent les résultats, Entrée agit dessus, Contrôle+Entrée y va, Suppr retire une porte ou une fenêtre, Échap revient là où vous étiez. |
 | Suppr | Sur une porte ou une fenêtre, en mode Achat ou avec la main du mode Construction : la prend et la vend, remboursée. |
 
-Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les choses cassées, à nettoyer, les flaques, les déchets, les cendres et le feu. En dernier vient **portes, fenêtres et escaliers**. Une chose qu'aucun Sim ne peut atteindre depuis l'entrée du terrain dit « aucun Sim ne peut l'atteindre ».
+Les Sims qui ont un travail sur le terrain le disent : « Ravi Pérez, facteur », le serveur, le chef, le jardinier, la femme de ménage. La gamelle d'un animal dit si elle contient de la nourriture. Le taxi et les autres voitures au bord du trottoir sont parmi les autres objets tant qu'ils attendent.
+
+Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les choses cassées, à nettoyer, une gamelle d'animal vide, les flaques, les déchets, les cendres et le feu. En dernier vient **portes, fenêtres et escaliers**. Une chose qu'aucun Sim ne peut atteindre depuis l'entrée du terrain dit « aucun Sim ne peut l'atteindre ».
 
 ### Menus d'interactions
 
@@ -149,7 +155,10 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 Le jeu montre beaucoup de choses seulement en images. Le mod les dit quand elles arrivent et les garde dans le tampon des événements :
 
 - **Les bulles** au-dessus des Sims : « Carlos pense : Énergie », « Carlos dit : Politique », une icône barrée (« pas ... »), les cris, et les titres des relations (« la relation s'améliore », « nouvel ami », « premier baiser »).
+- **Ce qui manque pour un repas** : « Carlos pense : il faut un plan de travail » (un four, une cuisinière, un barbecue, un micro-ondes).
 - **Les trajets** : « Carlos ne peut pas y aller ».
+- **Les visiteurs à la porte** : « Elvira est à la porte et attend qu'on l'accueille » ; saluez-la (son menu d'interactions) pour la faire entrer.
+- **Désirs et craintes** : « Carlos a réalisé un désir : Aller nager, 500 points d'aspiration », « Carlos : une crainte s'est réalisée : ... ».
 - **Les actions** de la famille, **les besoins** qui baissent, **les visiteurs**, et l'argent payé ou reçu. Quand une action est interrompue et attend dans la file, c'est dit : « Carlos a arrêté S'asseoir pour Panique ; elle attend dans la file ».
 - **Les meubles qui quittent le terrain** (un cambrioleur, l'huissier), avec leur valeur.
 
@@ -175,7 +184,7 @@ Entrée sur un produit le prend. Le mod trouve toutes les places du terrain où 
 | Contrôle+Page suivante, Contrôle+Page précédente | Les pièces qui ont des places. |
 | Maj+Page suivante, Maj+Page précédente (ou virgule, point) | Le tournent ; l'orientation est annoncée. |
 | Contrôle+Maj+Page suivante, Page précédente | À côté des objets du terrain, les plus proches d'abord, tourné vers eux quand il tient. |
-| Flèches | Le déplacent plutôt d'une case (Maj : cinq) : s'il tient, ce qu'il heurte, la pièce quand elle change, les murs autour, son orientation et vers quoi il est tourné, la case ; puis les sons de la case. Les murs, clôtures et fenêtres l'arrêtent ; les portes le laissent passer. |
+| Flèches | Le déplacent plutôt d'une case (Maj : cinq) : s'il tient, ce qu'il heurte, la pièce quand elle change, les murs autour, son orientation et vers quoi il est tourné (plus loin aussi : « vers Canapé, à 3 cases »), la case ; puis les sons de la case. Les murs, clôtures et fenêtres l'arrêtent ; les portes le laissent passer. |
 | Alt+Flèches | Pareil, à travers les murs. |
 | Origine | Revient au Sim sélectionné. |
 | Entrée | L'achète à cet endroit ; le jeu vous en donne un autre exemplaire jusqu'à Échap. |
@@ -265,4 +274,4 @@ Les réglages du mod sont dans `Sims2Access\Sims2Access.ini` dans le dossier du 
 
 ## Pas encore fait
 
-Le papier peint, les toits dessinés et le terrain en mode Construction ; les noms des têtes, coiffures et vêtements de Créer un Sim ; les écrans propres aux extensions (université, vie nocturne, entreprise, saisons, vacances, appartements, magie) ne sont lus pour l'instant que par la navigation générique.
+Le papier peint, les toits dessinés et le terrain en mode Construction ; les noms des récompenses d'aspiration ; poser sur le terrain un objet de l'inventaire d'un Sim ; les noms des têtes, coiffures et vêtements de Créer un Sim ; les écrans propres aux extensions (université, vie nocturne, entreprise, saisons, vacances, appartements, magie) ne sont lus pour l'instant que par la navigation générique.

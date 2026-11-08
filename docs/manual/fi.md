@@ -81,8 +81,8 @@ riviltä:
 
 ## Naapurusto
 
-Naapuruston ensimmäinen ryhmä on **tontit**: jokainen kertoo nimensä, lajinsa ja sen, kuka siellä
-asuu (kerrostalot asukkaineen). Enter tontin kohdalla avaa pelin tonttipaneelin.
+Naapuruston ensimmäinen ryhmä on **tontit**: jokainen kertoo nimensä, lajinsa, sen, kuka siellä
+asuu (kerrostalot asukkaineen), ja kokonsa ("40 kertaa 30 ruutua"). Enter tontin kohdalla avaa pelin tonttipaneelin.
 
 Muuttaaksesi perheen tontille valitse perhe perhesäiliöstä (perheiden paneeli) ja paina sitten
 Enter tontin kohdalla: peli kysyy, muutetaanko perhe sinne ja mitä se maksaa.
@@ -112,6 +112,10 @@ Tontilla näkymä on ryhmien kehä kuten mikä tahansa muu. Sarkain käy ne läp
    kiinnostukset...), perhe, toiveet ja pelot sekä mikä tahansa avaamasi paneeli.
 5. **modin ohje**.
 
+Sim-paneeli kertoo simin tavoitteen ("Tavoite: 24 prosenttia"); palkintopaneeli (Palkinnot, sitten Tavoitepalkinnot) kertoo käytettävissä olevat tavoitepisteet.
+
+Pelin asetukset (ohjauspaneelin Asetukset-painike) luetaan samalla tavalla: jokainen valinta kertoo asetuksensa ("Varjot: Korkea"), ja liukusäätimet, kuten musiikin äänenvoimakkuus, muuttuvat nuolella vasemmalle ja nuolella oikealle ("Musiikki, liukusäädin, 35/100"). Radioaseman kappaleet ovat oma ryhmänsä; Enter kytkee kappaleen päälle tai pois.
+
 Työsivu kertoo simin työajat; Enter niiden kohdalla lisää, milloin kimppakyyti tulee. Irtisanoutuaksesi soita puhelimella töihin. Jokainen taito kertoo tasonsa ja, kun seuraava ylennys vaatii enemmän, kuinka paljon: "Ruoanlaitto, 2/10, seuraava ylennys vaatii 4".
 
 ### Simien valinta ja kamera
@@ -124,7 +128,7 @@ Työsivu kertoo simin työajat; Enter niiden kohdalla lisää, milloin kimppakyy
 | Control+T | Kertoo kellon jokaisen uuden tunnin ("kello on 14:00"), tai lopettaa. Hyödyllinen suurimmalla nopeudella. |
 | Control+Vaihto+F | Kamera seuraa valittua simiä tai on vapaa. |
 
-Kamera seuraa valittua simiä, koska pelin äänet tulevat siitä, mitä näytöllä on.
+Kamera seuraa valittua simiä, koska pelin äänet tulevat siitä, mitä näytöllä on. Kun kohdistus näytetään ruudulla (Control+Vaihto+V), kamera liukuu jokaisen selaamasi asian luo hyppäämisen sijaan.
 
 Zoom ja kameran suunta sanotaan, kun ne muuttuvat (Z ja X zoomaavat), ja ohjauspaneelissa ne ovat myös: "kamera: lähinäkymä, 5/6, suunta koilliseen". Suunta on se, mihin ruudun yläreuna katsoo.
 
@@ -151,7 +155,9 @@ tontilla, elämä-, osto- ja rakennustilassa.
 | Control+F | Etsi jotakin: kirjoita osa nimestä ("pu" löytää puhelimen, aksenteilla ei ole väliä). Ylös ja Alas käyvät läpi osumat, Enter toimii sen kanssa, Control+Enter kävelee sinne, Delete poistaa oven tai ikkunan, Escape palaa siihen missä olit. |
 | Delete | Ovella tai ikkunalla, ostotilassa tai rakennustilan kädellä: nostaa sen ja myy sen hyvityksellä. |
 
-Simien jälkeen tulee **ongelmat**: se mikä vaatii huomiota, kuten rikkinäiset ja siivottavat esineet, lätäköt, roskat, tuhka ja tuli. Viimeisenä tulee **ovet, ikkunat ja portaat**. Asia, jota mikään Sim ei saavuta tontin sisäänkäynniltä, sanoo "mikään Sim ei pääse sen luo".
+Simit, joilla on työ tontilla, kertovat sen: "Ravi Pérez, postinkantaja", tarjoilija, kokki, puutarhuri, siivooja. Lemmikin ruokakuppi kertoo, onko siinä ruokaa. Taksi ja muut jalkakäytävän reunassa odottavat autot ovat muiden esineiden joukossa odottaessaan.
+
+Simien jälkeen tulee **ongelmat**: se mikä vaatii huomiota, kuten rikkinäiset ja siivottavat esineet, tyhjä lemmikin ruokakuppi, lätäköt, roskat, tuhka ja tuli. Viimeisenä tulee **ovet, ikkunat ja portaat**. Asia, jota mikään Sim ei saavuta tontin sisäänkäynniltä, sanoo "mikään Sim ei pääse sen luo".
 
 ### Toimintovalikot
 
@@ -191,7 +197,10 @@ tapahtumat-puskuriin:
 
 - **Puhekuplat** simien yllä: "Carlos ajattelee: Energia", "Carlos sanoo: Politiikka", yliviivattu
   kuvake ("ei ..."), huudot ja suhdeotsikot ("suhde paranee", "uusi ystävä", "ensisuudelma").
+- **Mitä ateriasta puuttuu**: "Carlos ajattelee: tarvitaan työtaso" (uuni, liesi, grilli, mikroaaltouuni).
 - **Reitit**: "Carlos ei pääse sinne".
+- **Vieraat ovella**: "Elvira on ovella ja odottaa tervehdystä"; tervehdi häntä (hänen toimintovalikostaan) päästääksesi hänet sisään.
+- **Toiveet ja pelot**: "Carlos toteutti toiveen: Mene uimaan, 500 tavoitepistettä", "Carlos: pelko kävi toteen: ...".
 - Perheen **toiminnot**, laskevat **tarpeet**, **vieraat** sekä maksetut tai saadut rahat. Kun toiminto keskeytyy ja jää odottamaan jonoon, se kerrotaan: "Carlos keskeytti Istu toiminnon Paniikki vuoksi; se odottaa jonossa".
 - **Tontilta lähtevät huonekalut** (murtovaras, ulosottomies) arvoineen.
 
@@ -221,7 +230,7 @@ suuntaan, lähimmät valittua simiä ensin.
 | Control+Page Down, Control+Page Up | Huoneet, joissa on paikkoja. |
 | Vaihto+Page Down, Vaihto+Page Up (tai pilkku, piste) | Käännä sitä; suunta kerrotaan. |
 | Control+Vaihto+Page Down, Page Up | Tontin esineiden vieressä, lähin ensin, niitä kohti käännettynä, kun se mahtuu. |
-| Nuolinäppäimet | Siirrä sitä sen sijaan ruutu kerrallaan (Vaihto: viisi): mahtuuko se, mihin se osuu, huone kun se vaihtuu, sitä ympäröivät seinät, mihin suuntaan se on käännetty ja mitä kohti se on, ruutu; sitten ruudun äänet. Seinät, aidat ja ikkunat pysäyttävät sen; ovet päästävät sen läpi. |
+| Nuolinäppäimet | Siirrä sitä sen sijaan ruutu kerrallaan (Vaihto: viisi): mahtuuko se, mihin se osuu, huone kun se vaihtuu, sitä ympäröivät seinät, mihin suuntaan se on käännetty ja mitä kohti se on (kauempanakin: "kohti: Sohva, 3 ruudun päässä"), ruutu; sitten ruudun äänet. Seinät, aidat ja ikkunat pysäyttävät sen; ovet päästävät sen läpi. |
 | Alt+Nuolinäppäimet | Sama, seinien läpi. |
 | Home | Takaisin valitun simin luo. |
 | Enter | Osta se siihen; peli antaa uuden kappaleen, kunnes painat Escape. |
@@ -325,6 +334,6 @@ Asetuksia muuttavat näppäimet tallentavat ne heti.
 
 ## Vielä tekemättä
 
-Tapetit, piirretyt katot ja maasto rakennustilassa; nimet Luo simi -näkymän päille, hiuksille ja
+Tapetit, piirretyt katot ja maasto rakennustilassa; tavoitepalkintojen nimet; esineen asettaminen simin tavaraluettelosta tontille; nimet Luo simi -näkymän päille, hiuksille ja
 vaatteille; laajennusten omat näkymät (yliopisto, yöelämä, yritykset, vuodenajat, lomat,
 kerrostalot, taikuus) luetaan toistaiseksi vain yleisellä navigoinnilla.

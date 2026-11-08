@@ -84,6 +84,10 @@ Group LotsGroup() {
         r.item.number = lot.id;
         r.item.family = residents.empty() ? 0 : residents[0].id;
         r.item.label = lot.name + ", " + Status(lot, residents);
+        // Its size (in tens of tiles: the Contreras' 4 x 3 lot is 40 by 30 tiles), for a player
+        // choosing a lot to buy (a tester heard nothing of it).
+        if (lot.width > 0 && lot.depth > 0)
+            r.item.label += ", " + util::Format(S(Str::LotSize), lot.width * 10, lot.depth * 10);
         r.home = !residents.empty();
         r.sortKey = r.home ? residents[0].name : lot.name;
         rows.push_back(r);

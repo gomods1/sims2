@@ -131,7 +131,7 @@ int PromotionNeeds(Ptr bar, int steps) {
 
 // The nearest text above a window, overlapping it horizontally, among the windows beside it or
 // beside its container (screen coordinates); empty when none is close.
-std::string HeadingAbove(Ptr w) {
+std::string HeadingAbove(Ptr w, bool buttons = false) {
     RECT r = game::ScreenRect(w);
     std::string best;
     int bestGap = 120;
@@ -139,7 +139,8 @@ std::string HeadingAbove(Ptr w) {
     for (Ptr scope : {parent, game::Parent(parent)}) {
         if (!scope) continue;
         for (Ptr s : game::Children(scope)) {
-            if (s == w || s == parent || !game::Visible(s) || !game::IsText(s)) continue;
+            bool heading = game::IsText(s) || (buttons && game::IsButton(s) && game::CaptionShown(s));
+            if (s == w || s == parent || !game::Visible(s) || !heading) continue;
             RECT t = game::ScreenRect(s);
             int gap = r.top - t.bottom;
             if (gap < -4 || gap > bestGap || t.right <= r.left || t.left >= r.right) continue;
@@ -150,6 +151,45 @@ std::string HeadingAbove(Ptr w) {
         }
     }
     return best;
+}
+
+// The text on w's row (its vertical span overlaps w's), nearest beside it: the volume sliders'
+// names ("Música" right of its bar), the mute buttons' rows. Searched in w's parent and the one
+// above it (the mute buttons sit in a frame of their own).
+std::string RowLabel(Ptr w) {
+    RECT r = game::ScreenRect(w);
+    std::string best;
+    int bestGap = 400;
+    Ptr parent = game::Parent(w);
+    for (Ptr scope : {parent, game::Parent(parent)}) {
+        if (!scope) continue;
+        for (Ptr s : game::Children(scope)) {
+            if (s == w || s == parent || !game::Visible(s) || !game::IsText(s)) continue;
+            RECT t = game::ScreenRect(s);
+            int overlap = std::min(r.bottom, t.bottom) - std::max(r.top, t.top);
+            if (overlap < (std::min(r.bottom - r.top, t.bottom - t.top) + 1) / 2) continue;
+            int gap = t.left >= r.right ? t.left - r.right : r.left >= t.right ? r.left - t.right : 0;
+            std::string text = util::CleanForSpeech(game::Caption(s));
+            if (text.empty() || text.size() > 40 || gap >= bestGap) continue;
+            best = text;
+            bestGap = gap;
+        }
+    }
+    return best;
+}
+
+// A standing scroll bar with words beside it ("Menos" at its top, "Más" at its bottom: Suavizar
+// bordes) is a slider; a list's has none.
+bool StandingSlider(Ptr w) {
+    RECT r = game::ScreenRect(w);
+    for (Ptr s : game::Children(game::Parent(w))) {
+        if (s == w || !game::Visible(s) || !(game::IsText(s) || (game::IsButton(s) && game::CaptionShown(s)))) continue;
+        RECT t = game::ScreenRect(s);
+        bool beside = t.top >= r.top - 4 && t.bottom <= r.bottom + 4;
+        int gap = t.left >= r.right ? t.left - r.right : r.left >= t.right ? r.left - t.right : 0;
+        if (beside && gap < 60 && !util::CleanForSpeech(game::Caption(s)).empty()) return true;
+    }
+    return false;
 }
 
 // A plain button that is the only one on among at least four alike (same flags but the on bit):
@@ -379,6 +419,64 @@ struct Walker {
         return true;
     }
 
+    // A slider (cGZWinScrollbar2) with a name: a level bar (the volumes) by the text on its row,
+    // a standing one (Suavizar bordes) by the heading above. A list's scroll bar has neither and is
+    // left out (its list is read whole).
+    bool ScrollSlider(Ptr k, Ptr groupKey) {
+        int value, lo, hi, page;
+        if (!game::Scrollbar(k, &value, &lo, &hi, &page)) return false;
+        RECT r = game::Area(k);
+        bool level = r.right - r.left > r.bottom - r.top;
+        std::string name = level ? RowLabel(k) : StandingSlider(k) ? HeadingAbove(k, true) : "";
+        if (name.empty() || hi <= lo) return true;
+        Item it;
+        it.widget = k;
+        it.role = Role::Slider;
+        it.step = value - lo;
+        it.steps = hi - lo;
+        it.label = name;
+        it.rect = game::ScreenRect(k);
+        Add(groupKey, it);
+        return true;
+    }
+
+    // The live panel's aspiration meter (a gradient bar captioned "aspiration bar", -100..100,
+    // person data 160): read as a percentage among the panel's items (a tester did not know how
+    // the Sim's aspiration stood).
+    bool AspirationMeter(Ptr k, Ptr groupKey) {
+        if (game::Caption(k) != "aspiration bar") return false;
+        int percent;
+        if (!game::MeterPercent(k, &percent)) return true;
+        Item it;
+        it.widget = k;
+        it.role = Role::Text;
+        it.label = util::Format(S(Str::AspirationMeter), percent);
+        it.rect = game::ScreenRect(k);
+        Add(groupKey, it);
+        return true;
+    }
+
+    // A song of a radio station's list (cTSWinProcTrackItem: an "Enable" box and the title): one
+    // item, the title, on when the station plays it; Enter switches it.
+    bool TrackItem(Ptr k, Ptr groupKey) {
+        if (game::ProcClass(k) != "cTSWinProcTrackItem") return false;
+        Ptr box = 0;
+        std::string title;
+        for (Ptr c : game::Children(k)) {
+            if (!game::Visible(c) || !game::IsButton(c)) continue;
+            if (game::Caption(c) == "Enable") box = c;
+            else title = util::CleanForSpeech(game::Caption(c));
+        }
+        if (!box || title.empty()) return true;
+        Item it;
+        it.widget = box;
+        it.role = Role::Toggle;
+        it.label = title;
+        it.rect = game::ScreenRect(k);
+        Add(groupKey, it);
+        return true;
+    }
+
     // A row of unnamed choices between two trait names (a pet's personality: Genio ... Bobo,
     // cTSWinProcRadioGroup): the ends take the names, the others lie "between" them.
     bool RadioRow(Ptr k, Ptr groupKey) {
@@ -426,6 +524,9 @@ struct Walker {
             if (ListBox(k, w)) continue;
             if (Relationship(k, w)) continue;
             if (RadioRow(k, w)) continue;
+            if (ScrollSlider(k, w)) continue;
+            if (AspirationMeter(k, w)) continue;
+            if (TrackItem(k, w)) continue;
             if (StepBarItem(k, w, w)) continue;
             std::vector<Ptr> grandKids = game::Children(k);
             if (!grandKids.empty() && Thumbnail(k, grandKids, w)) continue;
@@ -647,13 +748,76 @@ std::vector<Group> Collect(Ptr root) {
             }
         }
         g.items = merged;
-        // Controls that share a label (four "Tono de piel" swatches, two body shapes) are told
-        // apart by their order: "Tono de piel 2".
+        // Controls that share a label take the heading above them ("Sombras: Bajo", the options'
+        // columns of choices) or else the text on their row ("Quitar sonido: Música"); each
+        // heading's controls then follow its first one (a column read down, not row by row).
+        // The headings so used are dropped as items of their own.
+        {
+            std::map<std::string, int> shared;
+            for (const Item& it : g.items)
+                if (it.role != Role::Text && it.role != Role::Slider) shared[it.label]++;
+            std::vector<std::string> headings(g.items.size());
+            bool any = false;
+            // The heading: the nearest item above in the same column that is a text or a control
+            // of its own name (the graphics options' "Sombras" is a button), within 120 pixels.
+            std::string title;  // the panel's title: its first text, when it comes first
+            if (!g.items.empty() && g.items[0].role == Role::Text) title = g.items[0].label;
+            auto above = [&](size_t i) -> std::string {
+                const RECT& r = g.items[i].rect;
+                std::string best;
+                int bestGap = 120;
+                for (size_t j = 0; j < g.items.size(); j++) {
+                    const Item& h = g.items[j];
+                    // A control as heading is a word drawn as a button (wide and low), never an
+                    // icon (the control panel's "Rotar" pair is no column under "Modo Comprar").
+                    bool wordLike = h.rect.right - h.rect.left >= 2 * (h.rect.bottom - h.rect.top);
+                    if (j == i || (h.role != Role::Text && (shared[h.label] > 1 || !wordLike))) continue;
+                    if (h.label == title) continue;  // the panel's own title is no column's heading
+                    if (h.rect.right <= r.left || h.rect.left >= r.right) continue;
+                    int gap = r.top - h.rect.bottom;
+                    if (gap < -4 || gap >= bestGap || h.label.size() > 40) continue;
+                    best = h.label;
+                    bestGap = gap;
+                }
+                return best;
+            };
+            for (size_t i = 0; i < g.items.size(); i++) {
+                Item& it = g.items[i];
+                if (it.role == Role::Text || it.role == Role::Slider || shared[it.label] < 2 || !it.widget) continue;
+                std::string h = above(i);
+                if (h.empty() || util::FoldForSearch(h) == util::FoldForSearch(it.label)) h = RowLabel(it.widget);
+                if (h.empty() || util::FoldForSearch(h) == util::FoldForSearch(it.label)) continue;
+                headings[i] = h;
+                any = true;
+            }
+            for (size_t i = 0; i < g.items.size(); i++)
+                if (!headings[i].empty())
+                    g.items[i].label = util::Format(S(Str::LabelValue), headings[i].c_str(), g.items[i].label.c_str());
+            if (any) {
+                std::map<std::string, size_t> first;
+                for (size_t i = 0; i < g.items.size(); i++)
+                    if (!headings[i].empty() && !first.count(headings[i])) first[headings[i]] = i;
+                std::vector<std::pair<size_t, size_t>> keys;  // (anchor, position)
+                std::vector<Item> sorted;
+                for (size_t i = 0; i < g.items.size(); i++) {
+                    if (g.items[i].role == Role::Text && first.count(g.items[i].label)) continue;
+                    keys.push_back({headings[i].empty() ? i : first[headings[i]], i});
+                }
+                std::stable_sort(keys.begin(), keys.end(),
+                                 [](const auto& a, const auto& b) { return a.first < b.first; });
+                for (const auto& k : keys) sorted.push_back(g.items[k.second]);
+                g.items = sorted;
+            }
+        }
+        // Controls that still share a label (four "Tono de piel" swatches, two body shapes) are
+        // told apart by their order: "Tono de piel 2".
         std::map<std::string, int> counts, seen;
+        // (A slider named as the word above it, "Suavizar bordes", is no other control's double.)
         for (const Item& it : g.items)
-            if (it.role != Role::Text) counts[it.label]++;
+            if (it.role != Role::Text && it.role != Role::Slider) counts[it.label]++;
         for (Item& it : g.items)
-            if (it.role != Role::Text && counts[it.label] > 1) it.label += " " + std::to_string(++seen[it.label]);
+            if (it.role != Role::Text && it.role != Role::Slider && counts[it.label] > 1)
+                it.label += " " + std::to_string(++seen[it.label]);
         g.bounds = g.items[0].rect;
         for (const Item& it : g.items) UnionRect(&g.bounds, &g.bounds, &it.rect);
         out.push_back(std::move(g));
