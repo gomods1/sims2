@@ -94,7 +94,6 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   field and Accept / Cancel; its neighborhood-view form `a99d8a11_49001020` has the usual
   neighborhood buttons and no lot filters); the relationship numbers of pairs without the selected Sim (the
   Sims 2 mod has no relationship watch yet: it speaks the game's headlines instead).
-- The shared installer has no Sims 2 entry: when it has one, the release workflow adds its exe.
 
 - Check in the game what the 2026-11-02 port could not try: an action with another Sim (no visitor
   was on the lot: "Carlos: Saludar, con Elvira"), the facing said when the camera turns (the

@@ -4,9 +4,10 @@
 # Run it by hand (Actions > Release > Run workflow) to build and check without releasing: the
 # zip comes back as a workflow artifact, packaged as v0.0.0.
 # The release carries Sims2Access-<tag>.zip (laid out like the game's EP9\TSBin folder) and
-# Sims2Access-<tag>.map (the core's map for crash offsets). The shared online installer has no
-# Sims 2 entry yet (ROADMAP.md): when it does, commit it as installer/Sims2AccessibilityInstaller.exe
-# and add it to the release's files, as the Sims 1 mod does.
+# Sims2Access-<tag>.map (the core's map for crash offsets) and
+# installer/Sims2AccessibilityInstaller.exe, built from the shared installer project
+# (..\installer, build_installer.bat) and committed here. The installer always fetches the latest
+# release, so it only needs recommitting when the installer itself changes.
 name: Release
 
 on:
@@ -48,6 +49,10 @@ jobs:
           Expand-Archive (Join-Path $env:RUNNER_TEMP prism-windows-x64.zip) -DestinationPath $prism
           "PRISM=$prism" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
+      - name: Check that the installer is committed
+        shell: bash
+        run: test -f installer/Sims2AccessibilityInstaller.exe
+
       - name: Build and package (checks the manual's translations first)
         shell: pwsh
         run: python tools/package.py $env:TAG --no-installer
@@ -68,4 +73,5 @@ jobs:
           files: |
             mod/out/Sims2Access-${{ github.ref_name }}.zip
             mod/out/Sims2Access-${{ github.ref_name }}.map
+            installer/Sims2AccessibilityInstaller.exe
           generate_release_notes: true

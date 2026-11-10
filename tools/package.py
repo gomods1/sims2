@@ -12,8 +12,9 @@
        Sims2Access\\docs\\<tag>.html    (the manual in every language, tools/build_docs.py)
        Sims2Access\\licenses\\...       (MinHook, Prism and its parts)
    and mod\\out\\Sims2Access-<tag>.map, the core's map for crash offsets of that release.
-4. ..\\installer\\build_offline_sims2.bat with that zip, when it exists (the shared installer has
-   no Sims 2 entry yet: ROADMAP.md).
+4. ..\\installer\\build_offline_sims2.bat with that zip:
+   ..\\installer\\Sims2AccessibilityInstaller-<tag>-offline.exe (the release workflow skips it with
+   --no-installer and publishes the committed online installer instead).
 """
 import argparse
 import os
@@ -78,7 +79,7 @@ def main():
     if args.no_installer:
         return
     if not script.is_file():
-        print(f"note: no {script}; the shared installer has no Sims 2 entry yet, only the zip was made")
+        print(f"note: no {script} (the shared installer project); only the zip was made")
         return
     subprocess.run(["cmd", "/c", str(script), str(zip_path), args.tag], check=True)
 

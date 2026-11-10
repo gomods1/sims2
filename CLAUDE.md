@@ -94,13 +94,17 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
   19 languages), the manual `docs/manual/en.md` and its 19 translations, and `NAVIGATION.md` when the
   grammar changes. `python tools/build_docs.py --check` compares each translation with en.md
   (headings, table rows, list items, the key combinations of each row: an ASCII "+" joins keys).
-- **Release**: `python tools/package.py vX.Y.Z` checks the manual, builds, writes
-  `mod\out\Sims2Access-vX.Y.Z.zip` (+ `.map`); the shared installer (`..\installer`) has no Sims 2
-  entry yet (ROADMAP). Pushing a tag (`git tag vX.Y.Z && git push origin vX.Y.Z`) runs
+- **Release** (the repo, github.com/gomods1/sims2, is public since 2026-11-10; v0.1.0 the first
+  release): pushing a tag (`git tag vX.Y.Z && git push origin vX.Y.Z`) runs
   `.github/workflows/release.yml` (ported from the Sims 1 mod, 2026-11-07): a Windows runner
   downloads Prism (`PRISM_VERSION`, `PRISM` for `build.bat` and `package.py`), finds MSVC through
-  vswhere (`build.bat`, when `VCVARS` is not there), builds and publishes the zip and its map;
-  Actions > Release > Run workflow builds without releasing. Not run yet (the repo is private).
+  vswhere (`build.bat`, when `VCVARS` is not there), builds and publishes
+  `Sims2Access-vX.Y.Z.zip`, its `.map` and the committed online installer
+  `installer/Sims2AccessibilityInstaller.exe` (shared project `..\installer`, game entry 9 in
+  `src\games.rs`, `src/bin/sims2.rs`; it downloads the latest release's zip into `EP9\TSBin`, so
+  recommit it only when the installer changes). Actions > Release > Run workflow builds without
+  releasing. Locally, `python tools/package.py vX.Y.Z` checks the manual, builds the same zip and
+  the offline installer `..\installer\Sims2AccessibilityInstaller-vX.Y.Z-offline.exe`.
 - **Dev loop** (`Sims2Access\dev.txt`): the loader hot-reloads `Sims2Access.dll` within a second of a
   rebuild. Dev builds also take requests from files: `tools/game.py shot <name>` (screenshot),
   `tools/game.py cheat "<line>"` (a cheat console line through the game's cheat system) and
