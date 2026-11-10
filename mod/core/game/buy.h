@@ -6,6 +6,8 @@
 
 #include <cstdint>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "memory.h"
 
@@ -21,10 +23,16 @@ struct Product {
     bool isObject = false;  // a buy mode object (cTSProductObject); else a wall, floor, roof...
     uint32_t guid = 0;
     int ratings[kRatingCount] = {};  // what the hover popup shows ("Comodidad: 2")
+    // The floor it takes as the catalog shows it (before any turn): tiles along its two sides
+    // (from its multi-tile parts' tile offsets), 0 when unknown.
+    int across = 0, deep = 0;
 };
 
 // The product a catalog thumbnail window (proc cTSWinProcCatalogThumbnail) shows.
 bool ReadProduct(Ptr thumbnail, Product* out);
+// The reward an aspiration or career rewards catalog cell (proc cTSWinProc*RewardThumbnail) shows:
+// a product as the buy catalog's (its price is in aspiration points for an aspiration reward).
+bool ReadRewardProduct(Ptr thumbnail, Product* out);
 
 void InitBuyHooks();  // from InitHooks (MinHook ready)
 
@@ -53,17 +61,32 @@ struct HeldObject {
     bool holding = false;  // an object is on the cursor now
     Ptr object = 0;        // it (cTSObject)
     uint32_t guid = 0;     // the last held object's GUID (kept after it is put down)
-    int direction = 0;   // 0, 2, 4, 6 (the tool's rotation, wrapped)
+    int direction = 0;   // the way the held object faces and will be put down: 0 -x (west), 2 +y,
+                         // 4 +x, 6 -y, from the tool's rotation (the object faces 2 - rotation)
     float x = 0, y = 0;  // the snapped spot (tile centres)
     int level = 0;       // 1 = ground floor
     bool overLot = false;
     int objectType = 0;  // OBJD type of the held object: 8 door, 9 window (objd::kType)
+    // The held object's own direction variable (-1 unknown): the game's , and . update it, the
+    // mod's rotation writes do not, so it can be stale; `direction` is what is put down.
+    int facing = -1;
 };
+// The tiles a multi-tile object (its lead part) covers facing `direction` with its lead on (x, y),
+// from its definition's part offsets; empty for one tile or when unknown. A held object stands
+// nowhere on the lot, so its parts cannot tell.
+std::vector<std::pair<int, int>> HeldFootprint(Ptr object, int direction, int x, int y);
 // The object placement tool's state; false when the tool is no object tool.
 bool ReadHeldObject(Ptr tool, HeldObject* out);
+// Why the held object does not fit where the tool last judged it, in the game's words ("Debe estar
+// contra una pared"), as a click would show it; empty when it fits or nothing is known. *code: the
+// game's error code (0x0c: it overlaps other objects).
+std::string PlacementReason(Ptr tool, int* code = nullptr);
 // Turns the held object to a direction (0, 2, 4, 6) as the game's , and . keys do, by the tool's
 // rotation (the next pick shows it). False when the tool holds nothing.
 bool SetHeldDirection(Ptr tool, int direction);
+// The tool's raw rotation, to put back exactly what trials changed.
+int HeldRotation(Ptr tool);
+bool SetHeldRotation(Ptr tool, int rotation);
 
 // Moves the held object to a spot right away (the tool's own mouse-move handling, with the pick
 // answering this spot) and returns the tool's verdict: 1 fits, 0 not, -1 no verdict (the tool

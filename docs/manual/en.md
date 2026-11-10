@@ -37,7 +37,7 @@ and some items open a deeper **level**.
 | Key | What it does |
 |---|---|
 | Tab, Shift+Tab | Next or previous group. The group's name and number of items are said first. |
-| Up, Down (or Left, Right) | Previous or next item in the group. |
+| Up, Down (or Left, Right) | Previous or next item in the group. In the catalogs of buy and build mode, Left and Right turn the page instead. |
 | Home, End | First or last item in the group. |
 | Enter | Press the item. On a level (a kind or a room of the lot's things) open it. |
 | Backspace | Back up a level. |
@@ -107,7 +107,7 @@ On a lot the screen is a ring of groups like any other. Tab goes through them in
    personality, interests...), the family, wants and fears, and any panel you open.
 5. **mod help**.
 
-The Sim panel says the Sim's aspiration ("Aspiration: 24 percent"); the rewards panel (Rewards, then Aspiration rewards) says the aspiration points to spend.
+The Sim panel says the Sim's aspiration ("Aspiration: 24 percent"); the rewards panel (Rewards, then Aspiration rewards) says the aspiration points to spend, and each reward its name, its price in aspiration points and whether the Sim has enough ("can't afford"); its description is in the details buffer.
 
 The game's options (the control panel's Options button) are read the same way: each choice says its setting ("Shadows: High") and the sliders, such as the music volume, change with Left and Right ("Music, slider, 35 of 100"). A radio station's songs are a group of their own; Enter switches a song on or off.
 
@@ -150,7 +150,7 @@ buy and build mode.
 | Control+F | Find a thing: type part of its name ("tel" finds the telephone, accents do not matter). Up and Down go through what matches, Enter acts on it, Control+Enter walks there, Delete removes a door or window, Escape goes back to where you were. |
 | Delete | On a door or window, in buy mode or with build mode's hand: picks it up and sells it, refunded. |
 
-Sims with a job on the lot say it: "Ravi Pérez, mail carrier", the waiter, the chef, the gardener, the maid. A pet's food bowl says whether it has food. The taxi and other cars at the curb are among the other things while they wait.
+Sims with a job on the lot say it: "Ravi Pérez, mail carrier", the waiter, the chef, the gardener, the maid. A pet's food bowl says whether it has food. The taxi and other cars at the curb, the car that picks a Sim up for an outing among them, are among the other things while they wait.
 
 After the Sims comes **problems**: what wants attention, such as broken things, things that need cleaning, an empty pet bowl, puddles, rubbish, ashes and fire. Last comes **doors, windows and stairs**. A thing no Sim can get to from the lot's entrance says "no Sim can reach it".
 
@@ -164,7 +164,7 @@ the thing.
 
 | Key | What it does |
 |---|---|
-| Control+L | The room's layout (at the build cursor or the map cursor, else where the selected Sim stands): name, floor, tiles, bounds, doors and windows; each door and window, with its wall and the room behind it, is in the details buffer. |
+| Control+L | The room's layout (at the build cursor or the map cursor, else where the selected Sim stands): name, floor, tiles, bounds, doors and windows; each door and window, with its wall and the room behind it, is in the details buffer. It also says the room's light ("light 64%": windows and lamps), which counts toward the Room need. |
 
 ### The lot map
 
@@ -174,7 +174,7 @@ window around it.
 
 | Key | What it does |
 |---|---|
-| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and the floor when they change, the walls, fences, railings, doors and windows by side, stairs and slopes. Walls, fences and windows stop the cursor; doors let it through. |
+| Arrows | One tile; with Shift, five. Says what stands there and which way it faces, the room and the floor when they change, the walls, fences, railings, doors and windows by side, stairs and slopes. Walls, fences and windows stop the cursor; doors let it through. With an indoor room comes its light ("light 64%": 0% is what the game counts as dark), which counts toward the Room need. |
 | Alt+Arrows | The same, through walls. |
 | Comma, period | What each step says: everything, objects only, floors only (by name, "Light granite tile"), walls only, rooms only. |
 | Home | Back to the selected Sim. |
@@ -190,8 +190,9 @@ window around it.
 The game shows many things only as pictures. The mod says them as they happen and keeps them in
 the events buffer:
 
-- **Balloons** over Sims: "Carlos thinks: Energy", "Carlos says: Politics", a crossed-out icon
-  ("no ..."), screams, and the relationship headlines ("the relationship improves", "new
+- **Balloons** over Sims: "Carlos thinks: Energy", "Carlos talks about Politics" (a conversation's
+  balloons are its topics; a crossed-out one: "Carlos complains about Politics"), a crossed-out
+  thought ("no ..."), screams, a student's major ("talks about Biology"), and the relationship headlines ("the relationship improves", "new
   friend", "first kiss").
 - **What a meal lacks**: "Carlos thinks: a counter is needed" (an oven, a stove, a grill, a microwave).
 - **Routes**: "Carlos cannot get there".
@@ -211,9 +212,14 @@ Actions with another Sim name that Sim, whoever started them: "Carlos: Greet, wi
 
 ## Buy mode
 
-F2 opens buy mode. The catalog's products are buttons: each product says its name, price and
-ratings, and the details buffer holds its description. Moving past a page's last product (or
-before its first) turns the page.
+F2 opens buy mode. The catalog's products are buttons: each product says its name, price,
+size in tiles, the longer side first ("2 by 1 tiles"), and ratings; the details buffer holds its
+description. Moving past a page's last product (or before its first) turns the page.
+
+| Key | What it does |
+|---|---|
+| Left, Right | The previous or next page of the catalog, from its first product ("last page" at the end); Up and Down go product by product. |
+| Backspace | Back from a subcategory (dining chairs) to the categories. |
 
 ### Placing an object
 
@@ -235,7 +241,13 @@ direction, nearest to the selected Sim first.
 | R | Say the spot again, in full. |
 
 A multi-tile object says how much floor it takes ("takes 2 tiles: 2 west to east, 1 north to
-south").
+south"). Its first line, each turn and R also say which part of it the cursor is on and where
+the rest goes ("cursor on its west edge, it extends 2 tiles east").
+
+When it does not fit, the line says why in the game's own words ("Must be against wall"), or
+what it runs into, and ends with what would work: the facing that fits on the same tile ("fits
+when turned, facing south"), else the nearest tile where it fits ("nearest fit 1 tile north,
+facing south"). The room's light comes with the room, as on the lot map.
 
 A seat's spots come first where something is used sitting down, such as a computer on a desk, and the seat is turned toward it: "facing west, to use Computer sitting down". After an object is placed the mod says how it will be used: "to use Computer sitting down", "used from Office chair", "Sims can reach it" or "no Sim can reach it".
 
@@ -329,6 +341,6 @@ The keys that change them save them at once.
 
 ## Not done yet
 
-Wallpaper, drawn roofs and terrain in build mode; the names of the aspiration rewards; putting an object from a Sim's inventory on the lot; names for Create a Sim's heads, hair and
+Wallpaper, drawn roofs and terrain in build mode; naming the wants and fears Sims talk about; putting an object from a Sim's inventory on the lot; names for Create a Sim's heads, hair and
 clothes; the expansions' own screens (university, nightlife, business, seasons, vacations,
 apartments, magic) are only read by the generic navigation so far.

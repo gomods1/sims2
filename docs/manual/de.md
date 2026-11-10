@@ -25,7 +25,7 @@ Jeder Bildschirm, jeder Dialog, jede Leiste und jeder Modus funktioniert gleich.
 | Taste | Was sie tut |
 |---|---|
 | Tab, Umschalt+Tab | Nächste oder vorherige Gruppe. Zuerst werden der Name der Gruppe und die Zahl ihrer Elemente gesagt. |
-| Pfeil nach oben, Pfeil nach unten (oder Pfeil nach links, Pfeil nach rechts) | Vorheriges oder nächstes Element der Gruppe. |
+| Pfeil nach oben, Pfeil nach unten (oder Pfeil nach links, Pfeil nach rechts) | Vorheriges oder nächstes Element der Gruppe. In den Katalogen von Kauf- und Baumodus blättern Pfeil nach links und Pfeil nach rechts stattdessen um. |
 | Pos1, Ende | Erstes oder letztes Element der Gruppe. |
 | Eingabe | Aktiviert das Element. Auf einer Ebene (einer Art oder einem Zimmer der Objekte des Grundstücks) öffnet sie diese. |
 | Rücktaste | Eine Ebene zurück. |
@@ -82,7 +82,7 @@ Auf einem Grundstück ist die Oberfläche ein Ring von Gruppen wie jeder andere.
 4. Die Leisten des Spiels: die Steuerleiste, die Sim-Leiste (Bedürfnisse, Beziehungen, Beruf, Fähigkeiten, Persönlichkeit, Hobbys...), die Familie, Wünsche und Ängste und jede Leiste, die Du öffnest.
 5. **Mod-Hilfe**.
 
-Die Sim-Leiste sagt die Laufbahn des Sims („Laufbahn: 24 Prozent“); die Belohnungsleiste (Belohnungen, dann Laufbahn-Belohnungen) sagt die Laufbahnpunkte, die Du ausgeben kannst.
+Die Sim-Leiste sagt die Laufbahn des Sims („Laufbahn: 24 Prozent“); die Belohnungsleiste (Belohnungen, dann Laufbahn-Belohnungen) sagt die Laufbahnpunkte, die Du ausgeben kannst, und jede Belohnung ihren Namen, ihren Preis in Laufbahnpunkten und ob der Sim genug hat („zu teuer“); ihre Beschreibung steht im Details-Puffer.
 
 Die Optionen des Spiels (der Schalter Optionen in der Steuerleiste) werden genauso gelesen: jede Auswahl sagt ihre Einstellung („Schatten: Hoch“), und die Schieberegler, etwa die Lautstärke der Musik, ändern sich mit Pfeil nach links und Pfeil nach rechts („Musik, Schieberegler, 35 von 100“). Die Lieder eines Radiosenders sind eine eigene Gruppe; die Eingabetaste schaltet ein Lied ein oder aus.
 
@@ -119,7 +119,7 @@ Du musst nicht mit Tab dorthin: die Bild-Tasten gehen von überall auf dem Grund
 | Strg+F | Etwas finden: Tippe einen Teil des Namens („tel" findet das Telefon, Akzente sind egal). Auf und Ab gehen durch die Treffer, die Eingabetaste handelt daran, Strg+Eingabe geht dorthin, Entf entfernt eine Tür oder ein Fenster, Escape führt zurück. |
 | Entf | Auf einer Tür oder einem Fenster, im Kaufmodus oder mit der Hand des Baumodus: nimmt sie auf und verkauft sie mit Erstattung. |
 
-Sims mit einem Job auf dem Grundstück sagen ihn: „Ravi Pérez, Briefträger“, der Kellner, der Koch, der Gärtner, das Hausmädchen. Der Futternapf eines Haustiers sagt, ob Futter darin ist. Das Taxi und andere Autos am Straßenrand stehen unter Sonstiges, solange sie warten.
+Sims mit einem Job auf dem Grundstück sagen ihn: „Ravi Pérez, Briefträger“, der Kellner, der Koch, der Gärtner, das Hausmädchen. Der Futternapf eines Haustiers sagt, ob Futter darin ist. Das Taxi und andere Autos am Straßenrand, darunter das Auto, das einen Sim zu einem Ausflug abholt, stehen unter Sonstiges, solange sie warten.
 
 Nach den Sims kommt **Probleme**: was Aufmerksamkeit braucht, etwa Kaputtes, zu Putzendes, ein leerer Futternapf, Pfützen, Müll, Asche und Feuer. Zuletzt kommt **Türen, Fenster und Treppen**. Ein Ding, das kein Sim vom Eingang des Grundstücks aus erreichen kann, sagt „kein Sim kann es erreichen“.
 
@@ -131,7 +131,7 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 
 | Taste | Was sie tut |
 |---|---|
-| Strg+L | Der Aufbau des Zimmers (am Bau-Cursor oder am Plan-Cursor, sonst dort, wo der ausgewählte Sim steht): Name, Etage, Felder, Grenzen, Türen und Fenster; jede Tür und jedes Fenster steht mit seiner Wand und dem Zimmer dahinter im Details-Puffer. |
+| Strg+L | Der Aufbau des Zimmers (am Bau-Cursor oder am Plan-Cursor, sonst dort, wo der ausgewählte Sim steht): Name, Etage, Felder, Grenzen, Türen und Fenster; jede Tür und jedes Fenster steht mit seiner Wand und dem Zimmer dahinter im Details-Puffer. Es sagt auch das Licht des Zimmers („Licht 64 %“: Fenster und Lampen), das für das Bedürfnis Umgebung zählt. |
 
 ### Der Grundstücksplan
 
@@ -139,7 +139,7 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 
 | Taste | Was sie tut |
 |---|---|
-| Pfeiltasten | Ein Feld; mit Umschalt fünf. Sagt, was dort steht und wohin es zeigt, das Zimmer und den Boden, wenn sie wechseln, die Wände, Zäune, Geländer, Türen und Fenster nach Seite, Treppen und Hänge. Wände, Zäune und Fenster halten den Cursor an; Türen lassen ihn durch. |
+| Pfeiltasten | Ein Feld; mit Umschalt fünf. Sagt, was dort steht und wohin es zeigt, das Zimmer und den Boden, wenn sie wechseln, die Wände, Zäune, Geländer, Türen und Fenster nach Seite, Treppen und Hänge. Wände, Zäune und Fenster halten den Cursor an; Türen lassen ihn durch. Bei einem Zimmer im Haus kommt sein Licht dazu („Licht 64 %“: 0 % ist, was das Spiel als dunkel zählt), das für das Bedürfnis Umgebung zählt. |
 | Alt+Pfeiltasten | Dasselbe, durch Wände hindurch. |
 | Komma, Punkt | Was jeder Schritt sagt: alles, nur Objekte, nur Böden (mit Namen, „Helle Granitfliese“), nur Wände, nur Zimmer. |
 | Pos1 | Zurück zum ausgewählten Sim. |
@@ -154,7 +154,7 @@ Eingabe auf einem Objekt (oder einem Sim) öffnet das Interaktionsmenü des Spie
 
 Das Spiel zeigt vieles nur als Bild. Der Mod sagt es, wenn es passiert, und behält es im Ereignis-Puffer:
 
-- **Sprechblasen** über Sims: „Carlos denkt: Energie“, „Carlos sagt: Politik“, ein durchgestrichenes Symbol („kein ...“), Schreie und die Beziehungsschlagzeilen („Beziehung wird besser“, „neuer Freund“, „erster Kuss“).
+- **Sprechblasen** über Sims: „Carlos denkt: Energie“, „Carlos spricht über Politik“ (die Sprechblasen eines Gesprächs sind seine Themen; eine durchgestrichene: „Carlos beschwert sich über Politik“), ein durchgestrichener Gedanke („kein ...“), Schreie, das Hauptfach eines Studenten („spricht über Biologie“) und die Beziehungsschlagzeilen („Beziehung wird besser“, „neuer Freund“, „erster Kuss“).
 - **Was einer Mahlzeit fehlt**: „Carlos denkt: eine Arbeitsplatte fehlt“ (ein Ofen, ein Herd, ein Grill, eine Mikrowelle).
 - **Wege**: „Carlos kommt nicht hin“.
 - **Besucher an der Tür**: „Elvira ist an der Tür und wartet darauf, begrüßt zu werden“; begrüße sie (ihr Interaktionsmenü), um sie hereinzulassen.
@@ -172,7 +172,12 @@ Aktionen mit einem anderen Sim nennen diesen Sim, egal wer sie begonnen hat: „
 
 ## Der Kaufmodus
 
-F2 öffnet den Kaufmodus. Die Produkte des Katalogs sind Schalter: jedes Produkt sagt Namen, Preis und Bewertungen, und der Details-Puffer enthält seine Beschreibung. Wenn Du über das letzte Produkt einer Seite hinausgehst (oder vor das erste), wird umgeblättert.
+F2 öffnet den Kaufmodus. Die Produkte des Katalogs sind Schalter: jedes Produkt sagt Namen, Preis, Größe in Feldern, die längere Seite zuerst („2 mal 1 Felder“), und Bewertungen; der Details-Puffer enthält seine Beschreibung. Wenn Du über das letzte Produkt einer Seite hinausgehst (oder vor das erste), wird umgeblättert.
+
+| Taste | Was sie tut |
+|---|---|
+| Pfeil nach links, Pfeil nach rechts | Die vorherige oder nächste Seite des Katalogs, ab ihrem ersten Produkt („letzte Seite“ am Ende); Pfeil nach oben und Pfeil nach unten gehen von Produkt zu Produkt. |
+| Rücktaste | Von einer Unterkategorie (Esszimmerstühle) zurück zu den Kategorien. |
 
 ### Ein Objekt platzieren
 
@@ -192,7 +197,9 @@ Eingabe auf einem Produkt nimmt es auf. Der Mod findet jeden Platz des Grundstü
 | Entf | Verkauft das gehaltene Objekt. |
 | R | Sagt den Platz noch einmal, vollständig. |
 
-Ein Objekt über mehrere Felder sagt, wie viel Boden es belegt („belegt 2 Felder: 2 von West nach Ost, 1 von Nord nach Süd“).
+Ein Objekt über mehrere Felder sagt, wie viel Boden es belegt („belegt 2 Felder: 2 von West nach Ost, 1 von Nord nach Süd“). Seine erste Zeile, jede Drehung und R sagen auch, an welchem Teil davon der Cursor ist und wohin der Rest reicht („Cursor an seinem Rand im Westen, es reicht 2 Felder Richtung Osten“).
+
+Wenn es nicht passt, sagt die Zeile mit den Worten des Spiels, warum („Muss an einer Wand stehen“), oder woran es stößt, und endet mit dem, was gehen würde: der Ausrichtung, in der es auf demselben Feld passt („passt gedreht, Ausrichtung: Süden“), sonst dem nächsten Feld, auf das es passt („nächster passender Platz 1 Feld Richtung Norden, Ausrichtung: Süden“). Das Licht des Zimmers kommt mit dem Zimmer, wie auf dem Grundstücksplan.
 
 Die Plätze einer Sitzgelegenheit beginnen dort, wo etwas im Sitzen benutzt wird, etwa ein Computer auf einem Schreibtisch, und der Sitz wird dorthin gedreht: „nach Westen, um Computer im Sitzen zu benutzen“. Nach dem Platzieren sagt der Mod, wie das Objekt benutzt wird: „um Computer im Sitzen zu benutzen“, „benutzt von Bürostuhl aus“, „Sims können es erreichen“ oder „kein Sim kann es erreichen“.
 
@@ -274,4 +281,4 @@ Die Einstellungen des Mods stehen in `Sims2Access\Sims2Access.ini` im Ordner des
 
 ## Noch nicht fertig
 
-Tapeten, gezeichnete Dächer und Gelände im Baumodus; die Namen der Laufbahn-Belohnungen; ein Objekt aus dem Inventar eines Sims auf das Grundstück stellen; Namen für die Köpfe, Frisuren und Kleidung in „Einen Sim erstellen“; die eigenen Bildschirme der Erweiterungen (Uni, Nightlife, Geschäfte, Jahreszeiten, Urlaub, Wohnungen, Magie) werden bisher nur von der allgemeinen Navigation gelesen.
+Tapeten, gezeichnete Dächer und Gelände im Baumodus; die Wünsche und Ängste benennen, über die Sims sprechen; ein Objekt aus dem Inventar eines Sims auf das Grundstück stellen; Namen für die Köpfe, Frisuren und Kleidung in „Einen Sim erstellen“; die eigenen Bildschirme der Erweiterungen (Uni, Nightlife, Geschäfte, Jahreszeiten, Urlaub, Wohnungen, Magie) werden bisher nur von der allgemeinen Navigation gelesen.

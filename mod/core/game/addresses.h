@@ -205,6 +205,7 @@ constexpr int kPrice = 0x28;
 constexpr int kType = 0x16;            // u16 object type (OBJD field 9): 4 normal, 8 door, 9 window
                                        // (a door's parts stand on both sides of its wall: the lead
                                        // part in front, facing its direction, the other behind)
+constexpr int kMasterId = 0x18;        // u16 multi-tile group (OBJD field 10): its parts and master share it, 0 one tile
 constexpr int kSubIndex = 0x1a;        // u16 multi-tile part (OBJD field 11): (column << 8) | row, 0 the lead
 constexpr int kRoomFlags = 0x52;       // u16 buy mode rooms: 1 kitchen, 2 bedroom, 4 bathroom, 8 living,
                                        // 0x10 outside, 0x20 dining, 0x40 misc, 0x80 study, 0x100 kids
@@ -235,6 +236,35 @@ constexpr int kSelector = 0xfc;          // cTSObjectSelector
 constexpr int kSelectorObjd = 0x60;      // selector -> the OBJD resource (objd:: offsets apply)
 constexpr int kThumbnailButton = 0x10;   // thumbnail proc -> its cGZWinBtn interface (the click)
 }  // namespace product
+
+// Light (found 2026-11-10 by static analysis; STRUCTS.md "Light"): the scene graph system
+// (nTSSG::cTSSGSystem, [0xa10cc458], also cached at [0xa10cc29c], both filled lazily) keeps the
+// lighting manager (nTSSG::cLightingManager, vtable 0xa0db5e90) at +0xa4. Its slot 34 (0xa02ded50,
+// thiscall float (const Spot* {float x, y; int level}), the level as RoomAt's) is the light at a
+// spot from that floor's light map, 0.30 R + 0.59 G + 0.11 B: what the environment score
+// (cTSEnvironmentScoreManager slot 8, 0xa045a930) reads at a Sim for the Room need. That manager
+// ([cTSGlobals +0x50]) keeps its tuning at +0x14 (lighting's share of the score, 0.2), +0x18 (the
+// light counted as dark, 0.55) and +0x1c (fully lit, 0.9).
+namespace light {
+constexpr uintptr_t kSceneGraph = 0xa10cc458, kSceneGraphCached = 0xa10cc29c;
+constexpr int kLightingManager = 0xa4;
+constexpr uintptr_t kLightingManagerVtable = 0xa0db5e90;
+constexpr int kSlotLightAt = 34;
+constexpr int kGlobalsEnvironment = 0x50;
+constexpr int kEnvDark = 0x18, kEnvLit = 0x1c;
+}  // namespace light
+
+// The Sim panel's rewards catalogs (cTSWinProcAspirationRewardsCatalog, cTSWinProcCareerRewardsCatalog:
+// the same layout, found 2026-11-10 by static analysis of 0xa066a618, which fills the list from
+// cTSGlobals +0x40's products whose OBJD function flags have 0x400, and 0xa066def7, which sets up a
+// cell). The catalog proc keeps a std::vector of product interfaces (as product::kThumbnailProduct
+// holds) at +0x164; each cell's proc (cTSWinProc*RewardThumbnail) keeps its item's index into it,
+// pages included. An aspiration reward's price is in aspiration points: affordable when it is not
+// above the Sim's points (person data 161 x 10).
+namespace reward {
+constexpr int kCatalogItems = 0x164;   // catalog proc: begin, end
+constexpr int kThumbnailIndex = 0x20;  // cell proc: int index into kCatalogItems
+}  // namespace reward
 
 // The main toolbar (cTSMainToolbar), a system service: the current UI mode and the current user tool.
 namespace toolbar {
@@ -270,6 +300,21 @@ constexpr int kSnapped = 0x80;              // float x, y, int level: where the 
 constexpr int kHeldGuid = 0xa4;             // the last held object's GUID (kept after it is put down)
 constexpr uint32_t kIsHolding = 0xa067be89;  // cTSUserToolObject: thiscall () -> bool, an object is held
 constexpr uint32_t kHeldObject = 0xa067cb69; // cTSUserToolObject: thiscall () -> the held cTSObject or 0
+// Why the held object does not fit (found 2026-11-10 by static analysis, STRUCTS.md "Buy mode"):
+// the judge (slot 71, 0xa06815d7) empties and refills a std::set of placement errors at +0x118
+// (head node; +0x11c the count) on each check. A node's value at +0x10: int code, float pos[3],
+// cTSObject*, int kind (0 the game's own text, UIText STR# 0x89; 1 the object's own; 2 the list of
+// places it may go). The first node (the head's left) is the one the game shows on a click.
+// 0xa07f0c00: thiscall bool (value*, cIGZString** out) gives its text, as the game shows it.
+constexpr int kErrorSet = 0x118;
+constexpr int kErrorCount = 0x11c;
+constexpr int kErrorValue = 0x10;
+constexpr uint32_t kErrorText = 0xa07f0c00;
+// kRotation is not the object's facing (read live 2026-11-10 on a chair and a sofa: the game's
+// , and . turned rotation 0, 2, 4, 6 into the object's direction variable 2, 0, 6, 4, and three
+// sofas put down at rotation 4, 2, 2 faced 6, 0, 0): the object faces (2 - rotation) mod 8. The
+// held object's own direction variable follows only the game's turning keys, not a rotation the
+// mod writes (it read 0 at rotations 4 and 2 after the mod's turns), so the mod uses the formula.
 constexpr int kRotation = 0xa0;             // int, the held object's direction: steps of 2 (8 = a turn),
                                             // not wrapped (the game's , and . add -2 / +2)
 constexpr int kSlotMouseMessage = 42;       // thiscall (int message, int pos[2] screen): 3 = move; runs
@@ -338,6 +383,15 @@ constexpr int kGlobalsSlotFolder = 24;
 constexpr int kFolderSlotByGuid = 14;
 constexpr int kEntrySlotName = 48;
 constexpr int kStringSlotText = 5;
+// The folder (that interface) keeps every object definition it loaded as cTSObjectSelectors: a
+// vector at +0x50 (begin, end) and a second one through [+0x6c] (begin, end), as its slot 13
+// (0xa04d3570, by index across both) reads them, valid while the byte at +0xc is set. Its slot 22
+// (0xa04d3450) finds a part's master the same way: the selector of the same resource file
+// (selector +0x90, its slot 66) whose OBJD has the same field 10 (objd::kMasterId).
+constexpr int kFolderLoaded = 0xc;
+constexpr int kFolderSelectors = 0x50;
+constexpr int kFolderMoreSelectors = 0x6c;
+constexpr int kSelectorFile = 0x90;
 }  // namespace catalog
 
 // A Sim's motives, as Lua's GetPersonMotive (0xa0574040): the object's QueryInterface (slot 0)

@@ -37,7 +37,7 @@ otevírají hlubší **úroveň**.
 | Klávesa | Co dělá |
 |---|---|
 | Tab, Shift+Tab | Další nebo předchozí skupina. Nejprve zazní název skupiny a počet položek. |
-| Šipka nahoru, šipka dolů (nebo šipka vlevo, šipka vpravo) | Předchozí nebo další položka skupiny. |
+| Šipka nahoru, šipka dolů (nebo šipka vlevo, šipka vpravo) | Předchozí nebo další položka skupiny. V katalozích režimu nákupu a stavby šipka vlevo a šipka vpravo místo toho otáčejí stránky. |
 | Home, End | První nebo poslední položka skupiny. |
 | Enter | Stiskne položku. Na úrovni (druh nebo místnost předmětů pozemku) ji otevře. |
 | Backspace | Zpět o úroveň výš. |
@@ -109,7 +109,7 @@ Na pozemku je obrazovka kruh skupin jako kterákoli jiná. Tab je prochází v t
    zájmy...), rodina, přání a obavy a každý panel, který otevřete.
 5. **nápověda modu**.
 
-Panel simíka řekne Simovu aspiraci („Aspirace: 24 procent“); panel odměn (Odměny, potom Odměny za aspiraci) řekne aspirační body, které lze utratit.
+Panel simíka řekne Simovu aspiraci („Aspirace: 24 procent“); panel odměn (Odměny, potom Odměny za aspiraci) řekne aspirační body, které lze utratit, a každá odměna svůj název, cenu v aspiračních bodech a to, zda na ni Sim má („nemáš dost“); její popis je v paměti podrobností.
 
 Možnosti hry (tlačítko Možnosti na ovládacím panelu) se čtou stejně: každá volba řekne své nastavení („Stíny: Vysoké“) a posuvníky, například hlasitost hudby, se mění šipkami vlevo a vpravo („Hudba, posuvník, 35 ze 100“). Skladby rozhlasové stanice jsou samostatná skupina; Enter skladbu zapne nebo vypne.
 
@@ -152,7 +152,7 @@ Nemusíte tam chodit Tabem: klávesy Page procházejí předměty odkudkoli na p
 | Control+F | Najít předmět: napište část názvu („tel" najde telefon, na diakritice nezáleží). Nahoru a Dolů procházejí nálezy, Enter s ním něco udělá, Control+Enter tam dojde, Delete odstraní dveře nebo okno, Escape se vrátí, kde jste byli. |
 | Delete | Na dveřích nebo okně, v režimu nákupu nebo rukou v režimu stavby: zvedne je a prodá s náhradou. |
 
-Simíci, kteří mají na pozemku práci, ji řeknou: „Ravi Pérez, pošťák“, číšník, kuchař, zahradník, služebná. Miska zvířete řekne, zda je v ní jídlo. Taxík a další auta u obrubníku jsou mezi ostatními předměty, dokud čekají.
+Simíci, kteří mají na pozemku práci, ji řeknou: „Ravi Pérez, pošťák“, číšník, kuchař, zahradník, služebná. Miska zvířete řekne, zda je v ní jídlo. Taxík a další auta u obrubníku, mezi nimi auto, které Sima vyzvedne na výlet, jsou mezi ostatními předměty, dokud čekají.
 
 Po Simících následují **problémy**: co potřebuje pozornost, třeba rozbité věci, věci k úklidu, prázdná miska zvířete, kaluže, odpadky, popel a oheň. Nakonec jsou **dveře, okna a schody**. Věc, ke které se žádný Sim nedostane od vstupu na pozemek, řekne „žádný Sim se k tomu nedostane“.
 
@@ -166,7 +166,7 @@ zpět na předmětu.
 
 | Klávesa | Co dělá |
 |---|---|
-| Control+L | Uspořádání místnosti (u kurzoru stavby nebo kurzoru mapy, jinak tam, kde stojí vybraný Sim): název, podlaží, pole, hranice, dveře a okna; každé dveře a okno s jejich stěnou a místností za nimi jsou v paměti podrobností. |
+| Control+L | Uspořádání místnosti (u kurzoru stavby nebo kurzoru mapy, jinak tam, kde stojí vybraný Sim): název, podlaží, pole, hranice, dveře a okna; každé dveře a okno s jejich stěnou a místností za nimi jsou v paměti podrobností. Řekne také světlo v místnosti („světlo 64 %“: okna a lampy), které se počítá do potřeby Životní prostředí. |
 
 ### Mapa pozemku
 
@@ -175,7 +175,7 @@ Každý krok přehraje zvuk podlahy a každé zdi, plotu, zábradlí, dveří ne
 
 | Klávesa | Co dělá |
 |---|---|
-| Šipky | Jedno pole; se Shiftem pět. Řekne, co tam stojí a kam je natočeno, místnost a podlahu, když se změní, zdi, ploty, zábradlí, dveře a okna podle stran, schody a svahy. Zdi, ploty a okna kurzor zastaví; dveře ho pustí. |
+| Šipky | Jedno pole; se Shiftem pět. Řekne, co tam stojí a kam je natočeno, místnost a podlahu, když se změní, zdi, ploty, zábradlí, dveře a okna podle stran, schody a svahy. Zdi, ploty a okna kurzor zastaví; dveře ho pustí. S vnitřní místností přijde i její světlo („světlo 64 %“: 0 % je to, co hra považuje za tmu), které se počítá do potřeby Životní prostředí. |
 | Alt+Šipky | Totéž, skrz zdi. |
 | Čárka, tečka | Co řekne každý krok: všechno, jen předměty, jen podlahy (jménem, „Světlá žulová dlažba“), jen zdi, jen místnosti. |
 | Home | Zpět k vybranému Simovi. |
@@ -190,8 +190,8 @@ Každý krok přehraje zvuk podlahy a každé zdi, plotu, zábradlí, dveří ne
 
 Hra mnoho věcí ukazuje jen obrázky. Mod je říká, když se dějí, a ukládá je do paměti událostí:
 
-- **Bubliny** nad Simy: "Carlos myslí: Energie", "Carlos říká: Politika", přeškrtnutá ikona
-  ("ne ..."), výkřiky a titulky vztahů ("vztah se zlepšuje", "nový přítel", "první polibek").
+- **Bubliny** nad Simy: "Carlos myslí: Energie", "Carlos mluví na téma: Politika" (bubliny rozhovoru jsou jeho témata; přeškrtnutá: "Carlos si stěžuje na: Politika"), přeškrtnutá
+  myšlenka ("ne ..."), výkřiky, obor studenta ("mluví na téma: Biologie") a titulky vztahů ("vztah se zlepšuje", "nový přítel", "první polibek").
 - **Co chybí k jídlu**: „Carlos myslí: je potřeba kuchyňská linka“ (trouba, sporák, gril, mikrovlnka).
 - **Cesty**: "Carlos se tam nedostane".
 - **Návštěvy u dveří**: „Elvira stojí u dveří a čeká na přivítání“; pozdravte ji (její nabídka interakcí), abyste ji pustili dovnitř.
@@ -210,9 +210,14 @@ Akce s jiným Simíkem jmenují tohoto Simíka, ať je začal kdokoli: „Carlos
 
 ## Režim nákupu
 
-F2 otevře režim nákupu. Výrobky katalogu jsou tlačítka: každý výrobek řekne svůj název, cenu a
-hodnocení a paměť podrobností obsahuje jeho popis. Přechod za poslední výrobek stránky (nebo před
+F2 otevře režim nákupu. Výrobky katalogu jsou tlačítka: každý výrobek řekne svůj název, cenu,
+velikost v polích, delší stranu napřed („2 na 1 pole“), a hodnocení; paměť podrobností obsahuje jeho popis. Přechod za poslední výrobek stránky (nebo před
 první) otočí stránku.
+
+| Klávesa | Co dělá |
+|---|---|
+| Šipka vlevo, šipka vpravo | Předchozí nebo další stránka katalogu, od jejího prvního výrobku (na konci „poslední stránka“); šipky nahoru a dolů jdou po jednotlivých výrobcích. |
+| Backspace | Zpět z podkategorie (jídelní židle) ke kategoriím. |
 
 ### Umístění předmětu
 
@@ -234,7 +239,9 @@ nejbližší k vybranému Simovi první.
 | R | Zopakuje místo celé. |
 
 Předmět na více polích řekne, kolik podlahy zabírá ("zabírá polí: 2, 2 ze západu na východ, 1 ze
-severu na jih").
+severu na jih"). Jeho první řádek, každé otočení a R také řeknou, na které jeho části je kurzor a kam sahá zbytek ("kurzor na okraji: západ, sahá 2 polí na východ").
+
+Když se nevejde, řádek řekne proč, slovy hry ("Musí stát u zdi"), nebo do čeho naráží, a skončí tím, co by šlo: natočením, ve kterém se vejde na stejné pole ("vejde se po otočení, natočeno na jih"), jinak nejbližším polem, kam se vejde ("nejbližší místo, kam se vejde: 1 pole na sever, natočeno na jih"). Světlo místnosti přijde s místností, stejně jako na mapě pozemku.
 
 Místa sedadla začínají tam, kde se něco používá vsedě, třeba počítač na psacím stole, a sedadlo se k tomu otočí: „směrem na západ, k používání Počítač vsedě“. Po umístění předmětu mod řekne, jak se bude používat: „k používání Počítač vsedě“, „používá se z Kancelářská židle“, „Simíci se k tomu dostanou“ nebo „žádný Sim se k tomu nedostane“.
 
@@ -327,6 +334,6 @@ Klávesy, které je mění, je hned uloží.
 
 ## Zatím nehotové
 
-Tapety, kreslené střechy a terén v režimu stavby; názvy odměn za aspiraci; položení předmětu z inventáře Sima na pozemek; názvy hlav, účesů a oblečení na obrazovce Vytvořit
+Tapety, kreslené střechy a terén v režimu stavby; pojmenování přání a obav, o kterých Simové mluví; položení předmětu z inventáře Sima na pozemek; názvy hlav, účesů a oblečení na obrazovce Vytvořit
 Sima; vlastní obrazovky rozšíření (univerzita, noční život, podnikání, roční období, dovolená, byty,
 magie) zatím čte jen obecná navigace.

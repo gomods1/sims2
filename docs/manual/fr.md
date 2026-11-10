@@ -25,7 +25,7 @@ Chaque écran, boîte de dialogue, panneau et mode fonctionne de la même façon
 | Touche | Ce qu'elle fait |
 |---|---|
 | Tab, Maj+Tab | Groupe suivant ou précédent. Le nom du groupe et son nombre d'éléments sont dits d'abord. |
-| Flèche haut, flèche bas (ou flèche gauche, flèche droite) | Élément précédent ou suivant du groupe. |
+| Flèche haut, flèche bas (ou flèche gauche, flèche droite) | Élément précédent ou suivant du groupe. Dans les catalogues des modes Achat et Construction, flèche gauche et flèche droite tournent plutôt la page. |
 | Origine, Fin | Premier ou dernier élément du groupe. |
 | Entrée | Active l'élément. Sur un niveau (un type ou une pièce des objets du terrain), l'ouvre. |
 | Retour arrière | Remonte d'un niveau. |
@@ -82,7 +82,7 @@ Sur un terrain, l'écran est un cercle de groupes comme n'importe quel autre. Ta
 4. Les panneaux du jeu : le panneau de contrôle, le panneau du Sim (besoins, relations, emploi, compétences, personnalité, centres d'intérêt...), la famille, les souhaits et peurs, et tout panneau que vous ouvrez.
 5. **aide du mod**.
 
-Le panneau du Sim dit l'aspiration du Sim (« Aspiration : 24 pour cent ») ; le panneau des récompenses (Récompenses, puis Récompenses d'aspiration) dit les points d'aspiration à dépenser.
+Le panneau du Sim dit l'aspiration du Sim (« Aspiration : 24 pour cent ») ; le panneau des récompenses (Récompenses, puis Récompenses d'aspiration) dit les points d'aspiration à dépenser, et chaque récompense son nom, son prix en points d'aspiration et si le Sim en a assez (« fonds insuffisants ») ; sa description est dans le tampon des détails.
 
 Les options du jeu (le bouton Options du panneau de contrôle) se lisent de la même façon : chaque choix dit son réglage (« Ombres : Elevé(e) ») et les glissières, comme le volume de la musique, changent avec flèche gauche et flèche droite (« Musique, glissière, 35 sur 100 »). Les morceaux d'une station de radio forment un groupe à part ; Entrée active ou désactive un morceau.
 
@@ -119,7 +119,7 @@ Pas besoin d'y aller avec Tab : les touches Page parcourent les objets depuis n'
 | Contrôle+F | Trouver une chose : tapez une partie de son nom (« tel » trouve le téléphone, les accents ne comptent pas). Haut et Bas parcourent les résultats, Entrée agit dessus, Contrôle+Entrée y va, Suppr retire une porte ou une fenêtre, Échap revient là où vous étiez. |
 | Suppr | Sur une porte ou une fenêtre, en mode Achat ou avec la main du mode Construction : la prend et la vend, remboursée. |
 
-Les Sims qui ont un travail sur le terrain le disent : « Ravi Pérez, facteur », le serveur, le chef, le jardinier, la femme de ménage. La gamelle d'un animal dit si elle contient de la nourriture. Le taxi et les autres voitures au bord du trottoir sont parmi les autres objets tant qu'ils attendent.
+Les Sims qui ont un travail sur le terrain le disent : « Ravi Pérez, facteur », le serveur, le chef, le jardinier, la femme de ménage. La gamelle d'un animal dit si elle contient de la nourriture. Le taxi et les autres voitures au bord du trottoir, dont la voiture qui vient chercher un Sim pour une sortie, sont parmi les autres objets tant qu'ils attendent.
 
 Après les Sims vient **problèmes** : ce qui demande de l'attention, comme les choses cassées, à nettoyer, une gamelle d'animal vide, les flaques, les déchets, les cendres et le feu. En dernier vient **portes, fenêtres et escaliers**. Une chose qu'aucun Sim ne peut atteindre depuis l'entrée du terrain dit « aucun Sim ne peut l'atteindre ».
 
@@ -131,7 +131,7 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 | Touche | Ce qu'elle fait |
 |---|---|
-| Contrôle+L | Le plan de la pièce (au curseur de construction ou au curseur de la carte, sinon là où se tient le Sim sélectionné) : nom, niveau, cases, limites, portes et fenêtres ; chaque porte et fenêtre, avec son mur et la pièce qui est derrière, est dans le tampon des détails. |
+| Contrôle+L | Le plan de la pièce (au curseur de construction ou au curseur de la carte, sinon là où se tient le Sim sélectionné) : nom, niveau, cases, limites, portes et fenêtres ; chaque porte et fenêtre, avec son mur et la pièce qui est derrière, est dans le tampon des détails. Il dit aussi la lumière de la pièce (« lumière 64 % » : fenêtres et lampes), qui compte pour le besoin Environnement. |
 
 ### La carte du terrain
 
@@ -139,7 +139,7 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 | Touche | Ce qu'elle fait |
 |---|---|
-| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et le sol quand ils changent, les murs, clôtures, garde-corps, portes et fenêtres de chaque côté, les escaliers et les pentes. Les murs, clôtures et fenêtres arrêtent le curseur ; les portes le laissent passer. |
+| Flèches | Une case ; avec Maj, cinq. Dit ce qui s'y trouve et vers où c'est orienté, la pièce et le sol quand ils changent, les murs, clôtures, garde-corps, portes et fenêtres de chaque côté, les escaliers et les pentes. Les murs, clôtures et fenêtres arrêtent le curseur ; les portes le laissent passer. Avec une pièce intérieure vient sa lumière (« lumière 64 % » : 0 % est ce que le jeu compte comme sombre), qui compte pour le besoin Environnement. |
 | Alt+Flèches | Pareil, à travers les murs. |
 | Virgule, point | Ce que dit chaque pas : tout, seulement les objets, seulement les sols (par leur nom, « Carrelage en granit clair »), seulement les murs, seulement les pièces. |
 | Origine | Revient au Sim sélectionné. |
@@ -154,7 +154,7 @@ Entrée sur un objet (ou sur un Sim) ouvre le menu d'interactions du jeu. Flèch
 
 Le jeu montre beaucoup de choses seulement en images. Le mod les dit quand elles arrivent et les garde dans le tampon des événements :
 
-- **Les bulles** au-dessus des Sims : « Carlos pense : Énergie », « Carlos dit : Politique », une icône barrée (« pas ... »), les cris, et les titres des relations (« la relation s'améliore », « nouvel ami », « premier baiser »).
+- **Les bulles** au-dessus des Sims : « Carlos pense : Énergie », « Carlos parle de Politique » (les bulles d'une conversation sont ses sujets ; une bulle barrée : « Carlos se plaint de Politique »), une pensée barrée (« pas ... »), les cris, la matière principale d'un étudiant (« parle de Biologie »), et les titres des relations (« la relation s'améliore », « nouvel ami », « premier baiser »).
 - **Ce qui manque pour un repas** : « Carlos pense : il faut un plan de travail » (un four, une cuisinière, un barbecue, un micro-ondes).
 - **Les trajets** : « Carlos ne peut pas y aller ».
 - **Les visiteurs à la porte** : « Elvira est à la porte et attend qu'on l'accueille » ; saluez-la (son menu d'interactions) pour la faire entrer.
@@ -172,7 +172,12 @@ Les actions avec un autre Sim nomment ce Sim, quel que soit celui qui les a lanc
 
 ## Le mode Achat
 
-F2 ouvre le mode Achat. Les produits du catalogue sont des boutons : chaque produit dit son nom, son prix et ses évaluations, et le tampon des détails contient sa description. Passer après le dernier produit d'une page (ou avant le premier) tourne la page.
+F2 ouvre le mode Achat. Les produits du catalogue sont des boutons : chaque produit dit son nom, son prix, sa taille en cases, le plus grand côté d'abord (« 2 sur 1 cases »), et ses évaluations ; le tampon des détails contient sa description. Passer après le dernier produit d'une page (ou avant le premier) tourne la page.
+
+| Touche | Ce qu'elle fait |
+|---|---|
+| Flèche gauche, flèche droite | La page précédente ou suivante du catalogue, depuis son premier produit (« dernière page » à la fin) ; flèche haut et flèche bas vont de produit en produit. |
+| Retour arrière | Revient d'une sous-catégorie (chaises de salle à manger) aux catégories. |
 
 ### Placer un objet
 
@@ -192,7 +197,9 @@ Entrée sur un produit le prend. Le mod trouve toutes les places du terrain où 
 | Suppr | Vend l'objet tenu. |
 | R | Redit la place, en entier. |
 
-Un objet de plusieurs cases dit la surface qu'il occupe (« occupe 2 cases : 2 d'ouest en est, 1 du nord au sud »).
+Un objet de plusieurs cases dit la surface qu'il occupe (« occupe 2 cases : 2 d'ouest en est, 1 du nord au sud »). Sa première ligne, chaque rotation et R disent aussi sur quelle partie de l'objet est le curseur et où va le reste (« curseur sur son bord ouest, il s'étend sur 2 cases vers l'est »).
+
+Quand il ne tient pas, la ligne dit pourquoi avec les mots du jeu (« Doit être contre un mur »), ou ce qu'il heurte, et finit par ce qui marcherait : l'orientation qui tient sur la même case (« tient une fois tourné, orientation : sud »), sinon la case la plus proche où il tient (« place la plus proche à 1 case direction nord, orientation : sud »). La lumière de la pièce vient avec la pièce, comme sur la carte du terrain.
 
 Les emplacements d'un siège commencent là où quelque chose s'utilise assis, comme un ordinateur sur un bureau, et le siège est tourné vers lui : « face à l'ouest, pour utiliser Ordinateur assis ». Après avoir posé un objet, le mod dit comment il sera utilisé : « pour utiliser Ordinateur assis », « utilisé depuis Chaise de bureau », « les Sims peuvent l'atteindre » ou « aucun Sim ne peut l'atteindre ».
 
@@ -274,4 +281,4 @@ Les réglages du mod sont dans `Sims2Access\Sims2Access.ini` dans le dossier du 
 
 ## Pas encore fait
 
-Le papier peint, les toits dessinés et le terrain en mode Construction ; les noms des récompenses d'aspiration ; poser sur le terrain un objet de l'inventaire d'un Sim ; les noms des têtes, coiffures et vêtements de Créer un Sim ; les écrans propres aux extensions (université, vie nocturne, entreprise, saisons, vacances, appartements, magie) ne sont lus pour l'instant que par la navigation générique.
+Le papier peint, les toits dessinés et le terrain en mode Construction ; nommer les souhaits et peurs dont parlent les Sims ; poser sur le terrain un objet de l'inventaire d'un Sim ; les noms des têtes, coiffures et vêtements de Créer un Sim ; les écrans propres aux extensions (université, vie nocturne, entreprise, saisons, vacances, appartements, magie) ne sont lus pour l'instant que par la navigation générique.

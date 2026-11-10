@@ -25,7 +25,7 @@ Hver skærm, dialogboks, hvert panel og hver tilstand virker på samme måde. De
 | Tast | Hvad den gør |
 |---|---|
 | Tab, Skift+Tab | Næste eller forrige gruppe. Gruppens navn og antal elementer siges først. |
-| Pil op, Pil ned (eller Venstre pil, Højre pil) | Forrige eller næste element i gruppen. |
+| Pil op, Pil ned (eller Venstre pil, Højre pil) | Forrige eller næste element i gruppen. I købe- og byggetilstandens kataloger bladrer Venstre pil og Højre pil i stedet om. |
 | Home, End | Første eller sidste element i gruppen. |
 | Enter | Aktiverer elementet. På et niveau (en slags eller et værelse blandt grundens genstande): åbner det. |
 | Backspace | Et niveau tilbage. |
@@ -82,7 +82,7 @@ På en grund er skærmen en ring af grupper som enhver anden. Tab går gennem de
 4. Spillets paneler: kontrolpanelet, Sim-panelet (behov, forhold, job, færdigheder, personlighed, interesser...), familien, ønsker og frygt, og ethvert panel du åbner.
 5. **hjælp til modden**.
 
-Sim-panelet siger simmens stræben ("Stræben: 24 procent"); belønningspanelet (Belønninger, så Stræberbelønninger) siger de stræberpoint, der kan bruges.
+Sim-panelet siger simmens stræben ("Stræben: 24 procent"); belønningspanelet (Belønninger, så Stræberbelønninger) siger de stræberpoint, der kan bruges, og hver belønning sit navn, sin pris i stræberpoint og om simmen har råd ("har ikke råd"); beskrivelsen er i detaljebufferen.
 
 Spillets indstillinger (knappen Indstillinger på kontrolpanelet) læses på samme måde: hvert valg siger sin indstilling ("Skygger: Høj"), og skyderne, som musikkens lydstyrke, ændres med Venstre pil og Højre pil ("Musik, skyder, 35 af 100"). En radiostations sange er en gruppe for sig; Enter slår en sang til eller fra.
 
@@ -119,7 +119,7 @@ Du behøver ikke at gå derhen med Tab: Page-tasterne går gennem genstandene fr
 | Ctrl+F | Find en ting: skriv en del af navnet ("tel" finder telefonen, accenter er ligegyldige). Op og Ned går gennem resultaterne, Enter handler på den, Ctrl+Enter går derhen, Delete fjerner en dør eller et vindue, Escape går tilbage, hvor du var. |
 | Delete | På en dør eller et vindue, i købstilstand eller med byggetilstandens hånd: samler den op og sælger den med refusion. |
 
-Sims med et job på grunden siger det: "Ravi Pérez, postbud", tjeneren, kokken, gartneren, rengøringshjælpen. Et kæledyrs madskål siger, om der er mad i den. Taxaen og andre biler ved kantstenen er blandt andet, mens de venter.
+Sims med et job på grunden siger det: "Ravi Pérez, postbud", tjeneren, kokken, gartneren, rengøringshjælpen. Et kæledyrs madskål siger, om der er mad i den. Taxaen og andre biler ved kantstenen, blandt dem bilen der henter en Sim til en udflugt, er blandt andet, mens de venter.
 
 Efter simmerne kommer **problemer**: det, der kræver opmærksomhed, såsom ødelagte ting, ting der skal rengøres, en tom madskål, vandpytter, affald, aske og ild. Til sidst kommer **døre, vinduer og trapper**. En ting som ingen Sim kan nå fra grundens indgang siger "ingen Sim kan nå den".
 
@@ -131,7 +131,7 @@ Enter på en genstand (eller på en Sim) åbner spillets handlingsmenu. Pil op o
 
 | Tast | Hvad den gør |
 |---|---|
-| Ctrl+L | Værelsets indretning (ved byggemarkøren eller kortets markør, ellers hvor den valgte Sim står): navn, etage, felter, grænser, døre og vinduer; hver dør og hvert vindue, med sin væg og værelset bagved, er i detaljebufferen. |
+| Ctrl+L | Værelsets indretning (ved byggemarkøren eller kortets markør, ellers hvor den valgte Sim står): navn, etage, felter, grænser, døre og vinduer; hver dør og hvert vindue, med sin væg og værelset bagved, er i detaljebufferen. Den siger også lyset i værelset ("lys 64 %": vinduer og lamper), som tæller med i behovet Miljø. |
 
 ### Grundens kort
 
@@ -139,7 +139,7 @@ Enter på en genstand (eller på en Sim) åbner spillets handlingsmenu. Pil op o
 
 | Tast | Hvad den gør |
 |---|---|
-| Piletaster | Ét felt; med Skift fem. Siger, hvad der står der og hvilken vej det vender, værelset og gulvet når de skifter, væggene, hegnene, rækværkerne, dørene og vinduerne efter side, trapper og skråninger. Vægge, hegn og vinduer stopper markøren; døre lader den komme igennem. |
+| Piletaster | Ét felt; med Skift fem. Siger, hvad der står der og hvilken vej det vender, værelset og gulvet når de skifter, væggene, hegnene, rækværkerne, dørene og vinduerne efter side, trapper og skråninger. Vægge, hegn og vinduer stopper markøren; døre lader den komme igennem. Med et værelse indendørs kommer dets lys ("lys 64 %": 0 % er det, spillet regner for mørkt), som tæller med i behovet Miljø. |
 | Alt+Piletaster | Det samme, gennem vægge. |
 | Komma, punktum | Hvad hvert skridt siger: alt, kun genstande, kun gulve (ved navn, "Lys granitflise"), kun vægge, kun rum. |
 | Home | Tilbage til den valgte Sim. |
@@ -154,7 +154,7 @@ Enter på en genstand (eller på en Sim) åbner spillets handlingsmenu. Pil op o
 
 Spillet viser mange ting kun som billeder. Modden siger dem, når de sker, og gemmer dem i hændelsesbufferen:
 
-- **Bobler** over Sims: "Carlos tænker: Energi", "Carlos siger: Politik", et overstreget ikon ("ingen ..."), skrig og overskrifterne om forhold ("forholdet bliver bedre", "ny ven", "første kys").
+- **Bobler** over Sims: "Carlos tænker: Energi", "Carlos taler om Politik" (en samtales bobler er dens emner; en overstreget: "Carlos klager over Politik"), en overstreget tanke ("ingen ..."), skrig, en studerendes hovedfag ("taler om Biologi") og overskrifterne om forhold ("forholdet bliver bedre", "ny ven", "første kys").
 - **Hvad et måltid mangler**: "Carlos tænker: der mangler et køkkenbord" (en ovn, et komfur, en grill, en mikroovn).
 - **Ruter**: "Carlos kan ikke komme derhen".
 - **Besøgende ved døren**: "Elvira står ved døren og venter på at blive hilst på"; hils på hende (hendes handlingsmenu) for at lukke hende ind.
@@ -172,7 +172,12 @@ Handlinger med en anden sim nævner den sim, uanset hvem der startede dem: "Carl
 
 ## Købetilstand
 
-F2 åbner købetilstanden. Katalogets produkter er knapper: hvert produkt siger sit navn, sin pris og sine vurderinger, og detaljebufferen indeholder beskrivelsen. Går du forbi en sides sidste produkt (eller før det første), bladres der om.
+F2 åbner købetilstanden. Katalogets produkter er knapper: hvert produkt siger sit navn, sin pris, sin størrelse i felter, den længste side først ("2 gange 1 fliser"), og sine vurderinger; detaljebufferen indeholder beskrivelsen. Går du forbi en sides sidste produkt (eller før det første), bladres der om.
+
+| Tast | Hvad den gør |
+|---|---|
+| Venstre pil, Højre pil | Katalogets forrige eller næste side, fra dens første produkt ("sidste side" til sidst); Pil op og Pil ned går produkt for produkt. |
+| Backspace | Tilbage fra en underkategori (spisestole) til kategorierne. |
 
 ### Placér en genstand
 
@@ -192,7 +197,9 @@ Enter på et produkt samler det op. Modden finder hver plads på grunden, hvor d
 | Delete | Sælger den genstand, du holder. |
 | R | Siger pladsen igen, helt. |
 
-En genstand på flere felter siger, hvor meget gulv den fylder ("fylder 2 felter: 2 fra vest til øst, 1 fra nord til syd").
+En genstand på flere felter siger, hvor meget gulv den fylder ("fylder 2 felter: 2 fra vest til øst, 1 fra nord til syd"). Dens første linje, hver drejning og R siger også, hvilken del af den markøren er på, og hvor resten går hen ("markøren på kanten mod vest, den strækker sig 2 fliser mod øst").
+
+Når den ikke kan stå der, siger linjen hvorfor med spillets egne ord ("Skal stå op ad en væg"), eller hvad den støder mod, og slutter med det, der ville virke: den retning, der passer på samme felt ("passer drejet, vendt mod syd"), ellers det nærmeste felt, hvor den passer ("nærmeste sted det passer 1 flise mod nord, vendt mod syd"). Værelsets lys kommer med værelset, som på grundens kort.
 
 Et siddemøbels pladser begynder der hvor noget bruges siddende, som en computer på et skrivebord, og sædet drejes mod det: "vendt mod vest, til at bruge Computer siddende". Efter at en genstand er placeret siger mod'en hvordan den bruges: "til at bruge Computer siddende", "bruges fra Kontorstol", "Sims kan nå den" eller "ingen Sim kan nå den".
 
@@ -274,4 +281,4 @@ Moddens indstillinger ligger i `Sims2Access\Sims2Access.ini` i spillets mappe, a
 
 ## Ikke færdigt endnu
 
-Tapet, tegnede tage og terræn i byggetilstand; navnene på stræberbelønningerne; at stille en genstand fra en sims inventar på grunden; navne på hoveder, frisurer og tøj i Lav en simmer; udvidelsernes egne skærme (universitet, natteliv, forretning, årstider, ferie, lejligheder, magi) læses indtil videre kun af den generelle navigation.
+Tapet, tegnede tage og terræn i byggetilstand; at navngive de ønsker og frygter, Sims taler om; at stille en genstand fra en sims inventar på grunden; navne på hoveder, frisurer og tøj i Lav en simmer; udvidelsernes egne skærme (universitet, natteliv, forretning, årstider, ferie, lejligheder, magi) læses indtil videre kun af den generelle navigation.

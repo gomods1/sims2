@@ -246,7 +246,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "nem változott semmi"},
     {Str::BalloonThinks, "%1$s gondolja: %2$s"},
     {Str::BalloonDreams, "%1$s álmodik: %2$s"},
-    {Str::BalloonSays, "%1$s mondja: %2$s"},
+    {Str::BalloonSays, "%1$s erről beszél: %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s erre panaszkodik: %2$s"},
     {Str::BalloonScreams, "%1$s kiabál: %2$s"},
     {Str::BalloonScreamsNothing, "%s kiabál"},
     {Str::BalloonCrossed, "nem %s"},
@@ -285,6 +286,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "baba"},
     {Str::IconDoor, "ajtó"},
     {Str::IconBabyQuestion, "egy baba?"},
+    {Str::IconBrain, "agyak"},
     {Str::IconNeedOven, "kell egy sütő"},
     {Str::IconNeedStove, "kell egy tűzhely"},
     {Str::IconNeedGrill, "kell egy grill"},
@@ -447,6 +449,25 @@ const Translation kEntries[] = {
     {Str::SeatFor, "ülve használni ezt: %s"},
     {Str::UsedFromSeat, "innen használják: %s"},
     {Str::KeysShowFocusThings, "Bekapcsolva az egérmutató is a telek fókuszban lévő dolgára megy."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "elforgatva elfér, %s"},
+    {Str::NearestFit, "a legközelebbi hely, ahol elfér: %1$s, %2$s"},
+    {Str::NoFitNearby, "%d mezőn belül sehol sem fér el"},
+    {Str::CursorCorner, "kurzor a sarkán: %s"},
+    {Str::CursorEdge, "kurzor a szélén: %s"},
+    {Str::CursorMiddle, "kurzor a belsejében"},
+    {Str::ObjectExtends, "kiterjed: %s"},
+    {Str::ProductSize, "%1$d × %2$d mező"},
+    {Str::NoNextPage, "utolsó oldal"},
+    {Str::NoPreviousPage, "első oldal"},
+    {Str::KeysCatalogPages,
+     "A vásárlás és az építés mód katalógusaiban a Fel és Le nyíl a termékeken lép végig, a Balra és Jobbra nyíl "
+     "lapoz."},
+    {Str::KeysCatalogBack, "Vásárlás módban a Backspace egy alkategóriából visszalép a kategóriákhoz."},
+    {Str::LightLevel, "fény %d%%"},
+    // Rewards
+    {Str::CannotAfford, "nincs rá elég"},
+    {Str::RewardPrice, "%s törekvéspont"},
     {Str::KeysButton, "Ennek a képernyőnek a billentyűi"},
 };
 

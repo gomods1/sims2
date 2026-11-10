@@ -71,10 +71,47 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
     drawn), holding off the object a tool brings back (not seen here). Grass painting has no
     counterpart yet: terrain is not done.
 
+- 2026-11-10, the Sims 1 mod's commit of 2026-11-09 ported and the 2026-11-10 tester feedback
+  (Sims 2), with the roadmap's RE (STRUCTS.md "Buy mode", "Light", "Rewards catalogs",
+  "SimAntics"); verified live on the Contreras lot unless noted:
+  - Catalog products say their size ("3 por 1 casillas", from the object folder's multi-tile
+    groups); Left/Right turn the catalog's pages (NAVIGATION.md's key rule changed with it).
+  - Placing: the game's own reason when it does not fit ("No puede cruzarse con la pared", the
+    tool's error set), the facing or nearest tile that fits, the cursor's part of a multi-tile
+    object and where it extends (a held object's tiles from its definition's part offsets).
+  - The rooms' light (the game's light map, scored with its own Room thresholds) on the map, the
+    build cursor, placing and Ctrl+L; indoors only.
+  - Conversation balloons say "habla de" (topics), a crossed-out one "se queja de" (heard:
+    "Carlos habla de Crimen", "Carlos se queja de Deportes").
+  - The aspiration rewards name each reward with its price ("Árbol del dinero, 3.000 puntos de
+    aspiración"), both pages; Backspace presses buy mode's "Atrás" (window 0xb110).
+  - Placing speaks the object's real facing: the tool's rotation is not the object's direction
+    (the object faces 2 - rotation; every "mirando al ..." while placing, the spots' directions,
+    the seats' and "beside a thing" turns were a quarter or half turn off before); after placing,
+    the facing is read from the placed object. Room names leave the held object out (a bedroom
+    was "sala de estar" while a sofa was tried in it); the first line asks the tool for a verdict.
+  - Not yet seen live: "no te alcanza" (Carlos could afford every reward), the career rewards, the
+    professor sheet's majors, the job sheet's "unemployed", aspirations02; a Sim's own car
+    ("Car Ownable", the outing pickup) in the lists.
+  - Not ported: the Sims 1 clock's AM fix (the Spanish game's clock reads "13:01"; check the
+    English one), the FPS counter (not seen in this game), simoleons for "$" (the game's money is
+    drawn as § and was already spoken as simoleons).
+
 ## Next
 
-- The 2026-11-08 tester feedback, still open: the aspiration rewards' names (the rewards catalog
-  proc's list, STRUCTS.md "People"); putting an object from a Sim's inventory on the lot (the
+- Check in the game what the 2026-11-10 changes could not try (above). Placing: once, after six
+  Ctrl+Shift+PageDown turns and the game's period key, a chair said "mirando al norte" and went
+  down facing south (not reproduced in single sequences; the placed line now says the real
+  facing). The held object's own direction variable follows the game's turning keys but not the
+  mod's rotation writes: find the game's call that applies a rotation (the , and . handler) and
+  use it instead of writing +0xa0. A tester was stood up downtown because the car that picks a
+  Sim up was missing from the lists (probably an older build: the taxi was listed since
+  2026-11-08); ask which car it is if it happens again.
+- Wants and fears that Sims talk about (balloon flag 0x2000, STRUCTS.md "SimAntics"): read Temp 4
+  and 5 in the effects hook and name the want through the want simulator.
+- The rooms' light outdoors (daylight: lighting manager slot 35, room 0); light rooms are another
+  partition than the mod's rooms (type 0).
+- The 2026-11-08 tester feedback, still open: putting an object from a Sim's inventory on the lot (the
   inventory panel was empty on the Contreras lot: try dragging an item through the mod's virtual
   mouse or the hand tool); eating out (a restaurant lot: the host, waiter and chef are now named;
   the destination dialog does not say a lot's kind); build mode "needs a lot of love". Not seen
@@ -105,8 +142,6 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   Create a Sim, Enter on a skill or interest (its description), slopes (the lot is flat: the
   terrain height call returns 0 everywhere) and ponds (the game's water test said no on a pool;
   pools are found by their floor), walls whose layers read `00000100` (one edge upstairs, left out).
-- Buy mode's catalog "Back" (the Sims 1 mod presses it on Backspace): find whether the Sims 2
-  catalog has one (its subsort buttons) and give Backspace the same job.
 - The manuals' game names (Create a Pet, turn-ons, mode names, trait pairs) were written by the
   translators without the game's own texts in some languages: check them against the packages'
   STR# tables.
@@ -115,11 +150,13 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   (with it the Sims 1 mod's grass under the cursor);
   checks before building walls (done after: a Sim shut in is announced; still: objects cut off);
   ready-made rooms.
-- Buy mode: the game's reason when a spot is refused (STR# 0x89; the Sims 1 mod says it, and its
-  "needs a surface" in its own words). Which directions fit a spot and the footprint are done.
+- Buy mode: the reasons of kind 2 ("must be placed on one of these:" and its list) were not heard
+  yet; check the list reads well.
 - Create a Sim: names for heads, hair, clothes (no
   names in the game: perhaps colors and categories), group names without design captions.
-- Balloons still unnamed: job, University's professor sheet, wants and fears (flag 0x2000).
+- Balloons still unnamed: wants and fears (flag 0x2000), and the sheets listed in STRUCTS.md
+  "SimAntics" (thoughtPets01, birdbee01, bookgenre-*, novel-plots, the vacation sheets,
+  conversation-Arts/Computers/Economy/Mechanics/Sports, TeachMassage).
 - Expansion content, checked one by one through the generic navigation, dedicated readers where
   it falls short: university (dorms, classes), nightlife (dates, cars), business, seasons,
   vacations, apartments, magic.

@@ -139,10 +139,15 @@ std::string WithoutHotkey(const std::string& label) {
     return hotkeyLength >= 1 && hotkeyLength <= 3 ? label.substr(0, dash) : label;
 }
 
-std::string Money(int amount) {
+std::string Grouped(int amount) {
     std::string digits = std::to_string(amount < 0 ? -amount : amount);
     const char* separator = DigitGroupSeparator();
     for (int i = (int)digits.size() - 3; i > 0; i -= 3) digits.insert(i, separator);
+    return (amount < 0 ? "-" : "") + digits;
+}
+
+std::string Money(int amount) {
+    std::string digits = Grouped(amount < 0 ? -amount : amount);
     return (amount < 0 ? "-$" : "$") + digits;
 }
 

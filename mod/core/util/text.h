@@ -32,6 +32,8 @@ bool StartsLowercase(const std::string& utf8);
 std::string WithoutHotkey(const std::string& label);
 
 // Money: "$1,200" in English, "$1.200" in Spanish (util::DigitGroupSeparator).
+// "11.100": a number with the language's digit groups, as the game shows points.
+std::string Grouped(int amount);
 std::string Money(int amount);
 
 // printf into a std::string, of any length. Positional arguments (%2$s) work, so a translation

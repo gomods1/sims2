@@ -227,8 +227,8 @@ void DevCommand(const std::string& line) {
             if (p.tileX != a || p.tileY != b || p.level != c) continue;
             LotObject o;
             ReadLotObject(p.id, &o);
-            Log("  part %d at %08x lead %d type %d \"%s\" (%s)", p.id, (unsigned)o.ptr, p.lead, p.type, o.name.c_str(),
-                ClassName(o.ptr).c_str());
+            Log("  part %d at %08x lead %d type %d sub %04x dir %d tile %d,%d \"%s\" (%s)", p.id, (unsigned)o.ptr, p.lead, p.type,
+                p.sub, p.direction, p.tileX, p.tileY, o.name.c_str(), ClassName(o.ptr).c_str());
             for (int off = 0; off < 0x400 && d; off += 4) {
                 Ptr v = Rd<Ptr>(o.ptr + off);
                 std::string cn = ClassName(v);

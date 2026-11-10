@@ -3,9 +3,11 @@
 #include <algorithm>
 #include <map>
 
+#include "../game/addresses.h"
 #include "../game/buy.h"
 #include "../game/gz.h"
 #include "../game/hooks.h"
+#include "../game/objects.h"
 #include "../game/rtti.h"
 #include "../util/strings.h"
 #include "../util/text.h"
@@ -14,6 +16,10 @@
 #include "world.h"
 
 namespace nav {
+// A rewards cell's background button (UI script 0x49064805: 0xa001 the button, 0xa003 the price's
+// overlay).
+constexpr uint32_t kRewardCellButton = 0xa001;
+
 namespace {
 
 // "Title|Description" -> title, description. Tooltips of the Sims 2 UI scripts use this form.
@@ -284,10 +290,42 @@ struct Walker {
         if (!it.widget) return true;
         it.label = util::CleanForSpeech(p.name.empty() ? p.internalName : p.name);
         it.value = util::CleanForSpeech(game::Tooltip(it.widget));
+        // "2 por 1 casillas", the longer side first (it faces no way yet): in the Sims 1 mod a
+        // tester wanted sizes to choose furniture for a room before placing it.
+        if (p.isObject && p.across > 0)
+            it.value += (it.value.empty() ? "" : ", ") +
+                        util::Format(S(Str::ProductSize), std::max(p.across, p.deep), std::min(p.across, p.deep));
         for (int i = 0; i < game::kRatingCount; i++)
             if (p.ratings[i]) it.value += ", " + live::RatingName(i) + " " + std::to_string(p.ratings[i]);
         it.detail = util::CleanForSpeech(p.description);
         it.buyObject = p.isObject;
+        it.rect = game::ScreenRect(w);
+        Add(groupKey, it);
+        return true;
+    }
+
+    // A cell of the Sim panel's aspiration or career rewards: the reward's catalog name, its price
+    // in aspiration points and whether the Sim has them, the description in the details; Enter
+    // presses the cell (found by static analysis, STRUCTS.md "Rewards"; the panel listed nameless
+    // thumbnails before).
+    bool Reward(Ptr w, const std::vector<Ptr>& kids, Ptr groupKey) {
+        std::string proc = game::ProcClass(w);
+        if (proc != "cTSWinProcAspirationRewardThumbnail" && proc != "cTSWinProcCareerRewardThumbnail") return false;
+        game::Product p;
+        if (!game::ReadRewardProduct(w, &p)) return false;
+        Item it;
+        it.role = Role::Product;
+        for (Ptr k : kids)
+            if (game::Visible(k) && game::IsButton(k) && (!it.widget || game::WinId(k) == kRewardCellButton)) it.widget = k;
+        if (!it.widget) return true;
+        it.label = util::CleanForSpeech(p.name.empty() ? p.internalName : p.name);
+        if (proc == "cTSWinProcAspirationRewardThumbnail") {
+            it.value = util::Format(S(Str::RewardPrice), util::Grouped(p.price).c_str());
+            int points = 0, sim = game::SelectedSimId();
+            if (sim && game::PersonDatum(sim, game::addr::person::kDataRewardPoints, &points) && p.price > points * 10)
+                it.value += std::string(", ") + S(Str::CannotAfford);
+        }
+        it.detail = util::CleanForSpeech(p.description);
         it.rect = game::ScreenRect(w);
         Add(groupKey, it);
         return true;
@@ -520,6 +558,7 @@ struct Walker {
             std::vector<Ptr> motiveKids = game::Children(k);
             if (Motive(k, motiveKids, w)) continue;
             if (Product(k, motiveKids, w)) continue;
+            if (Reward(k, motiveKids, w)) continue;
             if (Grid(k, w)) continue;
             if (ListBox(k, w)) continue;
             if (Relationship(k, w)) continue;

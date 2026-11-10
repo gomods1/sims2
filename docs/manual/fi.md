@@ -38,7 +38,7 @@ jotkin kohteet avaavat syvemmän **tason**.
 | Näppäin | Mitä se tekee |
 |---|---|
 | Sarkain, Vaihto+Sarkain | Seuraava tai edellinen ryhmä. Ensin kerrotaan ryhmän nimi ja kohteiden määrä. |
-| Nuoli ylös, nuoli alas (tai nuoli vasemmalle, nuoli oikealle) | Ryhmän edellinen tai seuraava kohde. |
+| Nuoli ylös, nuoli alas (tai nuoli vasemmalle, nuoli oikealle) | Ryhmän edellinen tai seuraava kohde. Osto- ja rakennustilan luetteloissa nuoli vasemmalle ja nuoli oikealle kääntävät sen sijaan sivua. |
 | Home, End | Ryhmän ensimmäinen tai viimeinen kohde. |
 | Enter | Aktivoi kohteen. Tasolla (tontin esineiden laji tai huone) avaa sen. |
 | Askelpalautin | Takaisin ylemmälle tasolle. |
@@ -112,7 +112,7 @@ Tontilla näkymä on ryhmien kehä kuten mikä tahansa muu. Sarkain käy ne läp
    kiinnostukset...), perhe, toiveet ja pelot sekä mikä tahansa avaamasi paneeli.
 5. **modin ohje**.
 
-Sim-paneeli kertoo simin tavoitteen ("Tavoite: 24 prosenttia"); palkintopaneeli (Palkinnot, sitten Tavoitepalkinnot) kertoo käytettävissä olevat tavoitepisteet.
+Sim-paneeli kertoo simin tavoitteen ("Tavoite: 24 prosenttia"); palkintopaneeli (Palkinnot, sitten Tavoitepalkinnot) kertoo käytettävissä olevat tavoitepisteet, ja jokainen palkinto nimensä, hintansa tavoitepisteinä ja sen, riittävätkö simin pisteet ("ei varaa"); sen kuvaus on tiedot-puskurissa.
 
 Pelin asetukset (ohjauspaneelin Asetukset-painike) luetaan samalla tavalla: jokainen valinta kertoo asetuksensa ("Varjot: Korkea"), ja liukusäätimet, kuten musiikin äänenvoimakkuus, muuttuvat nuolella vasemmalle ja nuolella oikealle ("Musiikki, liukusäädin, 35/100"). Radioaseman kappaleet ovat oma ryhmänsä; Enter kytkee kappaleen päälle tai pois.
 
@@ -155,7 +155,7 @@ tontilla, elämä-, osto- ja rakennustilassa.
 | Control+F | Etsi jotakin: kirjoita osa nimestä ("pu" löytää puhelimen, aksenteilla ei ole väliä). Ylös ja Alas käyvät läpi osumat, Enter toimii sen kanssa, Control+Enter kävelee sinne, Delete poistaa oven tai ikkunan, Escape palaa siihen missä olit. |
 | Delete | Ovella tai ikkunalla, ostotilassa tai rakennustilan kädellä: nostaa sen ja myy sen hyvityksellä. |
 
-Simit, joilla on työ tontilla, kertovat sen: "Ravi Pérez, postinkantaja", tarjoilija, kokki, puutarhuri, siivooja. Lemmikin ruokakuppi kertoo, onko siinä ruokaa. Taksi ja muut jalkakäytävän reunassa odottavat autot ovat muiden esineiden joukossa odottaessaan.
+Simit, joilla on työ tontilla, kertovat sen: "Ravi Pérez, postinkantaja", tarjoilija, kokki, puutarhuri, siivooja. Lemmikin ruokakuppi kertoo, onko siinä ruokaa. Taksi ja muut jalkakäytävän reunassa odottavat autot, niiden joukossa auto, joka hakee simin retkelle, ovat muiden esineiden joukossa odottaessaan.
 
 Simien jälkeen tulee **ongelmat**: se mikä vaatii huomiota, kuten rikkinäiset ja siivottavat esineet, tyhjä lemmikin ruokakuppi, lätäköt, roskat, tuhka ja tuli. Viimeisenä tulee **ovet, ikkunat ja portaat**. Asia, jota mikään Sim ei saavuta tontin sisäänkäynniltä, sanoo "mikään Sim ei pääse sen luo".
 
@@ -169,7 +169,7 @@ valikko sulkeutuu, valinta palaa esineeseen.
 
 | Näppäin | Mitä se tekee |
 |---|---|
-| Control+L | Huoneen pohjapiirros (rakennuskohdistimen tai karttakohdistimen kohdalla, muuten siellä, missä valittu simi seisoo): nimi, kerros, ruudut, rajat, ovet ja ikkunat; jokainen ovi ja ikkuna seinineen ja takana olevine huoneineen on tiedot-puskurissa. |
+| Control+L | Huoneen pohjapiirros (rakennuskohdistimen tai karttakohdistimen kohdalla, muuten siellä, missä valittu simi seisoo): nimi, kerros, ruudut, rajat, ovet ja ikkunat; jokainen ovi ja ikkuna seinineen ja takana olevine huoneineen on tiedot-puskurissa. Se kertoo myös huoneen valon ("valo 64 %": ikkunat ja lamput), joka vaikuttaa Ympäristö-tarpeeseen. |
 
 ### Tontin kartta
 
@@ -179,7 +179,7 @@ kaiteelle, ovelle tai ikkunalle.
 
 | Näppäin | Mitä se tekee |
 |---|---|
-| Nuolinäppäimet | Yksi ruutu; Vaihdon kanssa viisi. Kertoo, mitä siinä on ja mihin suuntaan se on käännetty, huoneen ja lattian kun ne vaihtuvat, seinät, aidat, kaiteet, ovet ja ikkunat sivuittain, portaat ja rinteet. Seinät, aidat ja ikkunat pysäyttävät kohdistimen; ovet päästävät sen läpi. |
+| Nuolinäppäimet | Yksi ruutu; Vaihdon kanssa viisi. Kertoo, mitä siinä on ja mihin suuntaan se on käännetty, huoneen ja lattian kun ne vaihtuvat, seinät, aidat, kaiteet, ovet ja ikkunat sivuittain, portaat ja rinteet. Seinät, aidat ja ikkunat pysäyttävät kohdistimen; ovet päästävät sen läpi. Sisähuoneen mukana tulee sen valo ("valo 64 %": 0 % on se, mitä peli pitää pimeänä), joka vaikuttaa Ympäristö-tarpeeseen. |
 | Alt+Nuolinäppäimet | Sama, seinien läpi. |
 | Pilkku, piste | Mitä kukin askel kertoo: kaiken, vain esineet, vain lattiat (nimeltä, "Vaalea graniittilaatta"), vain seinät, vain huoneet. |
 | Home | Takaisin valitun simin luo. |
@@ -195,8 +195,8 @@ kaiteelle, ovelle tai ikkunalle.
 Peli näyttää monet asiat vain kuvina. Modi sanoo ne niiden tapahtuessa ja tallentaa ne
 tapahtumat-puskuriin:
 
-- **Puhekuplat** simien yllä: "Carlos ajattelee: Energia", "Carlos sanoo: Politiikka", yliviivattu
-  kuvake ("ei ..."), huudot ja suhdeotsikot ("suhde paranee", "uusi ystävä", "ensisuudelma").
+- **Puhekuplat** simien yllä: "Carlos ajattelee: Energia", "Carlos puhuu aiheesta Politiikka" (keskustelun puhekuplat ovat sen aiheita; yliviivattu: "Carlos valittaa aiheesta Politiikka"), yliviivattu
+  ajatus ("ei ..."), huudot, opiskelijan pääaine ("puhuu aiheesta Biologia") ja suhdeotsikot ("suhde paranee", "uusi ystävä", "ensisuudelma").
 - **Mitä ateriasta puuttuu**: "Carlos ajattelee: tarvitaan työtaso" (uuni, liesi, grilli, mikroaaltouuni).
 - **Reitit**: "Carlos ei pääse sinne".
 - **Vieraat ovella**: "Elvira on ovella ja odottaa tervehdystä"; tervehdi häntä (hänen toimintovalikostaan) päästääksesi hänet sisään.
@@ -215,9 +215,14 @@ Toiminnot toisen simin kanssa nimeävät tämän simin, aloitti ne kuka tahansa:
 
 ## Ostotila
 
-F2 avaa ostotilan. Luettelon tuotteet ovat painikkeita: jokainen tuote kertoo nimensä, hintansa ja
-arvionsa, ja tiedot-puskurissa on sen kuvaus. Kun liikut sivun viimeisen tuotteen ohi (tai
+F2 avaa ostotilan. Luettelon tuotteet ovat painikkeita: jokainen tuote kertoo nimensä, hintansa,
+kokonsa ruutuina pidempi sivu ensin ("2 kertaa 1 ruutua") ja arvionsa; tiedot-puskurissa on sen kuvaus. Kun liikut sivun viimeisen tuotteen ohi (tai
 ensimmäistä edemmäs), sivu kääntyy.
+
+| Näppäin | Mitä se tekee |
+|---|---|
+| Nuoli vasemmalle, nuoli oikealle | Luettelon edellinen tai seuraava sivu sen ensimmäisestä tuotteesta alkaen (lopussa "viimeinen sivu"); nuoli ylös ja nuoli alas kulkevat tuote kerrallaan. |
+| Askelpalautin | Takaisin alaluokasta (ruokapöydän tuolit) luokkiin. |
 
 ### Esineen sijoittaminen
 
@@ -239,7 +244,9 @@ suuntaan, lähimmät valittua simiä ensin.
 | R | Sano paikka uudelleen kokonaan. |
 
 Usean ruudun esine kertoo, kuinka paljon lattiaa se vie ("vie 2 ruutua: 2 lännestä itään, 1
-pohjoisesta etelään").
+pohjoisesta etelään"). Sen ensimmäinen rivi, jokainen käännös ja R kertovat myös, minkä sen osan kohdalla kohdistin on ja mihin loput ulottuvat ("kohdistin sen länsireunalla, se ulottuu 2 ruutua itäsuuntaan").
+
+Kun se ei mahdu, rivi kertoo syyn pelin omin sanoin ("Täytyy olla seinää vasten") tai mihin se törmää, ja päättyy siihen, mikä toimisi: suunta, jossa se mahtuu samaan ruutuun ("mahtuu käännettynä, suunta: etelä"), muuten lähin ruutu, johon se mahtuu ("lähin paikka johon mahtuu 1 ruutu pohjoissuuntaan, suunta: etelä"). Huoneen valo kerrotaan huoneen mukana, kuten tontin kartalla.
 
 Istuimen paikat alkavat sieltä, missä jotain käytetään istuen, kuten kirjoituspöydän tietokone, ja istuin käännetään sitä kohti: "länteen päin, käyttämään Tietokone istuen". Esineen sijoittamisen jälkeen modi kertoo, miten sitä käytetään: "käyttämään Tietokone istuen", "käytetään paikasta Toimistotuoli", "simit pääsevät sen luo" tai "mikään Sim ei pääse sen luo".
 
@@ -334,6 +341,6 @@ Asetuksia muuttavat näppäimet tallentavat ne heti.
 
 ## Vielä tekemättä
 
-Tapetit, piirretyt katot ja maasto rakennustilassa; tavoitepalkintojen nimet; esineen asettaminen simin tavaraluettelosta tontille; nimet Luo simi -näkymän päille, hiuksille ja
+Tapetit, piirretyt katot ja maasto rakennustilassa; niiden toiveiden ja pelkojen nimeäminen, joista simit puhuvat; esineen asettaminen simin tavaraluettelosta tontille; nimet Luo simi -näkymän päille, hiuksille ja
 vaatteille; laajennusten omat näkymät (yliopisto, yöelämä, yritykset, vuodenajat, lomat,
 kerrostalot, taikuus) luetaan toistaiseksi vain yleisellä navigoinnilla.

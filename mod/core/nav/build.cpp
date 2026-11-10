@@ -78,6 +78,8 @@ void SayCorner(bool full = false) {
             parts.push_back(util::Format(S(Str::RoomChange), g.lastRoomName.c_str(), name.c_str()));
         else if (!name.empty())
             parts.push_back(name);
+        std::string light = name.empty() ? "" : world::RoomLight(g.x, g.y, g.level);
+        if (!light.empty()) parts.push_back(light);
         g.lastRoom = room;
         g.lastRoomLevel = g.level;
         g.lastRoomName = name;

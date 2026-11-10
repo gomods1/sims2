@@ -50,6 +50,10 @@ bool RemoveFocusedPortal();
 void WalkTo(bool run);
 bool HasFocus();            // a thing has been focused
 std::string RoomNameAt(float x, float y, int level);  // the room there, by its contents
+// "luz 80 %": the room's light as the game scores it for the Room need (its light map averaged
+// over the room's tiles, 0 % where the game counts it dark, 100 % fully lit); empty when unknown.
+// In the Sims 1 mod a tester wanted to know whether a room needed lamps.
+std::string RoomLight(int x, int y, int level);
 std::string WhereFromSim(float x, float y, int level);
 // Ctrl+L: the room at a tile: its name, size, bounds, doors and windows (where each leads).
 void SayLayout(int x, int y, int level);

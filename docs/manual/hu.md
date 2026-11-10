@@ -40,7 +40,7 @@ vannak, és néhány elem egy mélyebb **szintet** nyit meg.
 | Billentyű | Mit csinál |
 |---|---|
 | Tab, Shift+Tab | Következő vagy előző csoport. Először a csoport neve és az elemek száma hangzik el. |
-| Fel, Le (vagy Balra, Jobbra) nyíl | A csoport előző vagy következő eleme. |
+| Fel, Le (vagy Balra, Jobbra) nyíl | A csoport előző vagy következő eleme. A vásárlás és az építés mód katalógusaiban a Balra és a Jobbra nyíl ehelyett lapoz. |
 | Home, End | A csoport első vagy utolsó eleme. |
 | Enter | Megnyomja az elemet. Egy szinten (a telek tárgyainak egy fajtája vagy szobája) megnyitja. |
 | Backspace | Vissza egy szinttel. |
@@ -117,7 +117,7 @@ végig rajtuk:
    amelyet megnyitsz.
 5. **a mod súgója**.
 
-A Sim-panel elmondja a Sim törekvését („Törekvés: 24 százalék”); a jutalmak panelje (Jutalmak, aztán Törekvésjutalmak) elmondja, mennyi elkölthető törekvéspont van.
+A Sim-panel elmondja a Sim törekvését („Törekvés: 24 százalék”); a jutalmak panelje (Jutalmak, aztán Törekvésjutalmak) elmondja, mennyi elkölthető törekvéspont van, minden jutalom pedig a nevét, az árát törekvéspontban, és hogy elég-e hozzá a Sim pontja („nincs rá elég”); a leírása a részletek pufferben van.
 
 A játék beállításait (a vezérlőpult Beállítások gombja) ugyanígy olvassa: minden választás elmondja a beállítását („Árnyékok: Magas”), a csúszkák, például a zene hangereje, a Balra és a Jobbra nyíllal változnak („Zene, csúszka, 35 / 100”). Egy rádióállomás dalai külön csoportot alkotnak; az Enter be- vagy kikapcsol egy dalt.
 
@@ -161,7 +161,7 @@ vásárlás és építés módban.
 | Control+F | Tárgy keresése: írd be a neve egy részét („tel" megtalálja a telefont, az ékezetek nem számítanak). A Fel és a Le végigmegy a találatokon, az Enter cselekszik vele, a Control+Enter odamegy, a Delete eltávolít egy ajtót vagy ablakot, az Escape visszavisz oda, ahol voltál. |
 | Delete | Ajtón vagy ablakon, vásárló módban vagy az építő mód kezével: felveszi és eladja, visszatérítéssel. |
 
-A telken munkát végző Simek elmondják a munkájukat: „Ravi Pérez, postás”, a pincér, a szakács, a kertész, a takarítónő. Egy háziállat etetőtálja elmondja, van-e benne étel. A taxi és a járdaszélen álló többi autó az egyéb tárgyak között van, amíg várakozik.
+A telken munkát végző Simek elmondják a munkájukat: „Ravi Pérez, postás”, a pincér, a szakács, a kertész, a takarítónő. Egy háziállat etetőtálja elmondja, van-e benne étel. A taxi és a járdaszélen álló többi autó, köztük az, amelyik egy Simet kirándulásra visz, az egyéb tárgyak között van, amíg várakozik.
 
 A simek után jönnek a **gondok**: ami figyelmet kér, például elromlott és takarítandó dolgok, üres háziállat-etetőtál, tócsák, szemét, hamu és tűz. Legvégül jönnek az **ajtók, ablakok és lépcsők**. Az a dolog, amelyet egyetlen Sim sem ér el a telek bejáratától, azt mondja: „egyetlen Sim sem éri el”.
 
@@ -175,7 +175,7 @@ nyitnak meg. Amikor a menü bezárul, a fókusz visszakerül a tárgyra.
 
 | Billentyű | Mit csinál |
 |---|---|
-| Control+L | A szoba elrendezése (az építési vagy a térképkurzornál, egyébként ott, ahol a kiválasztott Sim áll): név, szint, mezők, határok, ajtók és ablakok; minden ajtó és ablak a falával és a mögötte lévő szobával a részletek pufferben van. |
+| Control+L | A szoba elrendezése (az építési vagy a térképkurzornál, egyébként ott, ahol a kiválasztott Sim áll): név, szint, mezők, határok, ajtók és ablakok; minden ajtó és ablak a falával és a mögötte lévő szobával a részletek pufferben van. A szoba fényét is elmondja („fény 64%”: ablakok és lámpák), ami a Környezet szükségletbe számít. |
 
 ### A telek térképe
 
@@ -185,7 +185,7 @@ falhoz, kerítéshez, korláthoz, ajtóhoz vagy ablakhoz.
 
 | Billentyű | Mit csinál |
 |---|---|
-| Nyilak | Egy mező; Shifttel öt. Elmondja, mi áll ott és merre néz, a szobát és a padlót, amikor megváltoznak, a falakat, kerítéseket, korlátokat, ajtókat és ablakokat oldalanként, a lépcsőket és a lejtőket. A falak, kerítések és ablakok megállítják a kurzort; az ajtók átengedik. |
+| Nyilak | Egy mező; Shifttel öt. Elmondja, mi áll ott és merre néz, a szobát és a padlót, amikor megváltoznak, a falakat, kerítéseket, korlátokat, ajtókat és ablakokat oldalanként, a lépcsőket és a lejtőket. A falak, kerítések és ablakok megállítják a kurzort; az ajtók átengedik. Egy belső szobánál a fénye is elhangzik („fény 64%”: a 0% az, amit a játék sötétnek tekint), ami a Környezet szükségletbe számít. |
 | Alt+Nyilak | Ugyanez, falakon át. |
 | Vessző, pont | Mit mond minden lépés: mindent, csak tárgyakat, csak padlókat (néven, „Világos gránitcsempe”), csak falakat, csak szobákat. |
 | Home | Vissza a kiválasztott Simhez. |
@@ -201,8 +201,8 @@ falhoz, kerítéshez, korláthoz, ajtóhoz vagy ablakhoz.
 A játék sok mindent csak képekkel mutat. A mod kimondja őket, amikor megtörténnek, és az események
 pufferben tartja őket:
 
-- **Buborékok** a Simek fölött: "Carlos gondolja: Energia", "Carlos mondja: Politika", egy
-  áthúzott ikon ("nem ..."), kiabálások és a kapcsolati hírek ("a kapcsolat javul", "új barát",
+- **Buborékok** a Simek fölött: "Carlos gondolja: Energia", "Carlos erről beszél: Politika" (egy beszélgetés buborékai a témái; egy áthúzott: "Carlos erre panaszkodik: Politika"), egy
+  áthúzott gondolat ("nem ..."), kiabálások, egy diák szakja ("erről beszél: Biológia") és a kapcsolati hírek ("a kapcsolat javul", "új barát",
   "első csók").
 - **Ami egy ételhez hiányzik**: „Carlos gondolja: pult kellene” (sütő, tűzhely, grill, mikrohullámú sütő).
 - **Útvonalak**: "Carlos nem jut oda".
@@ -224,8 +224,13 @@ A másik simmel végzett cselekvések megnevezik azt a simet, bárki indította 
 ## Vásárlás mód
 
 Az F2 megnyitja a vásárlás módot. A katalógus termékei gombok: minden termék elmondja a nevét, az
-árát és az értékeléseit, a részletek puffer pedig a leírását tartalmazza. Ha túllépsz egy oldal
+árát, a méretét mezőkben, a hosszabb oldalt előre („2 × 1 mező”), és az értékeléseit; a részletek puffer a leírását tartalmazza. Ha túllépsz egy oldal
 utolsó termékén (vagy az első elé), lapoz.
+
+| Billentyű | Mit csinál |
+|---|---|
+| Balra, Jobbra nyíl | A katalógus előző vagy következő oldala, az első termékétől („utolsó oldal” a végén); a Fel és a Le nyíl termékenként halad. |
+| Backspace | Vissza egy alkategóriából (étkezőszékek) a kategóriákhoz. |
 
 ### Egy tárgy elhelyezése
 
@@ -247,7 +252,9 @@ irányban, a kiválasztott Simhez legközelebbitől kezdve.
 | R | Újra elmondja a helyet, teljes egészében. |
 
 A több mezős tárgy elmondja, mennyi padlót foglal ("2 mezőt foglal: 2 nyugatról keletre, 1
-északról délre").
+északról délre"). Az első sora, minden forgatás és az R azt is elmondja, a tárgy melyik részén áll a kurzor, és merre terjed a többi ("kurzor a szélén: nyugatra, kiterjed: 2 mező, keletre").
+
+Ha nem fér el, a sor elmondja, miért, a játék saját szavaival ("Fal mellé kell tenni"), vagy hogy mibe ütközik, és azzal zárul, ami működne: az irány, amelyben ugyanazon a mezőn elfér ("elforgatva elfér, irány: délre"), különben a legközelebbi mező, ahol elfér ("a legközelebbi hely, ahol elfér: 1 mező, északra, irány: délre"). A szoba fénye a szobával együtt hangzik el, mint a telek térképén.
 
 Egy ülőhely helyei ott kezdődnek, ahol valamit ülve használnak, például egy íróasztalon álló számítógépet, és az ülés felé fordul: „nyugat felé, ülve használni ezt: Számítógép”. Egy tárgy elhelyezése után a mod elmondja, hogyan fogják használni: „ülve használni ezt: Számítógép”, „innen használják: Irodai szék”, „a Simek elérik” vagy „egyetlen Sim sem éri el”.
 
@@ -343,6 +350,6 @@ A mod beállításai a játék mappájában lévő `Sims2Access\Sims2Access.ini`
 
 ## Még nincs kész
 
-Tapéták, rajzolt tetők és terep építés módban; a törekvésjutalmak neve; egy tárgy letétele a telekre egy Sim leltárából; a Sim készítése fejeinek, frizuráinak és ruháinak
+Tapéták, rajzolt tetők és terep építés módban; azoknak a vágyaknak és félelmeknek a megnevezése, amelyekről a Simek beszélnek; egy tárgy letétele a telekre egy Sim leltárából; a Sim készítése fejeinek, frizuráinak és ruháinak
 neve; a kiegészítők saját képernyőit (egyetem, éjszakai élet, vállalkozás, évszakok, nyaralás,
 bérlakások, varázslat) egyelőre csak az általános navigáció olvassa.

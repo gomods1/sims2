@@ -52,5 +52,7 @@ game::Ptr FocusedWidget();
 bool FocusedIsTextField();
 bool FocusedIsSlider();
 void AdjustFocused(int delta);  // Left/Right on a slider
+// Left / Right in a catalog of the lot view (buy and build mode): turns the page; false elsewhere.
+bool TurnPageKey(int delta);
 
 }  // namespace nav

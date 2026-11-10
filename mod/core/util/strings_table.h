@@ -223,7 +223,8 @@
     X(BuildNothing, "nothing changed")                                                                                 \
     X(BalloonThinks, "%1$s thinks: %2$s")                                                                              \
     X(BalloonDreams, "%1$s dreams: %2$s")                                                                              \
-    X(BalloonSays, "%1$s says: %2$s")                                                                                  \
+    X(BalloonSays, "%1$s talks about %2$s")                                                                            \
+    X(BalloonTalksAgainst, "%1$s complains about %2$s")                                                                \
     X(BalloonScreams, "%1$s screams: %2$s")                                                                            \
     X(BalloonScreamsNothing, "%s screams")                                                                             \
     X(BalloonCrossed, "no %s")                                                                                         \
@@ -262,6 +263,7 @@
     X(IconBaby, "baby")                                                                                                \
     X(IconDoor, "door")                                                                                                \
     X(IconBabyQuestion, "a baby?")                                                                                     \
+    X(IconBrain, "brains")                                                                                             \
     X(IconNeedOven, "an oven is needed")                                                                               \
     X(IconNeedStove, "a stove is needed")                                                                              \
     X(IconNeedGrill, "a grill is needed")                                                                              \
@@ -405,4 +407,21 @@
     X(SeatFor, "to use %s sitting down")                                                                               \
     X(UsedFromSeat, "used from %s")                                                                                    \
     X(KeysShowFocusThings, "With it on, the mouse pointer also goes to the lot's thing in focus.")                     \
+    /* Placing: where it fits, its parts; catalog sizes and pages */                                                   \
+    X(FitsTurned, "fits when turned, %s")                                                                              \
+    X(NearestFit, "nearest fit %1$s, %2$s")                                                                            \
+    X(NoFitNearby, "fits nowhere within %d tiles")                                                                     \
+    X(CursorCorner, "cursor at its %s corner")                                                                         \
+    X(CursorEdge, "cursor on its %s edge")                                                                             \
+    X(CursorMiddle, "cursor inside it")                                                                                \
+    X(ObjectExtends, "it extends %s")                                                                                  \
+    X(ProductSize, "%1$d by %2$d tiles")                                                                               \
+    X(NoNextPage, "last page")                                                                                         \
+    X(NoPreviousPage, "first page")                                                                                    \
+    X(KeysCatalogPages, "In the catalogs of buy and build mode, Up and Down go through the products, Left and Right turn the pages.")\
+    X(KeysCatalogBack, "In buy mode, Backspace goes back from a subcategory to the categories.")\
+    X(LightLevel, "light %d%%")                                                                                        \
+    /* Rewards */                                                                                                      \
+    X(CannotAfford, "can't afford")                                                                                    \
+    X(RewardPrice, "%s aspiration points")                                                                             \
     X(KeysButton, "Keys for this screen")                                                                           \

@@ -242,7 +242,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "nic se nezměnilo"},
     {Str::BalloonThinks, "%1$s myslí: %2$s"},
     {Str::BalloonDreams, "%1$s sní: %2$s"},
-    {Str::BalloonSays, "%1$s říká: %2$s"},
+    {Str::BalloonSays, "%1$s mluví na téma: %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s si stěžuje na: %2$s"},
     {Str::BalloonScreams, "%1$s křičí: %2$s"},
     {Str::BalloonScreamsNothing, "%s křičí"},
     {Str::BalloonCrossed, "ne %s"},
@@ -281,6 +282,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "miminko"},
     {Str::IconDoor, "dveře"},
     {Str::IconBabyQuestion, "miminko?"},
+    {Str::IconBrain, "mozky"},
     {Str::IconNeedOven, "chybí trouba"},
     {Str::IconNeedStove, "chybí sporák"},
     {Str::IconNeedGrill, "chybí gril"},
@@ -440,6 +442,25 @@ const Translation kEntries[] = {
     {Str::SeatFor, "k používání %s vsedě"},
     {Str::UsedFromSeat, "používá se z %s"},
     {Str::KeysShowFocusThings, "Když je zapnuto, ukazatel myši jde také na věc pozemku, která má fokus."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "vejde se po otočení, %s"},
+    {Str::NearestFit, "nejbližší místo, kam se vejde: %1$s, %2$s"},
+    {Str::NoFitNearby, "nevejde se nikam do %d polí"},
+    {Str::CursorCorner, "kurzor v rohu: %s"},
+    {Str::CursorEdge, "kurzor na okraji: %s"},
+    {Str::CursorMiddle, "kurzor uvnitř"},
+    {Str::ObjectExtends, "sahá %s"},
+    {Str::ProductSize, "%1$d na %2$d pole"},
+    {Str::NoNextPage, "poslední stránka"},
+    {Str::NoPreviousPage, "první stránka"},
+    {Str::KeysCatalogPages,
+     "V katalozích režimu nákupu a stavby procházejí šipky nahoru a dolů produkty, šipky vlevo a vpravo obracejí "
+     "stránky."},
+    {Str::KeysCatalogBack, "V režimu nákupu se Backspace vrací z podkategorie zpět ke kategoriím."},
+    {Str::LightLevel, "světlo %d %%"},
+    // Rewards
+    {Str::CannotAfford, "nemáš dost"},
+    {Str::RewardPrice, "aspirační body: %s"},
     {Str::KeysButton, "Klávesy této obrazovky"},
 };
 

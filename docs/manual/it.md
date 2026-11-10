@@ -25,7 +25,7 @@ Ogni schermata, finestra di dialogo, pannello e modalità funziona allo stesso m
 | Tasto | Cosa fa |
 |---|---|
 | Tab, Maiusc+Tab | Gruppo successivo o precedente. Prima vengono detti il nome del gruppo e il numero dei suoi elementi. |
-| Freccia su, freccia giù (o freccia sinistra, freccia destra) | Elemento precedente o successivo del gruppo. |
+| Freccia su, freccia giù (o freccia sinistra, freccia destra) | Elemento precedente o successivo del gruppo. Nei cataloghi delle modalità Compra e Costruisci, freccia sinistra e freccia destra cambiano invece pagina. |
 | Inizio, Fine | Primo o ultimo elemento del gruppo. |
 | Invio | Attiva l'elemento. Su un livello (un tipo o una stanza degli oggetti del lotto) lo apre. |
 | Backspace | Torna indietro di un livello. |
@@ -82,7 +82,7 @@ In un lotto la schermata è un anello di gruppi come qualsiasi altra. Tab li sco
 4. I pannelli del gioco: il pannello di controllo, il pannello del Sim (bisogni, relazioni, lavoro, abilità, personalità, interessi...), la famiglia, i desideri e le paure, e qualsiasi pannello tu apra.
 5. **aiuto della mod**.
 
-Il pannello del Sim dice l'aspirazione del Sim («Aspirazione: 24 per cento»); il pannello dei premi (Premi e Inventario, poi Premi per le aspirazioni) dice i punti di aspirazione da spendere.
+Il pannello del Sim dice l'aspirazione del Sim («Aspirazione: 24 per cento»); il pannello dei premi (Premi e Inventario, poi Premi per le aspirazioni) dice i punti di aspirazione da spendere, e ogni premio il suo nome, il suo prezzo in punti di aspirazione e se il Sim ne ha abbastanza («denaro insufficiente»); la sua descrizione è nel buffer dei dettagli.
 
 Le opzioni del gioco (il pulsante Opzioni del pannello di controllo) si leggono allo stesso modo: ogni scelta dice la sua impostazione («Ombre: Alto») e i cursori, come il volume della musica, cambiano con freccia sinistra e freccia destra («Musica, cursore, 35 su 100»). I brani di una stazione radio sono un gruppo a parte; Invio attiva o disattiva un brano.
 
@@ -119,7 +119,7 @@ Non serve arrivarci con Tab: i tasti Pagina scorrono gli oggetti da qualsiasi pu
 | Control+F | Trova una cosa: digita parte del nome ("tel" trova il telefono, gli accenti non contano). Su e Giù scorrono i risultati, Invio agisce su di essa, Control+Invio ci va, Canc rimuove una porta o una finestra, Esc torna dov'eri. |
 | Canc | Su una porta o una finestra, in modalità Acquisto o con la mano della modalità Costruzione: la prende e la vende, con il rimborso. |
 
-I Sim con un lavoro sul lotto lo dicono: «Ravi Pérez, postino», il cameriere, il cuoco, il giardiniere, la domestica. La ciotola di un animale dice se c'è cibo. Il taxi e le altre auto sul marciapiede sono tra gli altri oggetti mentre aspettano.
+I Sim con un lavoro sul lotto lo dicono: «Ravi Pérez, postino», il cameriere, il cuoco, il giardiniere, la domestica. La ciotola di un animale dice se c'è cibo. Il taxi e le altre auto sul marciapiede, tra cui l'auto che viene a prendere un Sim per un'uscita, sono tra gli altri oggetti mentre aspettano.
 
 Dopo i Sim viene **problemi**: ciò che richiede attenzione, come cose rotte, da pulire, una ciotola per animali vuota, pozzanghere, rifiuti, cenere e fuoco. Per ultimo viene **porte, finestre e scale**. Una cosa che nessun Sim può raggiungere dall'ingresso del lotto dice «nessun Sim può raggiungerlo».
 
@@ -131,7 +131,7 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 
 | Tasto | Cosa fa |
 |---|---|
-| Control+L | La pianta della stanza (al cursore di costruzione o a quello della mappa, altrimenti dove si trova il Sim selezionato): nome, livello, caselle, confini, porte e finestre; ogni porta e finestra, con il suo muro e la stanza che c'è dietro, è nel buffer dei dettagli. |
+| Control+L | La pianta della stanza (al cursore di costruzione o a quello della mappa, altrimenti dove si trova il Sim selezionato): nome, livello, caselle, confini, porte e finestre; ogni porta e finestra, con il suo muro e la stanza che c'è dietro, è nel buffer dei dettagli. Dice anche la luce della stanza ("luce 64%": finestre e lampade), che conta per il bisogno Ambiente. |
 
 ### La mappa del lotto
 
@@ -139,7 +139,7 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 
 | Tasto | Cosa fa |
 |---|---|
-| Frecce | Una casella; con Maiusc, cinque. Dice cosa c'è e verso dove è rivolto, la stanza e il pavimento quando cambiano, i muri, i recinti, le ringhiere, le porte e le finestre su ogni lato, le scale e le pendenze. Muri, recinzioni e finestre fermano il cursore; le porte lo lasciano passare. |
+| Frecce | Una casella; con Maiusc, cinque. Dice cosa c'è e verso dove è rivolto, la stanza e il pavimento quando cambiano, i muri, i recinti, le ringhiere, le porte e le finestre su ogni lato, le scale e le pendenze. Muri, recinzioni e finestre fermano il cursore; le porte lo lasciano passare. Con una stanza interna arriva la sua luce ("luce 64%": 0% è ciò che il gioco considera buio), che conta per il bisogno Ambiente. |
 | Alt+Frecce | Lo stesso, attraverso i muri. |
 | Virgola, punto | Cosa dice ogni passo: tutto, solo oggetti, solo pavimenti (per nome, «Piastrella di granito chiaro»), solo muri, solo stanze. |
 | Inizio | Torna al Sim selezionato. |
@@ -154,7 +154,7 @@ Invio su un oggetto (o su un Sim) apre il menu delle interazioni del gioco. Frec
 
 Il gioco mostra molte cose solo con immagini. La mod le dice quando accadono e le tiene nel buffer degli eventi:
 
-- **I fumetti** sopra i Sim: "Carlos pensa: Energia", "Carlos dice: Politica", un'icona barrata ("niente ..."), le urla, e i titoli delle relazioni ("la relazione migliora", "nuovo amico", "primo bacio").
+- **I fumetti** sopra i Sim: "Carlos pensa: Energia", "Carlos parla di Politica" (i fumetti di una conversazione sono i suoi argomenti; uno barrato: "Carlos si lamenta di Politica"), un pensiero barrato ("niente ..."), le urla, l'indirizzo di studi di uno studente ("parla di Biologia"), e i titoli delle relazioni ("la relazione migliora", "nuovo amico", "primo bacio").
 - **Cosa manca per un pasto**: "Carlos pensa: serve un bancone" (un forno, un fornello, un barbecue, un microonde).
 - **I percorsi**: "Carlos non riesce ad arrivarci".
 - **I visitatori alla porta**: "Elvira è alla porta e aspetta di essere salutata"; salutala (il suo menu delle interazioni) per farla entrare.
@@ -172,7 +172,12 @@ Le azioni con un altro Sim nominano quel Sim, chiunque le abbia iniziate: "Carlo
 
 ## La modalità Compra
 
-F2 apre la modalità Compra. I prodotti del catalogo sono pulsanti: ogni prodotto dice il suo nome, il prezzo e le valutazioni, e il buffer dei dettagli contiene la sua descrizione. Andando oltre l'ultimo prodotto di una pagina (o prima del primo) si cambia pagina.
+F2 apre la modalità Compra. I prodotti del catalogo sono pulsanti: ogni prodotto dice il suo nome, il prezzo, la grandezza in caselle, prima il lato più lungo ("2 per 1 caselle"), e le valutazioni; il buffer dei dettagli contiene la sua descrizione. Andando oltre l'ultimo prodotto di una pagina (o prima del primo) si cambia pagina.
+
+| Tasto | Cosa fa |
+|---|---|
+| Freccia sinistra, freccia destra | La pagina precedente o successiva del catalogo, dal suo primo prodotto ("ultima pagina" alla fine); freccia su e freccia giù vanno di prodotto in prodotto. |
+| Backspace | Torna da una sottocategoria (sedie da pranzo) alle categorie. |
 
 ### Posizionare un oggetto
 
@@ -192,7 +197,9 @@ Invio su un prodotto lo prende. La mod trova tutti i posti del lotto dove entra,
 | Canc | Vende l'oggetto che tieni. |
 | R | Ripete il posto, per intero. |
 
-Un oggetto di più caselle dice quanto pavimento occupa ("occupa 2 caselle: 2 da ovest a est, 1 da nord a sud").
+Un oggetto di più caselle dice quanto pavimento occupa ("occupa 2 caselle: 2 da ovest a est, 1 da nord a sud"). La sua prima riga, ogni rotazione e R dicono anche su quale parte dell'oggetto si trova il cursore e dove va il resto ("cursore sul suo lato ovest, si estende per 2 caselle a est").
+
+Quando non ci sta, la riga dice perché con le parole del gioco ("Deve essere contro un muro"), o contro cosa urta, e finisce con ciò che funzionerebbe: l'orientamento che ci sta sulla stessa casella ("ci sta se ruotato, rivolto a sud"), altrimenti la casella più vicina dove ci sta ("posto più vicino a 1 casella a nord, rivolto a sud"). La luce della stanza arriva con la stanza, come nella mappa del lotto.
 
 I posti di una seduta iniziano dove qualcosa si usa da seduti, come un computer su una scrivania, e la seduta viene girata verso di esso: «rivolto a ovest, per usare Computer da seduti». Dopo aver posizionato un oggetto il mod dice come verrà usato: «per usare Computer da seduti», «si usa da Sedia da ufficio», «i Sim possono raggiungerlo» o «nessun Sim può raggiungerlo».
 
@@ -274,4 +281,4 @@ Le impostazioni della mod sono in `Sims2Access\Sims2Access.ini` nella cartella d
 
 ## Non ancora fatto
 
-La carta da parati, i tetti disegnati e il terreno in modalità Costruisci; i nomi dei premi per le aspirazioni; mettere sul lotto un oggetto dell'inventario di un Sim; i nomi di teste, acconciature e vestiti in Crea un Sim; le schermate proprie delle espansioni (università, vita notturna, attività commerciali, stagioni, vacanze, appartamenti, magia) per ora sono lette solo dalla navigazione generica.
+La carta da parati, i tetti disegnati e il terreno in modalità Costruisci; dare un nome ai desideri e ai timori di cui parlano i Sim; mettere sul lotto un oggetto dell'inventario di un Sim; i nomi di teste, acconciature e vestiti in Crea un Sim; le schermate proprie delle espansioni (università, vita notturna, attività commerciali, stagioni, vacanze, appartamenti, magia) per ora sono lette solo dalla navigazione generica.

@@ -1,6 +1,7 @@
 #include "placement.h"
 
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <map>
@@ -226,7 +227,13 @@ int HeldId(const game::HeldObject& held) {
 std::vector<std::pair<int, int>> HeldTiles(int heldId) {
     std::vector<std::pair<int, int>> tiles = heldId ? game::ObjectTiles(heldId, game::PlacedParts())
                                                     : std::vector<std::pair<int, int>>{};
-    if (std::find(tiles.begin(), tiles.end(), std::make_pair(g.x, g.y)) == tiles.end()) tiles = {{g.x, g.y}};
+    if (std::find(tiles.begin(), tiles.end(), std::make_pair(g.x, g.y)) == tiles.end()) {
+        // held, it stands nowhere: its parts' offsets from its definition, its lead on the cursor
+        game::HeldObject held;
+        if (game::ReadHeldObject(game::CurrentTool(), &held) && held.object)
+            tiles = game::HeldFootprint(held.object, held.direction, g.x, g.y);
+        if (std::find(tiles.begin(), tiles.end(), std::make_pair(g.x, g.y)) == tiles.end()) tiles = {{g.x, g.y}};
+    }
     return tiles;
 }
 
@@ -311,6 +318,132 @@ std::string AheadNames(const std::vector<std::pair<int, int>>& tiles, int direct
     return "";
 }
 
+// The lot's compass, 0 north ... 7 north-west (+x is east, +y south).
+const Str kCompass[] = {Str::DirNorth, Str::DirNorthEast, Str::DirEast, Str::DirSouthEast,
+                        Str::DirSouth, Str::DirSouthWest, Str::DirWest, Str::DirNorthWest};
+
+// "a 3 casillas al este, a 2 casillas al norte": tiles toward each side, the sides in the order
+// given (0 north, 2 east, 4 south, 6 west), none for 0.
+std::string AwayWords(const std::vector<std::pair<int, int>>& tilesBySide) {
+    std::string out;
+    for (const auto& t : tilesBySide) {
+        if (t.first <= 0) continue;
+        const char* dir = S(kCompass[t.second & 7]);
+        out += (out.empty() ? "" : ", ") +
+               (t.first == 1 ? util::Format(S(Str::OneTileAway), dir) : util::Format(S(Str::TilesAway), t.first, dir));
+    }
+    return out;
+}
+
+// Which part of a held object of several tiles the cursor is on, and where the rest goes from
+// there: "cursor en su esquina noroeste, se extiende a 1 casilla al este, a 1 casilla al sur". A
+// turn changes it, and nothing else told a player which way it would extend (the Sims 1 mod's
+// tester, 2026-11-09). Empty for one tile.
+std::string CursorPart(const std::vector<std::pair<int, int>>& tiles, int cx, int cy) {
+    if (tiles.size() < 2) return "";
+    int x0 = tiles[0].first, x1 = x0, y0 = tiles[0].second, y1 = y0;
+    for (const auto& t : tiles) {
+        x0 = std::min(x0, t.first);
+        x1 = std::max(x1, t.first);
+        y0 = std::min(y0, t.second);
+        y1 = std::max(y1, t.second);
+    }
+    // -1 west / north end, +1 east / south end, 0 between, 2 the object is one tile that way
+    int ew = x1 == x0 ? 2 : cx <= x0 ? -1 : cx >= x1 ? 1 : 0;
+    int ns = y1 == y0 ? 2 : cy <= y0 ? -1 : cy >= y1 ? 1 : 0;
+    bool ewEnd = ew == -1 || ew == 1, nsEnd = ns == -1 || ns == 1;
+    std::string where;
+    if (ewEnd && nsEnd)
+        where = util::Format(S(Str::CursorCorner), S(kCompass[ns < 0 ? (ew < 0 ? 7 : 1) : (ew < 0 ? 5 : 3)]));
+    else if (ewEnd && ns != 0)
+        where = util::Format(S(Str::CursorEdge), S(kCompass[ew < 0 ? 6 : 2]));
+    else if (nsEnd && ew != 0)
+        where = util::Format(S(Str::CursorEdge), S(kCompass[ns < 0 ? 0 : 4]));
+    else
+        where = S(Str::CursorMiddle);
+    std::string extent = AwayWords({{cy - y0, 0}, {x1 - cx, 2}, {y1 - cy, 4}, {cx - x0, 6}});
+    return extent.empty() ? where : where + ", " + util::Format(S(Str::ObjectExtends), extent.c_str());
+}
+
+constexpr int kNearestFitRadius = 6;
+
+bool OnLot(int x, int y) {
+    int w = 0, h = 0;
+    return x >= 0 && y >= 0 && (!game::LotSize(&w, &h) || (x < w && y < h));
+}
+
+// Where the held object fits after all when it does not on the cursor's tile facing its way:
+// turned on the same tile ("cabe girado, mirando al sur": in the Sims 1 mod a pool ladder was on
+// the right tile facing the wrong way), else the nearest tile it fits on, the cursor's room first
+// at the same distance. The tool's own check (game::CheckSpot) judges each; the held object is put
+// back on the cursor, turned as it was, before returning.
+std::string FitHint(int direction) {
+    game::Ptr tool = game::CurrentTool();
+    if (!tool) return "";
+    ULONGLONG start = GetTickCount64();
+    int rawRotation = game::HeldRotation(tool);
+    int lastX = g.x, lastY = g.y;  // the tool judges only a spot that differs from the last one
+
+    auto fits = [&](int x, int y, int d) {
+        game::SetHeldDirection(tool, d);
+        if (x == lastX && y == lastY) {
+            int px = OnLot(x + 1, y) ? x + 1 : x - 1;
+            game::CheckSpot(tool, px + 0.5f, y + 0.5f, g.level);
+        }
+        lastX = x;
+        lastY = y;
+        return game::CheckSpot(tool, x + 0.5f, y + 0.5f, g.level) == 1;
+    };
+    std::string hint;
+    for (int k = 1; k < 4 && hint.empty(); k++) {
+        int d = (direction + 2 * k) % 8;
+        if (fits(g.x, g.y, d)) hint = util::Format(S(Str::FitsTurned), Facing(d).c_str());
+    }
+    if (hint.empty()) {
+        int room = game::RoomAt(g.x + 0.5f, g.y + 0.5f, g.level);
+        std::vector<std::pair<int, std::pair<int, int>>> around;
+        for (int dy = -kNearestFitRadius; dy <= kNearestFitRadius; dy++)
+            for (int dx = -kNearestFitRadius; dx <= kNearestFitRadius; dx++) {
+                int x = g.x + dx, y = g.y + dy;
+                if ((dx == 0 && dy == 0) || !OnLot(x, y)) continue;
+                int key = (dx * dx + dy * dy) * 2 + (game::RoomAt(x + 0.5f, y + 0.5f, g.level) == room ? 0 : 1);
+                around.push_back({key, {x, y}});
+            }
+        std::stable_sort(around.begin(), around.end(), [](const auto& a, const auto& b) { return a.first < b.first; });
+        // each facing in turn (the tile changes between checks), keeping the nearest found
+        int bestKey = INT_MAX, bestX = 0, bestY = 0, bestDir = direction;
+        for (int k = 0; k < 4; k++) {
+            int d = (direction + 2 * k) % 8;
+            for (const auto& c : around) {
+                if (c.first >= bestKey) break;
+                if (!fits(c.second.first, c.second.second, d)) continue;
+                bestKey = c.first;
+                bestX = c.second.first;
+                bestY = c.second.second;
+                bestDir = d;
+                break;
+            }
+        }
+        if (bestKey != INT_MAX) {
+            int dx = bestX - g.x, dy = bestY - g.y;
+            std::string offset = AwayWords({{-dy, 0}, {dx, 2}, {dy, 4}, {-dx, 6}});
+            hint = util::Format(S(Str::NearestFit), offset.c_str(), Facing(bestDir).c_str());
+        } else {
+            hint = util::Format(S(Str::NoFitNearby), kNearestFitRadius);
+        }
+    }
+    // back on the cursor, as it was
+    // (always from a neighbour: a spot the tool judged last is not judged again, and the verdict
+    // must be the cursor's when the line's sounds and Enter read it)
+    game::SetHeldRotation(tool, rawRotation);
+    int px = OnLot(g.x + 1, g.y) ? g.x + 1 : g.x - 1;
+    game::CheckSpot(tool, px + 0.5f, g.y + 0.5f, g.level);
+    int back = game::CheckSpot(tool, g.x + 0.5f, g.y + 0.5f, g.level);
+    if (back != 0) Log("fit hint: the cursor's spot judged %d on the way back", back);
+    LogVerbose("fit hint after %llu ms: %s", GetTickCount64() - start, hint.c_str());
+    return hint;
+}
+
 // "no cabe, choca con Sofá, saliendo de cocina, entrando en salón, mirando al norte, hacia
 // Televisor, casilla 12, 30": the verdict first, what it runs into, the room when the cursor has
 // just entered it (or always: full), the wall or the facing, what it faces; the tile last (in the
@@ -327,7 +460,11 @@ std::string SpotLine(bool withFacing, bool full = false) {
     if (verdict >= 0) parts.push_back(S(verdict == 1 ? Str::PlaceFits : Str::PlaceBlocked));
     if (verdict == 0) {  // which object is in the way (a tester: "it can't overlap another object, but which?")
         std::string in = NamesOn(tiles, g.level, heldId);
+        // else the game's own reason, as a click would show it ("Debe estar contra una pared")
+        int code = 0;
+        std::string reason = tool ? util::CleanForSpeech(game::PlacementReason(game::CurrentTool(), &code)) : "";
         if (!in.empty()) parts.push_back(util::Format(S(Str::CollidesWith), in.c_str()));
+        else if (!reason.empty()) parts.push_back(reason);
     }
     int room = game::RoomAt(g.x + 0.5f, g.y + 0.5f, g.level);
     if (full || room != g.lastRoom || g.level != g.lastRoomLevel) {
@@ -336,6 +473,8 @@ std::string SpotLine(bool withFacing, bool full = false) {
             parts.push_back(util::Format(S(Str::RoomChange), g.lastRoomName.c_str(), name.c_str()));
         else if (!name.empty())
             parts.push_back(name);
+        std::string light = name.empty() ? "" : world::RoomLight(g.x, g.y, g.level);
+        if (!light.empty()) parts.push_back(light);
         g.lastRoom = room;
         g.lastRoomLevel = g.level;
         g.lastRoomName = name;
@@ -356,19 +495,42 @@ std::string SpotLine(bool withFacing, bool full = false) {
         else if (!faced.empty())
             parts.push_back(util::Format(S(Str::FacingThing), faced.c_str()));
     }
+    // which part of it the cursor is on, after a turn or when asked (R) or first (sizePending)
+    if (withFacing || full || g.sizePending) {
+        std::string part = CursorPart(tiles, g.x, g.y);
+        if (!part.empty()) parts.push_back(part);
+    }
     parts.push_back(tile);
     std::string line;
     for (const std::string& p : parts) line += (line.empty() ? "" : ", ") + p;
+    // last, as its own sentence: where it would fit (its facing must not read as the cursor's)
+    if (verdict == 0 && tool && held.objectType != 8 && held.objectType != 9) {
+        std::string hint = FitHint(held.direction);
+        if (!hint.empty()) line += ". " + hint;
+    }
     return line;
 }
 
 void Say(bool withFacing, bool full = false) {
+    // The first line comes before the tool has judged the new object (read live: no verdict, then
+    // one for a spot off the lot): judge the cursor's spot now, from a neighbour (a spot judged
+    // last is not judged again).
+    if (g.sizePending || game::PlacementVerdict() < 0) {
+        game::Ptr tool = game::CurrentTool();
+        game::HeldObject held;
+        if (tool && game::ReadHeldObject(tool, &held) && held.holding) {
+            int px = OnLot(g.x + 1, g.y) ? g.x + 1 : g.x - 1;
+            game::CheckSpot(tool, px + 0.5f, g.y + 0.5f, g.level);
+            game::CheckSpot(tool, g.x + 0.5f, g.y + 0.5f, g.level);
+        }
+    }
     std::string line = SpotLine(withFacing, full);
     game::HeldObject held;
     bool tool = game::ReadHeldObject(game::CurrentTool(), &held);
     int heldId = tool ? HeldId(held) : 0;
     std::string size = SizeLine(HeldTiles(heldId));
-    if (g.sizePending) {
+    LogVerbose("placing line: held object %p (#%d), size \"%s\"", (void*)held.object, heldId, size.c_str());
+    if (g.sizePending && tool && held.object) {  // not before the tool holds it
         g.sizePending = false;
         if (!size.empty()) line = size + ". " + line;
     }
@@ -467,6 +629,7 @@ void Scan() {
     }
     std::map<long long, size_t> seen;  // spot -> index in g.spots
     int original = Direction();
+    int rawRotation = game::HeldRotation(tool);
     for (int pass = 0; pass < 4; pass++) {
     int direction = (original + 2 * pass) % 8;
     game::SetHeldDirection(tool, direction);
@@ -483,6 +646,7 @@ void Scan() {
                 // the same spot, kept once.
                 game::HeldObject held;
                 int sx = x, sy = y;
+                int facing = direction;
                 if (game::ReadHeldObject(tool, &held) && held.x >= 0) {
                     sx = (int)std::floor(held.x);
                     sy = (int)std::floor(held.y);
@@ -490,11 +654,11 @@ void Scan() {
                 long long key = ((long long)level << 40) | ((long long)(sx & 0xfffff) << 20) | (sy & 0xfffff);
                 auto known = seen.find(key);
                 if (known != seen.end()) {
-                    g.spots[known->second].dirs |= 1 << (direction / 2);
+                    g.spots[known->second].dirs |= 1 << ((facing / 2) & 3);
                     continue;
                 }
                 seen[key] = g.spots.size();
-                Spot s = {sx, sy, level, game::RoomAt(sx + 0.5f, sy + 0.5f, level), 0, 1 << (direction / 2)};
+                Spot s = {sx, sy, level, game::RoomAt(sx + 0.5f, sy + 0.5f, level), 0, 1 << ((facing / 2) & 3)};
                 if (haveSim) {
                     s.distance = std::hypot(sx + 0.5 - sim.x, sy + 0.5 - sim.y);
                     if (level != sim.level) s.distance += 1000.0 * std::abs(level - sim.level);
@@ -507,7 +671,7 @@ void Scan() {
         if (!onLot) break;
     }
     }
-    game::SetHeldDirection(tool, original);
+    game::SetHeldRotation(tool, rawRotation);
     std::stable_sort(g.spots.begin(), g.spots.end(), [](const Spot& a, const Spot& b) { return a.distance < b.distance; });
     // A seat: the spots where it would be how something is used sitting down (the chair for the
     // computer on a desk) come first, turned to face it.
@@ -669,6 +833,7 @@ void NextThing(int delta) {
     std::vector<std::pair<int, int>> body = game::ObjectTiles(target.id, game::PlacedParts());
     if (body.empty()) body.push_back({(int)target.x, (int)target.y});
     int original = Direction();
+    int rawRotation = game::HeldRotation(tool);
     bool found = false;
     int bestX = -1, bestY = -1, bestDir = original;
     for (int pass = 0; pass < 2 && !found; pass++)
@@ -697,7 +862,7 @@ void NextThing(int delta) {
             if (found) break;
         }
     if (bestX < 0) {
-        game::SetHeldDirection(tool, original);
+        game::SetHeldRotation(tool, rawRotation);
         speech::Say(util::Format(S(Str::BesideThing), world::DisplayName(target).c_str()) + ": " + S(Str::PlaceBlocked));
         return;
     }
@@ -853,7 +1018,12 @@ bool OnKey(WPARAM vk, bool shift, bool ctrl) {
             speech::Say(S(Str::PlaceBlocked));
             return true;
         }
-        Log("placing at %d,%d floor %d, direction %d", g.x, g.y, g.level, Direction());
+        {
+            game::HeldObject h;
+            game::ReadHeldObject(game::CurrentTool(), &h);
+            Log("placing at %d,%d floor %d, direction %d (rotation %d, object variable %d)", g.x, g.y, g.level, Direction(),
+                game::HeldRotation(game::CurrentTool()), h.facing);
+        }
         game::HeldObject held;
         g.door = game::ReadHeldObject(game::CurrentTool(), &held) && held.objectType == 8;
         g.doorX = held.x >= 0 ? (int)std::floor(held.x) : g.x;
@@ -974,6 +1144,11 @@ void Tick() {
             // How it can be used, as the door check says for doors: in the Sims 1 mod a tester could
             // not tell whether his Sim would reach what he had placed.
             reach::Forget();
+            // The facing it was put down with, read from the object: the game may turn it as it
+            // goes down (read live 2026-11-10: a sofa held facing east beside a window was put
+            // down facing north).
+            game::LotObject placed;
+            if (game::ReadLotObject(g.placedId, &placed)) line += ", " + Facing(placed.direction);
             std::string with = UsedHow(g.placedId);
             int use = reach::CanUse(g.placedId);
             Log("placed object %d: reach %d, %s", g.placedId, use, with.c_str());

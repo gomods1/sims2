@@ -57,6 +57,19 @@ greeted (greet status 34 = 0 beside a door), wants fulfilled and fears come true
 (semi attribute 0, empty ones among the problems), the taxi and cars at the curb in the lists,
 the lots' size in the neighborhood, the camera gliding to the focused thing. The music volume
 set through the mod was saved (userProps.xml MusicVolume 35 after quitting).
+Since 2026-11-10 (the Sims 1 mod's commit of 2026-11-09 ported, a tester's voice note, the
+roadmap's RE; checked live on the Contreras lot unless ROADMAP.md says): catalog products say
+their size ("3 por 1 casillas", the object folder's multi-tile groups); Left/Right turn the buy
+and build catalogs' pages, Backspace presses buy mode's "Atrás"; placing says the game's own
+reason a spot is refused (the object tool's error set at +0x118), the facing or nearest tile that
+fits, which part of a multi-tile object the cursor is on; **the object tool's rotation is not
+the object's facing** (the object faces 2 - rotation: `game::ReadHeldObject` / `SetHeldDirection`
+convert, every placing facing before this was off); a held object stands nowhere, its tiles come
+from its definition's part offsets (`game::HeldFootprint`); rooms say their light (the game's
+light map with its own Room thresholds, indoors) on the map, cursors and Ctrl+L; conversation
+balloons say "habla de" / "se queja de"; the aspiration rewards are named with their price; the
+professor and job balloon sheets; Nightlife's own cars in the lists. STRUCTS.md "Buy mode",
+"Light", "Rewards catalogs", "SimAntics".
 Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARGETS.md`; layouts:
 `STRUCTS.md`.
 
@@ -88,7 +101,11 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
 
 - The game folder is `S:\steam\steamapps\common\The Sims 2 Legacy Collection\EP9\TSBin` (the one exe
   runs the base game and every expansion). Build: `mod\build.bat` (MSVC 2022, then the manual through
-  pandoc); `mod\build.bat deploy` also copies `sounds\*.wav` and `docs\*.html`.
+  pandoc); only `mod\build.bat deploy` copies the core into the game (then it hot-reloads), with
+  `sounds\*.wav` and `docs\*.html`. From the Bash tool: `powershell -NoProfile -Command 'cmd /c
+  "C:\...\mod\build.bat deploy"'` (cmd from Git Bash does not find it by a relative name).
+- Several research agents attaching Frida to the game at once crashed it (2026-11-10): one live
+  reader at a time; agents doing RE work statically.
 - **Keys and docs never drift** (the user's rule in the Sims 1 mod, 2026-11-01): a change to a key or
   a feature edits, in the same change, the code, the `Keys*` strings Ctrl+F1 speaks (English and all
   19 languages), the manual `docs/manual/en.md` and its 19 translations, and `NAVIGATION.md` when the

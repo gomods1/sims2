@@ -2,6 +2,7 @@
 
 #include <cstring>
 
+#include "../game/buy.h"
 #include "../game/gz.h"
 #include "../game/objects.h"
 #include "../game/mouse.h"
@@ -94,7 +95,10 @@ void SayKeyHelp() {
     else if (lot && nav::build::Active()) speech::Say(std::string(S(Str::KeysBuild)) + " " + S(Str::KeysCuesHint));
     else if (lot && nav::map::Active()) speech::Say(std::string(S(Str::KeysMap)) + " " + S(Str::KeysMapMore));
     else if (lot && nav::FindActive()) speech::Say(S(Str::FindPrompt));
-    else if (lot) speech::Say(std::string(S(Str::KeysLot)) + " " + S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLotMore) + " " + S(Str::KeysLotNarration) + " " + S(Str::KeysLook) + " " + S(Str::KeysMapHint));
+    else if (lot) speech::Say(std::string(S(Str::KeysLot)) + " " +
+                              (game::CurrentModeClass() == "cTSUIModeBuy" || game::CurrentModeClass() == "cTSUIModeBuild"
+                                   ? std::string(S(Str::KeysCatalogPages)) + " " + S(Str::KeysCatalogBack) + " " : std::string()) +
+                              S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLotMore) + " " + S(Str::KeysLotNarration) + " " + S(Str::KeysLook) + " " + S(Str::KeysMapHint));
     else if (nav::neighborhood::ViewActive()) speech::Say(S(Str::KeysNeighborhood));
     else speech::Say(S(Str::KeysScreen));
     speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual));
@@ -178,7 +182,8 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             nav::AdjustFocused(-1);
             return true;
         }
-        if (ctrl) nav::buffers::Switch(-1); else nav::Move(-1);
+        if (ctrl) nav::buffers::Switch(-1);
+        else if (!nav::TurnPageKey(-1)) nav::Move(-1);
         return true;
     case VK_RIGHT:
         if (fieldFocus && !ctrl) {
@@ -189,7 +194,8 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             nav::AdjustFocused(+1);
             return true;
         }
-        if (ctrl) nav::buffers::Switch(+1); else nav::Move(+1);
+        if (ctrl) nav::buffers::Switch(+1);
+        else if (!nav::TurnPageKey(+1)) nav::Move(+1);
         return true;
     case VK_HOME: case VK_END:
         if (fieldFocus) {

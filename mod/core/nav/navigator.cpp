@@ -67,6 +67,7 @@ struct State {
     Ptr pageGroup = 0;
     int pageDelta = 0;
     ULONGLONG pageAt = 0;
+    bool pageToFirst = false;  // Left / Right: the new page from its first product either way
     // A build tool was pressed: once the catalog shows what it offers, focus goes to its styles.
     ULONGLONG toolAt = 0;
     std::string toolName, toolBefore;
@@ -359,7 +360,8 @@ void Refresh(ULONGLONG now) {
     } else if (!g.announcePending) {
         g.knownGroups = keys;
         const Item* it = Focused();
-        if (!focusKept && it && !IsReadOnly(*it)) AnnounceFocus(true);
+        // a catalog page being turned says its own line once the page shows
+        if (!focusKept && it && !IsReadOnly(*it) && !g.pageGroup) AnnounceFocus(true);
     }
 }
 
@@ -450,7 +452,8 @@ void Tick() {
             Log("  group %p %s, %d items %s", (void*)group.key, GroupName(group).c_str(), (int)group.items.size(),
                 group.proc.c_str());
             for (const Item& it : group.items)
-                Log("    %s  [%ld,%ld,%ld,%ld]", Describe(it).c_str(), it.rect.left, it.rect.top, it.rect.right, it.rect.bottom);
+                Log("    %s  [%ld,%ld,%ld,%ld] id %08x", Describe(it).c_str(), it.rect.left, it.rect.top, it.rect.right, it.rect.bottom,
+                    it.widget ? game::WinId(it.widget) : 0);
         }
         const Item* f = Focused();
         Log("  focus: %s", f ? Describe(*f).c_str() : "none");
@@ -519,7 +522,7 @@ Ptr FindButtonById(Ptr w, uint32_t id, int depth) {
 }
 
 // Past the catalog's last product (or before its first): its next (previous) page, if any.
-bool TurnCatalogPage(int delta) {
+bool TurnCatalogPage(int delta, bool toFirst = false) {
     const Group& group = g.groups[g.group];
     if (group.proc != "cTSWinProcCatalog") return false;
     Ptr button = FindButtonById(group.key, delta > 0 ? kCatalogNext : kCatalogPrevious, 0);
@@ -528,6 +531,7 @@ bool TurnCatalogPage(int delta) {
     game::Press(button);
     g.pageGroup = group.key;
     g.pageDelta = delta;
+    g.pageToFirst = toFirst;
     g.pageAt = GetTickCount64();
     return true;
 }
@@ -537,6 +541,7 @@ void FinishPageTurn(ULONGLONG now) {
     if (!g.pageGroup || now - g.pageAt < 200) return;
     Ptr key = g.pageGroup;
     int delta = g.pageDelta;
+    bool toFirst = g.pageToFirst;
     g.pageGroup = 0;
     g.groups = Collect(g.root);
     for (int gi = 0; gi < (int)g.groups.size(); gi++) {
@@ -544,7 +549,7 @@ void FinishPageTurn(ULONGLONG now) {
         const std::vector<Item>& items = g.groups[gi].items;
         int pick = -1;
         for (int i = 0; i < (int)items.size(); i++)
-            if (items[i].role == Role::Product && (pick < 0 || delta < 0)) pick = i;
+            if (items[i].role == Role::Product && (pick < 0 || (delta < 0 && !toFirst))) pick = i;
         if (pick < 0) return;
         SetFocus(gi, pick);
         const Item& it = items[pick];
@@ -567,6 +572,17 @@ void Move(int delta) {
     if (next >= n) next = n - 1;
     SetFocus(g.group, next);
     AnnounceFocus(false);
+}
+
+// Left / Right in a catalog (buy mode's products, build mode's styles): the page itself, landing
+// on its first product, while Up / Down go product by product (the Sims 1 mod's tester: both pairs
+// did the same, and browsing hundreds of products one by one was slow). False elsewhere.
+bool TurnPageKey(int delta) {
+    Refresh(GetTickCount64());
+    const Item* it = Focused();
+    if (!it || it->role != Role::Product || g.groups[g.group].proc != "cTSWinProcCatalog") return false;
+    if (!TurnCatalogPage(delta > 0 ? 1 : -1, true)) speech::Say(S(delta > 0 ? Str::NoNextPage : Str::NoPreviousPage));
+    return true;
 }
 
 void MoveToEdge(bool last) {
@@ -688,12 +704,35 @@ void Activate() {
     else if (it->role == Role::Product) build::Begin(it->label);
 }
 
+// Buy mode's "Atrás" (back from a subcategory to the categories), window id 0xb110 in the buy
+// panel (cTSWinProcBuyPanel; read live 2026-11-10): Backspace presses it, as the Sims 1 mod's.
+constexpr uint32_t kBuyPanelBack = 0xb110;
+
+bool CatalogBack() {
+    if (!world::LotViewActive()) return false;
+    for (int gi = 0; gi < (int)g.groups.size(); gi++) {
+        const Group& gr = g.groups[gi];
+        if (gr.proc != "cTSWinProcBuyPanel") continue;
+        for (int ii = 0; ii < (int)gr.items.size(); ii++) {
+            Ptr w = gr.items[ii].widget;
+            if (!w || game::WinId(w) != kBuyPanelBack || !game::Visible(w) || !game::Enabled(w)) continue;
+            Log("buy panel: back");
+            game::Press(w);
+            // the categories come back in the panel's group (the refresh says where the focus
+            // lands when the button goes)
+            SetFocus(gi, ii);
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Back() {
     Refresh(GetTickCount64());
     if (g.group < 0) return false;
     Ptr key = g.groups[g.group].key;
     int was = world::Close(key);
-    if (!was) return false;
+    if (!was) return CatalogBack();
     // back to the kinds or rooms, on the one that was open
     g.groups = Collect(g.root);
     for (int gi = 0; gi < (int)g.groups.size(); gi++) {

@@ -283,14 +283,69 @@ lot loaded holds 0 in its own +0x2f4 (its parts point at it) until the lot loads
   cTSObject. Mouse messages reach the tool's dispatcher 0xa078dc91: 3 move (slot 42 pick, then
   slot 45 move: the held object goes to the pick and is judged, slot 71; the verdict tints it
   through slot 86), 4 down, 5 up, 6 the cursor left the view (slot 48 clears +0x50).
-- Placement errors: UIText.package STR# 0x89 ("Can't intersect other objects", "Must be against
-  wall" ...), the tooltip the game shows while a spot is refused. Where the tool keeps the
-  current error was not found yet. Leads tried (2026-09-23): 0xa079abb6 turns an entry into a
-  tooltip, but only for the neighborhood's decoration tool (its one caller, 0xa079ac10, from
-  0xa06b2145 = `cTSUserToolPlopNeighborhoodObject` slot 17); no string reference to STR# 0x89 is
-  made while the object tool refuses spots or clicks (the constructor 0xa01d0e90 was watched); the
-  judge (slot 71, 0xa06815d7) passes tool +0x118 (pairs of pointer and count, not errors) to its
-  checks 0xa07983e6 / 0xa0798558, whose error output is the next place to look.
+- Placement errors (static analysis 2026-11-10, read live on the Contreras lot: a loveseat against
+  a wall gave code 0x8 kind 0, "No puede cruzarse con la pared"): tool +0x118 is a `std::set` of
+  errors (+0x118 the head node, +0x11c the count) that the judge (slot 71, 0xa06815d7) empties
+  (0xa07f0ad0) and its checks 0xa07983e6 (slot / surface) and 0xa0798558 (ground) refill on every
+  check; an error is built by 0xa07eff40 (thiscall (int code, pos)) and added by 0xa07f0720. A
+  node: +0 left, +4 parent, +8 right, +0xc colour, +0xd is-head, value at +0x10: int code, float
+  pos[3], `cTSObject*` (+0x20, may be 0), int kind (+0x24). The comparator 0xa07f0660 sorts by a
+  weight per kind, then code, then position; the first node (the head's left) is the one the game
+  shows, on a click only (slot 76 0xa068033f -> 0xa078e94f, 3 s in the world, with the error
+  sound [0xa10de540]). Its text: 0xa07f0c00, thiscall bool (value*, cIGZString** out) (release
+  the string by its slot 2; text slot 5, length slot 7): kind 0 the game's own (UIText.package
+  STR# 0x89 entry idx - 1, idx = 0xa041ad10(code), cdecl; -1 none), kind 1 the object's own
+  (STR# 0x98 of its group), kind 2 the list of places it may go. Two early exits of the judge
+  leave the set as it was (no held object; the +0x3e branch adds only 0xa7). The full code table
+  (codes 0..0xa7 to their strings, English and Spanish) was made by a research pass:
+  0x07 "Must be against wall", 0x08 "Can't intersect wall", 0x0c "Can't intersect other objects"
+  (the usual one), 0x0a / 0x0b outside / inside, 0x12 slope, 0x13 needs support, 0x19 and others
+  the "must be placed on one of these" list.
+- Multi-tile parts (read live 2026-11-10 with `!parts` on a double bed facing north): a part's
+  OBJD sub index is (column << 8) | row, the internal name's "column, row"; row 0 is the front
+  row, columns go toward the object's left, and the lead is any part (the bed's "0, 2 - Lead").
+  A part's tile is the lead's moved back a tile a row and left a tile a column from the lead's
+  own. A held object stands nowhere on the lot (its parts are on no tile), so the mod computes
+  its tiles from these offsets (`game::HeldFootprint`).
+- The object folder (cTSGlobals slot 24, the interface the catalog names use) keeps every loaded
+  object definition as a `cTSObjectSelector`: a vector at +0x50 and another through [+0x6c]
+  (begin, end; its slot 13 0xa04d3570 reads both by index, valid while +0xc is set; 12970
+  definitions in the Contreras game). Its slot 22 (0xa04d3450) finds a part's master: the
+  selector of the same resource file (selector +0x90, its slot 66) whose OBJD has the same field
+  10 (MasterID, +0x18) and is a master. A product's size is its group's sub index span
+  (`game::ProductSize`: 1268 multi-tile groups; sofas said "2 por 1", "3 por 1 casillas").
+
+## Light (static analysis 2026-11-10, read live on the Contreras lot)
+
+- The scene graph system `nTSSG::cTSSGSystem` ([0xa10cc458], also [0xa10cc29c]; filled lazily;
+  framework service 0x9a353ce8, iid 0xfa353cdb) keeps the lighting manager
+  `nTSSG::cLightingManager` (vtable 0xa0db5e90) at +0xa4 (its slot 49), the light map manager at
+  +0xa0 (= lm +0x24, `nTSSG::cLightMapManager`).
+- lm slot 34 (0xa02ded50): thiscall float (const Spot* {float x, y; int level}), the level as
+  RoomAt's: one pixel of that floor's light map through `cLightMapManager` slot 16, as
+  0.30 R + 0.59 G + 0.11 B. The environment score (`cTSEnvironmentScoreManager` slot 8,
+  0xa045a930; cTSGlobals +0x50) reads it at a Sim through the Sim's illumination data source
+  (iid 0x0df8ec21, cTSObject slot 184) and scores t = clamp((L - min) / (max - min), 0, 1),
+  score += (t - 1) x fraction x 100; tuning at env +0x14 fraction 0.2, +0x18 min 0.55, +0x1c
+  max 0.9 (set by slot 7, overridable by the tuning "envscore minimum illumination level"...).
+- Read live at 13:01: a windowless bathroom 0.43 (luz 0 %), the bedroom 0.62 (20 %), another
+  room 0.68 (37 %); outdoors 0.07, so the light map is the rooms' and daylight is not in it: the
+  mod leaves outdoors out.
+- lm slot 35 (0xa02e0320): thiscall float (short lightRoomId): a light room's six RGB triples at
+  [lm+0x1f4] + id x 0x8c, averaged; room 0 reads the time of day's light ([lm+0x98] +
+  [lm+0xd0] x 0x214, RGB at +0x24.., intensity +0x30). Light rooms are partition type 0 (the
+  room manager's slot 80 with type 0; the mod's rooms are type 2). Not used yet.
+
+## Rewards catalogs (static analysis 2026-11-10, not yet seen live)
+
+- `cTSWinProcAspirationRewardsCatalog` (vtable 0xa0de6c64) and `cTSWinProcCareerRewardsCatalog`
+  (0xa0de6e28), both `cTSWinProcGrid`s: +0x164 / +0x168 a std::vector of product interfaces (as a
+  buy thumbnail's +0x14), filled by 0xa066a618 from cTSGlobals +0x40's products whose OBJD
+  function flags have 0x400; +0x170 the selected index; +0x180 the description popup; +0x10 the
+  grid's cells. A cell's proc (`cTSWinProc*RewardThumbnail`, 0x28 bytes) keeps its item's index
+  into the vector at +0x20 (pages included). Cell layout: UI script 0x49064805 (0xa001 the
+  button, 0xa002 thumbnail, 0xa003 the price's overlay). Affordable: price <= the Sim's points
+  (0xa0669d24; person data 161 x 10).
 
 ## Build mode
 
@@ -416,3 +471,21 @@ lot loaded holds 0 in its own +0x2f4 (its parts point at it) until the lot loads
   13), so lookups go through every pack, newest first (`game::ObjectString`).
 - `cTSUIPaintingService` slot 6 (0xa06c1092) paints a balloon's thumbnail (`BalloonEffectThumbnail_%08x`),
   slot 8 (0xa06c1917) headline text textures.
+- More sheets (static analysis of every pack's BHAVs and textures, 2026-11-10; not yet seen
+  live). An 0x70 instruction's operands: flags 10-11, icon scope 12, icon data 13-14, sheet 15.
+  - `conversation-professor01` (global STR# 0x95 13, EP1+): cells 0-11 the majors in MajorGlobals'
+    BCON 0x2001 order (Undeclared, Art, Biology, Drama, Economics, History, Literature,
+    Mathematics, Philosophy, Physics, Political Science, Psychology; the topic -6 of
+    ConversationPersonalityGlobals and "Social - Talk - Majors", the cell "Major - Get Major"'s
+    attribute 0), named by each Major object's catalog name (GUIDs in `balloons.cpp`); 15 a brain
+    (a zombie's thought, "Thought - Sub - Brains"); 14 a chalkboard over a door.
+  - `conversation-job01` (18, EP2+): only cell 15 is used ("Social - Whats Your Job", a Sim
+    without a job: Live.package STR# 0x88 7 "Unemployed"); a Sim with a job shows its JobData
+    GUID's thumbnail (flags 0x0405, the mod's iconGuid path).
+  - `aspirations02` (17): cell 0 Pleasure, 1 Grilled Cheese (+8 red), Live.package STR# 0x91 39, 40.
+  - Wants and fears (flag 0x2000, "Social - What Do You Want/Fear" 0x7f8c42fa only): no cell; the
+    icon variable is the Sim, Temp 4 0 wants / else fears, Temp 5 the index into the Sim's list:
+    cTSGlobals slot 4 (+0x24 the `cTSWantSimulator`), its slot 21 (neighbor id) the wants, 22 the
+    fears (begin/end of `cTSWantInstance*`); an instance's slot 12 its definition, whose slot 12
+    (index, out cIGZString*) its strings (0 male, 1 female, 2 generic, 3 description; tokens
+    `$neighbor`, `$CareerTrack`). Not done: the hook records nothing for 0x2000 yet.

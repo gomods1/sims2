@@ -245,7 +245,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "nada mudou"},
     {Str::BalloonThinks, "%1$s pensa: %2$s"},
     {Str::BalloonDreams, "%1$s sonha: %2$s"},
-    {Str::BalloonSays, "%1$s diz: %2$s"},
+    {Str::BalloonSays, "%1$s fala sobre %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s reclama de %2$s"},
     {Str::BalloonScreams, "%1$s grita: %2$s"},
     {Str::BalloonScreamsNothing, "%s grita"},
     {Str::BalloonCrossed, "sem %s"},
@@ -284,6 +285,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "bebê"},
     {Str::IconDoor, "porta"},
     {Str::IconBabyQuestion, "um bebê?"},
+    {Str::IconBrain, "cérebros"},
     {Str::IconNeedOven, "falta um forno"},
     {Str::IconNeedStove, "falta um fogão"},
     {Str::IconNeedGrill, "falta uma churrasqueira"},
@@ -444,6 +446,25 @@ const Translation kEntries[] = {
     {Str::SeatFor, "para usar %s sentado"},
     {Str::UsedFromSeat, "usado a partir de %s"},
     {Str::KeysShowFocusThings, "Ativado, o ponteiro do mouse também vai até a coisa do lote que está em foco."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "cabe se girado, %s"},
+    {Str::NearestFit, "lugar mais próximo onde cabe %1$s, %2$s"},
+    {Str::NoFitNearby, "não cabe em lugar nenhum a menos de %d quadrados"},
+    {Str::CursorCorner, "cursor no seu canto %s"},
+    {Str::CursorEdge, "cursor na sua borda %s"},
+    {Str::CursorMiddle, "cursor no seu interior"},
+    {Str::ObjectExtends, "ele se estende %s"},
+    {Str::ProductSize, "%1$d por %2$d quadrados"},
+    {Str::NoNextPage, "última página"},
+    {Str::NoPreviousPage, "primeira página"},
+    {Str::KeysCatalogPages,
+     "Nos catálogos dos modos compra e construção, Cima e Baixo percorrem os produtos, Esquerda e Direita viram "
+     "as páginas."},
+    {Str::KeysCatalogBack, "No modo compra, Backspace volta de uma subcategoria para as categorias."},
+    {Str::LightLevel, "luz %d%%"},
+    // Rewards
+    {Str::CannotAfford, "sem dinheiro suficiente"},
+    {Str::RewardPrice, "%s pontos de aspiração"},
     {Str::KeysButton, "Teclas desta tela"},
 };
 

@@ -39,7 +39,7 @@ a niektóre elementy otwierają głębszy **poziom**.
 | Klawisz | Co robi |
 |---|---|
 | Tab, Shift+Tab | Następna lub poprzednia grupa. Najpierw padają nazwa grupy i liczba elementów. |
-| Strzałka w górę, strzałka w dół (lub strzałka w lewo, strzałka w prawo) | Poprzedni lub następny element grupy. |
+| Strzałka w górę, strzałka w dół (lub strzałka w lewo, strzałka w prawo) | Poprzedni lub następny element grupy. W katalogach trybu kupowania i budowania strzałka w lewo i strzałka w prawo zamiast tego przewracają stronę. |
 | Home, End | Pierwszy lub ostatni element grupy. |
 | Enter | Aktywuje element. Na poziomie (rodzaj lub pokój obiektów na parceli) otwiera go. |
 | Backspace | Wraca o poziom wyżej. |
@@ -113,7 +113,7 @@ kolejności:
    zainteresowania...), rodzina, pragnienia i lęki oraz każdy panel, który otworzysz.
 5. **pomoc moda**.
 
-Panel Sima mówi aspirację Sima („Aspiracja: 24 procent”); panel nagród (Nagrody, potem Nagrody aspiracji) mówi, ile punktów aspiracji można wydać.
+Panel Sima mówi aspirację Sima („Aspiracja: 24 procent”); panel nagród (Nagrody, potem Nagrody aspiracji) mówi, ile punktów aspiracji można wydać, a każda nagroda swoją nazwę, cenę w punktach aspiracji i to, czy Simowi ich wystarczy („za mało pieniędzy”); jej opis jest w buforze szczegółów.
 
 Opcje gry (przycisk Opcje w panelu sterowania) są czytane tak samo: każdy wybór mówi swoje ustawienie („Cienie: Wysokie”), a suwaki, takie jak głośność muzyki, zmienia się strzałkami w lewo i w prawo („Muzyka, suwak, 35 z 100”). Utwory stacji radiowej są osobną grupą; Enter włącza lub wyłącza utwór.
 
@@ -157,7 +157,7 @@ trybie życia, kupowania i budowania.
 | Control+F | Znajdź coś: wpisz część nazwy („tel" znajdzie telefon, akcenty nie mają znaczenia). Góra i Dół przechodzą przez wyniki, Enter działa na nim, Control+Enter idzie tam, Delete usuwa drzwi lub okno, Escape wraca tam, gdzie byłeś. |
 | Delete | Na drzwiach lub oknie, w trybie kupowania lub ręką trybu budowania: podnosi je i sprzedaje ze zwrotem. |
 
-Simowie, którzy mają pracę na parceli, mówią ją: „Ravi Pérez, listonosz”, kelner, szef kuchni, ogrodnik, pokojówka. Miska zwierzęcia mówi, czy jest w niej jedzenie. Taksówka i inne samochody przy krawężniku są wśród innych obiektów, dopóki czekają.
+Simowie, którzy mają pracę na parceli, mówią ją: „Ravi Pérez, listonosz”, kelner, szef kuchni, ogrodnik, pokojówka. Miska zwierzęcia mówi, czy jest w niej jedzenie. Taksówka i inne samochody przy krawężniku, w tym samochód, który zabiera Sima na wyjście, są wśród innych obiektów, dopóki czekają.
 
 Po Simach są **problemy**: to, co wymaga uwagi, na przykład zepsute rzeczy, rzeczy do sprzątnięcia, pusta miska zwierzęcia, kałuże, śmieci, popiół i ogień. Na końcu są **drzwi, okna i schody**. Rzecz, do której żaden Sim nie dojdzie od wejścia na parcelę, mówi „żaden Sim nie może do tego dojść”.
 
@@ -171,7 +171,7 @@ fokus wraca na obiekt.
 
 | Klawisz | Co robi |
 |---|---|
-| Control+L | Układ pokoju (przy kursorze budowy lub kursorze mapy, a w innym razie tam, gdzie stoi wybrany Sim): nazwa, kondygnacja, pola, granice, drzwi i okna; każde drzwi i okno, z jego ścianą i pokojem za nim, są w buforze szczegółów. |
+| Control+L | Układ pokoju (przy kursorze budowy lub kursorze mapy, a w innym razie tam, gdzie stoi wybrany Sim): nazwa, kondygnacja, pola, granice, drzwi i okna; każde drzwi i okno, z jego ścianą i pokojem za nim, są w buforze szczegółów. Mówi też, ile światła jest w pokoju („światło 64%”: okna i lampy), co liczy się do potrzeby Wystrój. |
 
 ### Mapa parceli
 
@@ -180,7 +180,7 @@ Sima. Każdy krok odtwarza dźwięk podłogi i każdej ściany, płotu, balustra
 
 | Klawisz | Co robi |
 |---|---|
-| Strzałki | Jedno pole; z Shift pięć. Mówi, co tam stoi i w którą stronę jest zwrócone, pokój i podłogę, gdy się zmieniają, ściany, płoty, balustrady, drzwi i okna według stron, schody i spadki terenu. Ściany, płoty i okna zatrzymują kursor; drzwi go przepuszczają. |
+| Strzałki | Jedno pole; z Shift pięć. Mówi, co tam stoi i w którą stronę jest zwrócone, pokój i podłogę, gdy się zmieniają, ściany, płoty, balustrady, drzwi i okna według stron, schody i spadki terenu. Ściany, płoty i okna zatrzymują kursor; drzwi go przepuszczają. Z pokojem wewnątrz domu podawane jest jego światło („światło 64%”: 0% to to, co gra uważa za ciemność), co liczy się do potrzeby Wystrój. |
 | Alt+Strzałki | To samo, przez ściany. |
 | Przecinek, kropka | Co mówi każdy krok: wszystko, tylko obiekty, tylko podłogi (z nazwy, „Jasna płytka granitowa”), tylko ściany, tylko pokoje. |
 | Home | Wraca do wybranego Sima. |
@@ -196,8 +196,8 @@ Sima. Każdy krok odtwarza dźwięk podłogi i każdej ściany, płotu, balustra
 Gra pokazuje wiele rzeczy tylko obrazkami. Mod mówi je, gdy się dzieją, i zapisuje je w buforze
 zdarzeń:
 
-- **Dymki** nad Simami: "Carlos myśli: Energia", "Carlos mówi: Polityka", przekreślona ikona
-  ("nie ..."), krzyki i nagłówki relacji ("relacja się poprawia", "nowy przyjaciel", "pierwszy
+- **Dymki** nad Simami: "Carlos myśli: Energia", "Carlos rozmawia na temat: Polityka" (dymki rozmowy to jej tematy; przekreślony: "Carlos narzeka na temat: Polityka"), przekreślona
+  myśl ("nie ..."), krzyki, kierunek studiów studenta ("rozmawia na temat: Biologia") i nagłówki relacji ("relacja się poprawia", "nowy przyjaciel", "pierwszy
   pocałunek").
 - **Czego brakuje do posiłku**: „Carlos myśli: potrzebny jest blat” (piekarnik, kuchenka, grill, mikrofalówka).
 - **Trasy**: "Carlos nie może tam dojść".
@@ -217,9 +217,14 @@ Czynności z innym Simem podają tego Sima, niezależnie od tego, kto je zaczą�
 
 ## Tryb kupowania
 
-F2 otwiera tryb kupowania. Produkty katalogu to przyciski: każdy produkt mówi swoją nazwę, cenę i
-oceny, a bufor szczegółów zawiera jego opis. Przejście za ostatni produkt strony (lub przed
+F2 otwiera tryb kupowania. Produkty katalogu to przyciski: każdy produkt mówi swoją nazwę, cenę,
+rozmiar w polach, dłuższy bok najpierw („2 na 1 pól”), i oceny; bufor szczegółów zawiera jego opis. Przejście za ostatni produkt strony (lub przed
 pierwszy) przewraca stronę.
+
+| Klawisz | Co robi |
+|---|---|
+| Strzałka w lewo, strzałka w prawo | Poprzednia lub następna strona katalogu, od jej pierwszego produktu („ostatnia strona” na końcu); strzałki w górę i w dół idą produkt po produkcie. |
+| Backspace | Powrót z podkategorii (krzesła do jadalni) do kategorii. |
 
 ### Ustawianie obiektu
 
@@ -241,7 +246,9 @@ każdym kierunku, najpierw najbliższe wybranego Sima.
 | R | Powtarza miejsce w całości. |
 
 Obiekt zajmujący kilka pól mówi, ile podłogi zajmuje ("zajmuje pól: 2, 2 z zachodu na wschód, 1
-z północy na południe").
+z północy na południe"). Jego pierwszy wiersz, każdy obrót i R mówią też, na której części obiektu jest kursor i dokąd sięga reszta ("kursor na krawędzi od zachodu, sięga w kierunku wschodu, pól: 2").
+
+Gdy się nie mieści, wiersz mówi dlaczego, słowami gry ("Musi stać przy ścianie"), albo na co trafia, i kończy się tym, co by zadziałało: kierunkiem, w którym mieści się na tym samym polu ("zmieści się po obróceniu, skierowany w stronę południa"), a w innym razie najbliższym polem, gdzie się mieści ("najbliższe miejsce, gdzie się zmieści: w kierunku północy, 1 pole, skierowany w stronę południa"). Światło pokoju jest podawane razem z pokojem, jak na mapie parceli.
 
 Miejsca siedziska zaczynają się tam, gdzie czegoś używa się na siedząco, jak komputera na biurku, a siedzisko jest obrócone w jego stronę: „zwrócony na zachód, aby używać Komputer na siedząco”. Po postawieniu obiektu mod mówi, jak będzie używany: „aby używać Komputer na siedząco”, „używany z Krzesło biurowe”, „Simowie mogą do tego dojść” lub „żaden Sim nie może do tego dojść”.
 
@@ -336,6 +343,6 @@ Klawisze, które je zmieniają, od razu je zapisują.
 
 ## Jeszcze nie gotowe
 
-Tapety, rysowane dachy i teren w trybie budowania; nazwy nagród aspiracji; stawianie na parceli obiektu z ekwipunku Sima; nazwy głów, fryzur i ubrań w Stwórz Sima;
+Tapety, rysowane dachy i teren w trybie budowania; nazywanie pragnień i lęków, o których rozmawiają Simowie; stawianie na parceli obiektu z ekwipunku Sima; nazwy głów, fryzur i ubrań w Stwórz Sima;
 własne ekrany dodatków (studia, nocne życie, biznes, pory roku, wakacje, mieszkania, magia) są na
 razie odczytywane tylko przez ogólną nawigację.

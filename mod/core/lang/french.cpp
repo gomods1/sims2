@@ -249,7 +249,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "rien n'a changé"},
     {Str::BalloonThinks, "%1$s pense : %2$s"},
     {Str::BalloonDreams, "%1$s rêve : %2$s"},
-    {Str::BalloonSays, "%1$s dit : %2$s"},
+    {Str::BalloonSays, "%1$s parle de %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s se plaint de %2$s"},
     {Str::BalloonScreams, "%1$s crie : %2$s"},
     {Str::BalloonScreamsNothing, "%s crie"},
     {Str::BalloonCrossed, "pas %s"},
@@ -288,6 +289,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "bébé"},
     {Str::IconDoor, "porte"},
     {Str::IconBabyQuestion, "un bébé ?"},
+    {Str::IconBrain, "des cerveaux"},
     {Str::IconNeedOven, "il faut un four"},
     {Str::IconNeedStove, "il faut une cuisinière"},
     {Str::IconNeedGrill, "il faut un barbecue"},
@@ -453,6 +455,25 @@ const Translation kEntries[] = {
     {Str::SeatFor, "pour utiliser %s assis"},
     {Str::UsedFromSeat, "s'utilise depuis %s"},
     {Str::KeysShowFocusThings, "Activé, le pointeur de la souris va aussi sur l'objet du terrain sélectionné."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "tient une fois tourné, %s"},
+    {Str::NearestFit, "place la plus proche %1$s, %2$s"},
+    {Str::NoFitNearby, "ne tient nulle part à moins de %d cases"},
+    {Str::CursorCorner, "curseur dans son coin %s"},
+    {Str::CursorEdge, "curseur sur son bord %s"},
+    {Str::CursorMiddle, "curseur à l'intérieur"},
+    {Str::ObjectExtends, "il s'étend %s"},
+    {Str::ProductSize, "%1$d sur %2$d cases"},
+    {Str::NoNextPage, "dernière page"},
+    {Str::NoPreviousPage, "première page"},
+    {Str::KeysCatalogPages,
+     "Dans les catalogues des modes achat et construction, Haut et Bas parcourent les produits, Gauche et Droite "
+     "tournent les pages."},
+    {Str::KeysCatalogBack, "En mode achat, Retour arrière revient d'une sous-catégorie aux catégories."},
+    {Str::LightLevel, "lumière %d %%"},
+    // Rewards
+    {Str::CannotAfford, "fonds insuffisants"},
+    {Str::RewardPrice, "%s points d'aspiration"},
     {Str::KeysButton, "Touches de cet écran"},
 };
 

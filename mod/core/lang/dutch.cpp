@@ -250,7 +250,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "er is niets veranderd"},
     {Str::BalloonThinks, "%1$s denkt: %2$s"},
     {Str::BalloonDreams, "%1$s droomt: %2$s"},
-    {Str::BalloonSays, "%1$s zegt: %2$s"},
+    {Str::BalloonSays, "%1$s praat over %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s klaagt over %2$s"},
     {Str::BalloonScreams, "%1$s schreeuwt: %2$s"},
     {Str::BalloonScreamsNothing, "%s schreeuwt"},
     {Str::BalloonCrossed, "geen %s"},
@@ -289,6 +290,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "baby"},
     {Str::IconDoor, "deur"},
     {Str::IconBabyQuestion, "een baby?"},
+    {Str::IconBrain, "hersenen"},
     {Str::IconNeedOven, "er is een oven nodig"},
     {Str::IconNeedStove, "er is een fornuis nodig"},
     {Str::IconNeedGrill, "er is een barbecue nodig"},
@@ -454,6 +456,25 @@ const Translation kEntries[] = {
     {Str::UsedFromSeat, "wordt gebruikt vanaf %s"},
     {Str::KeysShowFocusThings,
      "Als het aan staat, gaat de muisaanwijzer ook naar het voorwerp van het perceel dat de focus heeft."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "past gedraaid, %s"},
+    {Str::NearestFit, "dichtstbijzijnde plek waar het past %1$s, %2$s"},
+    {Str::NoFitNearby, "past nergens binnen %d tegels"},
+    {Str::CursorCorner, "cursor op de hoek in het %s"},
+    {Str::CursorEdge, "cursor op de rand in het %s"},
+    {Str::CursorMiddle, "cursor in het midden"},
+    {Str::ObjectExtends, "het loopt door %s"},
+    {Str::ProductSize, "%1$d bij %2$d tegels"},
+    {Str::NoNextPage, "laatste pagina"},
+    {Str::NoPreviousPage, "eerste pagina"},
+    {Str::KeysCatalogPages,
+     "In de catalogi van koop- en bouwmodus gaan Omhoog en Omlaag door de producten, Links en Rechts slaan de "
+     "pagina's om."},
+    {Str::KeysCatalogBack, "In de koopmodus gaat Backspace terug van een subcategorie naar de categorieën."},
+    {Str::LightLevel, "licht %d%%"},
+    // Rewards
+    {Str::CannotAfford, "te duur"},
+    {Str::RewardPrice, "%s ambitiepunten"},
     {Str::KeysButton, "Toetsen voor dit scherm"},
 };
 

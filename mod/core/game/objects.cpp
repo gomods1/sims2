@@ -576,6 +576,36 @@ int RoomAt(float x, float y, int level) {
     return ok ? room : -1;
 }
 
+bool LightAt(float x, float y, int level, float* light) {
+    Ptr sg = Rd<Ptr>(Va(addr::light::kSceneGraph));
+    if (!sg) sg = Rd<Ptr>(Va(addr::light::kSceneGraphCached));
+    Ptr lm = sg ? Rd<Ptr>(sg + addr::light::kLightingManager) : 0;
+    if (!lm || Rd<Ptr>(lm) != Va(addr::light::kLightingManagerVtable)) return false;
+    struct Spot {
+        float x, y;
+        int level;
+    } spot = {x, y, level};
+    typedef float(__thiscall * LightFn)(Ptr, Spot*);
+    float v = -1;
+    if (!Guarded([&] { v = Slot<LightFn>(lm, addr::light::kSlotLightAt)(lm, &spot); })) return false;
+    if (!(v >= 0 && v < 100)) return false;
+    *light = v;
+    return true;
+}
+
+void LightThresholds(float* dark, float* lit) {
+    *dark = 0.55f;
+    *lit = 0.9f;
+    Ptr g = Rd<Ptr>(Va(addr::globals::kInstance));
+    Ptr env = g ? Rd<Ptr>(g + addr::light::kGlobalsEnvironment) : 0;
+    if (!env) return;
+    float d = Rd<float>(env + addr::light::kEnvDark, -1), l = Rd<float>(env + addr::light::kEnvLit, -1);
+    if (d >= 0 && l > d && l < 10) {
+        *dark = d;
+        *lit = l;
+    }
+}
+
 bool GamePaused() {
     Ptr sim = Rd<Ptr>(Va(addr::sim::kInstance));
     return sim && Rd<int16_t>(sim + addr::sim::kPaused) != 0;

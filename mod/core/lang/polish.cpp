@@ -247,7 +247,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "nic się nie zmieniło"},
     {Str::BalloonThinks, "%1$s myśli: %2$s"},
     {Str::BalloonDreams, "%1$s śni: %2$s"},
-    {Str::BalloonSays, "%1$s mówi: %2$s"},
+    {Str::BalloonSays, "%1$s rozmawia na temat: %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s narzeka na temat: %2$s"},
     {Str::BalloonScreams, "%1$s krzyczy: %2$s"},
     {Str::BalloonScreamsNothing, "%s krzyczy"},
     {Str::BalloonCrossed, "nie %s"},
@@ -286,6 +287,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "dziecko"},
     {Str::IconDoor, "drzwi"},
     {Str::IconBabyQuestion, "dziecko?"},
+    {Str::IconBrain, "mózgi"},
     {Str::IconNeedOven, "potrzebny piekarnik"},
     {Str::IconNeedStove, "potrzebna kuchenka"},
     {Str::IconNeedGrill, "potrzebny grill"},
@@ -446,6 +448,25 @@ const Translation kEntries[] = {
     {Str::UsedFromSeat, "używany z: %s"},
     {Str::KeysShowFocusThings,
      "Gdy jest włączone, wskaźnik myszy przechodzi też do rzeczy z parceli, która ma fokus."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "zmieści się po obróceniu, %s"},
+    {Str::NearestFit, "najbliższe miejsce, gdzie się zmieści: %1$s, %2$s"},
+    {Str::NoFitNearby, "nie zmieści się nigdzie w promieniu pól: %d"},
+    {Str::CursorCorner, "kursor w rogu od %s"},
+    {Str::CursorEdge, "kursor na krawędzi od %s"},
+    {Str::CursorMiddle, "kursor w środku"},
+    {Str::ObjectExtends, "sięga %s"},
+    {Str::ProductSize, "%1$d na %2$d pól"},
+    {Str::NoNextPage, "ostatnia strona"},
+    {Str::NoPreviousPage, "pierwsza strona"},
+    {Str::KeysCatalogPages,
+     "W katalogach trybu kupowania i budowania strzałki w górę i w dół przechodzą przez produkty, w lewo i w "
+     "prawo przewracają strony."},
+    {Str::KeysCatalogBack, "W trybie kupowania Backspace wraca z podkategorii do kategorii."},
+    {Str::LightLevel, "światło %d%%"},
+    // Rewards
+    {Str::CannotAfford, "za mało pieniędzy"},
+    {Str::RewardPrice, "punkty aspiracji: %s"},
     {Str::KeysButton, "Klawisze tego ekranu"},
 };
 

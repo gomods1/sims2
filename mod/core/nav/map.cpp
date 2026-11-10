@@ -92,6 +92,10 @@ std::string Line(bool full) {
         else
             parts.push_back(roomName);
     }
+    if (!roomName.empty() && layer != kFloors && (full || roomChanged || layer == kRooms)) {
+        std::string light = world::RoomLight(g.x, g.y, g.level);
+        if (!light.empty()) parts.push_back(light);
+    }
     g.lastRoom = t.room;
     g.lastLevel = g.level;
     if (!roomName.empty()) g.lastRoomName = roomName;

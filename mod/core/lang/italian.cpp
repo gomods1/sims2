@@ -244,7 +244,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "non è cambiato nulla"},
     {Str::BalloonThinks, "%1$s pensa: %2$s"},
     {Str::BalloonDreams, "%1$s sogna: %2$s"},
-    {Str::BalloonSays, "%1$s dice: %2$s"},
+    {Str::BalloonSays, "%1$s parla di %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s si lamenta di %2$s"},
     {Str::BalloonScreams, "%1$s urla: %2$s"},
     {Str::BalloonScreamsNothing, "%s urla"},
     {Str::BalloonCrossed, "niente %s"},
@@ -283,6 +284,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "bebè"},
     {Str::IconDoor, "porta"},
     {Str::IconBabyQuestion, "un bebè?"},
+    {Str::IconBrain, "cervelli"},
     {Str::IconNeedOven, "serve un forno"},
     {Str::IconNeedStove, "serve un fornello"},
     {Str::IconNeedGrill, "serve una griglia"},
@@ -445,6 +447,25 @@ const Translation kEntries[] = {
     {Str::SeatFor, "per usare %s da seduti"},
     {Str::UsedFromSeat, "si usa da %s"},
     {Str::KeysShowFocusThings, "Se attivo, anche il puntatore del mouse va sulla cosa del lotto selezionata."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "ci sta se ruotato, %s"},
+    {Str::NearestFit, "posto più vicino %1$s, %2$s"},
+    {Str::NoFitNearby, "non ci sta da nessuna parte entro %d caselle"},
+    {Str::CursorCorner, "cursore nel suo angolo %s"},
+    {Str::CursorEdge, "cursore sul suo lato %s"},
+    {Str::CursorMiddle, "cursore al suo interno"},
+    {Str::ObjectExtends, "si estende %s"},
+    {Str::ProductSize, "%1$d per %2$d caselle"},
+    {Str::NoNextPage, "ultima pagina"},
+    {Str::NoPreviousPage, "prima pagina"},
+    {Str::KeysCatalogPages,
+     "Nei cataloghi delle modalità acquisto e costruzione, Su e Giù scorrono i prodotti, Sinistra e Destra "
+     "girano le pagine."},
+    {Str::KeysCatalogBack, "In modalità acquisto, Backspace torna da una sottocategoria alle categorie."},
+    {Str::LightLevel, "luce %d%%"},
+    // Rewards
+    {Str::CannotAfford, "denaro insufficiente"},
+    {Str::RewardPrice, "%s punti aspirazione"},
     {Str::KeysButton, "Tasti di questa schermata"},
 };
 

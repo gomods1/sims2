@@ -247,7 +247,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "ничего не изменилось"},
     {Str::BalloonThinks, "%1$s думает: %2$s"},
     {Str::BalloonDreams, "%1$s видит сон: %2$s"},
-    {Str::BalloonSays, "%1$s говорит: %2$s"},
+    {Str::BalloonSays, "%1$s говорит на тему: %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s жалуется на тему: %2$s"},
     {Str::BalloonScreams, "%1$s кричит: %2$s"},
     {Str::BalloonScreamsNothing, "%s кричит"},
     {Str::BalloonCrossed, "не %s"},
@@ -286,6 +287,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "малыш"},
     {Str::IconDoor, "дверь"},
     {Str::IconBabyQuestion, "малыш?"},
+    {Str::IconBrain, "мозги"},
     {Str::IconNeedOven, "нужна духовка"},
     {Str::IconNeedStove, "нужна плита"},
     {Str::IconNeedGrill, "нужен гриль"},
@@ -446,6 +448,25 @@ const Translation kEntries[] = {
     {Str::SeatFor, "чтобы пользоваться %s сидя"},
     {Str::UsedFromSeat, "используется с %s"},
     {Str::KeysShowFocusThings, "Когда включено, указатель мыши тоже переходит на вещь участка в фокусе."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "помещается, если повернуть, %s"},
+    {Str::NearestFit, "ближайшее место, где помещается: %1$s, %2$s"},
+    {Str::NoFitNearby, "не помещается нигде в пределах %d клеток"},
+    {Str::CursorCorner, "курсор в углу: %s"},
+    {Str::CursorEdge, "курсор на краю: %s"},
+    {Str::CursorMiddle, "курсор внутри"},
+    {Str::ObjectExtends, "тянется: %s"},
+    {Str::ProductSize, "%1$d на %2$d клетки"},
+    {Str::NoNextPage, "последняя страница"},
+    {Str::NoPreviousPage, "первая страница"},
+    {Str::KeysCatalogPages,
+     "В каталогах режимов покупки и строительства стрелки вверх и вниз перебирают товары, стрелки влево и вправо "
+     "листают страницы."},
+    {Str::KeysCatalogBack, "В режиме покупки Backspace возвращает из подкатегории к категориям."},
+    {Str::LightLevel, "свет %d%%"},
+    // Rewards
+    {Str::CannotAfford, "не хватает"},
+    {Str::RewardPrice, "очки стремления: %s"},
     {Str::KeysButton, "Клавиши этого экрана"},
 };
 

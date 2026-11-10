@@ -118,6 +118,11 @@ Ptr WorldDB();
 
 // The room at a spot of the lot (tiles, floor 0 = ground), -1 when unknown.
 int RoomAt(float x, float y, int level);
+// The light at a spot as the game scores it for the Room need (its light map: windows, lamps,
+// daylight), about 0 dark to 1 bright; false when unknown. LightThresholds: below dark the game
+// counts it dark, from lit fully lit (its tuning, 0.55 and 0.9 by default).
+bool LightAt(float x, float y, int level, float* light);
+void LightThresholds(float* dark, float* lit);
 
 // The game is paused (the Pause command's state); false also when no lot is loaded.
 bool GamePaused();

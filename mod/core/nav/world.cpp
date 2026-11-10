@@ -12,12 +12,14 @@
 
 #include <algorithm>
 #include <cmath>
+#include <set>
 #include <vector>
 
 #include "../game/addresses.h"
 #include "../game/game_strings.h"
 #include "../game/gz.h"
 #include "../game/objects.h"
+#include "../game/lotgrid.h"
 #include "../game/rtti.h"
 #include "../speech/speech.h"
 #include "../util/log.h"
@@ -109,9 +111,19 @@ bool IsMess(const std::string& internal) { return MessName(internal) != Str::Cou
 // Cars at the curb (the taxi, a service NPC's car): internal objects ("*Car - Service - Taxi (was
 // Car -Prototype)", internal name "Car - Prototype - 0,5"), so the mod names them; a tester could
 // not find the taxi he had called.
+// Every pack's vehicles (2026-11-10, from the OBJD names of all objects.package files): "Car - ..."
+// (services, the taxi, the old taxi Nightlife still uses, limos, vacation cars) and Nightlife's
+// "Car Ownable - ..." (a Sim's own car, which picks the family up for an outing); an owned car
+// with a catalog name is said by that name. Not the parking spot ("Car Storage") nor the
+// invisible car of walking lot transitions. A tester was stood up downtown: no car in the list.
 Str VehicleName(const LotObject& o) {
-    if (o.name.rfind("Car - ", 0) != 0 || o.person) return Str::Count;
-    return o.catalogName.find("Taxi") != std::string::npos ? Str::ObjTaxi : Str::ObjCar;
+    if (o.person) return Str::Count;
+    bool service = o.name.rfind("Car - ", 0) == 0 && o.name.find("Locator") == std::string::npos;
+    bool owned = o.name.rfind("Car Ownable - ", 0) == 0 && o.name.find("Invisible") == std::string::npos;
+    if (!service && !owned) return Str::Count;
+    if (o.catalogName.find("Taxi") != std::string::npos || o.name.find("Taxi") != std::string::npos) return Str::ObjTaxi;
+    if (owned && !o.catalogName.empty() && o.catalogName[0] != '*') return Str::Count;  // its catalog name
+    return Str::ObjCar;
 }
 
 }  // namespace
@@ -224,10 +236,15 @@ std::string RoomName(int level, int room, const std::vector<LotObject>& all) {
     if (room == 0) return game::GameString("UIText.package", kCategoryNames, 6);
     double best = 0;
     int bestIndex = 0;  // living room when nothing tells
+    // Not the object buy mode holds: it stands where it is tried (read live: a bedroom was called
+    // "sala de estar" while a sofa was tried in it).
+    game::HeldObject held;
+    game::Ptr heldObject = game::ReadHeldObject(game::CurrentTool(), &held) && held.holding ? held.object : 0;
     for (const auto& r : kRooms) {
         double votes = 0;
         for (const LotObject& o : all) {
             if (o.person || o.level != level || o.room != room || !(o.roomFlags & r.flag)) continue;
+            if (heldObject && o.ptr == heldObject) continue;
             int bits = 0;
             for (uint16_t f = o.roomFlags; f; f &= f - 1) bits++;
             votes += 1.0 / bits;
@@ -278,7 +295,7 @@ std::string Line(const LotObject& o, const LotObject* sim, bool roomMode, const 
     else if (IsDirty(o)) line += std::string(", ") + S(Str::ConditionDirty);
     // What no Sim can get to from the lot's entrance (in the Sims 1 mod a tester's Sim never
     // reached the chair he had placed).
-    if (!o.person && !IsPortal(o) && !IsMess(o.name) && VehicleName(o) == Str::Count && reach::Unreachable(o.id))
+    if (!o.person && !IsPortal(o) && !IsMess(o.name) && VehicleName(o) == Str::Count && o.name.rfind("Car Ownable", 0) != 0 && reach::Unreachable(o.id))
         line += std::string(", ") + S(Str::NobodyReaches);
     if (!roomMode && o.room >= 0) line += ", " + RoomName(o.level, o.room, all);
     if (o.person && sim && o.id == sim->id) line += std::string(", ") + S(Str::SelectedSimSuffix);
@@ -368,11 +385,65 @@ void SayLayout(int x, int y, int level) {
     }
     std::string summary = util::Format(S(Str::LayoutSummary), name.c_str(), std::max(level, 1), count, x0, y0, x1, y1);
     summary += ", " + util::Format(S(Str::LayoutOpenings), doors, windows);
+    std::string light = RoomLight(x, y, level);
+    if (!light.empty()) summary += ", " + light;
     std::vector<std::string> details = {summary};
     for (const std::string& l : lines) details.push_back(l);
     buffers::SetDetails(details);
     speech::Say(summary);
     Log("layout of room %d floor %d: %d tiles, %d doors, %d windows", room, level, count, doors, windows);
+}
+
+std::string RoomLight(int x, int y, int level) {
+    int room = game::RoomAt(x + 0.5f, y + 0.5f, level);
+    // Outdoors (room 0) the light map reads near 0 at midday (read live 2026-11-10: 0.07 over the
+    // Contreras garden at 13:01; it is the rooms' map, daylight is the sun's): left out.
+    if (room <= 0) return "";
+    // the room's tiles from this one (four ways, a room's own), the light averaged over them;
+    // kept 3 s for the same room (the arrows cross it tile by tile)
+    static int cachedRoom = -2, cachedLevel = 0;
+    static ULONGLONG cachedAt = 0;
+    static std::string cached;
+    ULONGLONG now = GetTickCount64();
+    if (room == cachedRoom && level == cachedLevel && now - cachedAt < 3000) return cached;
+    int w = 0, h = 0;
+    if (!game::LotSize(&w, &h)) w = h = 80;
+    std::vector<std::pair<int, int>> todo = {{x, y}};
+    std::set<std::pair<int, int>> seen = {{x, y}};
+    double sum = 0;
+    int count = 0;
+    while (!todo.empty() && seen.size() < 2000) {
+        auto t = todo.back();
+        todo.pop_back();
+        float v = 0;
+        if (game::LightAt(t.first + 0.5f, t.second + 0.5f, level, &v)) {
+            sum += v;
+            count++;
+        }
+        static const int kDx[] = {1, -1, 0, 0}, kDy[] = {0, 0, 1, -1};
+        for (int d = 0; d < 4; d++) {
+            std::pair<int, int> n = {t.first + kDx[d], t.second + kDy[d]};
+            if (n.first < 0 || n.second < 0 || n.first >= w || n.second >= h || seen.count(n)) continue;
+            if (game::RoomAt(n.first + 0.5f, n.second + 0.5f, level) != room) continue;
+            seen.insert(n);
+            todo.push_back(n);
+        }
+    }
+    std::string out;
+    if (count > 0) {
+        float dark = 0, lit = 0;
+        game::LightThresholds(&dark, &lit);
+        double light = sum / count;
+        double share = std::clamp((light - dark) / (lit - dark), 0.0, 1.0);
+        out = util::Format(S(Str::LightLevel), (int)(share * 100 + 0.5));
+        LogVerbose("room %d floor %d light %.3f over %d tiles (dark %.2f, lit %.2f): %s", room, level, light, count, dark, lit,
+                   out.c_str());
+    }
+    cachedRoom = room;
+    cachedLevel = level;
+    cachedAt = now;
+    cached = out;
+    return out;
 }
 
 std::string RoomNameAt(float x, float y, int level) {

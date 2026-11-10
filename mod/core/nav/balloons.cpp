@@ -193,6 +193,26 @@ std::string IconName(const std::string& name, int cell) {
                                     Str::IconFingerprint, Str::IconBaby, Str::IconDoor,       Str::IconBabyQuestion};
         return cell >= 0 && cell < 8 ? S(kMisc[cell]) : "";
     }
+    // University's professor sheet: cells 0-11 the majors, in the order of MajorGlobals' BCON
+    // 0x2001 (each Major's attribute 0, which "Major - Get Major" returns for the topic), named by
+    // each Major object's catalog name; 15 a brain, a zombie's thought (found 2026-11-10 in the
+    // BHAVs, STRUCTS.md "SimAntics"; not yet seen live).
+    if (name.find("conversation-professor01") != std::string::npos) {
+        static const uint32_t kMajors[] = {0x8e97bf1d, 0x2e9cf007, 0x4e9cf02b, 0x4e9cf04d, 0xee9cf044, 0x2e9cf074,
+                                           0xce9cf085, 0xee9cf08d, 0x2e9cf057, 0xae9cf063, 0x4e9cf06d, 0xce9cf07c};
+        if (cell >= 0 && cell < 12) return util::CleanForSpeech(game::CatalogName(kMajors[cell]));
+        return cell == 15 ? S(Str::IconBrain) : "";
+    }
+    // Nightlife's job sheet: only cell 15 is ever used ("Social - Whats Your Job", for a Sim without
+    // a job), the Sim panel's "Unemployed" (Live.package STR# 0x88 7); a Sim with a job shows the
+    // job's own thumbnail, named by its GUID.
+    if (name.find("conversation-job01") != std::string::npos)
+        return cell == 15 ? util::CleanForSpeech(game::GameString("Live.package", 0x88, 7)) : "";
+    // The second aspirations sheet: Pleasure and Grilled Cheese (+8 red), Live.package STR# 0x91.
+    if (name.find("aspirations02") != std::string::npos) {
+        int a = cell % 8;
+        return cell >= 0 && cell < 16 && a < 2 ? util::CleanForSpeech(game::GameString("Live.package", 0x91, 39 + a)) : "";
+    }
     at = name.find("converstaion-");
     if (at != std::string::npos) {
         std::string word = name.substr(at + 13);
@@ -294,8 +314,12 @@ void Tick() {
         } else if (e->kind == Kind::Headline) {
             line = util::Format(S(e->headline), who.c_str());
         } else if (!icon.empty()) {
-            if (e->crossed) icon = util::Format(S(Str::BalloonCrossed), icon.c_str());
-            line = util::Format(S(e->headline), who.c_str(), icon.c_str());
+            // A conversation's balloons are its topics, not its words (a tester: "habla de Dinero",
+            // not "dice: Dinero"); a crossed-out topic is a complaint about it.
+            Str form = e->headline;
+            if (e->kind == Kind::Talk && e->crossed) form = Str::BalloonTalksAgainst;
+            else if (e->crossed) icon = util::Format(S(Str::BalloonCrossed), icon.c_str());
+            line = util::Format(S(form), who.c_str(), icon.c_str());
         } else if (e->kind == Kind::Scream) {
             line = util::Format(S(Str::BalloonScreamsNothing), who.c_str());
         } else {

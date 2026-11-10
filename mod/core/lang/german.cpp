@@ -251,7 +251,8 @@ const Translation kEntries[] = {
     {Str::BuildNothing, "nichts geändert"},
     {Str::BalloonThinks, "%1$s denkt: %2$s"},
     {Str::BalloonDreams, "%1$s träumt: %2$s"},
-    {Str::BalloonSays, "%1$s sagt: %2$s"},
+    {Str::BalloonSays, "%1$s spricht über %2$s"},
+    {Str::BalloonTalksAgainst, "%1$s beschwert sich über %2$s"},
     {Str::BalloonScreams, "%1$s schreit: %2$s"},
     {Str::BalloonScreamsNothing, "%s schreit"},
     {Str::BalloonCrossed, "kein %s"},
@@ -290,6 +291,7 @@ const Translation kEntries[] = {
     {Str::IconBaby, "Baby"},
     {Str::IconDoor, "Tür"},
     {Str::IconBabyQuestion, "ein Baby?"},
+    {Str::IconBrain, "Gehirne"},
     {Str::IconNeedOven, "es fehlt ein Backofen"},
     {Str::IconNeedStove, "es fehlt ein Herd"},
     {Str::IconNeedGrill, "es fehlt ein Grill"},
@@ -454,6 +456,25 @@ const Translation kEntries[] = {
     {Str::SeatFor, "um %s im Sitzen zu benutzen"},
     {Str::UsedFromSeat, "wird von %s aus benutzt"},
     {Str::KeysShowFocusThings, "Eingeschaltet geht auch der Mauszeiger zum gewählten Ding des Grundstücks."},
+    // Placing: where it fits, its parts; catalog sizes and pages
+    {Str::FitsTurned, "passt gedreht, %s"},
+    {Str::NearestFit, "nächster passender Platz %1$s, %2$s"},
+    {Str::NoFitNearby, "passt nirgends im Umkreis von %d Feldern"},
+    {Str::CursorCorner, "Cursor an seiner Ecke im %s"},
+    {Str::CursorEdge, "Cursor an seinem Rand im %s"},
+    {Str::CursorMiddle, "Cursor in seiner Mitte"},
+    {Str::ObjectExtends, "es reicht %s"},
+    {Str::ProductSize, "%1$d mal %2$d Felder"},
+    {Str::NoNextPage, "letzte Seite"},
+    {Str::NoPreviousPage, "erste Seite"},
+    {Str::KeysCatalogPages,
+     "In den Katalogen des Kauf- und Baumodus gehen Pfeil hoch und runter durch die Produkte, links und rechts "
+     "blättern um."},
+    {Str::KeysCatalogBack, "Im Kaufmodus führt die Rücktaste von einer Unterkategorie zurück zu den Kategorien."},
+    {Str::LightLevel, "Licht %d %%"},
+    // Rewards
+    {Str::CannotAfford, "zu teuer"},
+    {Str::RewardPrice, "%s Bestrebenspunkte"},
     {Str::KeysButton, "Tasten für diesen Bildschirm"},
 };
 

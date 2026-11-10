@@ -25,7 +25,7 @@ Varje skärm, dialogruta, panel och läge fungerar på samma sätt. Det du rör 
 | Tangent | Vad den gör |
 |---|---|
 | Tabb, Skift+Tabb | Nästa eller föregående grupp. Gruppens namn och antal objekt sägs först. |
-| Pil upp, Pil ned (eller Pil vänster, Pil höger) | Föregående eller nästa objekt i gruppen. |
+| Pil upp, Pil ned (eller Pil vänster, Pil höger) | Föregående eller nästa objekt i gruppen. I köp- och bygglägets kataloger bläddrar Pil vänster och Pil höger i stället sidan. |
 | Home, End | Första eller sista objektet i gruppen. |
 | Enter | Aktiverar objektet. På en nivå (en sort eller ett rum bland tomtens föremål): öppnar den. |
 | Backspace | En nivå tillbaka. |
@@ -82,7 +82,7 @@ På en tomt är skärmen en ring av grupper som vilken annan som helst. Tabb gå
 4. Spelets paneler: kontrollpanelen, Sim-panelen (behov, relationer, jobb, färdigheter, personlighet, intressen...), familjen, önskningar och rädslor, och varje panel du öppnar.
 5. **modhjälp**.
 
-Sim-panelen säger simmens ambition ("Ambition: 24 procent"); belöningspanelen (Belöningar, sedan Ambitionsbelöningar) säger ambitionspoängen du kan spendera.
+Sim-panelen säger simmens ambition ("Ambition: 24 procent"); belöningspanelen (Belöningar, sedan Ambitionsbelöningar) säger ambitionspoängen du kan spendera, och varje belöning sitt namn, sitt pris i ambitionspoäng och om simmen har råd ("har inte råd"); beskrivningen finns i detaljbufferten.
 
 Spelets alternativ (knappen Alternativ på kontrollpanelen) läses på samma sätt: varje val säger sin inställning ("Skuggor: Hög") och skjutreglagen, som musikens volym, ändras med Pil vänster och Pil höger ("Musik, skjutreglage, 35 av 100"). En radiostations låtar är en egen grupp; Enter slår på eller av en låt.
 
@@ -119,7 +119,7 @@ Du behöver inte gå dit med Tabb: Page-tangenterna bläddrar genom föremålen 
 | Ctrl+F | Hitta en sak: skriv en del av namnet ("tel" hittar telefonen, accenter spelar ingen roll). Upp och Ned går genom träffarna, Enter agerar på den, Ctrl+Enter går dit, Delete tar bort en dörr eller ett fönster, Escape går tillbaka dit du var. |
 | Delete | På en dörr eller ett fönster, i köpläge eller med byggläges hand: plockar upp den och säljer den med återbetalning. |
 
-Simmar med ett jobb på tomten säger det: "Ravi Pérez, brevbärare", servitören, kocken, trädgårdsmästaren, hembiträdet. Ett husdjurs matskål säger om det finns mat i den. Taxin och andra bilar vid trottoarkanten finns bland övrigt medan de väntar.
+Simmar med ett jobb på tomten säger det: "Ravi Pérez, brevbärare", servitören, kocken, trädgårdsmästaren, hembiträdet. Ett husdjurs matskål säger om det finns mat i den. Taxin och andra bilar vid trottoarkanten, bland dem bilen som hämtar en sim för en utflykt, finns bland övrigt medan de väntar.
 
 Efter simmarna kommer **problem**: det som kräver uppmärksamhet, som trasiga saker, saker som behöver städas, en tom matskål, pölar, skräp, aska och eld. Sist kommer **dörrar, fönster och trappor**. En sak som ingen Sim kan nå från tomtens ingång säger "ingen Sim kan nå den".
 
@@ -131,7 +131,7 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 
 | Tangent | Vad den gör |
 |---|---|
-| Ctrl+L | Rummets planlösning (vid byggmarkören eller kartans markör, annars där den valda simmen står): namn, våning, rutor, gränser, dörrar och fönster; varje dörr och fönster, med sin vägg och rummet bakom, finns i detaljbufferten. |
+| Ctrl+L | Rummets planlösning (vid byggmarkören eller kartans markör, annars där den valda simmen står): namn, våning, rutor, gränser, dörrar och fönster; varje dörr och fönster, med sin vägg och rummet bakom, finns i detaljbufferten. Den säger också ljuset i rummet ("ljus 64 %": fönster och lampor), som räknas in i behovet Miljö. |
 
 ### Tomtens karta
 
@@ -139,7 +139,7 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 
 | Tangent | Vad den gör |
 |---|---|
-| Pilar | En ruta; med Skift fem. Säger vad som står där och åt vilket håll det är vänt, rummet och golvet när de byts, väggarna, staketen, räckena, dörrarna och fönstren efter sida, trappor och sluttningar. Väggar, staket och fönster stoppar markören; dörrar släpper igenom den. |
+| Pilar | En ruta; med Skift fem. Säger vad som står där och åt vilket håll det är vänt, rummet och golvet när de byts, väggarna, staketen, räckena, dörrarna och fönstren efter sida, trappor och sluttningar. Väggar, staket och fönster stoppar markören; dörrar släpper igenom den. Med ett rum inomhus kommer dess ljus ("ljus 64 %": 0 % är vad spelet räknar som mörkt), som räknas in i behovet Miljö. |
 | Alt+Pilar | Samma sak, genom väggar. |
 | Komma, punkt | Vad varje steg säger: allt, bara föremål, bara golv (med namn, "Ljus granitplatta"), bara väggar, bara rum. |
 | Home | Tillbaka till den valda simmen. |
@@ -154,7 +154,7 @@ Enter på ett föremål (eller på en sim) öppnar spelets interaktionsmeny. Pil
 
 Spelet visar många saker bara som bilder. Modden säger dem när de händer och sparar dem i händelsebufferten:
 
-- **Pratbubblor** över simmar: "Carlos tänker: Energi", "Carlos säger: Politik", en överkryssad ikon ("ingen ..."), skrik och rubrikerna om relationer ("relationen förbättras", "ny vän", "första kyssen").
+- **Pratbubblor** över simmar: "Carlos tänker: Energi", "Carlos pratar om Politik" (ett samtals bubblor är dess ämnen; en överkryssad: "Carlos klagar på Politik"), en överkryssad tanke ("ingen ..."), skrik, en students huvudämne ("pratar om Biologi") och rubrikerna om relationer ("relationen förbättras", "ny vän", "första kyssen").
 - **Vad en måltid saknar**: "Carlos tänker: det behövs en köksbänk" (en ugn, en spis, en grill, en mikrovågsugn).
 - **Vägar**: "Carlos kan inte ta sig dit".
 - **Besökare vid dörren**: "Elvira står vid dörren och väntar på att bli hälsad på"; hälsa på henne (hennes interaktionsmeny) för att släppa in henne.
@@ -172,7 +172,12 @@ Handlingar med en annan sim nämner den simmen, vem som än började: "Carlos: H
 
 ## Köpläge
 
-F2 öppnar köpläget. Katalogens produkter är knappar: varje produkt säger sitt namn, sitt pris och sina betyg, och detaljbufferten innehåller dess beskrivning. Går du förbi en sidas sista produkt (eller före den första) bläddras sidan.
+F2 öppnar köpläget. Katalogens produkter är knappar: varje produkt säger sitt namn, sitt pris, sin storlek i rutor, den längre sidan först ("2 gånger 1 rutor"), och sina betyg; detaljbufferten innehåller dess beskrivning. Går du förbi en sidas sista produkt (eller före den första) bläddras sidan.
+
+| Tangent | Vad den gör |
+|---|---|
+| Pil vänster, Pil höger | Katalogens föregående eller nästa sida, från dess första produkt ("sista sidan" i slutet); Pil upp och Pil ned går produkt för produkt. |
+| Backspace | Tillbaka från en underkategori (matstolar) till kategorierna. |
 
 ### Placera ett föremål
 
@@ -192,7 +197,9 @@ Enter på en produkt plockar upp den. Modden hittar varje plats på tomten där 
 | Delete | Säljer föremålet du håller. |
 | R | Säger platsen igen, i sin helhet. |
 
-Ett föremål som tar flera rutor säger hur mycket golv det tar ("tar 2 rutor: 2 från väst till öst, 1 från norr till söder").
+Ett föremål som tar flera rutor säger hur mycket golv det tar ("tar 2 rutor: 2 från väst till öst, 1 från norr till söder"). Dess första rad, varje vridning och R säger också vilken del av det markören står på och åt vilket håll resten går ("markören på kanten mot väster, den sträcker sig 2 rutor åt öster").
+
+När det inte får plats säger raden varför med spelets egna ord ("Måste stå mot en vägg"), eller vad det krockar med, och slutar med det som skulle fungera: riktningen som får plats på samma ruta ("får plats vriden, vänd mot söder"), annars den närmaste rutan där det får plats ("närmaste plats där den får plats 1 ruta åt norr, vänd mot söder"). Rummets ljus kommer med rummet, som på tomtens karta.
 
 En sittplats ställen börjar där något används sittande, som en dator på ett skrivbord, och sätet vrids mot det: "vänd mot väster, för att använda Dator sittande". När ett föremål har placerats säger moddet hur det kommer att användas: "för att använda Dator sittande", "används från Kontorsstol", "simmar kan nå den" eller "ingen Sim kan nå den".
 
@@ -274,4 +281,4 @@ Moddens inställningar finns i `Sims2Access\Sims2Access.ini` i spelets mapp, avs
 
 ## Inte klart än
 
-Tapeter, ritade tak och terräng i byggläge; namnen på ambitionsbelöningarna; att ställa ett föremål från en sims inventarie på tomten; namn på huvuden, frisyrer och kläder i Skapa en sim; expansionernas egna skärmar (universitet, nattliv, företag, årstider, semester, lägenheter, magi) läses än så länge bara av den allmänna navigeringen.
+Tapeter, ritade tak och terräng i byggläge; att namnge de önskningar och rädslor simmar pratar om; att ställa ett föremål från en sims inventarie på tomten; namn på huvuden, frisyrer och kläder i Skapa en sim; expansionernas egna skärmar (universitet, nattliv, företag, årstider, semester, lägenheter, magi) läses än så länge bara av den allmänna navigeringen.

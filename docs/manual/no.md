@@ -25,7 +25,7 @@ Hver skjerm, dialogboks, hvert panel og hver modus virker på samme måte. Det d
 | Tast | Hva den gjør |
 |---|---|
 | Tab, Skift+Tab | Neste eller forrige gruppe. Gruppens navn og antall elementer sies først. |
-| Pil opp, Pil ned (eller Venstre pil, Høyre pil) | Forrige eller neste element i gruppen. |
+| Pil opp, Pil ned (eller Venstre pil, Høyre pil) | Forrige eller neste element i gruppen. I katalogene i kjøpe- og byggmodus blar Venstre pil og Høyre pil i stedet om. |
 | Home, End | Første eller siste element i gruppen. |
 | Enter | Aktiverer elementet. På et nivå (et slag eller et rom blant tomtens gjenstander): åpner det. |
 | Backspace | Et nivå tilbake. |
@@ -82,7 +82,7 @@ På en tomt er skjermen en ring av grupper som alle andre. Tab går gjennom dem 
 4. Spillets paneler: kontrollpanelet, Sim-panelet (behov, forhold, jobb, ferdigheter, personlighet, interesser...), familien, ønsker og frykt, og alle paneler du åpner.
 5. **modhjelp**.
 
-Sim-panelet sier simmens ambisjon ("Ambisjon: 24 prosent"); belønningspanelet (Belønninger, så Ambisjonsbelønninger) sier ambisjonspoengene du kan bruke.
+Sim-panelet sier simmens ambisjon ("Ambisjon: 24 prosent"); belønningspanelet (Belønninger, så Ambisjonsbelønninger) sier ambisjonspoengene du kan bruke, og hver belønning navnet sitt, prisen i ambisjonspoeng og om simen har råd ("har ikke råd"); beskrivelsen er i detaljbufferen.
 
 Spillets alternativer (kontrollpanelets Alternativer-knapp) leses på samme måte: hvert valg sier innstillingen sin ("Skygger: Høy"), og glidebryterne, som musikkvolumet, endres med Venstre pil og Høyre pil ("Musikk, glidebryter, 35 av 100"). En radiostasjons sanger er en egen gruppe; Enter slår en sang på eller av.
 
@@ -119,7 +119,7 @@ Du trenger ikke å gå dit med Tab: Page-tastene blar gjennom gjenstandene fra h
 | Ctrl+F | Finn en ting: skriv en del av navnet ("tel" finner telefonen, aksenter spiller ingen rolle). Opp og Ned går gjennom treffene, Enter handler på den, Ctrl+Enter går dit, Delete fjerner en dør eller et vindu, Escape går tilbake dit du var. |
 | Delete | På en dør eller et vindu, i kjøpemodus eller med byggemodusens hånd: plukker den opp og selger den med refusjon. |
 
-Simmer med en jobb på tomten sier den: "Ravi Pérez, postbud", servitøren, kokken, gartneren, hushjelpen. Et kjæledyrs matskål sier om den har mat. Taxien og andre biler ved fortauskanten er blant de andre gjenstandene mens de venter.
+Simmer med en jobb på tomten sier den: "Ravi Pérez, postbud", servitøren, kokken, gartneren, hushjelpen. Et kjæledyrs matskål sier om den har mat. Taxien og andre biler ved fortauskanten, blant dem bilen som henter en sim til en utflukt, er blant de andre gjenstandene mens de venter.
 
 Etter simmene kommer **problemer**: det som trenger oppmerksomhet, som ødelagte ting, ting som må vaskes, en tom matskål for kjæledyr, dammer, søppel, aske og ild. Sist kommer **dører, vinduer og trapper**. En ting som ingen simmer kan nå fra tomtens inngang sier "ingen simmer kan nå den".
 
@@ -131,7 +131,7 @@ Enter på en gjenstand (eller på en sim) åpner spillets handlingsmeny. Pil opp
 
 | Tast | Hva den gjør |
 |---|---|
-| Ctrl+L | Rommets planløsning (ved byggmarkøren eller kartets markør, ellers der den valgte simen står): navn, etasje, ruter, grenser, dører og vinduer; hver dør og hvert vindu, med sin vegg og rommet bak, er i detaljbufferen. |
+| Ctrl+L | Rommets planløsning (ved byggmarkøren eller kartets markør, ellers der den valgte simen står): navn, etasje, ruter, grenser, dører og vinduer; hver dør og hvert vindu, med sin vegg og rommet bak, er i detaljbufferen. Den sier også lyset i rommet ("lys 64 %": vinduer og lamper), som teller for behovet Miljø. |
 
 ### Tomtens kart
 
@@ -139,7 +139,7 @@ Enter på en gjenstand (eller på en sim) åpner spillets handlingsmeny. Pil opp
 
 | Tast | Hva den gjør |
 |---|---|
-| Piltaster | Én rute; med Skift fem. Sier hva som står der og hvilken vei det vender, rommet og gulvet når de skifter, veggene, gjerdene, rekkverkene, dørene og vinduene etter side, trapper og skråninger. Vegger, gjerder og vinduer stopper markøren; dører slipper den gjennom. |
+| Piltaster | Én rute; med Skift fem. Sier hva som står der og hvilken vei det vender, rommet og gulvet når de skifter, veggene, gjerdene, rekkverkene, dørene og vinduene etter side, trapper og skråninger. Vegger, gjerder og vinduer stopper markøren; dører slipper den gjennom. Med et rom innendørs kommer lyset i det ("lys 64 %": 0 % er det spillet regner som mørkt), som teller for behovet Miljø. |
 | Alt+Piltaster | Det samme, gjennom vegger. |
 | Komma, punktum | Hva hvert steg sier: alt, bare gjenstander, bare gulv (med navn, "Lys granittflis"), bare vegger, bare rom. |
 | Home | Tilbake til den valgte simen. |
@@ -154,7 +154,7 @@ Enter på en gjenstand (eller på en sim) åpner spillets handlingsmeny. Pil opp
 
 Spillet viser mange ting bare som bilder. Modden sier dem når de skjer, og tar vare på dem i hendelsesbufferen:
 
-- **Bobler** over simmer: "Carlos tenker: Energi", "Carlos sier: Politikk", et overstreket ikon ("ingen ..."), skrik og overskriftene om forhold ("forholdet blir bedre", "ny venn", "første kyss").
+- **Bobler** over simmer: "Carlos tenker: Energi", "Carlos snakker om Politikk" (boblene i en samtale er emnene; en overstreket: "Carlos klager over Politikk"), en overstreket tanke ("ingen ..."), skrik, en students hovedfag ("snakker om Biologi") og overskriftene om forhold ("forholdet blir bedre", "ny venn", "første kyss").
 - **Hva et måltid mangler**: "Carlos tenker: det trengs en benk" (en ovn, en komfyr, en grill, en mikrobølgeovn).
 - **Ruter**: "Carlos kommer seg ikke dit".
 - **Besøkende ved døren**: "Elvira står ved døren og venter på å bli hilst på"; hils på henne (handlingsmenyen hennes) for å slippe henne inn.
@@ -172,7 +172,12 @@ Handlinger med en annen sim nevner den simmen, uansett hvem som startet dem: "Ca
 
 ## Kjøpemodus
 
-F2 åpner kjøpemodus. Katalogens produkter er knapper: hvert produkt sier navnet, prisen og vurderingene sine, og detaljbufferen inneholder beskrivelsen. Går du forbi det siste produktet på en side (eller før det første), byttes siden.
+F2 åpner kjøpemodus. Katalogens produkter er knapper: hvert produkt sier navnet, prisen, størrelsen i ruter, den lengste siden først ("2 ganger 1 fliser"), og vurderingene sine; detaljbufferen inneholder beskrivelsen. Går du forbi det siste produktet på en side (eller før det første), byttes siden.
+
+| Tast | Hva den gjør |
+|---|---|
+| Venstre pil, Høyre pil | Katalogens forrige eller neste side, fra det første produktet ("siste side" på slutten); Pil opp og Pil ned går produkt for produkt. |
+| Backspace | Tilbake fra en underkategori (spisestoler) til kategoriene. |
 
 ### Plassere en gjenstand
 
@@ -192,7 +197,9 @@ Enter på et produkt plukker det opp. Modden finner hver plass på tomten der de
 | Delete | Selger gjenstanden du holder. |
 | R | Sier plassen igjen, i sin helhet. |
 
-En gjenstand som tar flere ruter, sier hvor mye gulv den tar ("tar 2 ruter: 2 fra vest til øst, 1 fra nord til sør").
+En gjenstand som tar flere ruter, sier hvor mye gulv den tar ("tar 2 ruter: 2 fra vest til øst, 1 fra nord til sør"). Den første linjen, hver dreining og R sier også hvilken del av den markøren står på, og hvor resten går ("markøren på kanten mot vest, den strekker seg 2 fliser mot øst").
+
+Når den ikke får plass, sier linjen hvorfor med spillets egne ord ("Må stå inntil en vegg"), eller hva den støter mot, og slutter med det som ville fungert: retningen som passer på samme rute ("passer snudd, vendt mot sør"), ellers den nærmeste ruten der den passer ("nærmeste sted den passer 1 flis mot nord, vendt mot sør"). Lyset i rommet kommer med rommet, som på tomtens kart.
 
 En sitteplass sine plasser begynner der noe brukes sittende, som en datamaskin på et skrivebord, og setet snus mot det: "vendt mot vest, for å bruke Datamaskin sittende". Etter at en gjenstand er plassert, sier moden hvordan den skal brukes: "for å bruke Datamaskin sittende", "brukes fra Kontorstol", "simmer kan nå den" eller "ingen simmer kan nå den".
 
@@ -274,4 +281,4 @@ Moddens innstillinger ligger i `Sims2Access\Sims2Access.ini` i spillets mappe, a
 
 ## Ikke ferdig ennå
 
-Tapet, tegnede tak og terreng i byggmodus; navnene på ambisjonsbelønningene; å sette en gjenstand fra en sims inventar på tomten; navn på hoder, frisyrer og klær i Lag sim; utvidelsenes egne skjermer (universitet, natteliv, forretning, årstider, ferie, leiligheter, magi) leses foreløpig bare av den generelle navigasjonen.
+Tapet, tegnede tak og terreng i byggmodus; å navngi ønskene og fryktene simmer snakker om; å sette en gjenstand fra en sims inventar på tomten; navn på hoder, frisyrer og klær i Lag sim; utvidelsenes egne skjermer (universitet, natteliv, forretning, årstider, ferie, leiligheter, magi) leses foreløpig bare av den generelle navigasjonen.

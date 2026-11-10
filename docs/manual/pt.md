@@ -25,7 +25,7 @@ Toda tela, caixa de diálogo, painel e modo funciona do mesmo jeito. O que você
 | Tecla | O que faz |
 |---|---|
 | Tab, Shift+Tab | Grupo seguinte ou anterior. Primeiro são ditos o nome do grupo e o número de itens. |
-| Seta para cima, Seta para baixo (ou Seta para a esquerda, Seta para a direita) | Item anterior ou seguinte do grupo. |
+| Seta para cima, Seta para baixo (ou Seta para a esquerda, Seta para a direita) | Item anterior ou seguinte do grupo. Nos catálogos dos modos Compra e Construção, Seta para a esquerda e Seta para a direita mudam de página. |
 | Home, End | Primeiro ou último item do grupo. |
 | Enter | Aciona o item. Em um nível (um tipo ou um cômodo dos objetos do lote), abre-o. |
 | Backspace | Volta um nível. |
@@ -82,7 +82,7 @@ Em um lote a tela é um anel de grupos como qualquer outra. Tab percorre os grup
 4. Os painéis do jogo: o painel de controle, o painel do Sim (necessidades, relacionamentos, emprego, habilidades, personalidade, interesses...), a família, os desejos e medos, e qualquer painel que você abrir.
 5. **ajuda do mod**.
 
-O painel do Sim diz a aspiração do Sim ("Aspiração: 24 por cento"); o painel de recompensas (Recompensas, depois Recompensas de aspiração) diz os pontos de aspiração para gastar.
+O painel do Sim diz a aspiração do Sim ("Aspiração: 24 por cento"); o painel de recompensas (Recompensas, depois Recompensas de aspiração) diz os pontos de aspiração para gastar, e cada recompensa seu nome, seu preço em pontos de aspiração e se o Sim tem o suficiente ("sem dinheiro suficiente"); a descrição dela fica no buffer de detalhes.
 
 As opções do jogo (o botão Opções do painel de controle) são lidas da mesma forma: cada escolha diz sua configuração ("Sombras: Alta") e os controles deslizantes, como o volume da música, mudam com Seta para a esquerda e Seta para a direita ("Música, controle deslizante, 35 de 100"). As músicas de uma estação de rádio são um grupo próprio; Enter liga ou desliga uma música.
 
@@ -119,7 +119,7 @@ Você não precisa ir até lá com Tab: as teclas Page percorrem os objetos de q
 | Control+F | Procurar algo: digite parte do nome ("tel" encontra o telefone, acentos não importam). Cima e Baixo percorrem os resultados, Enter age sobre ele, Control+Enter vai até lá, Delete remove uma porta ou janela, Escape volta para onde você estava. |
 | Delete | Em uma porta ou janela, no modo Comprar ou com a mão do modo Construir: pega e vende, com reembolso. |
 
-Os Sims com um trabalho no lote dizem qual: "Ravi Pérez, carteiro", o garçom, o chef, o jardineiro, a empregada. A tigela de comida de um animal diz se tem comida. O táxi e outros carros junto à calçada estão entre os outros objetos enquanto esperam.
+Os Sims com um trabalho no lote dizem qual: "Ravi Pérez, carteiro", o garçom, o chef, o jardineiro, a empregada. A tigela de comida de um animal diz se tem comida. O táxi e outros carros junto à calçada, entre eles o carro que busca um Sim para um passeio, estão entre os outros objetos enquanto esperam.
 
 Depois dos Sims vem **problemas**: o que pede atenção, como coisas quebradas, coisas para limpar, uma tigela de animal vazia, poças, lixo, cinzas e fogo. Por último vem **portas, janelas e escadas**. Uma coisa a que nenhum Sim consegue chegar a partir da entrada do lote diz «nenhum Sim consegue chegar».
 
@@ -131,7 +131,7 @@ Enter em um objeto (ou em um Sim) abre o menu de interações do jogo. Seta para
 
 | Tecla | O que faz |
 |---|---|
-| Control+L | A planta do cômodo (no cursor de construção ou no cursor do mapa, senão onde o Sim selecionado está): nome, andar, quadrados, limites, portas e janelas; cada porta e janela, com sua parede e o cômodo que fica atrás, está no buffer de detalhes. |
+| Control+L | A planta do cômodo (no cursor de construção ou no cursor do mapa, senão onde o Sim selecionado está): nome, andar, quadrados, limites, portas e janelas; cada porta e janela, com sua parede e o cômodo que fica atrás, está no buffer de detalhes. Também diz a luz do cômodo ("luz 64%": janelas e luminárias), que conta para a necessidade Ambiente. |
 
 ### O mapa do lote
 
@@ -139,7 +139,7 @@ Enter em um objeto (ou em um Sim) abre o menu de interações do jogo. Seta para
 
 | Tecla | O que faz |
 |---|---|
-| Setas | Um quadrado; com Shift, cinco. Diz o que há ali e para onde está virado, o cômodo e o piso quando mudam, as paredes, cercas, grades, portas e janelas de cada lado, as escadas e os declives. Paredes, cercas e janelas param o cursor; as portas deixam-no passar. |
+| Setas | Um quadrado; com Shift, cinco. Diz o que há ali e para onde está virado, o cômodo e o piso quando mudam, as paredes, cercas, grades, portas e janelas de cada lado, as escadas e os declives. Paredes, cercas e janelas param o cursor; as portas deixam-no passar. Com um cômodo interno vem a luz dele ("luz 64%": 0% é o que o jogo considera escuro), que conta para a necessidade Ambiente. |
 | Alt+Setas | O mesmo, através das paredes. |
 | Vírgula, ponto | O que cada passo diz: tudo, só objetos, só pisos (pelo nome, «Ladrilho de granito claro»), só paredes, só divisões. |
 | Home | Volta ao Sim selecionado. |
@@ -154,7 +154,7 @@ Enter em um objeto (ou em um Sim) abre o menu de interações do jogo. Seta para
 
 O jogo mostra muitas coisas só como imagens. O mod as diz quando acontecem e as guarda no buffer de eventos:
 
-- **Os balões** sobre os Sims: "Carlos pensa: Energia", "Carlos diz: Política", um ícone riscado ("sem ..."), os gritos, e as manchetes de relacionamento ("o relacionamento melhora", "novo amigo", "primeiro beijo").
+- **Os balões** sobre os Sims: "Carlos pensa: Energia", "Carlos fala sobre Política" (os balões de uma conversa são os assuntos dela; um riscado: "Carlos reclama de Política"), um pensamento riscado ("sem ..."), os gritos, o curso de um estudante ("fala sobre Biologia"), e as manchetes de relacionamento ("o relacionamento melhora", "novo amigo", "primeiro beijo").
 - **O que falta a uma refeição**: "Carlos pensa: é preciso uma bancada" (um forno, um fogão, uma churrasqueira, um micro-ondas).
 - **Os trajetos**: "Carlos não consegue chegar lá".
 - **As visitas à porta**: "Elvira está à porta esperando ser cumprimentada"; cumprimente-a (o menu de interações dela) para deixá-la entrar.
@@ -172,7 +172,12 @@ Ações com outro Sim nomeiam esse Sim, seja quem for que as começou: "Carlos: 
 
 ## O modo Compra
 
-F2 abre o modo Compra. Os produtos do catálogo são botões: cada produto diz seu nome, preço e avaliações, e o buffer de detalhes tem sua descrição. Passar do último produto de uma página (ou voltar antes do primeiro) muda de página.
+F2 abre o modo Compra. Os produtos do catálogo são botões: cada produto diz seu nome, preço, tamanho em quadrados, o lado maior primeiro ("2 por 1 quadrados"), e avaliações; o buffer de detalhes tem sua descrição. Passar do último produto de uma página (ou voltar antes do primeiro) muda de página.
+
+| Tecla | O que faz |
+|---|---|
+| Seta para a esquerda, Seta para a direita | A página anterior ou seguinte do catálogo, a partir do seu primeiro produto ("última página" no fim); Seta para cima e Seta para baixo vão produto a produto. |
+| Backspace | Volta de uma subcategoria (cadeiras de jantar) para as categorias. |
 
 ### Posicionar um objeto
 
@@ -192,7 +197,9 @@ Enter em um produto o pega. O mod encontra todos os lugares do lote onde ele cab
 | Delete | Vende o objeto que você está segurando. |
 | R | Diz o lugar de novo, completo. |
 
-Um objeto de vários quadrados diz quanto piso ocupa ("ocupa 2 quadrados: 2 de oeste a leste, 1 de norte a sul").
+Um objeto de vários quadrados diz quanto piso ocupa ("ocupa 2 quadrados: 2 de oeste a leste, 1 de norte a sul"). A primeira linha, cada giro e R também dizem em que parte dele o cursor está e para onde vai o resto ("cursor na sua borda oeste, ele se estende 2 quadrados a leste").
+
+Quando não cabe, a linha diz por que nas palavras do próprio jogo ("Deve ficar encostado na parede"), ou no que esbarra, e termina com o que daria certo: a direção que cabe no mesmo quadrado ("cabe se girado, virado para o sul"), senão o quadrado mais próximo onde cabe ("lugar mais próximo onde cabe a 1 quadrado ao norte, virado para o sul"). A luz do cômodo vem com o cômodo, como no mapa do lote.
 
 Os lugares de um assento começam onde algo se usa sentado, como um computador numa secretária, e o assento é virado para ele: «virado a oeste, para usar Computador sentado». Depois de colocar um objeto, o mod diz como vai ser usado: «para usar Computador sentado», «usa-se a partir de Cadeira de escritório», «os Sims conseguem chegar» ou «nenhum Sim consegue chegar».
 
@@ -274,4 +281,4 @@ As configurações do mod ficam em `Sims2Access\Sims2Access.ini` na pasta do jog
 
 ## Ainda não feito
 
-Papel de parede, telhados desenhados e terreno no modo Construção; os nomes das recompensas de aspiração; colocar no lote um objeto do inventário de um Sim; nomes para as cabeças, cabelos e roupas de Criar um Sim; as telas próprias das expansões (universidade, vida noturna, negócios, estações, férias, apartamentos, magia) por enquanto só são lidas pela navegação genérica.
+Papel de parede, telhados desenhados e terreno no modo Construção; nomear os desejos e medos de que os Sims falam; colocar no lote um objeto do inventário de um Sim; nomes para as cabeças, cabelos e roupas de Criar um Sim; as telas próprias das expansões (universidade, vida noturna, negócios, estações, férias, apartamentos, magia) por enquanto só são lidas pela navegação genérica.
