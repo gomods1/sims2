@@ -103,6 +103,21 @@ void DevCommand(const std::string& line) {
             if (o.person && PersonDatum(o.id, a, &v)) Log("  pd %d of %d %s: %d", a, o.id, o.name.c_str(), v);
         }
     }
+    else if (!strcmp(name, "wants")) {
+        // !wants: every Sim's wants and fears on the lot, from the want simulator
+        for (const LotObject& o : LotObjects()) {
+            if (!o.person) continue;
+            std::vector<Wish> wants, fears;
+            bool ok = SimWishes(o.id, false, &wants) && SimWishes(o.id, true, &fears);
+            Log("  wants of %d %s (%d):", o.id, o.name.c_str(), ok ? 1 : 0);
+            for (const Wish& w : wants) Log("    want: %s (%d)", w.name.c_str(), w.points);
+            for (const Wish& f : fears) Log("    fear: %s (%d)", f.name.c_str(), f.points);
+            std::vector<InventoryItem> items;
+            bool inv = SimInventory(o.id, &items);
+            Log("    inventory (%d): %d kinds", inv ? 1 : 0, (int)items.size());
+            for (const InventoryItem& i : items) Log("    item: %s x%d guid %08x token %d", i.name.c_str(), i.count, i.guid, i.token);
+        }
+    }
     else if (!strcmp(name, "msg")) {
         // !msg <type hex> <data1>: posts a message to the game's message server
         unsigned type = 0;

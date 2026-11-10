@@ -461,6 +461,12 @@ const Translation kEntries[] = {
     // Rewards
     {Str::CannotAfford, "nemáš dost"},
     {Str::RewardPrice, "aspirační body: %s"},
+    {Str::RewardCareer, "kariéra: %s"},
+    {Str::RewardLocked, "zamčeno"},
+    {Str::LtaOwned, "získáno"},
+    {Str::LtaChosen, "vybráno, koupí se tlačítkem Přijmout"},
+    {Str::LtaAvailable, "nevybráno"},
+    {Str::LtaLevel, "úroveň %d"},
     {Str::KeysButton, "Klávesy této obrazovky"},
 };
 

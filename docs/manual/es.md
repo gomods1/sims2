@@ -84,6 +84,8 @@ En un solar, la pantalla es un anillo de grupos como cualquier otra. Tab los rec
 
 El panel del Sim dice la aspiración del Sim («Aspiración: 24 por ciento»); el panel de recompensas (Recompensas, luego Recompensas por aspiraciones) dice los puntos de aspiración que puedes gastar, y cada recompensa su nombre, su precio en puntos de aspiración y si al Sim le alcanza («no te alcanza»); su descripción está en el búfer de detalles.
 
+Las recompensas de profesión dicen su profesión y si el Sim ya las desbloqueó ("Maniquí quirúrgico, profesión: Medicina, bloqueada"). Con la expansión de aficiones (FreeTime), el botón de recompensas por aspiraciones vitales abre los beneficios: cada uno dice su nombre y si está obtenido, elegido o bloqueado, con su descripción en el búfer de detalles; Intro lo elige o lo quita, y Aceptar compra lo elegido. La página del inventario lista lo que lleva el Sim ("Teléfono móvil, 2"); Intro lo saca para colocarlo en el solar, con las mismas teclas que al colocar en el modo Comprar.
+
 Las opciones del juego (el botón Opciones del panel de control) se leen igual: cada opción dice su valor («Sombras: Alto») y los controles deslizantes, como el volumen de la música, cambian con Izquierda y Derecha («Música, control deslizante, 35 de 100»). Las canciones de una emisora de radio son un grupo aparte; Intro activa o desactiva una canción.
 
 La página del empleo dice el horario del Sim; Intro sobre él añade cuándo llega el coche compartido. Para dejar un empleo, llama al trabajo por teléfono. Cada habilidad dice su nivel y, cuando el próximo ascenso pide más, cuánto: «Cocina, 2 de 10, el próximo ascenso pide 4».
@@ -281,4 +283,4 @@ Los ajustes del mod están en `Sims2Access\Sims2Access.ini` en la carpeta del ju
 
 ## Aún sin hacer
 
-El papel pintado, los tejados dibujados a mano y el terreno en el modo Construir; nombrar los deseos y miedos de los que hablan los Sims; poner en el solar un objeto del inventario de un Sim; los nombres de las cabezas, peinados y ropa de Crear un Sim; las pantallas propias de las expansiones (universidad, vida nocturna, negocios, estaciones, vacaciones, apartamentos, magia) por ahora solo las lee la navegación genérica.
+El papel pintado, los tejados dibujados a mano y el terreno en el modo Construir; nombrar los deseos y miedos de los que hablan los Sims; los nombres de las cabezas, peinados y ropa de Crear un Sim; las pantallas propias de las expansiones (universidad, vida nocturna, negocios, estaciones, vacaciones, apartamentos, magia) por ahora solo las lee la navegación genérica.

@@ -424,4 +424,10 @@
     /* Rewards */                                                                                                      \
     X(CannotAfford, "can't afford")                                                                                    \
     X(RewardPrice, "%s aspiration points")                                                                             \
+    X(RewardCareer, "career: %s")                                                                                      \
+    X(RewardLocked, "locked")                                                                                          \
+    X(LtaOwned, "owned")                                                                                               \
+    X(LtaChosen, "chosen, bought on Accept")                                                                           \
+    X(LtaAvailable, "not chosen")                                                                                      \
+    X(LtaLevel, "level %d")                                                                                            \
     X(KeysButton, "Keys for this screen")                                                                           \

@@ -114,6 +114,8 @@ Tontilla näkymä on ryhmien kehä kuten mikä tahansa muu. Sarkain käy ne läp
 
 Sim-paneeli kertoo simin tavoitteen ("Tavoite: 24 prosenttia"); palkintopaneeli (Palkinnot, sitten Tavoitepalkinnot) kertoo käytettävissä olevat tavoitepisteet, ja jokainen palkinto nimensä, hintansa tavoitepisteinä ja sen, riittävätkö simin pisteet ("ei varaa"); sen kuvaus on tiedot-puskurissa.
 
+Urapalkinnot kertovat uransa ja sen, onko simi avannut ne ("Kirurgin harjoitusnukke, ura: Lääketiede, lukittu"). Harrastuslaajennuksen (FreeTime) kanssa elämänpäämäärän etujen painike avaa edut: jokainen kertoo nimensä ja sen, onko se omistettu, valittu vai lukittu, ja sen kuvaus on tietopuskurissa; Enter valitsee sen tai poistaa valinnan, ja Hyväksy ostaa valitut. Tavaraluettelosivu luettelee, mitä simi kantaa mukanaan ("Matkapuhelin, 2"); Enter ottaa sen esiin tontille asetettavaksi samoilla näppäimillä kuin asettaminen ostotilassa.
+
 Pelin asetukset (ohjauspaneelin Asetukset-painike) luetaan samalla tavalla: jokainen valinta kertoo asetuksensa ("Varjot: Korkea"), ja liukusäätimet, kuten musiikin äänenvoimakkuus, muuttuvat nuolella vasemmalle ja nuolella oikealle ("Musiikki, liukusäädin, 35/100"). Radioaseman kappaleet ovat oma ryhmänsä; Enter kytkee kappaleen päälle tai pois.
 
 Työsivu kertoo simin työajat; Enter niiden kohdalla lisää, milloin kimppakyyti tulee. Irtisanoutuaksesi soita puhelimella töihin. Jokainen taito kertoo tasonsa ja, kun seuraava ylennys vaatii enemmän, kuinka paljon: "Ruoanlaitto, 2/10, seuraava ylennys vaatii 4".
@@ -341,6 +343,6 @@ Asetuksia muuttavat näppäimet tallentavat ne heti.
 
 ## Vielä tekemättä
 
-Tapetit, piirretyt katot ja maasto rakennustilassa; niiden toiveiden ja pelkojen nimeäminen, joista simit puhuvat; esineen asettaminen simin tavaraluettelosta tontille; nimet Luo simi -näkymän päille, hiuksille ja
+Tapetit, piirretyt katot ja maasto rakennustilassa; niiden toiveiden ja pelkojen nimeäminen, joista simit puhuvat; nimet Luo simi -näkymän päille, hiuksille ja
 vaatteille; laajennusten omat näkymät (yliopisto, yöelämä, yritykset, vuodenajat, lomat,
 kerrostalot, taikuus) luetaan toistaiseksi vain yleisellä navigoinnilla.

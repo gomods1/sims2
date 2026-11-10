@@ -80,14 +80,27 @@ Ptr FindById(Ptr w, uint32_t id, int depth) {
     return 0;
 }
 
+// A funds caption is an amount and nothing else: digits, their separators, the simoleon sign (the
+// game draws U+00A7 as it), spaces (also no-break ones).
+bool IsAmount(const std::string& s) {
+    bool digit = false;
+    for (size_t i = 0; i < s.size(); ++i) {
+        unsigned char c = (unsigned char)s[i];
+        if (c >= '0' && c <= '9') digit = true;
+        else if (c == ' ' || c == '.' || c == ',' || c == '\'' || c == '-' || c == '$') {}
+        else if (c == 0xc2 && i + 1 < s.size() && ((unsigned char)s[i + 1] == 0xa7 || (unsigned char)s[i + 1] == 0xa0)) ++i;
+        else if (c == 0xe2 && i + 2 < s.size() && (unsigned char)s[i + 1] == 0x80 && (unsigned char)s[i + 2] == 0xaf) i += 2;
+        else return false;
+    }
+    return digit;
+}
+
 // The control panel's funds: id 0x3000 is not unique (the phone book's selected thumbnail has it
-// too), the funds are the one whose caption has a digit.
+// too, and so do the vending machine's products: 'Teléfono móvil "NOYIN 2680" 149' was read as
+// funds of 2.680.149), the funds are the one whose caption is only an amount.
 Ptr FindFunds(Ptr w, int depth) {
     if (!w || depth > 25 || !game::Visible(w)) return 0;
-    if (game::WinId(w) == kFundsId) {
-        std::string caption = game::Caption(w);
-        if (caption.find_first_of("0123456789") != std::string::npos) return w;
-    }
+    if (game::WinId(w) == kFundsId && IsAmount(game::Caption(w))) return w;
     for (Ptr c : game::Children(w))
         if (Ptr f = FindFunds(c, depth + 1)) return f;
     return 0;
@@ -220,96 +233,79 @@ void WatchVisitors() {
     g_visitorsPrimed = true;
 }
 
-// Wants and fears coming true (a tester heard nothing of either): a family Sim's aspiration
-// reward points (person data 161, x10) going up is a want fulfilled, named by the want that left
-// the wants and fears panel (cTSWinProcPanelWantsAndFears: its buttons' tooltips name them, for
-// the selected Sim, while the panel shows); a sharp drop of the aspiration score (160, -100..100)
-// with a fear gone from the panel is a fear come true.
+// Wants and fears coming true (a tester heard nothing of either, then only "+1000 aspiration
+// points" without the want): a family Sim's aspiration reward points (person data 161, x10) going
+// up is a want fulfilled, named by the want that left that Sim's list in the game's want simulator
+// (game::SimWishes: any family Sim, the wants panel open or not; fulfilling one replaces the whole
+// list, so it is the one gone whose points are the points gained); a sharp drop of the aspiration
+// score (160, -100..100) with a fear gone from the list is a fear come true.
 struct AspirationState {
     int points = -1, score = -1000;
+    std::vector<game::Wish> wants, fears;  // as last seen
 };
 std::map<int, AspirationState> g_aspiration;
-std::vector<std::string> g_wishes;  // the panel's wants and fears last seen ("title|body" tooltips)
-int g_wishesSim = 0;
-ULONGLONG g_wishesAt = 0;  // when they were seen (only a look a second before tells what left)
 ULONGLONG g_aspirationAt = 0;
 
-void CollectWishes(Ptr w, int depth, std::vector<std::string>* out) {
-    if (!w || depth > 12 || !game::Visible(w)) return;
-    for (Ptr c : game::Children(w)) {
-        if (game::IsButton(c) && game::Visible(c)) {
-            std::string tip = game::Tooltip(c);
-            if (!tip.empty()) out->push_back(tip);
-        }
-        CollectWishes(c, depth + 1, out);
+// What was in before and is not now (a want may be there twice).
+std::vector<game::Wish> Gone(std::vector<game::Wish> before, const std::vector<game::Wish>& now) {
+    for (const game::Wish& n : now) {
+        auto it = std::find_if(before.begin(), before.end(), [&](const game::Wish& b) { return b.name == n.name; });
+        if (it != before.end()) before.erase(it);
     }
+    return before;
 }
 
-Ptr FindByProc(Ptr w, const char* proc, int depth) {
-    if (!w || depth > 25 || !game::Visible(w)) return 0;
-    if (game::ProcClass(w) == proc) return w;
-    for (Ptr c : game::Children(w))
-        if (Ptr f = FindByProc(c, proc, depth + 1)) return f;
-    return 0;
-}
-
-// "Hacer ejercicios con máquina|+500 ..." -> "Hacer ejercicios con máquina".
-std::string WishTitle(const std::string& tip) {
-    size_t bar = tip.find('|');
-    return util::CleanForSpeech(bar == std::string::npos ? tip : tip.substr(0, bar));
+// The one that came true among those gone: the only one, else the only one worth the points
+// (any, for points 0: fears).
+std::string CameTrue(const std::vector<game::Wish>& gone, int points) {
+    if (gone.size() == 1) return util::CleanForSpeech(gone[0].name);
+    std::string found;
+    int matches = 0;
+    for (const game::Wish& w : gone)
+        if (points == 0 || w.points == points) {
+            found = w.name;
+            matches++;
+        }
+    return matches == 1 ? util::CleanForSpeech(found) : "";
 }
 
 void WatchAspiration() {
     ULONGLONG now = GetTickCount64();
     if (now - g_aspirationAt < 1000) return;
     g_aspirationAt = now;
-    int selected = game::SelectedSimId();
-    std::vector<std::string> wishes;
-    if (Ptr panel = FindByProc(game::MainWindow(), "cTSWinProcPanelWantsAndFears", 0)) CollectWishes(panel, 0, &wishes);
-    std::vector<std::string> gone;  // what left the panel since the last look (same Sim)
-    if (selected == g_wishesSim && !wishes.empty() && now - g_wishesAt < 2500)
-        for (const std::string& w : g_wishes)
-            if (std::find(wishes.begin(), wishes.end(), w) == wishes.end()) gone.push_back(w);
     for (int id : game::FamilySimIds()) {
         int points = 0, score = 0;
         if (!game::PersonDatum(id, game::addr::person::kDataRewardPoints, &points) ||
             !game::PersonDatum(id, game::addr::person::kDataAspirationScore, &score))
             continue;
+        std::vector<game::Wish> wants, fears;
+        bool lists = game::SimWishes(id, false, &wants) && game::SimWishes(id, true, &fears);
         AspirationState& st = g_aspiration[id];
         bool first = st.points < 0;
         int gained = (points - st.points) * 10, dropped = st.score - score;
+        std::vector<game::Wish> wantsGone = Gone(st.wants, wants), fearsGone = Gone(st.fears, fears);
         st.points = points;
         st.score = score;
-        if (first) continue;
+        if (lists) {
+            st.wants = wants;
+            st.fears = fears;
+        }
+        if (first || !lists) {
+            if (!first && gained > 0)
+                Narrate(util::Format(S(Str::AspirationPointsGained), SimName(id).c_str(), gained), true);
+            continue;
+        }
         std::string who = SimName(id);
         if (gained > 0) {
-            // Named only when one want alone left the panel (a want fulfilled brings others).
-            std::string want;
-            int wants = 0;
-            if (id == selected)
-                for (const std::string& g : gone)
-                    if (g.find('+') != std::string::npos) {
-                        want = WishTitle(g);
-                        wants++;
-                    }
-            if (wants != 1) want.clear();
+            std::string want = CameTrue(wantsGone, gained);
             Narrate(want.empty() ? util::Format(S(Str::AspirationPointsGained), who.c_str(), gained)
                                  : util::Format(S(Str::WantFulfilled), who.c_str(), want.c_str(), gained),
                     true);
-        } else if ((dropped >= 10 || gained < 0) && id == selected && !gone.empty()) {
-            std::string fear;
-            int fears = 0;
-            for (const std::string& g : gone)
-                if (g.find('+') == std::string::npos) {
-                    fear = WishTitle(g);
-                    fears++;
-                }
-            if (fears == 1 && !fear.empty()) Narrate(util::Format(S(Str::FearRealized), who.c_str(), fear.c_str()), true);
+        } else if ((dropped >= 10 || gained < 0) && !fearsGone.empty()) {
+            std::string fear = CameTrue(fearsGone, 0);
+            if (!fear.empty()) Narrate(util::Format(S(Str::FearRealized), who.c_str(), fear.c_str()), true);
         }
     }
-    g_wishes = wishes;
-    g_wishesSim = selected;
-    if (!wishes.empty()) g_wishesAt = now;
 }
 
 // Furniture that leaves the lot in live mode (a burglar, the repo man, a fire): the lot's catalog
@@ -686,7 +682,6 @@ void Tick() {
         g_visitors.clear();
         g_visitorsPrimed = false;
         g_aspiration.clear();
-        g_wishes.clear();
         g_lastFunds = -1;  // another lot, another family: its funds are not a payment
         g_furniturePrimed = false;
         g_viewZoom = -1;

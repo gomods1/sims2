@@ -84,6 +84,8 @@ På en tomt er skjermen en ring av grupper som alle andre. Tab går gjennom dem 
 
 Sim-panelet sier simmens ambisjon ("Ambisjon: 24 prosent"); belønningspanelet (Belønninger, så Ambisjonsbelønninger) sier ambisjonspoengene du kan bruke, og hver belønning navnet sitt, prisen i ambisjonspoeng og om simen har råd ("har ikke råd"); beskrivelsen er i detaljbufferen.
 
+Karrierebelønninger sier karrieren sin og om simmen har låst dem opp ("Kirurgisk dukke, karriere: Medisin, låst"). Med hobbyutvidelsen (FreeTime) åpner knappen for livsmålsfordeler fordelene: hver sier navnet sitt og om den er eid, valgt eller låst, med beskrivelsen i detaljbufferen; Enter velger den eller fjerner den, og Godta kjøper det som er valgt. Inventarsiden viser hva simmen bærer på ("Mobiltelefon, 2"); Enter tar det ut for å plassere det på tomten, med de samme tastene som ved plassering i kjøpemodus.
+
 Spillets alternativer (kontrollpanelets Alternativer-knapp) leses på samme måte: hvert valg sier innstillingen sin ("Skygger: Høy"), og glidebryterne, som musikkvolumet, endres med Venstre pil og Høyre pil ("Musikk, glidebryter, 35 av 100"). En radiostasjons sanger er en egen gruppe; Enter slår en sang på eller av.
 
 Jobbsiden sier simmens arbeidstider; Enter på dem legger til når samkjøringen kommer. For å si opp en jobb, ring til jobben på telefonen. Hver ferdighet sier nivået sitt og, når neste forfremmelse krever mer, hvor mye: "Matlaging, 2 av 10, neste forfremmelse krever 4".
@@ -281,4 +283,4 @@ Moddens innstillinger ligger i `Sims2Access\Sims2Access.ini` i spillets mappe, a
 
 ## Ikke ferdig ennå
 
-Tapet, tegnede tak og terreng i byggmodus; å navngi ønskene og fryktene simmer snakker om; å sette en gjenstand fra en sims inventar på tomten; navn på hoder, frisyrer og klær i Lag sim; utvidelsenes egne skjermer (universitet, natteliv, forretning, årstider, ferie, leiligheter, magi) leses foreløpig bare av den generelle navigasjonen.
+Tapet, tegnede tak og terreng i byggmodus; å navngi ønskene og fryktene simmer snakker om; navn på hoder, frisyrer og klær i Lag sim; utvidelsenes egne skjermer (universitet, natteliv, forretning, årstider, ferie, leiligheter, magi) leses foreløpig bare av den generelle navigasjonen.

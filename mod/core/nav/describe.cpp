@@ -22,6 +22,7 @@ std::string Describe(const Item& it) {
         return it.on ? label + ", " + S(Str::Selected) : label;
     case Role::Slider:
         return label + ", " + S(Str::RoleSlider) + ", " + util::Format(S(Str::ValueOfMax), it.step, it.steps);
+    case Role::InventoryItem: return label + (it.value.empty() ? "" : ", " + it.value);
     case Role::Product: return label + ", " + S(Str::RoleButton) + (it.value.empty() ? "" : ", " + it.value);
     case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
     case Role::Toggle: {

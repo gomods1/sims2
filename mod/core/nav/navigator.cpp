@@ -62,6 +62,7 @@ struct State {
     } beforePie;                   // the focus when the interaction menu opened
     ULONGLONG pressedAt = 0;
     bool pressedWasOn = false;
+    std::string pressedValue;  // the pressed item's value before (a lifetime benefit: "", then "elegido")
     std::vector<std::pair<Ptr, std::string>> textsBefore;  // the screen's texts before the press
     // A catalog page was turned: once the thumbnails show it, focus its first (last) product.
     Ptr pageGroup = 0;
@@ -478,6 +479,9 @@ void Tick() {
                 }
             if (!changed.empty()) buffers::Event(changed);
             Relocate();
+            const Item* after = Focused();
+            if (after && after->widget == w && after->role == Role::Button && after->value != g.pressedValue)
+                speech::Say(after->value.empty() ? std::string(S(Str::LtaAvailable)) : after->value);
         }
     }
     FinishPageTurn(now);
@@ -666,6 +670,14 @@ void Activate() {
         world::Interact();
         return;
     }
+    if (it->role == Role::InventoryItem) {
+        // The game's own path for a click on the item's cell: reward mode with the inventory's
+        // placing tool (buy mode's), then the mod's placing as for a catalog product.
+        Log("take %s (token %d) out of the inventory", it->label.c_str(), it->number);
+        if (game::TakeFromInventory(it->widget, it->number)) placement::Begin(it->label);
+        else speech::Say(util::Format(S(Str::PlaceCannotPick), it->label.c_str()));
+        return;
+    }
     if (!game::Enabled(it->widget)) {
         speech::Say(Describe(*it));
         return;
@@ -694,6 +706,7 @@ void Activate() {
     g.pressed = it->widget;
     g.pressedAt = GetTickCount64();
     g.pressedWasOn = game::ButtonOn(it->widget);
+    g.pressedValue = it->value;
     if (g.groups[g.group].proc == "cTSWinProcBuildPanel" && it->role != Role::Product) {
         g.toolAt = GetTickCount64();
         g.toolName = it->label;

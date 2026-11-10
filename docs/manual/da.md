@@ -84,6 +84,8 @@ På en grund er skærmen en ring af grupper som enhver anden. Tab går gennem de
 
 Sim-panelet siger simmens stræben ("Stræben: 24 procent"); belønningspanelet (Belønninger, så Stræberbelønninger) siger de stræberpoint, der kan bruges, og hver belønning sit navn, sin pris i stræberpoint og om simmen har råd ("har ikke råd"); beskrivelsen er i detaljebufferen.
 
+Karrierebelønninger siger deres karriere, og om simmen har låst dem op ("Kirurgisk dukke, karriere: Medicin, låst"). Med hobbyudvidelsen (FreeTime) åbner knappen for livsmålsfordele fordelene: hver siger sit navn, og om den er ejet, valgt eller låst, med beskrivelsen i detaljebufferen; Enter vælger den eller fravælger den, og Accepter køber det valgte. Inventarsiden viser, hvad simmen bærer på ("Mobiltelefon, 2"); Enter tager det ud for at placere det på grunden, med de samme taster som ved placering i købstilstand.
+
 Spillets indstillinger (knappen Indstillinger på kontrolpanelet) læses på samme måde: hvert valg siger sin indstilling ("Skygger: Høj"), og skyderne, som musikkens lydstyrke, ændres med Venstre pil og Højre pil ("Musik, skyder, 35 af 100"). En radiostations sange er en gruppe for sig; Enter slår en sang til eller fra.
 
 Jobsiden siger simmens arbejdstider; Enter på dem tilføjer, hvornår samkørslen kommer. For at sige et job op, ring til arbejdet på telefonen. Hver færdighed siger sit niveau og, når den næste forfremmelse kræver mere, hvor meget: "Madlavning, 2 af 10, den næste forfremmelse kræver 4".
@@ -281,4 +283,4 @@ Moddens indstillinger ligger i `Sims2Access\Sims2Access.ini` i spillets mappe, a
 
 ## Ikke færdigt endnu
 
-Tapet, tegnede tage og terræn i byggetilstand; at navngive de ønsker og frygter, Sims taler om; at stille en genstand fra en sims inventar på grunden; navne på hoveder, frisurer og tøj i Lav en simmer; udvidelsernes egne skærme (universitet, natteliv, forretning, årstider, ferie, lejligheder, magi) læses indtil videre kun af den generelle navigation.
+Tapet, tegnede tage og terræn i byggetilstand; at navngive de ønsker og frygter, Sims taler om; navne på hoveder, frisurer og tøj i Lav en simmer; udvidelsernes egne skærme (universitet, natteliv, forretning, årstider, ferie, lejligheder, magi) læses indtil videre kun af den generelle navigation.

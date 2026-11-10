@@ -115,6 +115,8 @@ kolejności:
 
 Panel Sima mówi aspirację Sima („Aspiracja: 24 procent”); panel nagród (Nagrody, potem Nagrody aspiracji) mówi, ile punktów aspiracji można wydać, a każda nagroda swoją nazwę, cenę w punktach aspiracji i to, czy Simowi ich wystarczy („za mało pieniędzy”); jej opis jest w buforze szczegółów.
 
+Nagrody za karierę mówią, do jakiej kariery należą i czy Sim je odblokował („Manekin chirurgiczny, kariera: Medycyna, zablokowana”). Z dodatkiem o hobby (FreeTime) przycisk korzyści z aspiracji życiowych otwiera korzyści: każda mówi swoją nazwę oraz czy jest posiadana, wybrana czy zablokowana, a jej opis jest w buforze szczegółów; Enter ją wybiera lub odznacza, a Akceptuj kupuje to, co wybrane. Strona ekwipunku wymienia, co Sim nosi przy sobie („Telefon komórkowy, 2”); Enter wyjmuje przedmiot, by postawić go na parceli, tymi samymi klawiszami co przy stawianiu w trybie kupowania.
+
 Opcje gry (przycisk Opcje w panelu sterowania) są czytane tak samo: każdy wybór mówi swoje ustawienie („Cienie: Wysokie”), a suwaki, takie jak głośność muzyki, zmienia się strzałkami w lewo i w prawo („Muzyka, suwak, 35 z 100”). Utwory stacji radiowej są osobną grupą; Enter włącza lub wyłącza utwór.
 
 Strona pracy podaje godziny pracy Sima; Enter na nich dodaje, kiedy przyjeżdża wspólny transport. Aby rzucić pracę, zadzwoń do pracy przez telefon. Każda umiejętność mówi swój poziom i, gdy następny awans wymaga więcej, ile: „Gotowanie, 2 z 10, następny awans wymaga 4”.
@@ -343,6 +345,6 @@ Klawisze, które je zmieniają, od razu je zapisują.
 
 ## Jeszcze nie gotowe
 
-Tapety, rysowane dachy i teren w trybie budowania; nazywanie pragnień i lęków, o których rozmawiają Simowie; stawianie na parceli obiektu z ekwipunku Sima; nazwy głów, fryzur i ubrań w Stwórz Sima;
+Tapety, rysowane dachy i teren w trybie budowania; nazywanie pragnień i lęków, o których rozmawiają Simowie; nazwy głów, fryzur i ubrań w Stwórz Sima;
 własne ekrany dodatków (studia, nocne życie, biznes, pory roku, wakacje, mieszkania, magia) są na
 razie odczytywane tylko przez ogólną nawigację.

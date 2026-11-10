@@ -25,6 +25,8 @@ enum class Role {
     ListRow,    // a row of a list box: Enter selects it
     Level,      // a kind or a room of the lot's things (number: which): Enter opens its things
     LotObject,  // a thing of the lot (number = its object id): Enter its interactions
+    InventoryItem,  // an item of a Sim's inventory (number = its token, widget = the inventory page):
+                    // Enter takes it out to place it on the lot
     ModManual,  // the "mod help" group's buttons: Enter says this screen's keys, as Control+F1
                 // does (number 1), or opens the manual (number 2, nav/manual.h)
 };

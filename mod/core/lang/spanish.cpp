@@ -474,6 +474,12 @@ const Translation kEntries[] = {
     // Rewards
     {Str::CannotAfford, "no te alcanza"},
     {Str::RewardPrice, "%s puntos de aspiración"},
+    {Str::RewardCareer, "profesión: %s"},
+    {Str::RewardLocked, "bloqueada"},
+    {Str::LtaOwned, "obtenido"},
+    {Str::LtaChosen, "elegido, se compra al Aceptar"},
+    {Str::LtaAvailable, "sin elegir"},
+    {Str::LtaLevel, "nivel %d"},
     {Str::KeysButton, "Teclas de esta pantalla"},
 };
 

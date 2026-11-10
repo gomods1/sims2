@@ -309,10 +309,50 @@ bool ReadProductInterface(Ptr iface, Product* out) {
     Ptr objd = selector ? Rd<Ptr>(selector + addr::product::kSelectorObjd) : 0;
     if (objd) {
         out->guid = Rd<uint32_t>(objd + addr::objd::kGuid);
+        out->careerJob = Rd<uint32_t>(objd + addr::objd::kCareerJob);
         for (int i = 0; i < kRatingCount; i++) out->ratings[i] = Rd<int16_t>(objd + addr::objd::kRatings + 2 * i);
         if (!ProductSize(selector, &out->across, &out->deep)) out->across = out->deep = 0;
     }
     return !out->name.empty() || !out->internalName.empty();
+}
+
+int InventorySim(Ptr inventoryWindow) {
+    Ptr proc = CompleteObject(Proc(inventoryWindow));
+    if (!IsKindOf(proc, "cTSWinProcInventoryNew")) return 0;
+    return Rd<int16_t>(proc + addr::inventory_pick::kInventorySim);
+}
+
+bool TakeFromInventory(Ptr inventoryWindow, int token) {
+    namespace ip = addr::inventory_pick;
+    Ptr proc = CompleteObject(Proc(inventoryWindow));
+    if (!IsKindOf(proc, "cTSWinProcInventoryNew") || token < 0) return false;
+    Ptr panel = 0;
+    for (Ptr w = Parent(inventoryWindow); w && !panel; w = Parent(w)) {
+        Ptr p = CompleteObject(Proc(w));
+        if (p && IsKindOf(p, "cTSWinProcPanelRewards")) panel = p;
+    }
+    typedef Ptr(__thiscall * ItemFn)(Ptr, int);
+    typedef int16_t(__thiscall * IdFn)(Ptr);
+    typedef void(__thiscall * HandFn)(Ptr, int, int);
+    typedef Ptr(__cdecl * ToolbarFn)();
+    typedef void(__thiscall * PlaceFn)(Ptr, int, int);
+    Ptr obj = 0;
+    if (!Guarded([&] { obj = ((ItemFn)Va(ip::kItemObject))(proc, token & 0xffff); }) || !obj || !IsKindOf(obj, "cTSObject"))
+        return false;
+    Ptr idSlot = Rd<Ptr>(Rd<Ptr>(obj) + 4 * ip::kObjectSlotId);
+    if (idSlot != Va(ip::kObjectIdFn)) return false;
+    int id = 0;
+    if (!Guarded([&] { id = ((IdFn)idSlot)(obj); }) || id <= 0) return false;
+    // The panel's own hand first (keeps its buttons in step), else the toolbar's call it makes.
+    if (panel) Guarded([&] { ((HandFn)Va(ip::kPanelHand))(panel, id, 1); });
+    if (IsKindOf(CurrentTool(), "cTSUserToolInventoryObject")) return true;
+    Ptr toolbar = 0;
+    if (!Guarded([&] { toolbar = ((ToolbarFn)Va(ip::kToolbar))(); }) || !toolbar) return false;
+    Ptr placeSlot = Rd<Ptr>(Rd<Ptr>(toolbar) + 4 * ip::kToolbarSlotPlace);
+    if (placeSlot != Va(ip::kToolbarPlaceFn)) return false;
+    Guarded([&] { ((PlaceFn)placeSlot)(toolbar, id, 1); });
+    Log("inventory: token %d object %d, tool %s", token, id, ClassName(CurrentTool()).c_str());
+    return IsKindOf(CurrentTool(), "cTSUserToolInventoryObject");
 }
 
 void InitBuyHooks() {

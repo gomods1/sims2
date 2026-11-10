@@ -346,6 +346,32 @@ lot loaded holds 0 in its own +0x2f4 (its parts point at it) until the lot loads
   into the vector at +0x20 (pages included). Cell layout: UI script 0x49064805 (0xa001 the
   button, 0xa002 thumbnail, 0xa003 the price's overlay). Affordable: price <= the Sim's points
   (0xa0669d24; person data 161 x 10).
+- Career rewards (static analysis 2026-11-10): the catalog lists every career's rewards (OBJD
+  function flags 0x800, fill 0xa066a71b); the cell's 0xa001 button is enabled when the Sim has
+  unlocked the reward (cdecl bool 0xa0778103(product), the neighbor's unlocked set, which the cheat
+  `unlockCareerRewards` fills). The career: OBJD fields 52-53 (`objd + 0x6c`, u32) are its
+  JobData object's GUID, whose catalog name is the career's ("Medicina"); checked on all 25
+  rewards in the data. The mod: "profesión: Medicina, bloqueada". Not yet seen live.
+- FreeTime's lifetime aspiration benefits (static analysis 2026-11-10, not yet seen live): the
+  aspiration rewards' button 0xe0000000 (points left, PD 217 - PD 218 > 0) / 0xe0000001 opens
+  `cTSWinProcLTARewards` (UI 0x0bb40008) modally, from inside the press (DoModalWin). Columns
+  0xab01..0xab04 (motives, work, primary, secondary aspiration), 0xab07 the points left, 0xa6002
+  Accept, 0xa6003 Cancel. Cells (UI 0x0bb40016) have id track << 16 | level; their visible button
+  is 0x10000000 | that, enabled when it can be chosen; marks 0xaa11 owned, 0xaa10 chosen, 0xaa0b
+  locked. A press only marks it (0xa0787650, points at +0x6c); Accept (0xa0786387) runs "CT -
+  GiveBenefits" and sets PD 218. Names: "Controller - LTA Superpowers" (group 0x7ffa8f9f) STR#
+  0x95, row r - 1 "Name|Description", r from 0xa0787345 with BCON 0x1019 = [7,8,1,5,2,0,0,3,0,4,6]
+  (tracks 1-2: BCON[track-1] * 4 + level; 3: BCON[primary+2] * 4 + level; 4: level 1 is 37 without
+  a secondary aspiration, else 38 + BCON[secondary+2], levels 2-4 BCON[secondary+2] * 4 + level - 1;
+  the proc's +0xb8 primary, +0xba secondary). The hover popup `cTSWinProcLTARewardPopup` (UI
+  0xabba4022) opens through a message filter on mouse-enter, not the mod's slot 161 (hypothesis).
+- The inventory page (static analysis 2026-11-10, the panel `cTSWinProcPanelRewards` +0x20 tab 3):
+  `cTSWinProcInventoryNew`, +0x17a the Sim's object id, +0x18c its cTSInventoryManager, +0x180 a
+  vector of 16-byte stacks (+4/+8 a vector<int> of token indices). The Sim's inventory: the object's
+  interface 0x5a69d3d5, slot 146; tokens +0x14/+0x18, a token's GUID +8, u16 flags +0xc (shown: 1
+  set, 2 and 4 clear). Read live on Carlos: empty. Taking one out: addresses.h `inventory_pick`
+  (reward mode, `cTSUserToolInventoryObject` subclassing the object tool). Not yet tried live: no
+  item could be put in an inventory on the Contreras lot.
 
 ## Build mode
 
@@ -489,3 +515,9 @@ lot loaded holds 0 in its own +0x2f4 (its parts point at it) until the lot loads
     fears (begin/end of `cTSWantInstance*`); an instance's slot 12 its definition, whose slot 12
     (index, out cIGZString*) its strings (0 male, 1 female, 2 generic, 3 description; tokens
     `$neighbor`, `$CareerTrack`). Not done: the hook records nothing for 0x2000 yet.
+  - Read live 2026-11-10 (`!wants`): slot 21 / 22 take the neighbor id **by value** (they pass
+    their argument's address on to the map's operator[], which inserts a missing key: a call with
+    a pointer added two empty entries); an instance's slot 6 (0xa054e790, (cIGZString*, bool
+    details, char, char) ret 0x10) names it with $Neighbor filled ("Enemistarse con Marcos"), its
+    +0x2c the aspiration points (fears negative, -3500), +0x30 influence. Fulfilling a want
+    replaced all four of Carlos's wants at once.

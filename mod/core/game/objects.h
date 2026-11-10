@@ -44,6 +44,22 @@ bool SimMotive(int objectId, int index, float* value);
 
 // A Sim's first and last name (UTF-8); false when it is no Sim.
 bool SimName(int objectId, std::string* first, std::string* last);
+// A Sim's current wants (or fears) by name, as the game words them ("Hacer ejercicios con
+// máquina"), with their aspiration points, from the want simulator: the panel need not be open,
+// nor the Sim selected.
+// A Sim's inventory as its panel shows it: one item per object kind, with how many.
+struct InventoryItem {
+    std::string name;
+    uint32_t guid = 0;
+    int token = -1;  // the index of the stack's last token in the inventory
+    int count = 1;
+};
+bool SimInventory(int objectId, std::vector<InventoryItem>* out);
+struct Wish {
+    std::string name;
+    int points = 0;
+};
+bool SimWishes(int objectId, bool fears, std::vector<Wish>* out);
 // A Sim's name by neighbor id (the neighborhood's Sims, on the lot or not); last may be null.
 bool NeighborName(int neighborId, std::string* first, std::string* last);
 

@@ -468,6 +468,12 @@ const Translation kEntries[] = {
     // Rewards
     {Str::CannotAfford, "nincs rá elég"},
     {Str::RewardPrice, "%s törekvéspont"},
+    {Str::RewardCareer, "karrier: %s"},
+    {Str::RewardLocked, "zárolva"},
+    {Str::LtaOwned, "megszerezve"},
+    {Str::LtaChosen, "kiválasztva, Elfogadással megveszed"},
+    {Str::LtaAvailable, "nincs kiválasztva"},
+    {Str::LtaLevel, "%d. szint"},
     {Str::KeysButton, "Ennek a képernyőnek a billentyűi"},
 };
 

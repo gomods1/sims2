@@ -84,6 +84,8 @@ Op een kavel is het scherm een ring van groepen zoals elk ander. Tab gaat er in 
 
 Het Sim-paneel noemt de wens van de Sim ("Wens: 24 procent"); het beloningenpaneel (Bevorderdingen, dan Wensvervullers) noemt de wenspunten die je kunt uitgeven, en elke beloning zijn naam, zijn prijs in wenspunten en of de Sim genoeg heeft ("te duur"); de beschrijving staat in de detailsbuffer.
 
+Carrièrebeloningen noemen hun carrière en of de Sim ze heeft vrijgespeeld ("Oefenpop, carrière: Geneeskunde, vergrendeld"). Met de hobby-uitbreiding (FreeTime) opent de knop voor de levensambitievoordelen de voordelen: elk noemt zijn naam en of het in bezit, gekozen of vergrendeld is, met de beschrijving in de detailbuffer; Enter kiest het of haalt het weg, en Accepteren koopt wat gekozen is. De inventarispagina somt op wat de Sim bij zich heeft ("Mobiele telefoon, 2"); Enter haalt het eruit om het op het perceel te plaatsen, met dezelfde toetsen als bij plaatsen in de koopmodus.
+
 De opties van het spel (de knop Opties op het bedieningspaneel) worden net zo gelezen: elke keuze noemt haar instelling ("Schaduwen: Hoog") en de schuifregelaars, zoals het volume van de muziek, veranderen met pijl links en pijl rechts ("Muziek, schuifregelaar, 35 van 100"). De nummers van een radiozender zijn een eigen groep; Enter zet een nummer aan of uit.
 
 De baanpagina noemt de werktijden van de Sim; Enter daarop voegt toe wanneer de carpool komt. Om een baan op te zeggen, bel je via de telefoon naar je werk. Elke vaardigheid zegt haar niveau en, als de volgende promotie meer vraagt, hoeveel: "Koken, 2 van 10, de volgende promotie vraagt 4".
@@ -281,4 +283,4 @@ De instellingen van de mod staan in `Sims2Access\Sims2Access.ini` in de map van 
 
 ## Nog niet klaar
 
-Behang, getekende daken en terrein in de bouwmodus; de wensen en angsten benoemen waar Sims over praten; een object uit de inventaris van een Sim op het kavel zetten; namen voor de hoofden, kapsels en kleding in Sim creëren; de eigen schermen van de uitbreidingen (studeren, nachtleven, bedrijven, seizoenen, vakanties, appartementen, magie) worden tot nu toe alleen door de algemene navigatie gelezen.
+Behang, getekende daken en terrein in de bouwmodus; de wensen en angsten benoemen waar Sims over praten; namen voor de hoofden, kapsels en kleding in Sim creëren; de eigen schermen van de uitbreidingen (studeren, nachtleven, bedrijven, seizoenen, vakanties, appartementen, magie) worden tot nu toe alleen door de algemene navigatie gelezen.

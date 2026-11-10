@@ -5,6 +5,7 @@
 
 #include "../game/addresses.h"
 #include "../game/buy.h"
+#include "../game/game_strings.h"
 #include "../game/gz.h"
 #include "../game/hooks.h"
 #include "../game/objects.h"
@@ -324,9 +325,87 @@ struct Walker {
             int points = 0, sim = game::SelectedSimId();
             if (sim && game::PersonDatum(sim, game::addr::person::kDataRewardPoints, &points) && p.price > points * 10)
                 it.value += std::string(", ") + S(Str::CannotAfford);
+        } else {
+            // Every career's rewards are listed (OBJD function flag 0x800): the career is the one
+            // whose JobData the reward's OBJD names, and the cell's button is enabled once the
+            // Sim has unlocked it (0xa0778103; STRUCTS.md "Rewards catalogs").
+            std::string career = p.careerJob && p.careerJob != p.guid ? game::CatalogName(p.careerJob) : "";
+            if (!career.empty()) it.value = util::Format(S(Str::RewardCareer), util::CleanForSpeech(career).c_str());
+            if (!game::Enabled(it.widget)) it.value += std::string(it.value.empty() ? "" : ", ") + S(Str::RewardLocked);
         }
         it.detail = util::CleanForSpeech(p.description);
         it.rect = game::ScreenRect(w);
+        Add(groupKey, it);
+        return true;
+    }
+
+    // The Sim panel's inventory page (cTSWinProcInventoryNew): its cells hold no names, so the
+    // items are the Sim's inventory as the page shows it (game::SimInventory, the same filter):
+    // "Teléfono móvil, 2"; Enter takes one out to place it (2026-11-10 tester feedback: there was no
+    // way to take anything out).
+    bool Inventory(Ptr k, Ptr groupKey) {
+        if (game::ProcClass(k) != "cTSWinProcInventoryNew") return false;
+        std::vector<game::InventoryItem> items;
+        int sim = game::InventorySim(k);
+        if (sim <= 0 || !game::SimInventory(sim, &items)) return false;
+        for (const game::InventoryItem& i : items) {
+            Item it;
+            it.widget = k;
+            it.role = Role::InventoryItem;
+            it.number = i.token;
+            it.label = util::CleanForSpeech(i.name.empty() ? util::Format("%08x", i.guid) : i.name);
+            if (i.count > 1) it.value = std::to_string(i.count);
+            it.rect = game::ScreenRect(k);
+            Add(groupKey, it);
+        }
+        return true;
+    }
+
+    // A cell of FreeTime's lifetime aspiration benefits (the dialog cTSWinProcLTARewards, UI
+    // 0x0bb40008, opened by the aspiration rewards' "Recompensas por aspiraciones vitales"; static
+    // analysis, STRUCTS.md "Rewards catalogs"): cell id track << 16 | level, its one visible button
+    // 0x10000000 | that, enabled when it can be chosen; marks 0xaa11 owned, 0xaa10 chosen (bought
+    // on Accept), 0xaa0b locked. The cells had no names: the benefit's is the one the hover popup
+    // shows, from "Controller - LTA Superpowers" STR# 0x95 ("Name|Description").
+    bool LtaCell(Ptr k, const std::vector<Ptr>& kids, Ptr groupKey) {
+        uint32_t id = game::WinId(k);
+        int track = (int)(id >> 16), level = (int)(id & 0xffff);
+        if (track < 1 || track > 4 || level < 1 || level > 4) return false;
+        Ptr dialog = 0;
+        for (Ptr w = game::Parent(k); w && !dialog; w = game::Parent(w))
+            if (game::ProcClass(w) == "cTSWinProcLTARewards") dialog = w;
+        if (!dialog) return false;
+        Item it;
+        bool owned = false, chosen = false, locked = false;
+        for (Ptr c : kids) {
+            if (!game::Visible(c)) continue;
+            uint32_t cid = game::WinId(c);
+            if (cid == (0x10000000u | id)) it.widget = c;
+            else if (cid == 0xaa11) owned = true;
+            else if (cid == 0xaa10) chosen = true;
+            else if (cid == 0xaa0b) locked = true;
+        }
+        if (!it.widget) return true;
+        // The benefit's row in STR# 0x95 (0xa0787345, BCON 0x1019 of the controller): the motives
+        // and work columns are fixed, the aspiration ones follow the Sim's aspirations (the
+        // dialog's proc: +0xb8 primary, +0xba secondary, -1 none).
+        static const int kBcon[] = {7, 8, 1, 5, 2, 0, 0, 3, 0, 4, 6};
+        Ptr proc = game::CompleteObject(game::Proc(dialog));
+        int primary = game::Rd<int16_t>(proc + 0xb8, -1), secondary = game::Rd<int16_t>(proc + 0xba, -1);
+        auto bcon = [](int i) { return i >= 0 && i < 11 ? kBcon[i] : -1; };
+        int row = -1;
+        if (track <= 2) row = kBcon[track - 1] * 4 + level;
+        else if (track == 3 && bcon(primary + 2) >= 0) row = bcon(primary + 2) * 4 + level;
+        else if (track == 4 && level == 1) row = secondary < 0 ? 37 : (bcon(secondary + 2) >= 0 ? 38 + bcon(secondary + 2) : -1);
+        else if (track == 4 && bcon(secondary + 2) >= 0) row = bcon(secondary + 2) * 4 + level - 1;
+        std::string text = row > 0 ? game::ObjectString(0x7ffa8f9f, 0x95, row - 1) : "";
+        size_t bar = text.find('|');
+        it.label = util::CleanForSpeech(bar == std::string::npos ? text : text.substr(0, bar));
+        if (bar != std::string::npos) it.detail = util::CleanForSpeech(text.substr(bar + 1));
+        if (it.label.empty()) it.label = util::Format(S(Str::LtaLevel), level);
+        it.role = Role::Button;
+        it.value = owned ? S(Str::LtaOwned) : chosen ? S(Str::LtaChosen) : locked || !game::Enabled(it.widget) ? S(Str::RewardLocked) : "";
+        it.rect = game::ScreenRect(it.widget);
         Add(groupKey, it);
         return true;
     }
@@ -555,10 +634,12 @@ struct Walker {
             if (!game::Visible(k)) continue;
             // The needs panel repeats the lot view's own needs group (from the Sim's data).
             if (game::ProcClass(k) == "cTSWinProcPanelMotives") continue;
+            if (Inventory(k, w)) continue;
             std::vector<Ptr> motiveKids = game::Children(k);
             if (Motive(k, motiveKids, w)) continue;
             if (Product(k, motiveKids, w)) continue;
             if (Reward(k, motiveKids, w)) continue;
+            if (LtaCell(k, motiveKids, w)) continue;
             if (Grid(k, w)) continue;
             if (ListBox(k, w)) continue;
             if (Relationship(k, w)) continue;

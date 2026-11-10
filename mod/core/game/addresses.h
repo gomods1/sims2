@@ -209,6 +209,8 @@ constexpr int kMasterId = 0x18;        // u16 multi-tile group (OBJD field 10): 
 constexpr int kSubIndex = 0x1a;        // u16 multi-tile part (OBJD field 11): (column << 8) | row, 0 the lead
 constexpr int kRoomFlags = 0x52;       // u16 buy mode rooms: 1 kitchen, 2 bedroom, 4 bathroom, 8 living,
                                        // 0x10 outside, 0x20 dining, 0x40 misc, 0x80 study, 0x100 kids
+constexpr int kCareerJob = 0x6c;       // u32 a career reward's career: its JobData object's GUID (OBJD
+                                       // fields 52-53; the JobData's catalog name is the career's)
 constexpr int kRatings = 0xa8;         // s16 [7]: hunger, comfort, hygiene, bladder, energy, fun, room
                                        // (OBJD fields 82..88; the data's u16 fields start at +4)
 constexpr int kFunctionFlags = 0x54;   // u16 buy mode categories: 1 comfort, 2 surfaces, 4 appliances,
@@ -425,6 +427,56 @@ constexpr int kDataOutfit = 8, kDataNeighborId = 31, kDataAge = 58, kDataGender 
 // rewards panel shows (read live: 1010, the panel's "10.100").
 constexpr int kDataGreetStatus = 34, kDataNpcType = 155, kDataAspirationScore = 160, kDataRewardPoints = 161;
 }  // namespace person
+
+// Each Sim's wants and fears (cTSWantSimulator, cTSGlobals slot 4 = +0x24): slot 21 (0xa048dcb0)
+// / 22 (0xa048dca0), thiscall (short neighbor id, by value: the slot passes its own argument's
+// address on) ret 4, the std::vector<cTSWantInstance*> of
+// that Sim's wants / fears (a std::map's operator[]: an id without one gets an empty list). An
+// instance's slot 6 (0xa054e790), thiscall (cIGZString* out, bool details, char sep, char sep2)
+// ret 0x10, writes its name with $Neighbor / $Object filled in ("Title" without details; the
+// wants panel's tooltips are "Title|details").
+namespace want {
+constexpr int kGlobalsSlotSimulator = 4;
+constexpr int kSlotWants = 21, kSlotFears = 22;
+constexpr uintptr_t kWantsFn = 0xa048dcb0, kFearsFn = 0xa048dca0;
+constexpr int kInstanceSlotName = 6;
+constexpr uintptr_t kInstanceNameFn = 0xa054e790;
+// An instance's aspiration points (+0x2c, its slot 18; the name's details print it: "+500"), +0x30
+// University's influence. Fulfilling a want replaces the whole list (seen live), so the points tell
+// which one it was.
+constexpr int kInstancePoints = 0x2c;
+}  // namespace want
+
+// A Sim's personal inventory (static analysis 2026-11-10, the Sim panel's inventory page
+// cTSWinProcInventoryNew): the object's interface 0x5a69d3d5 (QueryInterface, slot 0), its slot 146
+// (+0x248) the cTSInventory (not referenced); tokens at +0x14 / +0x18 (std::vector of
+// cTSInventoryToken*), a token's GUID at +8, flags (uint16) at +0xc: the panel shows a token with
+// flag 1 and neither 2 nor 4 (0xa066a4d7), a stack of one GUID as one cell.
+namespace inventory {
+constexpr uint32_t kPersonIid = 0x5a69d3d5;
+constexpr int kPersonSlotInventory = 146;
+constexpr int kTokens = 0x14;
+constexpr int kTokenGuid = 8, kTokenFlags = 0xc;
+}  // namespace inventory
+
+// Taking an item out of the inventory, as a click on its cell does (static analysis 2026-11-10,
+// the cell click 0xa0670201): the proc's 0xa06692f4, thiscall (u16 token index) ret 4, gives the
+// item's cTSObject (made out of the world, or reused), whose slot 47 is its object id; the Sim
+// panel's rewards proc (cTSWinProcPanelRewards, +0x20 its tab: 3 the inventory) then hands it over
+// through 0xa066c662, thiscall (object id, bool) ret 8, which calls the main toolbar's slot 49
+// (0xa06209c2, thiscall (object id, bool inventory) ret 8, on the toolbar interface the cdecl
+// getter 0xa020de51 returns): reward mode (cTSUIModeReward) with cTSUserToolInventoryObject, a
+// cTSUserToolObject (buy mode's placing, the same picks and verdict).
+namespace inventory_pick {
+constexpr uintptr_t kItemObject = 0xa06692f4;
+constexpr int kObjectSlotId = 47;
+constexpr uintptr_t kObjectIdFn = 0xa052fbe0;
+constexpr uintptr_t kPanelHand = 0xa066c662;
+constexpr uintptr_t kToolbar = 0xa020de51;
+constexpr int kToolbarSlotPlace = 49;
+constexpr uintptr_t kToolbarPlaceFn = 0xa06209c2;
+constexpr int kInventorySim = 0x17a;  // cTSWinProcInventoryNew: short, the Sim's object id
+}  // namespace inventory_pick
 
 // A neighbor's looks (Lua's getOutfitProperty, 0xa0566b20): cTSNeighbor slot 44 (0xa04b7fc0),
 // uint16 thiscall (uint16 outfit flag, uint16 property), ret 8: the outfit data's answer (cached by

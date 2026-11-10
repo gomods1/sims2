@@ -84,6 +84,8 @@ Auf einem Grundstück ist die Oberfläche ein Ring von Gruppen wie jeder andere.
 
 Die Sim-Leiste sagt die Laufbahn des Sims („Laufbahn: 24 Prozent“); die Belohnungsleiste (Belohnungen, dann Laufbahn-Belohnungen) sagt die Laufbahnpunkte, die Du ausgeben kannst, und jede Belohnung ihren Namen, ihren Preis in Laufbahnpunkten und ob der Sim genug hat („zu teuer“); ihre Beschreibung steht im Details-Puffer.
 
+Karrierebelohnungen nennen ihre Karriere und ob der Sim sie freigeschaltet hat („Chirurgische Puppe, Karriere: Medizin, gesperrt“). Mit der Freizeit-Erweiterung (FreeTime) öffnet die Schaltfläche für die Lebensziel-Vorteile die Vorteile: Jeder nennt seinen Namen und ob er erworben, gewählt oder gesperrt ist, die Beschreibung steht im Detailpuffer; Eingabe wählt ihn oder nimmt ihn zurück, und Annehmen kauft das Gewählte. Die Inventarseite listet, was der Sim bei sich trägt („Handy, 2“); Eingabe nimmt es heraus, um es auf dem Grundstück zu platzieren, mit denselben Tasten wie beim Platzieren im Kaufmodus.
+
 Die Optionen des Spiels (der Schalter Optionen in der Steuerleiste) werden genauso gelesen: jede Auswahl sagt ihre Einstellung („Schatten: Hoch“), und die Schieberegler, etwa die Lautstärke der Musik, ändern sich mit Pfeil nach links und Pfeil nach rechts („Musik, Schieberegler, 35 von 100“). Die Lieder eines Radiosenders sind eine eigene Gruppe; die Eingabetaste schaltet ein Lied ein oder aus.
 
 Die Seite zum Job nennt die Arbeitszeiten des Sims; die Eingabetaste darauf ergänzt, wann die Fahrgemeinschaft kommt. Um einen Job zu kündigen, ruf per Telefon bei der Arbeit an. Jede Fähigkeit sagt ihre Stufe und, wenn die nächste Beförderung mehr verlangt, wie viel: „Kochen, 2 von 10, die nächste Beförderung verlangt 4“.
@@ -281,4 +283,4 @@ Die Einstellungen des Mods stehen in `Sims2Access\Sims2Access.ini` im Ordner des
 
 ## Noch nicht fertig
 
-Tapeten, gezeichnete Dächer und Gelände im Baumodus; die Wünsche und Ängste benennen, über die Sims sprechen; ein Objekt aus dem Inventar eines Sims auf das Grundstück stellen; Namen für die Köpfe, Frisuren und Kleidung in „Einen Sim erstellen“; die eigenen Bildschirme der Erweiterungen (Uni, Nightlife, Geschäfte, Jahreszeiten, Urlaub, Wohnungen, Magie) werden bisher nur von der allgemeinen Navigation gelesen.
+Tapeten, gezeichnete Dächer und Gelände im Baumodus; die Wünsche und Ängste benennen, über die Sims sprechen; Namen für die Köpfe, Frisuren und Kleidung in „Einen Sim erstellen“; die eigenen Bildschirme der Erweiterungen (Uni, Nightlife, Geschäfte, Jahreszeiten, Urlaub, Wohnungen, Magie) werden bisher nur von der allgemeinen Navigation gelesen.

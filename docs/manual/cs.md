@@ -111,6 +111,8 @@ Na pozemku je obrazovka kruh skupin jako kterákoli jiná. Tab je prochází v t
 
 Panel simíka řekne Simovu aspiraci („Aspirace: 24 procent“); panel odměn (Odměny, potom Odměny za aspiraci) řekne aspirační body, které lze utratit, a každá odměna svůj název, cenu v aspiračních bodech a to, zda na ni Sim má („nemáš dost“); její popis je v paměti podrobností.
 
+Odměny za kariéru říkají svou kariéru a zda je Sim odemkl („Chirurgická figurína, kariéra: Medicína, zamčeno“). S rozšířením o koníčcích (FreeTime) otevře tlačítko výhod celoživotní aspirace výhody: každá řekne svůj název a zda je získaná, vybraná nebo zamčená, popis je ve vyrovnávací paměti podrobností; Enter ji vybere nebo zruší výběr a Přijmout koupí vybrané. Stránka inventáře vypíše, co Sim nosí („Mobilní telefon, 2“); Enter předmět vyndá, abys ho položil na pozemek, stejnými klávesami jako při umisťování v režimu nákupu.
+
 Možnosti hry (tlačítko Možnosti na ovládacím panelu) se čtou stejně: každá volba řekne své nastavení („Stíny: Vysoké“) a posuvníky, například hlasitost hudby, se mění šipkami vlevo a vpravo („Hudba, posuvník, 35 ze 100“). Skladby rozhlasové stanice jsou samostatná skupina; Enter skladbu zapne nebo vypne.
 
 Stránka zaměstnání říká pracovní dobu Simíka; Enter na ní přidá, kdy přijede společné auto. Chcete-li dát výpověď, zavolejte do práce telefonem. Každá dovednost řekne svou úroveň a, když další povýšení potřebuje víc, kolik: „Vaření, 2 z 10, další povýšení potřebuje 4“.
@@ -334,6 +336,6 @@ Klávesy, které je mění, je hned uloží.
 
 ## Zatím nehotové
 
-Tapety, kreslené střechy a terén v režimu stavby; pojmenování přání a obav, o kterých Simové mluví; položení předmětu z inventáře Sima na pozemek; názvy hlav, účesů a oblečení na obrazovce Vytvořit
+Tapety, kreslené střechy a terén v režimu stavby; pojmenování přání a obav, o kterých Simové mluví; názvy hlav, účesů a oblečení na obrazovce Vytvořit
 Sima; vlastní obrazovky rozšíření (univerzita, noční život, podnikání, roční období, dovolená, byty,
 magie) zatím čte jen obecná navigace.

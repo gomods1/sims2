@@ -444,6 +444,12 @@ const Translation kEntries[] = {
     // Rewards
     {Str::CannotAfford, "자금 부족"},
     {Str::RewardPrice, "야망 포인트 %s"},
+    {Str::RewardCareer, "직업: %s"},
+    {Str::RewardLocked, "잠김"},
+    {Str::LtaOwned, "보유"},
+    {Str::LtaChosen, "선택됨, 수락하면 구입"},
+    {Str::LtaAvailable, "선택 안 됨"},
+    {Str::LtaLevel, "레벨 %d"},
     {Str::KeysButton, "이 화면의 키"},
 };
 

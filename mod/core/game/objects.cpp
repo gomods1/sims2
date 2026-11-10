@@ -427,6 +427,91 @@ bool SimName(int objectId, std::string* first, std::string* last) {
     return !first->empty() || !last->empty();
 }
 
+bool SimInventory(int objectId, std::vector<InventoryItem>* out) {
+    out->clear();
+    Ptr o = ObjectById(objectId);
+    if (!o) return false;
+    typedef bool(__thiscall * QueryFn)(Ptr, uint32_t, Ptr*);
+    typedef Ptr(__thiscall * GetFn)(Ptr);
+    typedef uint32_t(__thiscall * ReleaseFn)(Ptr);
+    Ptr inv = 0;
+    bool ok = Guarded([&] {
+        Ptr person = 0;
+        if (!Slot<QueryFn>(o, 0)(o, addr::inventory::kPersonIid, &person) || !person) return;
+        inv = Slot<GetFn>(person, addr::inventory::kPersonSlotInventory)(person);
+        Slot<ReleaseFn>(person, 2)(person);
+    });
+    if (!ok || !inv || !IsKindOf(inv, "cTSInventory")) return false;
+    Ptr b = Rd<Ptr>(inv + addr::inventory::kTokens), e = Rd<Ptr>(inv + addr::inventory::kTokens + 4);
+    if (e < b || e - b > 4 * 4096) return false;
+    int index = 0;
+    for (Ptr at = b; at < e; at += 4, ++index) {
+        Ptr t = Rd<Ptr>(at);
+        if (!t) continue;
+        uint16_t flags = Rd<uint16_t>(t + addr::inventory::kTokenFlags);
+        if (!(flags & 1) || (flags & 6)) continue;  // what the panel shows (0xa066a4d7)
+        InventoryItem it;
+        it.token = index;
+        it.guid = Rd<uint32_t>(t + addr::inventory::kTokenGuid);
+        auto same = std::find_if(out->begin(), out->end(), [&](const InventoryItem& x) { return x.guid == it.guid; });
+        if (same != out->end()) {
+            same->count++;
+            same->token = index;  // the panel takes a stack's last token
+            continue;
+        }
+        it.name = CatalogName(it.guid);
+        out->push_back(it);
+    }
+    return true;
+}
+
+bool SimWishes(int objectId, bool fears, std::vector<Wish>* out) {
+    out->clear();
+    int nid = 0;
+    if (!PersonDatum(objectId, addr::person::kDataNeighborId, &nid) || nid <= 0) return false;
+    Ptr g = Rd<Ptr>(Va(addr::globals::kInstance));
+    if (!g) return false;
+    typedef Ptr(__thiscall * GetFn)(Ptr);
+    typedef Ptr(__thiscall * ListFn)(Ptr, int);
+    typedef void(__thiscall * NameFn)(Ptr, RZString*, int, int, int);
+    Ptr sim = 0;
+    if (!Guarded([&] { sim = Slot<GetFn>(g, addr::want::kGlobalsSlotSimulator)(g); }) || !sim ||
+        !IsKindOf(sim, "cTSWantSimulator"))
+        return false;
+    ListFn list = fears ? CheckedSlot<ListFn>(sim, addr::want::kSlotFears, addr::want::kFearsFn)
+                        : CheckedSlot<ListFn>(sim, addr::want::kSlotWants, addr::want::kWantsFn);
+    if (!list) return false;
+    Ptr vec = 0;
+    if (!Guarded([&] { vec = list(sim, nid & 0xffff); }) || !vec) return false;
+    Ptr b = Rd<Ptr>(vec), e = Rd<Ptr>(vec + 4);
+    if (e < b || e - b > 4 * 32) return false;
+    // Named once per instance (a long name leaves a block in the game's allocator, see RZString):
+    // keyed by the instance and its fields, so a freed instance reused for another want is named again.
+    static std::map<std::vector<uint32_t>, std::string> names;
+    if (names.size() > 400) names.clear();
+    for (Ptr at = b; at < e; at += 4) {
+        Ptr inst = Rd<Ptr>(at);
+        std::vector<uint32_t> key = {inst};
+        for (int off : {0x0c, 0x10, 0x14, 0x18, 0x1c, 0x28, 0x2c, 0x30})
+            key.push_back(Rd<uint32_t>(inst + off));
+        int points = Rd<int>(inst + addr::want::kInstancePoints);
+        auto known = names.find(key);
+        if (known != names.end()) {
+            out->push_back({known->second, points});
+            continue;
+        }
+        NameFn name = CheckedSlot<NameFn>(inst, addr::want::kInstanceSlotName, addr::want::kInstanceNameFn);
+        if (!name) continue;
+        RZString s = {};
+        s.vtable = Va(addr::person::kRZStringVtable);
+        s.cap = 15;
+        if (!Guarded([&] { name(inst, &s, 0, '|', '|'); })) continue;
+        names[key] = Text(s);
+        out->push_back({names[key], points});
+    }
+    return true;
+}
+
 namespace {
 
 // Person data 8 (the outfit worn) as the outfit flag the outfit data takes (0xa023f55f's jump

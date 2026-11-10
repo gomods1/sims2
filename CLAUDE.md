@@ -70,6 +70,16 @@ light map with its own Room thresholds, indoors) on the map, cursors and Ctrl+L;
 balloons say "habla de" / "se queja de"; the aspiration rewards are named with their price; the
 professor and job balloon sheets; Nightlife's own cars in the lists. STRUCTS.md "Buy mode",
 "Light", "Rewards catalogs", "SimAntics".
+Later on 2026-11-10 (a tester's text and voice notes; ROADMAP.md says what was not seen live):
+the funds are the 0x3000 window whose caption is only an amount (a vending machine's products
+share the id); fulfilled wants and fears come from the want simulator (`game::SimWishes`, any
+family Sim; the fulfilled one is the gone want worth the points gained: the game replaces the
+whole list); career rewards say their career (OBJD +0x6c, the JobData GUID) and "locked";
+FreeTime's lifetime aspiration benefits named (`LtaCell` in `nav/collect.cpp`); the inventory page
+lists `game::SimInventory`, Enter takes an item out (`game::TakeFromInventory`, reward mode, then
+`placement::Begin`). Dev command `!wants` (each Sim's wants, fears and inventory).
+**`tools/game.py restore` can give the game the keyboard**: on 2026-11-10 the user's typing went
+into the game after it (opening video capture); restore only when the user is away from the keyboard.
 Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARGETS.md`; layouts:
 `STRUCTS.md`.
 

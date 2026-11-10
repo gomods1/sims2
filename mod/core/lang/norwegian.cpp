@@ -467,6 +467,12 @@ const Translation kEntries[] = {
     // Rewards
     {Str::CannotAfford, "har ikke råd"},
     {Str::RewardPrice, "%s ambisjonspoeng"},
+    {Str::RewardCareer, "karriere: %s"},
+    {Str::RewardLocked, "låst"},
+    {Str::LtaOwned, "eid"},
+    {Str::LtaChosen, "valgt, kjøpes med Godta"},
+    {Str::LtaAvailable, "ikke valgt"},
+    {Str::LtaLevel, "nivå %d"},
     {Str::KeysButton, "Taster på denne skjermen"},
 };
 

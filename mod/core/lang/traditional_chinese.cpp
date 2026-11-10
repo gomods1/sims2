@@ -439,6 +439,12 @@ const Translation kEntries[] = {
     // Rewards
     {Str::CannotAfford, "付不起"},
     {Str::RewardPrice, "%s志向點數"},
+    {Str::RewardCareer, "職業：%s"},
+    {Str::RewardLocked, "已鎖定"},
+    {Str::LtaOwned, "已擁有"},
+    {Str::LtaChosen, "已選擇，按接受後購買"},
+    {Str::LtaAvailable, "未選擇"},
+    {Str::LtaLevel, "等級 %d"},
     {Str::KeysButton, "此畫面的按鍵"},
 };
 

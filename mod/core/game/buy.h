@@ -22,6 +22,7 @@ struct Product {
     int price = 0;
     bool isObject = false;  // a buy mode object (cTSProductObject); else a wall, floor, roof...
     uint32_t guid = 0;
+    uint32_t careerJob = 0;  // a career reward's career (its JobData GUID), else 0 or its own GUID
     int ratings[kRatingCount] = {};  // what the hover popup shows ("Comodidad: 2")
     // The floor it takes as the catalog shows it (before any turn): tiles along its two sides
     // (from its multi-tile parts' tile offsets), 0 when unknown.
@@ -33,6 +34,12 @@ bool ReadProduct(Ptr thumbnail, Product* out);
 // The reward an aspiration or career rewards catalog cell (proc cTSWinProc*RewardThumbnail) shows:
 // a product as the buy catalog's (its price is in aspiration points for an aspiration reward).
 bool ReadRewardProduct(Ptr thumbnail, Product* out);
+
+// The Sim panel's inventory page (a window with proc cTSWinProcInventoryNew): whose it is (the
+// Sim's object id), and taking item `token` (game::InventoryItem::token) out to place it, as a
+// click on its cell does; true when the inventory's placing tool holds it.
+int InventorySim(Ptr inventoryWindow);
+bool TakeFromInventory(Ptr inventoryWindow, int token);
 
 void InitBuyHooks();  // from InitHooks (MinHook ready)
 

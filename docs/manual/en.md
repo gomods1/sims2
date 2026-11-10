@@ -109,6 +109,8 @@ On a lot the screen is a ring of groups like any other. Tab goes through them in
 
 The Sim panel says the Sim's aspiration ("Aspiration: 24 percent"); the rewards panel (Rewards, then Aspiration rewards) says the aspiration points to spend, and each reward its name, its price in aspiration points and whether the Sim has enough ("can't afford"); its description is in the details buffer.
 
+Career rewards say their career and whether the Sim has unlocked them ("Surgical Dummy, career: Medicine, locked"). With FreeTime, the aspiration rewards' lifetime aspiration benefits button opens the benefits: each says its name and whether it is owned, chosen or locked, with its description in the details buffer; Enter chooses or unchooses one, and Accept buys what is chosen. The Inventory page lists what the Sim carries ("Mobile phone, 2"); Enter takes it out to place it on the lot, with the same keys as placing in buy mode.
+
 The game's options (the control panel's Options button) are read the same way: each choice says its setting ("Shadows: High") and the sliders, such as the music volume, change with Left and Right ("Music, slider, 35 of 100"). A radio station's songs are a group of their own; Enter switches a song on or off.
 
 The job page says the Sim's hours; Enter on them adds when the carpool comes. To quit a job, call work on the phone. Each skill says its level and, when the next promotion needs more, how much: "Cooking, 2 of 10, the next promotion needs 4".
@@ -341,6 +343,6 @@ The keys that change them save them at once.
 
 ## Not done yet
 
-Wallpaper, drawn roofs and terrain in build mode; naming the wants and fears Sims talk about; putting an object from a Sim's inventory on the lot; names for Create a Sim's heads, hair and
+Wallpaper, drawn roofs and terrain in build mode; naming the wants and fears Sims talk about; names for Create a Sim's heads, hair and
 clothes; the expansions' own screens (university, nightlife, business, seasons, vacations,
 apartments, magic) are only read by the generic navigation so far.

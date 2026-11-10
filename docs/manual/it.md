@@ -84,6 +84,8 @@ In un lotto la schermata è un anello di gruppi come qualsiasi altra. Tab li sco
 
 Il pannello del Sim dice l'aspirazione del Sim («Aspirazione: 24 per cento»); il pannello dei premi (Premi e Inventario, poi Premi per le aspirazioni) dice i punti di aspirazione da spendere, e ogni premio il suo nome, il suo prezzo in punti di aspirazione e se il Sim ne ha abbastanza («denaro insufficiente»); la sua descrizione è nel buffer dei dettagli.
 
+Le ricompense di carriera dicono la loro carriera e se il Sim le ha sbloccate ("Manichino chirurgico, carriera: Medicina, bloccata"). Con l'espansione degli hobby (FreeTime), il pulsante dei benefici delle aspirazioni di vita apre i benefici: ognuno dice il suo nome e se è ottenuto, scelto o bloccato, con la descrizione nel buffer dei dettagli; Invio lo sceglie o lo toglie, e Accetta compra ciò che è scelto. La pagina dell'inventario elenca ciò che il Sim porta con sé ("Telefono cellulare, 2"); Invio lo tira fuori per posizionarlo sul lotto, con gli stessi tasti del posizionamento in modalità Compra.
+
 Le opzioni del gioco (il pulsante Opzioni del pannello di controllo) si leggono allo stesso modo: ogni scelta dice la sua impostazione («Ombre: Alto») e i cursori, come il volume della musica, cambiano con freccia sinistra e freccia destra («Musica, cursore, 35 su 100»). I brani di una stazione radio sono un gruppo a parte; Invio attiva o disattiva un brano.
 
 La pagina del lavoro dice gli orari del Sim; Invio su di essi aggiunge quando arriva l'auto di servizio. Per lasciare un lavoro, chiama il lavoro al telefono. Ogni abilità dice il suo livello e, quando la prossima promozione chiede di più, quanto: «Cucina, 2 su 10, la prossima promozione chiede 4».
@@ -281,4 +283,4 @@ Le impostazioni della mod sono in `Sims2Access\Sims2Access.ini` nella cartella d
 
 ## Non ancora fatto
 
-La carta da parati, i tetti disegnati e il terreno in modalità Costruisci; dare un nome ai desideri e ai timori di cui parlano i Sim; mettere sul lotto un oggetto dell'inventario di un Sim; i nomi di teste, acconciature e vestiti in Crea un Sim; le schermate proprie delle espansioni (università, vita notturna, attività commerciali, stagioni, vacanze, appartamenti, magia) per ora sono lette solo dalla navigazione generica.
+La carta da parati, i tetti disegnati e il terreno in modalità Costruisci; dare un nome ai desideri e ai timori di cui parlano i Sim; i nomi di teste, acconciature e vestiti in Crea un Sim; le schermate proprie delle espansioni (università, vita notturna, attività commerciali, stagioni, vacanze, appartamenti, magia) per ora sono lette solo dalla navigazione generica.

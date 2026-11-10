@@ -84,6 +84,8 @@ Sur un terrain, l'écran est un cercle de groupes comme n'importe quel autre. Ta
 
 Le panneau du Sim dit l'aspiration du Sim (« Aspiration : 24 pour cent ») ; le panneau des récompenses (Récompenses, puis Récompenses d'aspiration) dit les points d'aspiration à dépenser, et chaque récompense son nom, son prix en points d'aspiration et si le Sim en a assez (« fonds insuffisants ») ; sa description est dans le tampon des détails.
 
+Les récompenses de carrière disent leur carrière et si le Sim les a débloquées (« Mannequin chirurgical, carrière : Médecine, verrouillée »). Avec l'extension des loisirs (FreeTime), le bouton des avantages d'aspiration de vie ouvre les avantages : chacun dit son nom et s'il est obtenu, choisi ou verrouillé, sa description dans le tampon des détails ; Entrée le choisit ou le retire, et Accepter achète ce qui est choisi. La page Inventaire liste ce que porte le Sim (« Téléphone portable, 2 ») ; Entrée le sort pour le placer sur le terrain, avec les mêmes touches que pour placer en mode Achat.
+
 Les options du jeu (le bouton Options du panneau de contrôle) se lisent de la même façon : chaque choix dit son réglage (« Ombres : Elevé(e) ») et les glissières, comme le volume de la musique, changent avec flèche gauche et flèche droite (« Musique, glissière, 35 sur 100 »). Les morceaux d'une station de radio forment un groupe à part ; Entrée active ou désactive un morceau.
 
 La page de l'emploi indique les horaires du Sim ; Entrée dessus ajoute l'heure du covoiturage. Pour quitter un emploi, appelez le travail au téléphone. Chaque compétence dit son niveau et, quand la prochaine promotion demande davantage, combien : « Cuisine, 2 sur 10, la prochaine promotion demande 4 ».
@@ -281,4 +283,4 @@ Les réglages du mod sont dans `Sims2Access\Sims2Access.ini` dans le dossier du 
 
 ## Pas encore fait
 
-Le papier peint, les toits dessinés et le terrain en mode Construction ; nommer les souhaits et peurs dont parlent les Sims ; poser sur le terrain un objet de l'inventaire d'un Sim ; les noms des têtes, coiffures et vêtements de Créer un Sim ; les écrans propres aux extensions (université, vie nocturne, entreprise, saisons, vacances, appartements, magie) ne sont lus pour l'instant que par la navigation générique.
+Le papier peint, les toits dessinés et le terrain en mode Construction ; nommer les souhaits et peurs dont parlent les Sims ; les noms des têtes, coiffures et vêtements de Créer un Sim ; les écrans propres aux extensions (université, vie nocturne, entreprise, saisons, vacances, appartements, magie) ne sont lus pour l'instant que par la navigation générique.

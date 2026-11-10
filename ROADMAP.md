@@ -97,6 +97,21 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
     English one), the FPS counter (not seen in this game), simoleons for "$" (the game's money is
     drawn as § and was already spoken as simoleons).
 
+- 2026-11-10, a tester's text and two voice notes (Sims 2), checked live on the Contreras lot
+  unless noted:
+  - The funds were read from a vending machine's product ("+$2.676.081, quedan Teléfono móvil
+    "NOYIN 2680" 149 simoleones"): its rows have the funds' window id 0x3000; the funds are now the
+    one whose caption is only an amount (not seen live with the machine).
+  - A fulfilled want is named from the game's want simulator for any family Sim, the panel open or
+    not (the tester heard only "+1000"); since the game replaces the whole list, the want is the
+    one gone worth the points gained. Heard: the four old wants named at once, before the points
+    match was added (the match itself not heard yet).
+  - Career rewards say their career and whether they are locked; FreeTime's lifetime aspiration
+    benefits dialog names its cells (owned, chosen, locked; Enter chooses, Accept buys) and a
+    press says the new state; the inventory page lists the Sim's items, Enter takes one out to
+    place it with buy mode's keys. None of these seen live (the game was in use; no inventory item
+    on the lot): check each, especially the inventory (Escape, placing, the token count after).
+
 ## Next
 
 - Check in the game what the 2026-11-10 changes could not try (above). Placing: once, after six
@@ -111,9 +126,7 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
   and 5 in the effects hook and name the want through the want simulator.
 - The rooms' light outdoors (daylight: lighting manager slot 35, room 0); light rooms are another
   partition than the mod's rooms (type 0).
-- The 2026-11-08 tester feedback, still open: putting an object from a Sim's inventory on the lot (the
-  inventory panel was empty on the Contreras lot: try dragging an item through the mod's virtual
-  mouse or the hand tool); eating out (a restaurant lot: the host, waiter and chef are now named;
+- The 2026-11-08 tester feedback, still open: eating out (a restaurant lot: the host, waiter and chef are now named;
   the destination dialog does not say a lot's kind); build mode "needs a lot of love". Not seen
   live: a "counter is needed" thought (the sheet lookup is the game's, the cells from the
   texture), "$Subject" in a thought, a fear come true.

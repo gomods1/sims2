@@ -84,6 +84,8 @@ Em um lote a tela é um anel de grupos como qualquer outra. Tab percorre os grup
 
 O painel do Sim diz a aspiração do Sim ("Aspiração: 24 por cento"); o painel de recompensas (Recompensas, depois Recompensas de aspiração) diz os pontos de aspiração para gastar, e cada recompensa seu nome, seu preço em pontos de aspiração e se o Sim tem o suficiente ("sem dinheiro suficiente"); a descrição dela fica no buffer de detalhes.
 
+As recompensas de carreira dizem a sua carreira e se o Sim já as desbloqueou ("Manequim cirúrgico, carreira: Medicina, bloqueada"). Com a expansão dos passatempos (FreeTime), o botão dos benefícios das aspirações de vida abre os benefícios: cada um diz o seu nome e se está obtido, escolhido ou bloqueado, com a descrição no buffer de detalhes; Enter escolhe-o ou retira-o, e Aceitar compra o que está escolhido. A página do inventário lista o que o Sim leva consigo ("Telemóvel, 2"); Enter tira-o para o colocar no lote, com as mesmas teclas que ao colocar no modo Comprar.
+
 As opções do jogo (o botão Opções do painel de controle) são lidas da mesma forma: cada escolha diz sua configuração ("Sombras: Alta") e os controles deslizantes, como o volume da música, mudam com Seta para a esquerda e Seta para a direita ("Música, controle deslizante, 35 de 100"). As músicas de uma estação de rádio são um grupo próprio; Enter liga ou desliga uma música.
 
 A página do emprego diz o horário do Sim; Enter sobre ele acrescenta quando chega a carona. Para deixar um emprego, ligue para o trabalho pelo telefone. Cada habilidade diz o seu nível e, quando a próxima promoção pede mais, quanto: «Culinária, 2 de 10, a próxima promoção pede 4».
@@ -281,4 +283,4 @@ As configurações do mod ficam em `Sims2Access\Sims2Access.ini` na pasta do jog
 
 ## Ainda não feito
 
-Papel de parede, telhados desenhados e terreno no modo Construção; nomear os desejos e medos de que os Sims falam; colocar no lote um objeto do inventário de um Sim; nomes para as cabeças, cabelos e roupas de Criar um Sim; as telas próprias das expansões (universidade, vida noturna, negócios, estações, férias, apartamentos, magia) por enquanto só são lidas pela navegação genérica.
+Papel de parede, telhados desenhados e terreno no modo Construção; nomear os desejos e medos de que os Sims falam; nomes para as cabeças, cabelos e roupas de Criar um Sim; as telas próprias das expansões (universidade, vida noturna, negócios, estações, férias, apartamentos, magia) por enquanto só são lidas pela navegação genérica.

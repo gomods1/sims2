@@ -467,6 +467,12 @@ const Translation kEntries[] = {
     // Rewards
     {Str::CannotAfford, "ei varaa"},
     {Str::RewardPrice, "%s tavoitepistettä"},
+    {Str::RewardCareer, "ura: %s"},
+    {Str::RewardLocked, "lukittu"},
+    {Str::LtaOwned, "omistettu"},
+    {Str::LtaChosen, "valittu, ostetaan Hyväksy-painikkeella"},
+    {Str::LtaAvailable, "ei valittu"},
+    {Str::LtaLevel, "taso %d"},
     {Str::KeysButton, "Tämän näkymän näppäimet"},
 };
 

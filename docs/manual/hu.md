@@ -119,6 +119,8 @@ végig rajtuk:
 
 A Sim-panel elmondja a Sim törekvését („Törekvés: 24 százalék”); a jutalmak panelje (Jutalmak, aztán Törekvésjutalmak) elmondja, mennyi elkölthető törekvéspont van, minden jutalom pedig a nevét, az árát törekvéspontban, és hogy elég-e hozzá a Sim pontja („nincs rá elég”); a leírása a részletek pufferben van.
 
+A karrierjutalmak megmondják a karrierjüket, és hogy a Sim feloldotta-e őket („Sebészeti bábu, karrier: Orvoslás, zárolva”). A hobbis kiegészítővel (FreeTime) az életcél-előnyök gombja megnyitja az előnyöket: mindegyik megmondja a nevét, és hogy megszerezted, kiválasztottad vagy zárolva van, a leírása a részletek pufferében van; az Enter kiválasztja vagy visszavonja, az Elfogadás megveszi a kiválasztottakat. A leltár oldala felsorolja, mi van a Simnél („Mobiltelefon, 2”); az Enter kiveszi, hogy letehesd a telken, ugyanazokkal a billentyűkkel, mint a vásárlás módban való elhelyezésnél.
+
 A játék beállításait (a vezérlőpult Beállítások gombja) ugyanígy olvassa: minden választás elmondja a beállítását („Árnyékok: Magas”), a csúszkák, például a zene hangereje, a Balra és a Jobbra nyíllal változnak („Zene, csúszka, 35 / 100”). Egy rádióállomás dalai külön csoportot alkotnak; az Enter be- vagy kikapcsol egy dalt.
 
 A munka oldala megmondja a sim munkaidejét; az Enter rajta hozzáteszi, mikor jön a közös autó. Felmondáshoz telefonon hívd a munkahelyet. Minden képesség elmondja a szintjét, és ha a következő előléptetéshez több kell, mennyi: „Főzés, 2/10, a következő előléptetéshez 4 kell”.
@@ -350,6 +352,6 @@ A mod beállításai a játék mappájában lévő `Sims2Access\Sims2Access.ini`
 
 ## Még nincs kész
 
-Tapéták, rajzolt tetők és terep építés módban; azoknak a vágyaknak és félelmeknek a megnevezése, amelyekről a Simek beszélnek; egy tárgy letétele a telekre egy Sim leltárából; a Sim készítése fejeinek, frizuráinak és ruháinak
+Tapéták, rajzolt tetők és terep építés módban; azoknak a vágyaknak és félelmeknek a megnevezése, amelyekről a Simek beszélnek; a Sim készítése fejeinek, frizuráinak és ruháinak
 neve; a kiegészítők saját képernyőit (egyetem, éjszakai élet, vállalkozás, évszakok, nyaralás,
 bérlakások, varázslat) egyelőre csak az általános navigáció olvassa.
