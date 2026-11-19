@@ -86,6 +86,8 @@ Le panneau du Sim dit l'aspiration du Sim (« Aspiration : 24 pour cent ») ; le
 
 Les récompenses de carrière disent leur carrière et si le Sim les a débloquées (« Mannequin chirurgical, carrière : Médecine, verrouillée »). Avec l'extension des loisirs (FreeTime), le bouton des avantages d'aspiration de vie ouvre les avantages : chacun dit son nom et s'il est obtenu, choisi ou verrouillé, sa description dans le tampon des détails ; Entrée le choisit ou le retire, et Accepter achète ce qui est choisi. La page Inventaire liste ce que porte le Sim (« Téléphone portable, 2 ») ; Entrée le sort pour le placer sur le terrain, avec les mêmes touches que pour placer en mode Achat.
 
+La page Souvenirs dit après le nom de chaque souvenir s'il s'agit d'un « bon souvenir » ou d'un « mauvais souvenir », ce que le jeu montre par un fond vert ou rouge.
+
 Les options du jeu (le bouton Options du panneau de contrôle) se lisent de la même façon : chaque choix dit son réglage (« Ombres : Elevé(e) ») et les glissières, comme le volume de la musique, changent avec flèche gauche et flèche droite (« Musique, glissière, 35 sur 100 »). Les morceaux d'une station de radio forment un groupe à part ; Entrée active ou désactive un morceau.
 
 La page de l'emploi indique les horaires du Sim ; Entrée dessus ajoute l'heure du covoiturage. Pour quitter un emploi, appelez le travail au téléphone. Chaque compétence dit son niveau et, quand la prochaine promotion demande davantage, combien : « Cuisine, 2 sur 10, la prochaine promotion demande 4 ».
@@ -248,6 +250,7 @@ Le curseur de construction, les flèches du placement et la carte du terrain jou
 |---|---|
 | Contrôle+Maj+C | La console des codes du jeu : sa saisie est un champ de texte ; Entrée dessus lui donne le clavier, tapez le code, Entrée l'exécute, et ce que la console écrit est dit. |
 | Contrôle+Maj+V | Éclaire à l'écran la commande sélectionnée, pour une personne voyante qui vous aide. En mode Vivre, avec la fenêtre du jeu au premier plan, la caméra regarde aussi la chose du terrain qui a le focus et le pointeur de la souris va dessus. |
+| Contrôle+Maj+F12 | Désactive le mod et le réactive. Désactivé, le jeu fonctionne comme si le mod n'était pas installé : rien n'est prononcé et toutes les touches vont au jeu. Relancer le jeu le réactive. |
 
 ## Les touches du jeu
 

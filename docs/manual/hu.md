@@ -121,6 +121,8 @@ A Sim-panel elmondja a Sim törekvését („Törekvés: 24 százalék”); a ju
 
 A karrierjutalmak megmondják a karrierjüket, és hogy a Sim feloldotta-e őket („Sebészeti bábu, karrier: Orvoslás, zárolva”). A hobbis kiegészítővel (FreeTime) az életcél-előnyök gombja megnyitja az előnyöket: mindegyik megmondja a nevét, és hogy megszerezted, kiválasztottad vagy zárolva van, a leírása a részletek pufferében van; az Enter kiválasztja vagy visszavonja, az Elfogadás megveszi a kiválasztottakat. A leltár oldala felsorolja, mi van a Simnél („Mobiltelefon, 2”); az Enter kiveszi, hogy letehesd a telken, ugyanazokkal a billentyűkkel, mint a vásárlás módban való elhelyezésnél.
 
+Az Emlékek oldal minden emlék neve után megmondja, hogy „jó emlék” vagy „rossz emlék”, amit a játék zöld vagy piros háttérrel mutat.
+
 A játék beállításait (a vezérlőpult Beállítások gombja) ugyanígy olvassa: minden választás elmondja a beállítását („Árnyékok: Magas”), a csúszkák, például a zene hangereje, a Balra és a Jobbra nyíllal változnak („Zene, csúszka, 35 / 100”). Egy rádióállomás dalai külön csoportot alkotnak; az Enter be- vagy kikapcsol egy dalt.
 
 A munka oldala megmondja a sim munkaidejét; az Enter rajta hozzáteszi, mikor jön a közös autó. Felmondáshoz telefonon hívd a munkahelyet. Minden képesség elmondja a szintjét, és ha a következő előléptetéshez több kell, mennyi: „Főzés, 2/10, a következő előléptetéshez 4 kell”.
@@ -314,6 +316,7 @@ a mezőn, lejtő, szobaváltás, a telek széle, elhelyezéskor pedig az, hogy e
 |---|---|
 | Control+Shift+C | A játék csalókonzolja: a bemenete egy szövegmező; az Enter rajta megadja neki a billentyűzetet, gépeld be a csalást, az Enter lefuttatja, és amit kiír, azt felolvassa. |
 | Control+Shift+V | Kiemeli a képernyőn a kijelölt vezérlőt egy látó segítő számára. Élet módban, ha a játék ablaka elöl van, a kamera a telek fókuszban lévő dolgára is ránéz, és az egérmutató rámegy. |
+| Control+Shift+F12 | Ki- és bekapcsolja a modot. Kikapcsolva a játék úgy fut, mintha a mod nem lenne telepítve: semmi sem hangzik el, és minden billentyű a játékhoz jut. A játék újraindítása visszakapcsolja. |
 
 ## A játék saját billentyűi
 

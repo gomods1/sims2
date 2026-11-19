@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Acessibilidade para The Sims 2 carregada"},
+    {Str::ModOff, "Acessibilidade para The Sims 2 desativada. Control+Shift+F12 a ativa de novo."},
+    {Str::ModOn, "Acessibilidade para The Sims 2 ativada"},
     {Str::UnsupportedBuild, "Acessibilidade para The Sims 2: versão do jogo não suportada, mod desativado"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -353,6 +355,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Control+Shift+F1 abre o manual; Control+F1 diz as teclas de cada tela."},
     {Str::KeysManual, "Control+Shift+F1 abre o manual completo do mod no navegador."},
+    {Str::KeysToggle, "Control+Shift+F12 desativa o mod e o ativa de novo."},
     {Str::ManualOpening, "abrindo o manual no navegador"},
     {Str::ManualMissing, "o manual está faltando: reinstale o mod"},
     {Str::ManualButton, "Manual de Acessibilidade para The Sims 2"},
@@ -471,6 +474,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "escolhido, comprado ao Aceitar"},
     {Str::LtaAvailable, "não escolhido"},
     {Str::LtaLevel, "nível %d"},
+    {Str::MemoryGood, "boa lembrança"},
+    {Str::MemoryBad, "má lembrança"},
     {Str::KeysButton, "Teclas desta tela"},
 };
 

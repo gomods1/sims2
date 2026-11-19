@@ -86,6 +86,8 @@ Sim-panelet siger simmens stræben ("Stræben: 24 procent"); belønningspanelet 
 
 Karrierebelønninger siger deres karriere, og om simmen har låst dem op ("Kirurgisk dukke, karriere: Medicin, låst"). Med hobbyudvidelsen (FreeTime) åbner knappen for livsmålsfordele fordelene: hver siger sit navn, og om den er ejet, valgt eller låst, med beskrivelsen i detaljebufferen; Enter vælger den eller fravælger den, og Accepter køber det valgte. Inventarsiden viser, hvad simmen bærer på ("Mobiltelefon, 2"); Enter tager det ud for at placere det på grunden, med de samme taster som ved placering i købstilstand.
 
+Siden Minder siger efter hvert mindes navn, om det er et "godt minde" eller et "dårligt minde", hvilket spillet viser med en grøn eller rød baggrund.
+
 Spillets indstillinger (knappen Indstillinger på kontrolpanelet) læses på samme måde: hvert valg siger sin indstilling ("Skygger: Høj"), og skyderne, som musikkens lydstyrke, ændres med Venstre pil og Højre pil ("Musik, skyder, 35 af 100"). En radiostations sange er en gruppe for sig; Enter slår en sang til eller fra.
 
 Jobsiden siger simmens arbejdstider; Enter på dem tilføjer, hvornår samkørslen kommer. For at sige et job op, ring til arbejdet på telefonen. Hver færdighed siger sit niveau og, når den næste forfremmelse kræver mere, hvor meget: "Madlavning, 2 af 10, den næste forfremmelse kræver 4".
@@ -248,6 +250,7 @@ Byggemarkøren, pilene ved placering og grundens kort spiller en kort lyd ved hv
 |---|---|
 | Ctrl+Skift+C | Spillets snydekonsol: dens indtastning er et tekstfelt; Enter på det giver det tastaturet, skriv snydekoden, Enter kører den, og det, den skriver, bliver sagt. |
 | Ctrl+Skift+V | Fremhæver det valgte kontrolelement på skærmen for en seende hjælper. I live-tilstand, med spillets vindue forrest, ser kameraet også på den ting på grunden der har fokus, og musemarkøren går hen på den. |
+| Ctrl+Skift+F12 | Slår modden fra og til. Når den er slået fra, kører spillet, som om modden ikke var installeret: intet bliver læst op, og alle taster går til spillet. Når spillet startes igen, er den slået til. |
 
 ## Spillets egne taster
 

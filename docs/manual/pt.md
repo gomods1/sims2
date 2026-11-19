@@ -86,6 +86,8 @@ O painel do Sim diz a aspiração do Sim ("Aspiração: 24 por cento"); o painel
 
 As recompensas de carreira dizem a sua carreira e se o Sim já as desbloqueou ("Manequim cirúrgico, carreira: Medicina, bloqueada"). Com a expansão dos passatempos (FreeTime), o botão dos benefícios das aspirações de vida abre os benefícios: cada um diz o seu nome e se está obtido, escolhido ou bloqueado, com a descrição no buffer de detalhes; Enter escolhe-o ou retira-o, e Aceitar compra o que está escolhido. A página do inventário lista o que o Sim leva consigo ("Telemóvel, 2"); Enter tira-o para o colocar no lote, com as mesmas teclas que ao colocar no modo Comprar.
 
+A página Memórias diz, depois do nome de cada memória, se é uma "boa lembrança" ou uma "má lembrança", o que o jogo mostra com um fundo verde ou vermelho.
+
 As opções do jogo (o botão Opções do painel de controle) são lidas da mesma forma: cada escolha diz sua configuração ("Sombras: Alta") e os controles deslizantes, como o volume da música, mudam com Seta para a esquerda e Seta para a direita ("Música, controle deslizante, 35 de 100"). As músicas de uma estação de rádio são um grupo próprio; Enter liga ou desliga uma música.
 
 A página do emprego diz o horário do Sim; Enter sobre ele acrescenta quando chega a carona. Para deixar um emprego, ligue para o trabalho pelo telefone. Cada habilidade diz o seu nível e, quando a próxima promoção pede mais, quanto: «Culinária, 2 de 10, a próxima promoção pede 4».
@@ -248,6 +250,7 @@ O cursor de construção, as setas ao posicionar e o mapa do lote tocam um som c
 |---|---|
 | Control+Shift+C | O console de trapaças do jogo: sua entrada é um campo de texto; Enter nela lhe dá o teclado, digite a trapaça, Enter a executa, e o que o console escreve é falado. |
 | Control+Shift+V | Destaca na tela o controle selecionado, para alguém que enxerga e está ajudando. No modo Viver, com a janela do jogo à frente, a câmara também olha para a coisa do lote em foco e o ponteiro do rato vai para cima dela. |
+| Control+Shift+F12 | Desativa o mod e o ativa de novo. Desativado, o jogo funciona como se o mod não estivesse instalado: nada é falado e todas as teclas vão para o jogo. Iniciar o jogo de novo o ativa outra vez. |
 
 ## As teclas do próprio jogo
 

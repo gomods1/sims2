@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "The Sims 2 akadálymentesítés betöltve"},
+    {Str::ModOff, "The Sims 2 akadálymentesítés kikapcsolva. A Ctrl+Shift+F12 újra bekapcsolja."},
+    {Str::ModOn, "The Sims 2 akadálymentesítés bekapcsolva"},
     {Str::UnsupportedBuild, "The Sims 2 akadálymentesítés: nem támogatott játékverzió, a mod kikapcsolva"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -355,6 +357,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "A Ctrl+Shift+F1 megnyitja a kézikönyvet; a Ctrl+F1 elmondja az adott képernyő billentyűit."},
     {Str::KeysManual, "A Ctrl+Shift+F1 megnyitja a mod teljes kézikönyvét a böngészőben."},
+    {Str::KeysToggle, "A Ctrl+Shift+F12 ki- és bekapcsolja a modot."},
     {Str::ManualOpening, "a kézikönyv megnyitása a böngészőben"},
     {Str::ManualMissing, "a kézikönyv hiányzik: telepítsd újra a modot"},
     {Str::ManualButton, "The Sims 2 akadálymentesítés kézikönyve"},
@@ -474,6 +477,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "kiválasztva, Elfogadással megveszed"},
     {Str::LtaAvailable, "nincs kiválasztva"},
     {Str::LtaLevel, "%d. szint"},
+    {Str::MemoryGood, "jó emlék"},
+    {Str::MemoryBad, "rossz emlék"},
     {Str::KeysButton, "Ennek a képernyőnek a billentyűi"},
 };
 

@@ -113,6 +113,8 @@ Panel simíka řekne Simovu aspiraci („Aspirace: 24 procent“); panel odměn 
 
 Odměny za kariéru říkají svou kariéru a zda je Sim odemkl („Chirurgická figurína, kariéra: Medicína, zamčeno“). S rozšířením o koníčcích (FreeTime) otevře tlačítko výhod celoživotní aspirace výhody: každá řekne svůj název a zda je získaná, vybraná nebo zamčená, popis je ve vyrovnávací paměti podrobností; Enter ji vybere nebo zruší výběr a Přijmout koupí vybrané. Stránka inventáře vypíše, co Sim nosí („Mobilní telefon, 2“); Enter předmět vyndá, abys ho položil na pozemek, stejnými klávesami jako při umisťování v režimu nákupu.
 
+Stránka Vzpomínky po názvu každé vzpomínky řekne, zda je to „dobrá vzpomínka“, nebo „špatná vzpomínka“, což hra ukazuje zeleným nebo červeným pozadím.
+
 Možnosti hry (tlačítko Možnosti na ovládacím panelu) se čtou stejně: každá volba řekne své nastavení („Stíny: Vysoké“) a posuvníky, například hlasitost hudby, se mění šipkami vlevo a vpravo („Hudba, posuvník, 35 ze 100“). Skladby rozhlasové stanice jsou samostatná skupina; Enter skladbu zapne nebo vypne.
 
 Stránka zaměstnání říká pracovní dobu Simíka; Enter na ní přidá, kdy přijede společné auto. Chcete-li dát výpověď, zavolejte do práce telefonem. Každá dovednost řekne svou úroveň a, když další povýšení potřebuje víc, kolik: „Vaření, 2 z 10, další povýšení potřebuje 4“.
@@ -299,6 +301,7 @@ zapne.
 |---|---|
 | Control+Shift+C | Konzole cheatů hry: její vstup je textové pole; Enter na něm mu dá klávesnici, napište cheat, Enter ho spustí a to, co konzole vypíše, se přečte. |
 | Control+Shift+V | Zvýrazní vybraný ovládací prvek na obrazovce pro vidícího pomocníka. V režimu Život, když je okno hry vpředu, se kamera také podívá na věc pozemku, která má fokus, a ukazatel myši na ni přejde. |
+| Control+Shift+F12 | Vypne mod a znovu ho zapne. Když je vypnutý, hra běží, jako by mod nebyl nainstalovaný: nic se nečte a všechny klávesy jdou do hry. Po novém spuštění hry je zase zapnutý. |
 
 ## Vlastní klávesy hry
 

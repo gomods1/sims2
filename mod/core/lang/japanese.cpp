@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "ザ・シムズ2 アクセシビリティを読み込みました"},
+    {Str::ModOff, "ザ・シムズ2 アクセシビリティをオフにしました。Ctrl+Shift+F12でまたオンにします。"},
+    {Str::ModOn, "ザ・シムズ2 アクセシビリティをオンにしました"},
     {Str::UnsupportedBuild, "ザ・シムズ2 アクセシビリティ: 対応していないゲームのバージョンです。モッドを無効にしました"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -339,6 +341,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Shift+F1でマニュアルを開きます。Ctrl+F1で各画面のキーを読み上げます。"},
     {Str::KeysManual, "Ctrl+Shift+F1でモッドの完全なマニュアルをブラウザーで開きます。"},
+    {Str::KeysToggle, "Ctrl+Shift+F12でモッドをオフにし、もう一度押すとオンに戻します。"},
     {Str::ManualOpening, "ブラウザーでマニュアルを開いています"},
     {Str::ManualMissing, "マニュアルが見つかりません。モッドを入れ直してください"},
     {Str::ManualButton, "ザ・シムズ2 アクセシビリティ マニュアル"},
@@ -447,6 +450,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "選択済み、決定で購入"},
     {Str::LtaAvailable, "未選択"},
     {Str::LtaLevel, "レベル %d"},
+    {Str::MemoryGood, "良い思い出"},
+    {Str::MemoryBad, "悪い思い出"},
     {Str::KeysButton, "この画面のキー"},
 };
 

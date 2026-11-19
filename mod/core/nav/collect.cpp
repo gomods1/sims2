@@ -20,6 +20,9 @@ namespace nav {
 // A rewards cell's background button (UI script 0x49064805: 0xa001 the button, 0xa003 the price's
 // overlay).
 constexpr uint32_t kRewardCellButton = 0xa001;
+// A memory cell's backgrounds (UI script 0x4906500a): one is shown, the game's colour for a bad or
+// a good memory.
+constexpr uint32_t kMemoryRed = 0xa, kMemoryGreen = 0xb;
 
 namespace {
 
@@ -339,6 +342,33 @@ struct Walker {
         return true;
     }
 
+    // A memory of the Sim panel's memories page (cTSWinProcMemoryThumbnail, UI 0x4906500a): its
+    // button's tooltip is the memory's name; the game shows a good memory on a green background
+    // (child 0xb, "green bg") and a bad one on a red one (0xa, "red bg"): its SetItem (0xa0788e1c)
+    // shows one and hides the other from the memory instance's flag (+0x28, set by 0xa0557730 from
+    // the memory token's property 0: 4, 5 and 6 are bad). A tester could not tell them apart.
+    bool Memory(Ptr w, const std::vector<Ptr>& kids, Ptr groupKey) {
+        if (game::ProcClass(w) != "cTSWinProcMemoryThumbnail") return false;
+        Item it;
+        bool good = false, bad = false;
+        for (Ptr k : kids) {
+            if (!game::Visible(k)) continue;
+            if (game::IsButton(k)) it.widget = k;
+            else if (game::WinId(k) == kMemoryGreen) good = true;
+            else if (game::WinId(k) == kMemoryRed) bad = true;
+        }
+        std::string title, rest;
+        if (it.widget) SplitTip(game::Tooltip(it.widget), &title, &rest);
+        if (title.empty()) return false;  // read as any other window
+        it.label = title;
+        it.detail = rest;
+        if (good != bad) it.value = S(good ? Str::MemoryGood : Str::MemoryBad);
+        it.role = game::ButtonToggles(it.widget) ? Role::Toggle : Role::Button;
+        it.rect = game::ScreenRect(w);
+        Add(groupKey, it);
+        return true;
+    }
+
     // The Sim panel's inventory page (cTSWinProcInventoryNew): its cells hold no names, so the
     // items are the Sim's inventory as the page shows it (game::SimInventory, the same filter):
     // "Teléfono móvil, 2"; Enter takes one out to place it (2026-11-10 tester feedback: there was no
@@ -639,6 +669,7 @@ struct Walker {
             if (Motive(k, motiveKids, w)) continue;
             if (Product(k, motiveKids, w)) continue;
             if (Reward(k, motiveKids, w)) continue;
+            if (Memory(k, motiveKids, w)) continue;
             if (LtaCell(k, motiveKids, w)) continue;
             if (Grid(k, w)) continue;
             if (ListBox(k, w)) continue;

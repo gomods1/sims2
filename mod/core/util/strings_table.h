@@ -6,6 +6,8 @@
 #define SA_STRINGS(X)                                                                                                  \
     /* Startup */                                                                                                      \
     X(ModLoaded, "Sims 2 accessibility loaded")                                                                        \
+    X(ModOff, "Sims 2 accessibility off. Control+Shift+F12 turns it back on.") \
+    X(ModOn, "Sims 2 accessibility on") \
     X(UnsupportedBuild, "Sims 2 accessibility: unsupported game version, mod disabled")                                \
     /* Key help (Ctrl+F1) */                                                                                           \
     X(KeysScreen, "Tab and Shift+Tab go from group to group; Up and Down go through a group, Left and Right too, or change a slider; Home and End go to the ends; Enter presses, and on a kind or a room opens its things; Backspace goes back; R repeats. Control+Up and Control+Down read the details of what was said, Control+Left and Control+Right switch between details and events.") \
@@ -323,6 +325,7 @@
     /* The manual (Control+Shift+F1, the mod help group) */                                                         \
     X(ManualHint, "Control+Shift+F1 opens the manual; Control+F1 says the keys of each screen.")                    \
     X(KeysManual, "Control+Shift+F1 opens the mod's full manual in your browser.")                                  \
+    X(KeysToggle, "Control+Shift+F12 turns the mod off and on.") \
     X(ManualOpening, "opening the manual in your browser")                                                          \
     X(ManualMissing, "the manual is missing: reinstall the mod")                                                    \
     X(ManualButton, "Sims 2 Accessibility manual")                                                                  \
@@ -430,4 +433,6 @@
     X(LtaChosen, "chosen, bought on Accept")                                                                           \
     X(LtaAvailable, "not chosen")                                                                                      \
     X(LtaLevel, "level %d")                                                                                            \
+    X(MemoryGood, "good memory")                                                                                       \
+    X(MemoryBad, "bad memory")                                                                                         \
     X(KeysButton, "Keys for this screen")                                                                           \

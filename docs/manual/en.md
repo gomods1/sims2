@@ -111,6 +111,8 @@ The Sim panel says the Sim's aspiration ("Aspiration: 24 percent"); the rewards 
 
 Career rewards say their career and whether the Sim has unlocked them ("Surgical Dummy, career: Medicine, locked"). With FreeTime, the aspiration rewards' lifetime aspiration benefits button opens the benefits: each says its name and whether it is owned, chosen or locked, with its description in the details buffer; Enter chooses or unchooses one, and Accept buys what is chosen. The Inventory page lists what the Sim carries ("Mobile phone, 2"); Enter takes it out to place it on the lot, with the same keys as placing in buy mode.
 
+The Memories page says after each memory's name whether it is a "good memory" or a "bad memory", which the game shows with a green or a red background.
+
 The game's options (the control panel's Options button) are read the same way: each choice says its setting ("Shadows: High") and the sliders, such as the music volume, change with Left and Right ("Music, slider, 35 of 100"). A radio station's songs are a group of their own; Enter switches a song on or off.
 
 The job page says the Sim's hours; Enter on them adds when the carpool comes. To quit a job, call work on the phone. Each skill says its level and, when the next promotion needs more, how much: "Cooking, 2 of 10, the next promotion needs 4".
@@ -306,6 +308,7 @@ slope, a room change, the lot's edge, and while placing whether the object fits.
 |---|---|
 | Control+Shift+C | The game's cheat console: its input is a text field; Enter on it gives it the keyboard, type the cheat, Enter runs it, and what it writes is spoken. |
 | Control+Shift+V | Light the focused control on screen, for a sighted helper. In live mode, with the game's window in front, the camera also looks at the lot's thing in focus and the mouse pointer goes onto it. |
+| Control+Shift+F12 | Turns the mod off and on. While it is off the game runs as if the mod were not installed: nothing is spoken and every key goes to the game. Starting the game again turns it back on. |
 
 ## The game's own keys
 

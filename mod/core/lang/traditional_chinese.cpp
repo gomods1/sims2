@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "模擬市民2無障礙模組已載入"},
+    {Str::ModOff, "模擬市民2無障礙模組已關閉。按 Ctrl+Shift+F12 重新開啟。"},
+    {Str::ModOn, "模擬市民2無障礙模組已開啟"},
     {Str::UnsupportedBuild, "模擬市民2無障礙模組：不支援的遊戲版本，模組已停用"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -338,6 +340,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Shift+F1 開啟手冊；Ctrl+F1 讀出每個畫面的按鍵。"},
     {Str::KeysManual, "Ctrl+Shift+F1 在瀏覽器中開啟模組的完整手冊。"},
+    {Str::KeysToggle, "Ctrl+Shift+F12 關閉模組，再按一次重新開啟。"},
     {Str::ManualOpening, "正在瀏覽器中開啟手冊"},
     {Str::ManualMissing, "找不到手冊：請重新安裝模組"},
     {Str::ManualButton, "模擬市民2無障礙模組手冊"},
@@ -445,6 +448,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "已選擇，按接受後購買"},
     {Str::LtaAvailable, "未選擇"},
     {Str::LtaLevel, "等級 %d"},
+    {Str::MemoryGood, "美好回憶"},
+    {Str::MemoryBad, "糟糕回憶"},
     {Str::KeysButton, "此畫面的按鍵"},
 };
 

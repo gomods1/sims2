@@ -11,6 +11,7 @@
 //      logged and the core is disabled instead of taking the game down.
 // Dev hot reload: when Sims2Access\dev.txt exists, a changed Sims2Access.dll is reloaded
 // automatically (checked once a second), and Ctrl+Alt+F12 reloads on demand.
+// Players: Ctrl+Shift+F12 turns the mod off (the core unloaded) and on again (ToggleMod).
 
 #include <windows.h>
 #include <bcrypt.h>
@@ -106,6 +107,7 @@ SaOnMessageFn g_onMessage = nullptr;
 SaOnTickFn g_onTick = nullptr;
 SaLoaderApi g_api = {};
 bool g_coreBroken = false;
+bool g_userOff = false;  // the player turned the mod off (Control+Shift+F12)
 int g_loadCount = 0;
 ULONGLONG g_lastStampCheck = 0;
 
@@ -225,6 +227,61 @@ void ReloadCore() {
     LogLine("reloading core");
     UnloadCore();
     LoadCore();
+    g_userOff = false;
+}
+
+int g_inCore = 0;  // calls into the core under way (a modal loop inside one re-enters)
+bool CoreBusy() { return g_inCore > 0; }
+
+// Control+Shift+F12, for players: the mod off and on until the game exits. Off unloads the core
+// (its hooks removed, speech stopped), so the game runs as it would without the mod; the core says
+// so before it goes, and says it is back once loaded again (optional export SA_Toggled). Keys
+// posted by tools/keys.py carry lParam bit 25; their modifiers are tracked from their own messages
+// (the keyboard state does not follow posted keys).
+typedef void(__cdecl* SaToggledFn)(int on);
+bool g_toggleUpPending = false;  // the chord's F12 key-up is swallowed too
+constexpr LPARAM kSyntheticKey = 1 << 25;
+bool g_syntheticDown[256] = {};
+
+bool ToggleChord(WPARAM wp, LPARAM lp) {
+    if (wp != VK_F12) return false;
+    if (lp & kSyntheticKey)
+        return g_syntheticDown[VK_CONTROL] && g_syntheticDown[VK_SHIFT] && !g_syntheticDown[VK_MENU];
+    return (GetKeyState(VK_CONTROL) & 0x8000) && (GetKeyState(VK_SHIFT) & 0x8000) &&
+           !(GetKeyState(VK_MENU) & 0x8000);
+}
+
+void SafeToggledCall(SaToggledFn fn, int on) {
+    __try { fn(on); }
+    __except (EXCEPTION_EXECUTE_HANDLER) { LogLine("core crashed in SA_Toggled"); }
+}
+
+void SayToggled(int on) {
+    if (!g_core || g_coreBroken) return;
+    SaToggledFn fn = (SaToggledFn)GetProcAddress(g_core, "SA_Toggled");
+    if (!fn) return;
+    g_inCore++;
+    SafeToggledCall(fn, on);
+    g_inCore--;
+}
+
+void ToggleMod() {
+    if (CoreBusy()) {
+        LogLine("Control+Shift+F12 ignored: the core is on the stack");
+        return;
+    }
+    if (g_core && !g_coreBroken && !g_userOff) {
+        SayToggled(0);
+        UnloadCore();
+        g_userOff = true;
+        LogLine("turned off by the player (Control+Shift+F12)");
+        return;
+    }
+    LogLine("turned on by the player (Control+Shift+F12)");
+    UnloadCore();  // a core that crashed, if any
+    LoadCore();
+    g_userOff = false;
+    SayToggled(1);
 }
 
 LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
@@ -238,7 +295,7 @@ LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         if (now - g_lastStampCheck > 1000) {
             g_lastStampCheck = now;
             FILETIME st;
-            if (DevMode() && FileStamp(g_modDir + L"\\Sims2Access.dll", &st) &&
+            if (!g_userOff && DevMode() && FileStamp(g_modDir + L"\\Sims2Access.dll", &st) &&
                 CompareFileTime(&st, &g_coreStamp) != 0) {
                 Sleep(300);  // let the linker finish writing
                 ReloadCore();
@@ -246,12 +303,25 @@ LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         }
         if (g_core && !g_coreBroken) {
             DWORD code = 0;
-            if (!SafeTick(&code)) {
+            g_inCore++;
+            bool ticked = SafeTick(&code);
+            g_inCore--;
+            if (!ticked) {
                 Logf("core crashed in tick (exception 0x%08lx at %p, core at %p); core disabled", code, g_crashAt,
                      (void*)g_core);
                 g_coreBroken = true;
             }
         }
+        return 0;
+    }
+    if ((msg == WM_KEYDOWN || msg == WM_KEYUP) && (lp & kSyntheticKey)) g_syntheticDown[wp & 0xff] = msg == WM_KEYDOWN;
+    if (msg == WM_KEYDOWN && ToggleChord(wp, lp)) {
+        if (!(lp & (1 << 30))) ToggleMod();  // not on autorepeat
+        g_toggleUpPending = true;
+        return 0;
+    }
+    if (msg == WM_KEYUP && wp == VK_F12 && g_toggleUpPending) {
+        g_toggleUpPending = false;
         return 0;
     }
     if (msg == WM_KEYDOWN && wp == VK_F12 && (GetKeyState(VK_CONTROL) & 0x8000) &&
@@ -266,7 +336,9 @@ LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     if (g_core && !g_coreBroken) {
         LRESULT result = 0;
         DWORD code = 0;
+        g_inCore++;
         int handled = SafeOnMessage(hwnd, msg, wp, lp, &result, &code);
+        g_inCore--;
         if (handled < 0) {
             Logf("core crashed in message 0x%x (exception 0x%08lx); core disabled", msg, code);
             g_coreBroken = true;

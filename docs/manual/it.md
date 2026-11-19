@@ -86,6 +86,8 @@ Il pannello del Sim dice l'aspirazione del Sim («Aspirazione: 24 per cento»); 
 
 Le ricompense di carriera dicono la loro carriera e se il Sim le ha sbloccate ("Manichino chirurgico, carriera: Medicina, bloccata"). Con l'espansione degli hobby (FreeTime), il pulsante dei benefici delle aspirazioni di vita apre i benefici: ognuno dice il suo nome e se è ottenuto, scelto o bloccato, con la descrizione nel buffer dei dettagli; Invio lo sceglie o lo toglie, e Accetta compra ciò che è scelto. La pagina dell'inventario elenca ciò che il Sim porta con sé ("Telefono cellulare, 2"); Invio lo tira fuori per posizionarlo sul lotto, con gli stessi tasti del posizionamento in modalità Compra.
 
+La pagina Ricordi dice dopo il nome di ogni ricordo se è un "bel ricordo" o un "brutto ricordo", che il gioco mostra con uno sfondo verde o rosso.
+
 Le opzioni del gioco (il pulsante Opzioni del pannello di controllo) si leggono allo stesso modo: ogni scelta dice la sua impostazione («Ombre: Alto») e i cursori, come il volume della musica, cambiano con freccia sinistra e freccia destra («Musica, cursore, 35 su 100»). I brani di una stazione radio sono un gruppo a parte; Invio attiva o disattiva un brano.
 
 La pagina del lavoro dice gli orari del Sim; Invio su di essi aggiunge quando arriva l'auto di servizio. Per lasciare un lavoro, chiama il lavoro al telefono. Ogni abilità dice il suo livello e, quando la prossima promozione chiede di più, quanto: «Cucina, 2 su 10, la prossima promozione chiede 4».
@@ -248,6 +250,7 @@ Il cursore di costruzione, le frecce del posizionamento e la mappa del lotto eme
 |---|---|
 | Control+Maiusc+C | La console dei trucchi del gioco: il suo campo di inserimento è un campo di testo; Invio su di esso gli dà la tastiera, scrivi il trucco, Invio lo esegue, e ciò che la console scrive viene detto. |
 | Control+Maiusc+V | Evidenzia sullo schermo il controllo selezionato, per chi ti aiuta e vede. In modalità Vivi, con la finestra del gioco in primo piano, la telecamera guarda anche la cosa del lotto che ha il focus e il puntatore del mouse ci va sopra. |
+| Control+Maiusc+F12 | Disattiva la mod e la riattiva. Da disattivata, il gioco funziona come se la mod non fosse installata: non viene letto nulla e tutti i tasti vanno al gioco. Riavviare il gioco la riattiva. |
 
 ## I tasti del gioco
 

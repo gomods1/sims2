@@ -86,6 +86,8 @@ Sim-panelen säger simmens ambition ("Ambition: 24 procent"); belöningspanelen 
 
 Karriärbelöningar säger sin karriär och om simmen har låst upp dem ("Kirurgdocka, karriär: Medicin, låst"). Med hobbyexpansionen (FreeTime) öppnar knappen för livsmålsförmåner förmånerna: var och en säger sitt namn och om den är ägd, vald eller låst, med beskrivningen i detaljbufferten; Enter väljer den eller tar bort den, och Acceptera köper det valda. Inventariesidan listar vad simmen bär på ("Mobiltelefon, 2"); Enter tar fram det för att placera det på tomten, med samma tangenter som vid placering i köpläget.
 
+Sidan Minnen säger efter varje minnes namn om det är ett "gott minne" eller ett "dåligt minne", vilket spelet visar med en grön eller röd bakgrund.
+
 Spelets alternativ (knappen Alternativ på kontrollpanelen) läses på samma sätt: varje val säger sin inställning ("Skuggor: Hög") och skjutreglagen, som musikens volym, ändras med Pil vänster och Pil höger ("Musik, skjutreglage, 35 av 100"). En radiostations låtar är en egen grupp; Enter slår på eller av en låt.
 
 Jobbsidan säger simmens arbetstider; Enter på dem lägger till när samåkningen kommer. För att säga upp ett jobb, ring till jobbet på telefonen. Varje färdighet säger sin nivå och, när nästa befordran kräver mer, hur mycket: "Matlagning, 2 av 10, nästa befordran kräver 4".
@@ -248,6 +250,7 @@ Byggmarkören, pilarna vid placering och tomtens karta spelar ett kort ljud vid 
 |---|---|
 | Ctrl+Skift+C | Spelets fuskkonsol: dess inmatning är ett textfält; Enter på det ger det tangentbordet, skriv fusket, Enter kör det, och det den skriver läses upp. |
 | Ctrl+Skift+V | Lyser upp den valda kontrollen på skärmen, för en seende hjälpare. I leva-läget, med spelets fönster främst, tittar kameran också på den sak på tomten som har fokus och muspekaren går till den. |
+| Ctrl+Skift+F12 | Stänger av modden och slår på den igen. Avstängd körs spelet som om modden inte var installerad: ingenting läses upp och alla tangenter går till spelet. När spelet startas om är den påslagen igen. |
 
 ## Spelets egna tangenter
 

@@ -86,6 +86,8 @@ Het Sim-paneel noemt de wens van de Sim ("Wens: 24 procent"); het beloningenpane
 
 Carrièrebeloningen noemen hun carrière en of de Sim ze heeft vrijgespeeld ("Oefenpop, carrière: Geneeskunde, vergrendeld"). Met de hobby-uitbreiding (FreeTime) opent de knop voor de levensambitievoordelen de voordelen: elk noemt zijn naam en of het in bezit, gekozen of vergrendeld is, met de beschrijving in de detailbuffer; Enter kiest het of haalt het weg, en Accepteren koopt wat gekozen is. De inventarispagina somt op wat de Sim bij zich heeft ("Mobiele telefoon, 2"); Enter haalt het eruit om het op het perceel te plaatsen, met dezelfde toetsen als bij plaatsen in de koopmodus.
 
+De pagina Herinneringen zegt na de naam van elke herinnering of het een "goede herinnering" of een "slechte herinnering" is, wat het spel met een groene of rode achtergrond toont.
+
 De opties van het spel (de knop Opties op het bedieningspaneel) worden net zo gelezen: elke keuze noemt haar instelling ("Schaduwen: Hoog") en de schuifregelaars, zoals het volume van de muziek, veranderen met pijl links en pijl rechts ("Muziek, schuifregelaar, 35 van 100"). De nummers van een radiozender zijn een eigen groep; Enter zet een nummer aan of uit.
 
 De baanpagina noemt de werktijden van de Sim; Enter daarop voegt toe wanneer de carpool komt. Om een baan op te zeggen, bel je via de telefoon naar je werk. Elke vaardigheid zegt haar niveau en, als de volgende promotie meer vraagt, hoeveel: "Koken, 2 van 10, de volgende promotie vraagt 4".
@@ -248,6 +250,7 @@ De bouwcursor, de pijltjes bij het plaatsen en de plattegrond spelen bij elke st
 |---|---|
 | Ctrl+Shift+C | De cheatconsole van het spel: de invoer ervan is een tekstveld; Enter erop geeft het het toetsenbord, typ de cheat, Enter voert hem uit, en wat hij schrijft wordt uitgesproken. |
 | Ctrl+Shift+V | Het gekozen bedieningselement op het scherm oplichten, voor een ziende helper. In de leefmodus, met het spelvenster op de voorgrond, kijkt de camera ook naar het ding van het kavel met de focus en gaat de muisaanwijzer erop. |
+| Ctrl+Shift+F12 | Schakelt de mod uit en weer in. Uitgeschakeld werkt het spel alsof de mod niet geïnstalleerd is: er wordt niets uitgesproken en alle toetsen gaan naar het spel. Het spel opnieuw starten schakelt hem weer in. |
 
 ## De eigen toetsen van het spel
 

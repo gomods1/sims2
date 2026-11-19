@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Zpřístupnění The Sims 2 načteno"},
+    {Str::ModOff, "Zpřístupnění The Sims 2 vypnuto. Ctrl+Shift+F12 ho znovu zapne."},
+    {Str::ModOn, "Zpřístupnění The Sims 2 zapnuto"},
     {Str::UnsupportedBuild, "Zpřístupnění The Sims 2: nepodporovaná verze hry, mod vypnut"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -350,6 +352,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Shift+F1 otevře příručku; Ctrl+F1 řekne klávesy každé obrazovky."},
     {Str::KeysManual, "Ctrl+Shift+F1 otevře úplnou příručku modu v prohlížeči."},
+    {Str::KeysToggle, "Ctrl+Shift+F12 vypne mod a znovu ho zapne."},
     {Str::ManualOpening, "otevírám příručku v prohlížeči"},
     {Str::ManualMissing, "příručka chybí: nainstalujte mod znovu"},
     {Str::ManualButton, "Příručka Zpřístupnění The Sims 2"},
@@ -467,6 +470,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "vybráno, koupí se tlačítkem Přijmout"},
     {Str::LtaAvailable, "nevybráno"},
     {Str::LtaLevel, "úroveň %d"},
+    {Str::MemoryGood, "dobrá vzpomínka"},
+    {Str::MemoryBad, "špatná vzpomínka"},
     {Str::KeysButton, "Klávesy této obrazovky"},
 };
 

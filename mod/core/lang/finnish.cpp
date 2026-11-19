@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Sims 2 -saavutettavuus ladattu"},
+    {Str::ModOff, "Sims 2 -saavutettavuus pois päältä. Ctrl+Vaihto+F12 kytkee sen takaisin päälle."},
+    {Str::ModOn, "Sims 2 -saavutettavuus päällä"},
     {Str::UnsupportedBuild, "Sims 2 -saavutettavuus: pelin versiota ei tueta, modi on poistettu käytöstä"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -357,6 +359,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Vaihto+F1 avaa käyttöoppaan; Ctrl+F1 kertoo kunkin näkymän näppäimet."},
     {Str::KeysManual, "Ctrl+Vaihto+F1 avaa modin koko käyttöoppaan selaimessa."},
+    {Str::KeysToggle, "Ctrl+Vaihto+F12 kytkee modin pois päältä ja takaisin päälle."},
     {Str::ManualOpening, "avataan käyttöopas selaimessa"},
     {Str::ManualMissing, "käyttöopas puuttuu: asenna modi uudelleen"},
     {Str::ManualButton, "Sims 2 -saavutettavuuden käyttöopas"},
@@ -473,6 +476,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "valittu, ostetaan Hyväksy-painikkeella"},
     {Str::LtaAvailable, "ei valittu"},
     {Str::LtaLevel, "taso %d"},
+    {Str::MemoryGood, "hyvä muisto"},
+    {Str::MemoryBad, "huono muisto"},
     {Str::KeysButton, "Tämän näkymän näppäimet"},
 };
 

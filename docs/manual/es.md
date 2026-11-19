@@ -86,6 +86,8 @@ El panel del Sim dice la aspiración del Sim («Aspiración: 24 por ciento»); e
 
 Las recompensas de profesión dicen su profesión y si el Sim ya las desbloqueó ("Maniquí quirúrgico, profesión: Medicina, bloqueada"). Con la expansión de aficiones (FreeTime), el botón de recompensas por aspiraciones vitales abre los beneficios: cada uno dice su nombre y si está obtenido, elegido o bloqueado, con su descripción en el búfer de detalles; Intro lo elige o lo quita, y Aceptar compra lo elegido. La página del inventario lista lo que lleva el Sim ("Teléfono móvil, 2"); Intro lo saca para colocarlo en el solar, con las mismas teclas que al colocar en el modo Comprar.
 
+La página Recuerdos dice tras el nombre de cada recuerdo si es un "buen recuerdo" o un "mal recuerdo", lo que el juego muestra con un fondo verde o rojo.
+
 Las opciones del juego (el botón Opciones del panel de control) se leen igual: cada opción dice su valor («Sombras: Alto») y los controles deslizantes, como el volumen de la música, cambian con Izquierda y Derecha («Música, control deslizante, 35 de 100»). Las canciones de una emisora de radio son un grupo aparte; Intro activa o desactiva una canción.
 
 La página del empleo dice el horario del Sim; Intro sobre él añade cuándo llega el coche compartido. Para dejar un empleo, llama al trabajo por teléfono. Cada habilidad dice su nivel y, cuando el próximo ascenso pide más, cuánto: «Cocina, 2 de 10, el próximo ascenso pide 4».
@@ -248,6 +250,7 @@ El cursor de construcción, las flechas al colocar y el mapa del solar hacen un 
 |---|---|
 | Control+Mayúsculas+C | La consola de trucos del juego: su entrada es un campo de texto; Intro sobre ella le da el teclado, escribe el truco, Intro lo ejecuta, y lo que escribe la consola se dice. |
 | Control+Mayúsculas+V | Ilumina en pantalla el control seleccionado, para quien te ayude viendo la pantalla. En el modo Vivir, con la ventana del juego delante, la cámara también mira la cosa del solar que tiene el foco y el puntero del ratón va sobre ella. |
+| Control+Mayúsculas+F12 | Desactiva el mod y lo vuelve a activar. Desactivado, el juego funciona como si el mod no estuviera instalado: no se dice nada y todas las teclas van al juego. Al volver a iniciar el juego, el mod vuelve a estar activado. |
 
 ## Las teclas del juego
 

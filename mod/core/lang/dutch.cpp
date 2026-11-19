@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "Toegankelijkheid voor De Sims 2 geladen"},
+    {Str::ModOff, "Toegankelijkheid voor De Sims 2 uitgeschakeld. Ctrl+Shift+F12 schakelt die weer in."},
+    {Str::ModOn, "Toegankelijkheid voor De Sims 2 ingeschakeld"},
     {Str::UnsupportedBuild, "Toegankelijkheid voor De Sims 2: niet-ondersteunde spelversie, mod uitgeschakeld"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -361,6 +363,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Shift+F1 opent de handleiding; Ctrl+F1 noemt de toetsen van elk scherm."},
     {Str::KeysManual, "Ctrl+Shift+F1 opent de volledige handleiding van de mod in je browser."},
+    {Str::KeysToggle, "Ctrl+Shift+F12 schakelt de mod uit en weer in."},
     {Str::ManualOpening, "handleiding wordt geopend in de browser"},
     {Str::ManualMissing, "de handleiding ontbreekt: installeer de mod opnieuw"},
     {Str::ManualButton, "Handleiding Toegankelijkheid voor De Sims 2"},
@@ -481,6 +484,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "gekozen, gekocht bij Accepteren"},
     {Str::LtaAvailable, "niet gekozen"},
     {Str::LtaLevel, "niveau %d"},
+    {Str::MemoryGood, "goede herinnering"},
+    {Str::MemoryBad, "slechte herinnering"},
     {Str::KeysButton, "Toetsen voor dit scherm"},
 };
 

@@ -86,6 +86,8 @@ Sim-panelet sier simmens ambisjon ("Ambisjon: 24 prosent"); belønningspanelet (
 
 Karrierebelønninger sier karrieren sin og om simmen har låst dem opp ("Kirurgisk dukke, karriere: Medisin, låst"). Med hobbyutvidelsen (FreeTime) åpner knappen for livsmålsfordeler fordelene: hver sier navnet sitt og om den er eid, valgt eller låst, med beskrivelsen i detaljbufferen; Enter velger den eller fjerner den, og Godta kjøper det som er valgt. Inventarsiden viser hva simmen bærer på ("Mobiltelefon, 2"); Enter tar det ut for å plassere det på tomten, med de samme tastene som ved plassering i kjøpemodus.
 
+Siden Minner sier etter hvert minnes navn om det er et "godt minne" eller et "dårlig minne", noe spillet viser med en grønn eller rød bakgrunn.
+
 Spillets alternativer (kontrollpanelets Alternativer-knapp) leses på samme måte: hvert valg sier innstillingen sin ("Skygger: Høy"), og glidebryterne, som musikkvolumet, endres med Venstre pil og Høyre pil ("Musikk, glidebryter, 35 av 100"). En radiostasjons sanger er en egen gruppe; Enter slår en sang på eller av.
 
 Jobbsiden sier simmens arbeidstider; Enter på dem legger til når samkjøringen kommer. For å si opp en jobb, ring til jobben på telefonen. Hver ferdighet sier nivået sitt og, når neste forfremmelse krever mer, hvor mye: "Matlaging, 2 av 10, neste forfremmelse krever 4".
@@ -248,6 +250,7 @@ Byggmarkøren, pilene ved plassering og tomtens kart spiller en kort lyd ved hve
 |---|---|
 | Ctrl+Skift+C | Spillets juksekonsoll: inndataene er et tekstfelt; Enter på det gir det tastaturet, skriv juksekoden, Enter kjører den, og det den skriver, blir lest opp. |
 | Ctrl+Skift+V | Fremhever den valgte kontrollen på skjermen, for en seende hjelper. I levemodus, med spillvinduet foran, ser kameraet også på tingen på tomten som har fokus, og musepekeren går til den. |
+| Ctrl+Skift+F12 | Slår modden av og på. Når den er av, kjører spillet som om modden ikke var installert: ingenting leses opp, og alle taster går til spillet. Når spillet startes på nytt, er den på igjen. |
 
 ## Spillets egne taster
 

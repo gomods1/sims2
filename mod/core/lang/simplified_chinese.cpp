@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "模拟人生2无障碍模组已加载"},
+    {Str::ModOff, "模拟人生2无障碍模组已关闭。按 Ctrl+Shift+F12 重新开启。"},
+    {Str::ModOn, "模拟人生2无障碍模组已开启"},
     {Str::UnsupportedBuild, "模拟人生2无障碍模组：不支持的游戏版本，模组已停用"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -338,6 +340,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Shift+F1 打开手册；Ctrl+F1 读出每个画面的按键。"},
     {Str::KeysManual, "Ctrl+Shift+F1 在浏览器中打开模组的完整手册。"},
+    {Str::KeysToggle, "Ctrl+Shift+F12 关闭模组，再按一次重新开启。"},
     {Str::ManualOpening, "正在浏览器中打开手册"},
     {Str::ManualMissing, "找不到手册：请重新安装模组"},
     {Str::ManualButton, "模拟人生2无障碍模组手册"},
@@ -445,6 +448,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "已选择，按接受后购买"},
     {Str::LtaAvailable, "未选择"},
     {Str::LtaLevel, "等级 %d"},
+    {Str::MemoryGood, "美好回忆"},
+    {Str::MemoryBad, "糟糕回忆"},
     {Str::KeysButton, "此画面的按键"},
 };
 

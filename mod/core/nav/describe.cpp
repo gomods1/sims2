@@ -25,16 +25,21 @@ std::string Describe(const Item& it) {
     case Role::InventoryItem: return label + (it.value.empty() ? "" : ", " + it.value);
     case Role::Product: return label + ", " + S(Str::RoleButton) + (it.value.empty() ? "" : ", " + it.value);
     case Role::TextField: return util::Format(S(Str::TextField), label.c_str(), "");
+    // A value comes after the role, as a product's does. Only two cells give a button one: a
+    // memory's kind ("..., botón, buen recuerdo") and a lifetime benefit's state ("obtenido",
+    // "bloqueada"), which already says why it cannot be pressed: "no disponible" is left out then.
     case Role::Toggle: {
         std::string s = label + ", " + S(Str::RoleButton);
+        if (!it.value.empty()) s += ", " + it.value;
         if (game::ButtonOn(it.widget)) s += std::string(", ") + S(Str::Selected);
-        if (!game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
+        if (it.value.empty() && !game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
         return s;
     }
     case Role::Button:
     default: {
         std::string s = label + ", " + S(Str::RoleButton);
-        if (!game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
+        if (!it.value.empty()) s += ", " + it.value;
+        if (it.value.empty() && !game::Enabled(it.widget)) s += std::string(", ") + S(Str::Unavailable);
         return s;
     }
     }

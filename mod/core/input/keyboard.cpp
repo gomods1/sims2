@@ -101,7 +101,7 @@ void SayKeyHelp() {
                               S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLotMore) + " " + S(Str::KeysLotNarration) + " " + S(Str::KeysLook) + " " + S(Str::KeysMapHint));
     else if (nav::neighborhood::ViewActive()) speech::Say(S(Str::KeysNeighborhood));
     else speech::Say(S(Str::KeysScreen));
-    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual));
+    speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual) + " " + S(Str::KeysToggle));
 }
 
 namespace {

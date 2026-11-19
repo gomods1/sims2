@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "심즈 2 접근성 기능을 불러왔습니다"},
+    {Str::ModOff, "심즈 2 접근성 기능을 껐습니다. Ctrl+Shift+F12로 다시 켭니다."},
+    {Str::ModOn, "심즈 2 접근성 기능을 켰습니다"},
     {Str::UnsupportedBuild, "심즈 2 접근성: 지원하지 않는 게임 버전이므로 모드를 껐습니다"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -342,6 +344,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Shift+F1은 설명서를 엽니다. Ctrl+F1은 각 화면의 키를 알려 줍니다."},
     {Str::KeysManual, "Ctrl+Shift+F1은 모드의 전체 설명서를 브라우저에서 엽니다."},
+    {Str::KeysToggle, "Ctrl+Shift+F12로 모드를 끄고 다시 켭니다."},
     {Str::ManualOpening, "브라우저에서 설명서를 여는 중"},
     {Str::ManualMissing, "설명서가 없습니다: 모드를 다시 설치하세요"},
     {Str::ManualButton, "심즈 2 접근성 설명서"},
@@ -450,6 +453,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "선택됨, 수락하면 구입"},
     {Str::LtaAvailable, "선택 안 됨"},
     {Str::LtaLevel, "레벨 %d"},
+    {Str::MemoryGood, "좋은 추억"},
+    {Str::MemoryBad, "나쁜 추억"},
     {Str::KeysButton, "이 화면의 키"},
 };
 

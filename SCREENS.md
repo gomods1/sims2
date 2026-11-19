@@ -39,7 +39,7 @@ Tested live unless marked **not yet seen**.
 | Objects of the lot | dedicated browser: PageUp/PageDown, Shift categories, Ctrl rooms; Enter menus; Ctrl+Enter walks there |
 | Relationships panel | generic plus: each person with the daily and lifetime values ("Carlos Contreras, diaria 22, de por vida 9"); filters, family tree |
 | Job panel | generic plus: skills as values ("Habilidad 'Cocina': 0 de 10"); job details **not yet seen** (the test Sim is unemployed) |
-| Simology: personality, interests, hobbies, memories, chemistry | generic plus: personality and interests as values; hobbies, memories, chemistry **not yet checked** |
+| Simology: personality, interests, hobbies, memories, chemistry | generic plus: personality and interests as values; memories say good or bad (the cell's green or red background, `Memory` in `nav/collect.cpp`, not yet seen live); hobbies, chemistry **not yet checked** |
 | Game tips, notices (visitors, clubs), dialogs | generic; notices' buttons (Trasladar, Centrar, Cerrar) |
 | Seasons indicator | generic buttons (the season's days left) |
 | Narrator | dedicated: actions started / finished, needs low / urgent, selection, visitors; balloons **not yet** |

@@ -86,6 +86,8 @@ Die Sim-Leiste sagt die Laufbahn des Sims („Laufbahn: 24 Prozent“); die Belo
 
 Karrierebelohnungen nennen ihre Karriere und ob der Sim sie freigeschaltet hat („Chirurgische Puppe, Karriere: Medizin, gesperrt“). Mit der Freizeit-Erweiterung (FreeTime) öffnet die Schaltfläche für die Lebensziel-Vorteile die Vorteile: Jeder nennt seinen Namen und ob er erworben, gewählt oder gesperrt ist, die Beschreibung steht im Detailpuffer; Eingabe wählt ihn oder nimmt ihn zurück, und Annehmen kauft das Gewählte. Die Inventarseite listet, was der Sim bei sich trägt („Handy, 2“); Eingabe nimmt es heraus, um es auf dem Grundstück zu platzieren, mit denselben Tasten wie beim Platzieren im Kaufmodus.
 
+Die Seite Erinnerungen sagt nach dem Namen jeder Erinnerung, ob es eine „gute Erinnerung“ oder eine „schlechte Erinnerung“ ist, was das Spiel mit einem grünen oder roten Hintergrund zeigt.
+
 Die Optionen des Spiels (der Schalter Optionen in der Steuerleiste) werden genauso gelesen: jede Auswahl sagt ihre Einstellung („Schatten: Hoch“), und die Schieberegler, etwa die Lautstärke der Musik, ändern sich mit Pfeil nach links und Pfeil nach rechts („Musik, Schieberegler, 35 von 100“). Die Lieder eines Radiosenders sind eine eigene Gruppe; die Eingabetaste schaltet ein Lied ein oder aus.
 
 Die Seite zum Job nennt die Arbeitszeiten des Sims; die Eingabetaste darauf ergänzt, wann die Fahrgemeinschaft kommt. Um einen Job zu kündigen, ruf per Telefon bei der Arbeit an. Jede Fähigkeit sagt ihre Stufe und, wenn die nächste Beförderung mehr verlangt, wie viel: „Kochen, 2 von 10, die nächste Beförderung verlangt 4“.
@@ -248,6 +250,7 @@ Der Bau-Cursor, die Pfeiltasten beim Platzieren und der Grundstücksplan spielen
 |---|---|
 | Strg+Umschalt+C | Die Cheat-Konsole des Spiels: ihre Eingabe ist ein Textfeld; Eingabe darauf gibt ihm die Tastatur, tippe den Cheat, Eingabe führt ihn aus, und was er schreibt, wird gesprochen. |
 | Strg+Umschalt+V | Hebt das gewählte Steuerelement auf dem Bildschirm hervor, für eine sehende Hilfe. Im Lebensmodus, mit dem Spielfenster im Vordergrund, schaut die Kamera auch auf das fokussierte Ding des Grundstücks, und der Mauszeiger geht darauf. |
+| Strg+Umschalt+F12 | Schaltet den Mod aus und wieder ein. Ausgeschaltet läuft das Spiel, als wäre der Mod nicht installiert: Nichts wird gesprochen, und alle Tasten gehen an das Spiel. Ein Neustart des Spiels schaltet ihn wieder ein. |
 
 ## Die Tasten des Spiels
 

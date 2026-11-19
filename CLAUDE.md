@@ -153,6 +153,10 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
   `GetKeyState`/`GetAsyncKeyState` so the game also sees the tool's Ctrl/Shift/Alt as held
   (posted Ctrl+Shift+C opens the cheat console). Real keys are untouched.
 - Mod keys (current):
+  - Ctrl+Shift+F12 anywhere (the loader, `ToggleMod`): the mod off and on until the game exits.
+    Off, the core says so (`SA_Toggled`, optional export) and is unloaded as for a hot reload
+    (hooks removed, speech stopped): the game runs as stock. On loads it again and says so (same
+    code as the Sims 1 mod, verified there 2026-11-19; not run on Sims 2 yet).
   - NAVIGATION.md: Tab/Shift+Tab groups (said with name and size on entering, even of one
     item), arrows items, Home/End, Enter presses (a kind or room opens its things), Backspace back
     a level, R repeats, Ctrl+F1 the key help, Ctrl+Shift+F1 the manual. Ctrl+Up/Down read the review buffers, Ctrl+Left/Right

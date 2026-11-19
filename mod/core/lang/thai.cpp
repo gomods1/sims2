@@ -10,6 +10,8 @@ namespace {
 const Translation kEntries[] = {
     // Startup
     {Str::ModLoaded, "โหลดม็อดการเข้าถึงเดอะซิมส์ 2 แล้ว"},
+    {Str::ModOff, "ปิดม็อดการเข้าถึงเดอะซิมส์ 2 แล้ว Ctrl+Shift+F12 เปิดอีกครั้ง"},
+    {Str::ModOn, "เปิดม็อดการเข้าถึงเดอะซิมส์ 2 แล้ว"},
     {Str::UnsupportedBuild, "ม็อดการเข้าถึงเดอะซิมส์ 2: ไม่รองรับเกมเวอร์ชันนี้, ปิดม็อดแล้ว"},
     // Key help (Ctrl+F1)
     {Str::KeysScreen,
@@ -348,6 +350,7 @@ const Translation kEntries[] = {
     // The manual (Control+Shift+F1, the mod help group)
     {Str::ManualHint, "Ctrl+Shift+F1 เปิดคู่มือ Ctrl+F1 บอกปุ่มของแต่ละหน้าจอ"},
     {Str::KeysManual, "Ctrl+Shift+F1 เปิดคู่มือฉบับเต็มของม็อดในเบราว์เซอร์"},
+    {Str::KeysToggle, "Ctrl+Shift+F12 ปิดม็อดและเปิดอีกครั้ง"},
     {Str::ManualOpening, "กำลังเปิดคู่มือในเบราว์เซอร์"},
     {Str::ManualMissing, "ไม่พบคู่มือ: ติดตั้งม็อดใหม่"},
     {Str::ManualButton, "คู่มือม็อดการเข้าถึงเดอะซิมส์ 2"},
@@ -464,6 +467,8 @@ const Translation kEntries[] = {
     {Str::LtaChosen, "เลือกแล้ว ซื้อเมื่อกดยอมรับ"},
     {Str::LtaAvailable, "ยังไม่เลือก"},
     {Str::LtaLevel, "ระดับ %d"},
+    {Str::MemoryGood, "ความทรงจำดี"},
+    {Str::MemoryBad, "ความทรงจำแย่"},
     {Str::KeysButton, "ปุ่มของหน้าจอนี้"},
 };
 

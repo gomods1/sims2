@@ -116,6 +116,8 @@ Sim-paneeli kertoo simin tavoitteen ("Tavoite: 24 prosenttia"); palkintopaneeli 
 
 Urapalkinnot kertovat uransa ja sen, onko simi avannut ne ("Kirurgin harjoitusnukke, ura: Lääketiede, lukittu"). Harrastuslaajennuksen (FreeTime) kanssa elämänpäämäärän etujen painike avaa edut: jokainen kertoo nimensä ja sen, onko se omistettu, valittu vai lukittu, ja sen kuvaus on tietopuskurissa; Enter valitsee sen tai poistaa valinnan, ja Hyväksy ostaa valitut. Tavaraluettelosivu luettelee, mitä simi kantaa mukanaan ("Matkapuhelin, 2"); Enter ottaa sen esiin tontille asetettavaksi samoilla näppäimillä kuin asettaminen ostotilassa.
 
+Muistot-sivu kertoo jokaisen muiston nimen jälkeen, onko se "hyvä muisto" vai "huono muisto"; peli näyttää sen vihreällä tai punaisella taustalla.
+
 Pelin asetukset (ohjauspaneelin Asetukset-painike) luetaan samalla tavalla: jokainen valinta kertoo asetuksensa ("Varjot: Korkea"), ja liukusäätimet, kuten musiikin äänenvoimakkuus, muuttuvat nuolella vasemmalle ja nuolella oikealle ("Musiikki, liukusäädin, 35/100"). Radioaseman kappaleet ovat oma ryhmänsä; Enter kytkee kappaleen päälle tai pois.
 
 Työsivu kertoo simin työajat; Enter niiden kohdalla lisää, milloin kimppakyyti tulee. Irtisanoutuaksesi soita puhelimella töihin. Jokainen taito kertoo tasonsa ja, kun seuraava ylennys vaatii enemmän, kuinka paljon: "Ruoanlaitto, 2/10, seuraava ylennys vaatii 4".
@@ -306,6 +308,7 @@ oleva simi tai esine, rinne, huoneen vaihtuminen, tontin reuna sekä sijoittaess
 |---|---|
 | Control+Vaihto+C | Pelin huijauskonsoli: sen syöte on tekstikenttä; Enter sen kohdalla antaa sille näppäimistön, kirjoita huijaus, Enter suorittaa sen, ja mitä se kirjoittaa, luetaan ääneen. |
 | Control+Vaihto+V | Korosta valittu säädin näytöllä näkevää auttajaa varten. Elä-tilassa, kun pelin ikkuna on edessä, kamera katsoo myös tontin kohdistettua asiaa ja hiiren osoitin menee sen päälle. |
+| Control+Vaihto+F12 | Kytkee modin pois päältä ja takaisin päälle. Kun se on pois päältä, peli toimii kuin modia ei olisi asennettu: mitään ei puhuta ja kaikki näppäimet menevät pelille. Pelin uudelleenkäynnistys kytkee sen taas päälle. |
 
 ## Pelin omat näppäimet
 

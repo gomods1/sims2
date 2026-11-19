@@ -117,6 +117,8 @@ Panel Sima mówi aspirację Sima („Aspiracja: 24 procent”); panel nagród (N
 
 Nagrody za karierę mówią, do jakiej kariery należą i czy Sim je odblokował („Manekin chirurgiczny, kariera: Medycyna, zablokowana”). Z dodatkiem o hobby (FreeTime) przycisk korzyści z aspiracji życiowych otwiera korzyści: każda mówi swoją nazwę oraz czy jest posiadana, wybrana czy zablokowana, a jej opis jest w buforze szczegółów; Enter ją wybiera lub odznacza, a Akceptuj kupuje to, co wybrane. Strona ekwipunku wymienia, co Sim nosi przy sobie („Telefon komórkowy, 2”); Enter wyjmuje przedmiot, by postawić go na parceli, tymi samymi klawiszami co przy stawianiu w trybie kupowania.
 
+Strona Wspomnienia mówi po nazwie każdego wspomnienia, czy to „dobre wspomnienie”, czy „złe wspomnienie”, co gra pokazuje zielonym lub czerwonym tłem.
+
 Opcje gry (przycisk Opcje w panelu sterowania) są czytane tak samo: każdy wybór mówi swoje ustawienie („Cienie: Wysokie”), a suwaki, takie jak głośność muzyki, zmienia się strzałkami w lewo i w prawo („Muzyka, suwak, 35 z 100”). Utwory stacji radiowej są osobną grupą; Enter włącza lub wyłącza utwór.
 
 Strona pracy podaje godziny pracy Sima; Enter na nich dodaje, kiedy przyjeżdża wspólny transport. Aby rzucić pracę, zadzwoń do pracy przez telefon. Każda umiejętność mówi swój poziom i, gdy następny awans wymaga więcej, ile: „Gotowanie, 2 z 10, następny awans wymaga 4”.
@@ -308,6 +310,7 @@ się mieści. **Control+Shift+S** wyłącza je i włącza.
 |---|---|
 | Control+Shift+C | Konsola kodów gry: jej wiersz wpisywania to pole tekstowe; Enter na nim daje mu klawiaturę, wpisz kod, Enter go wykonuje, a to, co konsola wypisze, jest odczytywane. |
 | Control+Shift+V | Podświetla na ekranie wybraną kontrolkę dla widzącej osoby pomagającej. W trybie życia, gdy okno gry jest na wierzchu, kamera patrzy też na rzecz parceli w fokusie, a wskaźnik myszy przechodzi na nią. |
+| Control+Shift+F12 | Wyłącza moda i włącza go z powrotem. Gdy jest wyłączony, gra działa tak, jakby mod nie był zainstalowany: nic nie jest czytane, a wszystkie klawisze trafiają do gry. Ponowne uruchomienie gry znów go włącza. |
 
 ## Klawisze samej gry
 

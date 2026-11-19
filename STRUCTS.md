@@ -372,6 +372,19 @@ lot loaded holds 0 in its own +0x2f4 (its parts point at it) until the lot loads
   set, 2 and 4 clear). Read live on Carlos: empty. Taking one out: addresses.h `inventory_pick`
   (reward mode, `cTSUserToolInventoryObject` subclassing the object tool). Not yet tried live: no
   item could be put in an inventory on the Contreras lot.
+- Memories (static analysis 2026-11-15, not yet seen live): the Simology page's
+  `cTSWinProcPanelMemories` (a cTSWinProcGrid; cells in the FlatRects 0x1006 / 0x2006 of UI
+  0x49064820's "memories sub") keeps at +0x174/+0x178 a vector of `cITSMemoryInstance*` (the
+  `cTSMemoryInstance` + 8), +0x180 the selected index; each cell is UI 0x4906500a with the proc
+  `cTSWinProcMemoryThumbnail` (complete +0xc the item's index, +0x10 the cell, +0x14 the button
+  0xd, +0x18 the image 0xc). Its SetItem (0xa0788e1c) puts the memory's name (instance slot 14,
+  std::string at instance +0x2c) in the button's tooltip and shows child 0xb ("green bg") when the
+  instance's slot 10 (byte +0x28) is set, else child 0xa ("red bg"): **good or bad**. The instance
+  is filled (0xa0557730) from a 0x1c-byte record of the person (+0x8ac/+0x8b0, rebuilt by
+  0xa0523970 from the Sim's inventory tokens with flag 2 and more than 11 properties: [0] the
+  token's GUID, [1] properties 6 << 16 | 5, [2] property 0, [3] 10, [4] 7, [5] 8, [6] 11): property
+  0 = 4, 5 or 6 clears +0x28 (bad, and sets +0x29), anything else sets it (good). The mod reads
+  which background child is visible (`Memory` in `nav/collect.cpp`).
 
 ## Build mode
 

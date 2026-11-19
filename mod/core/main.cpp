@@ -159,6 +159,12 @@ extern "C" __declspec(dllexport) int __cdecl SA_OnMessage(HWND, UINT msg, WPARAM
     return consumed ? 1 : 0;
 }
 
+// The loader turns the mod off and on (Control+Shift+F12): off is said before the core is unloaded
+// (speech::Stop sends what is queued), on once it is loaded again.
+extern "C" __declspec(dllexport) void __cdecl SA_Toggled(int on) {
+    speech::Say(S(on ? Str::ModOn : Str::ModOff), true);
+}
+
 extern "C" __declspec(dllexport) void __cdecl SA_OnTick() {
     ReturnFocus();
     if (!g_active) return;
