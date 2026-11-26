@@ -124,6 +124,7 @@ The job page says the Sim's hours; Enter on them adds when the carpool comes. To
 | Control+1 to Control+9 | Select the first to ninth Sim of the family. |
 | Control+E | The selected Sim in one line: where, what it is doing, urgent needs. |
 | Control+Shift+E | What a Sim looks like: age, hair, skin, eyes, glasses, body and outfit, in the game's words. The Sim focused among the lot's things, else the selected one. A Sim's details (Control+Up on it) say it too. |
+| Control+Shift+A | What a Sim's body is doing now, described from the animations the game runs on it: the idles, reactions and ways of doing things that make the game's charm. The Sim focused among the lot's things, else the selected one. |
 | Control+T | Say each new hour of the clock ("it is 14:00"), or stop. Useful at the fastest speed. |
 | Control+Shift+F | The camera follows the selected Sim, or stays free. |
 

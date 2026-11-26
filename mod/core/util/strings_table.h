@@ -407,6 +407,9 @@
     X(LookOutfitNaked, "none")                                                                                         \
     X(LookOutfitMaternity, "maternity")                                                                                \
     X(KeysLook, "Control+Shift+E says what a Sim looks like: the Sim focused among the lot's things, else the selected one.")\
+    X(KeysAnimation, "Control+Shift+A says what a Sim's body is doing, from the game's animations: the Sim focused among the lot's things, else the selected one.")\
+    X(AnimWalking, "walking")                                                                                          \
+    X(AnimNone, "%s: no animation running")                                                                            \
     X(SeatFor, "to use %s sitting down")                                                                               \
     X(UsedFromSeat, "used from %s")                                                                                    \
     X(KeysShowFocusThings, "With it on, the mouse pointer also goes to the lot's thing in focus.")                     \

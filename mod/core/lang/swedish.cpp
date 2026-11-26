@@ -449,6 +449,11 @@ const Translation kEntries[] = {
     {Str::LookOutfitMaternity, "mammakläder"},
     {Str::KeysLook,
      "Kontroll+Skift+E säger hur en Sim ser ut: den Sim som har fokus bland tomtens saker, annars den valda."},
+    {Str::KeysAnimation,
+     "Kontroll+Skift+A säger vad en Sims kropp gör, utifrån spelets animationer: den Sim som har fokus bland "
+     "tomtens saker, annars den valda."},
+    {Str::AnimWalking, "går"},
+    {Str::AnimNone, "%s: ingen animation pågår"},
     {Str::SeatFor, "för att använda %s sittande"},
     {Str::UsedFromSeat, "används från %s"},
     {Str::KeysShowFocusThings, "När den är på går muspekaren också till den sak på tomten som har fokus."},

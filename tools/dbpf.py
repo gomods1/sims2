@@ -124,6 +124,8 @@ def parse_str(b: bytes):
     """STR#/CTSS/TTAs: 64-byte name, u16 format 0xFFFD, u16 count, then per entry:
     u8 language, value\\0, description\\0 (UTF-8). Returns (name, [(lang, value, desc)])."""
     name = b[:64].split(b"\0")[0].decode("utf-8", "replace")
+    if len(b) < 68:  # an empty table (seen in EP9's objects.package)
+        return name, []
     fmt, count = struct.unpack_from("<HH", b, 64)
     p = 68
     out = []

@@ -455,6 +455,11 @@ const Translation kEntries[] = {
     {Str::KeysLook,
      "Control+Shift+E zegt hoe een Sim eruitziet: de Sim met focus tussen de dingen van het perceel, anders de "
      "geselecteerde."},
+    {Str::KeysAnimation,
+     "Control+Shift+A zegt wat het lichaam van een Sim doet, volgens de animaties van het spel: de Sim met focus "
+     "tussen de dingen van het perceel, anders de geselecteerde."},
+    {Str::AnimWalking, "loopt"},
+    {Str::AnimNone, "%s: geen animatie bezig"},
     {Str::SeatFor, "om %s zittend te gebruiken"},
     {Str::UsedFromSeat, "wordt gebruikt vanaf %s"},
     {Str::KeysShowFocusThings,

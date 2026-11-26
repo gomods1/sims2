@@ -455,6 +455,11 @@ const Translation kEntries[] = {
     {Str::KeysLook,
      "Contrôle+Maj+E dit à quoi ressemble un Sim : le Sim sélectionné parmi les choses du terrain, sinon le Sim "
      "actif."},
+    {Str::KeysAnimation,
+     "Contrôle+Maj+A dit ce que fait le corps d'un Sim, d'après les animations du jeu: le Sim sélectionné parmi "
+     "les choses du terrain, sinon le Sim actif."},
+    {Str::AnimWalking, "marche"},
+    {Str::AnimNone, "%s : aucune animation en cours"},
     {Str::SeatFor, "pour utiliser %s assis"},
     {Str::UsedFromSeat, "s'utilise depuis %s"},
     {Str::KeysShowFocusThings, "Activé, le pointeur de la souris va aussi sur l'objet du terrain sélectionné."},

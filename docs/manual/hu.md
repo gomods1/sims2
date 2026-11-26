@@ -134,6 +134,7 @@ A munka oldala megmondja a sim munkaidejét; az Enter rajta hozzáteszi, mikor j
 | Control+1 – Control+9 | A család első–kilencedik Simjének kiválasztása. |
 | Control+E | A kiválasztott Sim egy sorban: hol van, mit csinál, sürgős szükségletek. |
 | Control+Shift+E | Hogy néz ki egy Sim: kor, haj, bőr, szem, szemüveg, test és ruha, a játék szavaival. A telek dolgai között fókuszban lévő Sim, különben a kiválasztott. A Sim részletei (Control+Fel nyíl rajta) is elmondják. |
+| Control+Shift+A | Mit csinál most egy Sim teste, a játék által lejátszott animációk alapján leírva: az üresjárati mozdulatok, a reakciók és a dolgok elvégzésének módjai, amelyek a játék varázsát adják. A telek dolgai között fókuszban lévő Sim, különben a kiválasztott. |
 | Control+T | Bemondja az óra minden új óráját („14:00 van”), vagy abbahagyja. Hasznos a legnagyobb sebességnél. |
 | Control+Shift+F | A kamera követi a kiválasztott Simet, vagy szabad marad. |
 

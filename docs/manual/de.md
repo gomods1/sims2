@@ -99,6 +99,7 @@ Die Seite zum Job nennt die Arbeitszeiten des Sims; die Eingabetaste darauf erg�
 | Strg+1 bis Strg+9 | Wählt den ersten bis neunten Sim der Familie aus. |
 | Strg+E | Der ausgewählte Sim in einer Zeile: wo er ist, was er tut, dringende Bedürfnisse. |
 | Strg+Umschalt+E | Wie ein Sim aussieht: Alter, Haare, Haut, Augen, Brille, Körper und Kleidung, mit den Worten des Spiels. Der fokussierte Sim unter den Dingen des Grundstücks, sonst der ausgewählte. Die Details eines Sims (Strg+Pfeil nach oben darauf) sagen es auch. |
+| Strg+Umschalt+A | Was der Körper eines Sims gerade tut, beschrieben nach den Animationen, die das Spiel abspielt: die Leerlaufbewegungen, Reaktionen und Arten, Dinge zu tun, die den Reiz des Spiels ausmachen. Der fokussierte Sim unter den Dingen des Grundstücks, sonst der ausgewählte. |
 | Strg+T | Sagt jede neue Stunde der Uhr an („es ist 14:00“), oder hört damit auf. Nützlich bei höchster Geschwindigkeit. |
 | Strg+Umschalt+F | Die Kamera folgt dem ausgewählten Sim oder bleibt frei. |
 

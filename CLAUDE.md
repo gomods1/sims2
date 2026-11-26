@@ -247,6 +247,13 @@ Not done: see `ROADMAP.md`. Screen inventory: `SCREENS.md`. Targets: `PATCH_TARG
     family Sim indoors in a room without a door is announced ("cuidado: Baño no tiene puerta y Carmen
     está dentro..."; dev command `!shutin` runs the check).
   - Ctrl+Enter: walk the selected Sim to the thing last focused (Ctrl+Shift+Enter runs).
+  - Ctrl+Shift+A (2026-11-25, a tester's wish): what a Sim's body is doing, each running animation
+    described in the player's language (`mod/anims/<tag>.tsv`, key TAB text, deployed to
+    `Sims2Access\anims`; `nav/anim_names.cpp`), the focused Sim else the selected one
+    (`world::SimAnimationLine`, `game::ObjectAnimations`, STRUCTS.md "Animations"; dev `!anims`,
+    `!animkeys <in> <out>`). The descriptions serve both mods: `tools/anim_keys.py` (collect, chunks,
+    tchunks, status, merge: merge also writes the Sims 1 mod's `mod/anims`), style in
+    `tools/anim_style.md`; work files (game names) only in `extracted/anims`.
   - Ported 2026-11-07 from the Sims 1 mod's tester feedback (keys in `docs/manual/en.md`; the RE in
     STRUCTS.md "Routing slots", "Looks", "Job panel", "Camera"; verified live on the Contreras lot
     unless said): the map's comma / period layers (everything, objects, floors, walls, rooms;

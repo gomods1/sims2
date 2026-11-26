@@ -629,6 +629,97 @@ bool NeighborName(int neighborId, std::string* first, std::string* last) {
     return !first->empty();
 }
 
+namespace {
+
+// A virtual base of an interface pointer p (MSVC: the vbtable at p+4, entry k the offset from it).
+Ptr VirtualBase(Ptr p, int k) {
+    Ptr vbt = Rd<Ptr>(p + 4);
+    return vbt ? p + 4 + Rd<int>(vbt + k) : 0;
+}
+
+std::string CString(const char* text) {
+    char buf[256] = {};
+    return text && Read((Ptr)text, buf, sizeof buf - 1) ? buf : "";
+}
+
+}  // namespace
+
+std::vector<AnimQueue> AnimQueues() {
+    std::vector<AnimQueue> out;
+    static Ptr s_service = 0;
+    if (!s_service) {
+        Ptr fw = Va(addr::kFramework);
+        typedef bool(__thiscall * GetServiceFn)(Ptr, uint32_t, uint32_t, void**);
+        void* svc = nullptr;
+        bool ok = false;
+        if (auto get = Slot<GetServiceFn>(fw, addr::kFrameworkGetSystemService))
+            Guarded([&] { ok = get(fw, addr::anim::kServiceId, addr::anim::kIid, &svc); });
+        if (!ok || !svc) return out;
+        s_service = (Ptr)svc;  // a service: kept for the game's life
+    }
+    typedef Ptr(__thiscall * GetFn)(Ptr);
+    typedef Ptr(__thiscall * AtFn)(Ptr, int);
+    typedef int(__thiscall * CountFn)(Ptr);
+    typedef bool(__thiscall * QueryFn)(Ptr, uint32_t, Ptr*);
+    typedef uint32_t(__thiscall * ReleaseFn)(Ptr);
+    typedef const char*(__thiscall * NameFn)(Ptr);
+    typedef const char*(__cdecl * ObjectNameFn)(Ptr);
+    Guarded([&] {
+        Ptr list = Slot<GetFn>(s_service, addr::anim::kServiceSlotQueues)(s_service);
+        if (!list) return;
+        int n = Slot<CountFn>(list, addr::anim::kListSlotCount)(list);
+        for (int i = 0; i < n && i < 2000; i++) {
+            Ptr q = Slot<AtFn>(list, addr::anim::kListSlotAt)(list, i);
+            if (!q) continue;
+            AnimQueue aq;
+            Guarded([&] {
+                Ptr base = VirtualBase(q, 4);
+                Ptr owner = base ? Slot<GetFn>(base, addr::anim::kBaseSlotOwner)(base) : 0;
+                Ptr obj = 0;
+                if (owner && Slot<QueryFn>(owner, 0)(owner, addr::anim::kIidSceneObject, &obj) && obj) {
+                    aq.node = CompleteObject(obj);
+                    aq.nodeName = CString(((ObjectNameFn)Va(addr::anim::kObjectNameFn))(VirtualBase(obj, 8)));
+                    Ptr rb = VirtualBase(obj, 4);
+                    if (rb) Slot<ReleaseFn>(rb, 2)(rb);
+                }
+            });
+            Guarded([&] {
+                int m = Slot<CountFn>(q, addr::anim::kQueueSlotCount)(q);
+                for (int j = 0; j < m && j < 64; j++) {
+                    Ptr r = Slot<AtFn>(q, addr::anim::kQueueSlotAt)(q, j);
+                    if (!r) continue;
+                    std::string cls = ClassName(CompleteObject(r));
+                    if (cls == addr::anim::kLocoRequestClass) {
+                        aq.walking = true;
+                        continue;
+                    }
+                    if (cls != addr::anim::kAnimRequestClass) continue;  // looking at something, a camera
+                    Ptr res = Slot<GetFn>(r, addr::anim::kRequestSlotResource)(r);
+                    Ptr rb = res ? VirtualBase(res, 4) : 0;
+                    std::string name = rb ? CString(Slot<NameFn>(rb, addr::anim::kResourceSlotName)(rb)) : "";
+                    if (!name.empty()) aq.anims.push_back(name);
+                }
+            });
+            out.push_back(aq);
+        }
+    });
+    return out;
+}
+
+bool ObjectAnimations(int objectId, std::vector<std::string>* names, bool* walking) {
+    names->clear();
+    *walking = false;
+    Ptr o = ObjectById(objectId);
+    if (!o) return false;
+    for (const AnimQueue& q : AnimQueues())
+        if (q.node && Rd<Ptr>(q.node + addr::scenenode::kObject) == o) {
+            *names = q.anims;
+            *walking = q.walking;
+            return true;
+        }
+    return false;
+}
+
 Ptr WorldDB() {
     static Ptr s_world = 0;
     if (!s_world) {

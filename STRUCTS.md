@@ -452,6 +452,27 @@ lot loaded holds 0 in its own +0x2f4 (its parts point at it) until the lot loads
   virtual mouse moved to the wall's screen position. (A test click at the screen centre painted
   one wall by chance.)
 
+## Animations (static analysis and read live on the Contreras lot, 2026-11-25)
+
+- The game's debug cheat `displayAnimList -active <objects>` (vtable 0xa0dbcb68, slot 4 0xa03a08e0,
+  `-active` -> 0xa026ef60) lists what each scene object animates; the mod does the same walk
+  (`game::AnimQueues`, dev command `!anims`, addresses.h `anim`).
+- The choreography service: framework GetSystemService(0x9a353ce8, 0xfa353cdb) (the game caches it
+  at [0xa10cc458]). Its slot 51 a list of choreography queues (`nGZSceneDBAnim::cChoreoQueue`): list
+  slot 16 the count, slot 5 (i) a queue, one per animatable scene object.
+- A queue's virtual base ([[q+4]+4]+4) slot 18, then QueryInterface 0x5d4f2bc3: the scene object
+  (its complete object is the scene node, `nTSSG::cPerson` / `cAnimatable`, +0x88 the lot object;
+  0xa0ae7900 (cdecl, on its [[o+4]+8]+4 base) its name, "E001_User00013 - Carlos_objt").
+- Queue slot 58 the requests' count, slot 9 (i) a request. By class: `cChoreoRequestAnim` an
+  animation (slot 34 its `cAnimResource`, whose virtual base's slot 17 is the name with "_anim"),
+  `cChoreoRequestLoco` walking (its steps also run as named animations, "e-male-walk-alt0-
+  normalBlend"), `cChoreoRequestLookAt` looking at something.
+- Seen: a Sim always runs `a-blinkUnderlay-neutral-inGame1` and often `a-noExpression` (the face);
+  idles `e-idle-bentSpine-FK`, `a-idle-hobby-fitness-stretchLeg`; `a-motDistress-mental-standing`
+  (a need's scream); `a2o-bed-relax-getin-stop`; the skunk `f2o-skunk-eat-loopChew`; the plumbob
+  `o-plumbob-spin`. Names: who (a adult, e elder, c child, p toddler, f skunk...) 2 with what (o
+  object, a another Sim), then the action.
+
 ## SimAntics: the effects primitive and the balloons (verified)
 
 - The primitive dispatcher is 0xa0534650 (thiscall on the running object, a `cTSObject`: (stack

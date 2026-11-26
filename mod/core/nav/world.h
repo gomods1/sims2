@@ -58,6 +58,7 @@ std::string WhereFromSim(float x, float y, int level);
 // Ctrl+L: the room at a tile: its name, size, bounds, doors and windows (where each leads).
 void SayLayout(int x, int y, int level);
 // Ctrl+Shift+E: "Ana Contreras: Adulto, Mujer, Cabello rubio, ..., Ropa: Cotidiano".
+std::string SimAnimationLine(int objectId);  // "Carlos: bed relax": what its body is doing (the game's animations)
 std::string SimLookLine(int objectId);  // "3 tiles north" from the selected Sim
 void Tick();  // says when an object's interaction menu did not open (it has none now)
 

@@ -61,6 +61,7 @@ std::string GroupName(const Group& g) {
     } kPanels[] = {
         {"cTSWinProcUCP", Str::GroupControlPanel},
         {"cTSWinProcLivePanel", Str::GroupLivePanel},
+        {"cTSWinProcLivePetPanel", Str::GroupLivePanel},
         {"cTSWinProcSimChooser", Str::GroupFamily},
         {"cTSWinProcPanelWantsAndFears", Str::GroupWantsFears},
         {"cTSWinProcPanelMotives", Str::GroupNeeds},

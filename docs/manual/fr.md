@@ -99,6 +99,7 @@ La page de l'emploi indique les horaires du Sim ; Entrée dessus ajoute l'heure 
 | Contrôle+1 à Contrôle+9 | Sélectionne le premier au neuvième Sim de la famille. |
 | Contrôle+E | Le Sim sélectionné en une phrase : où il est, ce qu'il fait, besoins urgents. |
 | Contrôle+Maj+E | À quoi ressemble un Sim : âge, cheveux, peau, yeux, lunettes, corps et tenue, avec les mots du jeu. Le Sim sélectionné parmi les choses du terrain, sinon le Sim actif. Les détails d'un Sim (Contrôle+Flèche haut dessus) le disent aussi. |
+| Contrôle+Maj+A | Ce que fait maintenant le corps d'un Sim, décrit d'après les animations que le jeu lui fait jouer : les attentes, les réactions et les façons de faire qui font le charme du jeu. Le Sim sélectionné parmi les choses du terrain, sinon le Sim actif. |
 | Contrôle+T | Annonce chaque nouvelle heure de l'horloge (« il est 14:00 »), ou arrête. Utile à la vitesse maximale. |
 | Contrôle+Maj+F | La caméra suit le Sim sélectionné, ou reste libre. |
 

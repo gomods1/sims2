@@ -128,6 +128,20 @@ int ObjdField(int objectId, int index);  // a u16 field of the whole object's OB
 // The tiles a whole object covers (its own and its parts'), from PlacedParts.
 std::vector<std::pair<int, int>> ObjectTiles(int id, const std::vector<PlacedPart>& parts);
 
+// What the scene's objects are animating now (the game's displayAnimList -active): one entry per
+// choreography queue, with the scene object it belongs to (its complete object: a lot object's
+// scene node, its +0x88 the lot object) and the names of its running animations
+// ("a2o-bed-relax-loop-loop2_anim"); walking (a locomotion request) has no name.
+struct AnimQueue {
+    Ptr node = 0;
+    std::string nodeName;
+    std::vector<std::string> anims;
+    bool walking = false;
+};
+std::vector<AnimQueue> AnimQueues();
+// The animations a lot object (a Sim) is running now; false when it has no queue.
+bool ObjectAnimations(int objectId, std::vector<std::string>* names, bool* walking);
+
 // The world database service (nTSWorld::cWorldDB, its cIWorldDB interface at +0x1c): rooms,
 // walls, floors, terrain of the lot (game/lotgrid.h).
 Ptr WorldDB();

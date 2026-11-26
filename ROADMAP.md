@@ -112,6 +112,29 @@ review buffers on Ctrl+arrows). Screen status lives in `SCREENS.md`.
     place it with buy mode's keys. None of these seen live (the game was in use; no inventory item
     on the lot): check each, especially the inventory (Escape, placing, the token count after).
 
+- 2026-11-25, a tester's message (Sims 2): once his new cat came onto the lot the lot's lists were
+  gone, PageDown/PageUp browsed nothing, the aspiration meter was missing and Ctrl+1..9 did not
+  change Sim. A pet selected shows its own live panel, `cTSWinProcLivePetPanel` (RTTI: both it and
+  `cTSWinProcLivePanel` derive from `cTSWinProcLivePanelBase`), and `world::LotViewActive` knew
+  only the Sim's: every lot key and group was off. It counts now, and is named "Sim panel". Not
+  seen live (no pet on the test lot): check a pet's panel pages and needs, and that Ctrl+1..9 gets
+  back to a Sim. A pet has no aspiration, so the meter's absence is the game's.
+
+- 2026-11-25, a tester's voice note (both games): could one ask what animation a Sim is running,
+  since so much of the game's charm is in them (the idles, how they do things)? Control+Shift+A
+  says it for the Sim focused among the lot's things, else the selected one, from the game's own
+  choreography queues (STRUCTS.md "Animations"), the internal names cleaned ("Carlos Contreras:
+  idle bent spine, idle hobby fitness stretch leg"; walking as one word). Heard live on the
+  Contreras lot: idles, a need's distress, getting into bed, walking, the skunk eating, a mascot.
+  The user found the cleaned internal names ugly: every Sim animation of both games now has a
+  short description in each language (`mod/anims/<tag>.tsv`, about 15,000 keys: the name without
+  who does it, `tools/anim_keys.py`, the same key in `nav/anim_names.cpp`, checked equal on all
+  33,414 names with `!animkeys`; written by subagents in small resumable chunks after
+  `tools/anim_style.md`, the work files in `extracted/anims`). "Carlos Contreras: playing the
+  piano" style. An animation the scan missed is said by its key's words.
+  Two other voice notes in the same batch were about another game (health crystals, a base, a
+  battlefield): not this mod.
+
 ## Next
 
 - Check in the game what the 2026-11-10 changes could not try (above). Placing: once, after six

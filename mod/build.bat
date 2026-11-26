@@ -5,6 +5,7 @@ rem   version.dll                 (x86 proxy/loader; goes next to Sims2EP9.exe)
 rem   Sims2Access.dll              (x86 mod core; goes into <game>\Sims2Access\)
 rem   sounds\*.wav                (the cursors' sound cues, made with genny from sounds\batch.json)
 rem   docs\<tag>.html             (the player's manual, from docs\manual\*.md by tools\build_docs.py)
+rem   anims\<tag>.tsv            (what the game's animations mean, from mod\anims; tools\anim_keys.py)
 rem Usage: build.bat [deploy]
 rem   deploy copies the files into the game folder and creates Sims2Access\dev.txt, which enables
 rem   hot reload of Sims2Access.dll while the game runs and verbose logging. Files in use
@@ -62,6 +63,8 @@ if not exist "%GAME%\Sims2Access\sounds" mkdir "%GAME%\Sims2Access\sounds"
 copy /y "%ROOT%sounds\*.wav" "%GAME%\Sims2Access\sounds\" >nul || exit /b 1
 if not exist "%GAME%\Sims2Access\docs" mkdir "%GAME%\Sims2Access\docs"
 copy /y "%OUT%\docs\*.html" "%GAME%\Sims2Access\docs\" >nul || exit /b 1
+if not exist "%GAME%\Sims2Access\anims" mkdir "%GAME%\Sims2Access\anims"
+if exist "%ROOT%anims\*.tsv" copy /y "%ROOT%anims\*.tsv" "%GAME%\Sims2Access\anims\" >nul
 if not exist "%GAME%\Sims2Access\dev.txt" echo hot reload of Sims2Access.dll and verbose logging> "%GAME%\Sims2Access\dev.txt"
 echo deployed to %GAME%
 endlocal

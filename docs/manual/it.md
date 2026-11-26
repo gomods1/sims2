@@ -99,6 +99,7 @@ La pagina del lavoro dice gli orari del Sim; Invio su di essi aggiunge quando ar
 | Da Control+1 a Control+9 | Seleziona dal primo al nono Sim della famiglia. |
 | Control+E | Il Sim selezionato in una frase: dove si trova, cosa sta facendo, bisogni urgenti. |
 | Control+Maiusc+E | Com'è fatto un Sim: età, capelli, pelle, occhi, occhiali, corpo e abito, con le parole del gioco. Il Sim selezionato tra le cose del lotto, altrimenti quello attivo. Anche i dettagli di un Sim (Control+Freccia su su di lui) lo dicono. |
+| Control+Maiusc+A | Cosa sta facendo ora il corpo di un Sim, descritto dalle animazioni che il gioco gli fa eseguire: le pause, le reazioni e i modi di fare le cose che danno fascino al gioco. Il Sim selezionato tra le cose del lotto, altrimenti quello attivo. |
 | Control+T | Annuncia ogni nuova ora dell'orologio («sono le 14:00»), o smette. Utile alla velocità massima. |
 | Control+Maiusc+F | La telecamera segue il Sim selezionato, o resta libera. |
 

@@ -442,6 +442,11 @@ const Translation kEntries[] = {
     {Str::LookOutfitNaked, "žádné"},
     {Str::LookOutfitMaternity, "těhotenské"},
     {Str::KeysLook, "Control+Shift+E řekne, jak Sim vypadá: Sim zaměřený mezi věcmi pozemku, jinak vybraný."},
+    {Str::KeysAnimation,
+     "Control+Shift+A řekne, co dělá tělo simíka, podle animací hry: Sim zaměřený mezi věcmi pozemku, jinak "
+     "vybraný."},
+    {Str::AnimWalking, "chůze"},
+    {Str::AnimNone, "%s: neběží žádná animace"},
     {Str::SeatFor, "k používání %s vsedě"},
     {Str::UsedFromSeat, "používá se z %s"},
     {Str::KeysShowFocusThings, "Když je zapnuto, ukazatel myši jde také na věc pozemku, která má fokus."},

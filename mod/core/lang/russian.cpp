@@ -448,6 +448,11 @@ const Translation kEntries[] = {
     {Str::LookOutfitMaternity, "для беременных"},
     {Str::KeysLook,
      "Control+Shift+E говорит, как выглядит сим: сим в фокусе среди вещей участка, иначе выбранный."},
+    {Str::KeysAnimation,
+     "Control+Shift+A говорит, что делает тело персонажа, по анимациям игры: сим в фокусе среди вещей участка, "
+     "иначе выбранный."},
+    {Str::AnimWalking, "идёт"},
+    {Str::AnimNone, "%s: анимация не идёт"},
     {Str::SeatFor, "чтобы пользоваться %s сидя"},
     {Str::UsedFromSeat, "используется с %s"},
     {Str::KeysShowFocusThings, "Когда включено, указатель мыши тоже переходит на вещь участка в фокусе."},

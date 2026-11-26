@@ -99,6 +99,7 @@ De baanpagina noemt de werktijden van de Sim; Enter daarop voegt toe wanneer de 
 | Ctrl+1 tot Ctrl+9 | De eerste tot negende Sim van het gezin selecteren. |
 | Ctrl+E | De gekozen Sim in één regel: waar, wat hij doet, dringende behoeften. |
 | Ctrl+Shift+E | Hoe een Sim eruitziet: leeftijd, haar, huid, ogen, bril, lichaam en kleding, in de woorden van het spel. De Sim met focus tussen de dingen van het kavel, anders de geselecteerde. De details van een Sim (Ctrl+Pijl omhoog erop) zeggen het ook. |
+| Ctrl+Shift+A | Wat het lichaam van een Sim nu doet, beschreven aan de hand van de animaties die het spel afspeelt: het wachten, de reacties en de manieren waarop ze iets doen die de charme van het spel zijn. De Sim met focus tussen de dingen van het perceel, anders de gekozen Sim. |
 | Ctrl+T | Zegt elk nieuw uur van de klok ("het is 14:00"), of stopt. Handig op de hoogste snelheid. |
 | Ctrl+Shift+F | De camera volgt de gekozen Sim, of blijft vrij. |
 

@@ -18,7 +18,7 @@ import sys
 
 from game import EXE_NAME, find_pid
 
-GAME_DIR = r"S:\steam\steamapps\common\The Sims 2 Legacy Collection"
+GAME_DIR = r"S:\steam\steamapps\common\The Sims 2 Legacy Collection\EP9\TSBin"
 
 # Language code -> the name the game's -l<Name> switch takes (case-sensitive; CLAUDE.md "Languages").
 LANGUAGES = {

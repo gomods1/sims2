@@ -3,6 +3,7 @@
 #include "../game/buy.h"
 #include "../game/hooks.h"
 #include "../game/mouse.h"
+#include "anim_names.h"
 #include "collect.h"
 #include "model.h"
 #include "placement.h"
@@ -327,6 +328,26 @@ std::string SimLookLine(int objectId) {
     return words.empty() ? util::Format(S(Str::SimLookUnknown), name.c_str()) : name + ": " + words;
 }
 
+std::string SimAnimationLine(int objectId) {
+    LotObject o;
+    if (!game::ReadLotObject(objectId, &o)) return "";
+    std::vector<std::string> names;
+    bool walking = false;
+    game::ObjectAnimations(objectId, &names, &walking);
+    std::vector<std::string> parts;
+    if (walking) parts.push_back(S(Str::AnimWalking));
+    for (const std::string& n : names) {
+        // walking is said once: its steps ("e-male-walk-alt0-normalBlend") and turns are the walk
+        std::string key = anims::Key(n);
+        if (walking && (key.find("walk") != std::string::npos || key.compare(0, 13, "turn in place") == 0)) continue;
+        std::string words = anims::Spoken(n);
+        if (!words.empty() && std::find(parts.begin(), parts.end(), words) == parts.end()) parts.push_back(words);
+    }
+    std::string name = DisplayName(o);
+    if (parts.empty()) return util::Format(S(Str::AnimNone), name.c_str());
+    return name + ": " + anims::Join(parts);
+}
+
 void SayLayout(int x, int y, int level) {
     int room = game::RoomAt(x + 0.5f, y + 0.5f, level);
     if (room < 0) {
@@ -462,7 +483,10 @@ bool LotViewActive() {
         visited++;
         if (!game::Visible(w)) continue;
         std::string proc = game::ProcClass(w);
-        if (proc == "cTSWinProcLivePanel" || proc == "cTSWinProcBuyPanel" || proc == "cTSWinProcBuildPanel" ||
+        // A pet selected has its own live panel (cTSWinProcLivePetPanel, both a cTSWinProcLivePanelBase):
+        // a tester lost every lot list and Ctrl+1..9 when his new cat was selected (2026-11-25).
+        if (proc == "cTSWinProcLivePanel" || proc == "cTSWinProcLivePetPanel" || proc == "cTSWinProcBuyPanel" ||
+            proc == "cTSWinProcBuildPanel" ||
             proc == "cTSWinProcSellPanel")  // buy mode while an object of the lot is held
             return true;
         for (Ptr c : game::Children(w)) stack.push_back(c);

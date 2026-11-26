@@ -446,6 +446,11 @@ const Translation kEntries[] = {
     {Str::LookOutfitMaternity, "grávida"},
     {Str::KeysLook,
      "Control+Shift+E diz como é um Sim: o Sim em foco entre as coisas do lote, senão o selecionado."},
+    {Str::KeysAnimation,
+     "Control+Shift+A diz o que o corpo de um Sim está fazendo, pelas animações do jogo: o Sim em foco entre as "
+     "coisas do lote, senão o selecionado."},
+    {Str::AnimWalking, "andando"},
+    {Str::AnimNone, "%s: nenhuma animação em andamento"},
     {Str::SeatFor, "para usar %s sentado"},
     {Str::UsedFromSeat, "usado a partir de %s"},
     {Str::KeysShowFocusThings, "Ativado, o ponteiro do mouse também vai até a coisa do lote que está em foco."},

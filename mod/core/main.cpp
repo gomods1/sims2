@@ -20,6 +20,7 @@
 #include "game/mouse.h"
 #include "game/rtti.h"
 #include "input/keyboard.h"
+#include "nav/anim_names.h"
 #include "nav/manual.h"
 #include "nav/navigator.h"
 #include "speech/speech.h"
@@ -113,6 +114,7 @@ extern "C" __declspec(dllexport) int __cdecl SA_Init(const SaLoaderApi* api) {
     Log("Sims2Access core init (built %s %s)", __DATE__, __TIME__);
     util::InitSettings(api->mod_dir);
     nav::manual::Init(api->mod_dir);
+    nav::anims::Init(api->mod_dir);
     g_gameWindow = api->hwnd;
     if (dev) ReadReturnFocus(api);
     util::InitLanguage();  // from the registry: even an unsupported build speaks the player's language

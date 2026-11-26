@@ -130,6 +130,7 @@ Strona pracy podaje godziny pracy Sima; Enter na nich dodaje, kiedy przyjeżdża
 | Control+1 do Control+9 | Wybiera od pierwszego do dziewiątego Sima z rodziny. |
 | Control+E | Wybrany Sim w jednym zdaniu: gdzie jest, co robi, pilne potrzeby. |
 | Control+Shift+E | Jak wygląda Sim: wiek, włosy, skóra, oczy, okulary, ciało i strój, słowami gry. Sim w fokusie wśród rzeczy parceli, w przeciwnym razie wybrany. Szczegóły Sima (Control+Strzałka w górę na nim) też to mówią. |
+| Control+Shift+A | Co robi teraz ciało Sima, opisane na podstawie animacji, które odtwarza gra: ruchy w bezczynności, reakcje i sposoby robienia rzeczy, które dają grze urok. Sim w fokusie wśród rzeczy parceli, w przeciwnym razie wybrany. |
 | Control+T | Mówi każdą nową godzinę zegara („jest 14:00”) albo przestaje. Przydatne przy największej prędkości. |
 | Control+Shift+F | Kamera śledzi wybranego Sima albo jest swobodna. |
 

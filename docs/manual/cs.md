@@ -126,6 +126,7 @@ Stránka zaměstnání říká pracovní dobu Simíka; Enter na ní přidá, kdy
 | Control+1 až Control+9 | Vybere prvního až devátého Sima rodiny. |
 | Control+E | Vybraný Sim na jednom řádku: kde je, co dělá, naléhavé potřeby. |
 | Control+Shift+E | Jak Sim vypadá: věk, vlasy, pleť, oči, brýle, postava a oblečení, slovy hry. Sim zaměřený mezi věcmi pozemku, jinak vybraný. Podrobnosti Sima (Control+Šipka nahoru na něm) to řeknou také. |
+| Control+Shift+A | Co teď dělá tělo simíka, popsané podle animací, které hra přehrává: pohyby v nečinnosti, reakce a způsoby, jak dělá věci, které dávají hře kouzlo. Sim zaměřený mezi věcmi pozemku, jinak vybraný. |
 | Control+T | Ohlásí každou novou hodinu na hodinách („je 14:00“), nebo přestane. Hodí se při nejvyšší rychlosti. |
 | Control+Shift+F | Kamera sleduje vybraného Sima, nebo je volná. |
 

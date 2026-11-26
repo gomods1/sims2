@@ -449,6 +449,11 @@ const Translation kEntries[] = {
     {Str::KeysLook,
      "A Control+Shift+E elmondja, hogy néz ki egy Sim: a telek dolgai között fókuszban lévő Sim, különben a "
      "kiválasztott."},
+    {Str::KeysAnimation,
+     "A Control+Shift+A megmondja, mit csinál egy Sim teste, a játék animációi alapján: a telek dolgai között "
+     "fókuszban lévő Sim, különben a kiválasztott."},
+    {Str::AnimWalking, "sétál"},
+    {Str::AnimNone, "%s: nem fut animáció"},
     {Str::SeatFor, "ülve használni ezt: %s"},
     {Str::UsedFromSeat, "innen használják: %s"},
     {Str::KeysShowFocusThings, "Bekapcsolva az egérmutató is a telek fókuszban lévő dolgára megy."},

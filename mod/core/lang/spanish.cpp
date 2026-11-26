@@ -455,6 +455,11 @@ const Translation kEntries[] = {
     {Str::KeysLook,
      "Control+Mayúsculas+E dice cómo es un Sim: el Sim enfocado entre las cosas del solar, si no, el "
      "seleccionado."},
+    {Str::KeysAnimation,
+     "Control+Mayúsculas+A dice qué hace el cuerpo de un Sim, según las animaciones del juego: el Sim enfocado "
+     "entre las cosas del solar, si no, el seleccionado."},
+    {Str::AnimWalking, "caminando"},
+    {Str::AnimNone, "%s: ninguna animación en curso"},
     {Str::SeatFor, "para usar %s sentado"},
     {Str::UsedFromSeat, "se usa desde %s"},
     {Str::KeysShowFocusThings, "Activado, el puntero del ratón también va a la cosa del solar que tiene el foco."},

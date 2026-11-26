@@ -12,6 +12,7 @@
 #include "mouse.h"
 #include "objects.h"
 #include "neighborhood.h"
+#include "../nav/anim_names.h"
 
 #include <cstdio>
 #include <cstring>
@@ -101,6 +102,38 @@ void DevCommand(const std::string& line) {
         for (const LotObject& o : LotObjects()) {
             int v = 0;
             if (o.person && PersonDatum(o.id, a, &v)) Log("  pd %d of %d %s: %d", a, o.id, o.name.c_str(), v);
+        }
+    }
+    else if (!strcmp(name, "animkeys")) {
+        // !animkeys <in> <out>: the mod's key of every animation name in <in> (one per line,
+        // TAB and anything after ignored), to compare with tools/anim_keys.py
+        char in[260] = {}, out[260] = {};
+        if (sscanf_s(line.c_str(), "%*s %259s %259s", in, (unsigned)sizeof in, out, (unsigned)sizeof out) == 2) {
+            FILE* fi = nullptr;
+            FILE* fo = nullptr;
+            fopen_s(&fi, in, "rb");
+            fopen_s(&fo, out, "wb");
+            char buf[512];
+            int n = 0;
+            while (fi && fo && fgets(buf, sizeof buf, fi)) {
+                std::string raw = buf;
+                raw = raw.substr(0, raw.find_first_of("\t\r\n"));
+                fprintf(fo, "%s\t%s\n", raw.c_str(), nav::anims::Key(raw).c_str());
+                n++;
+            }
+            if (fi) fclose(fi);
+            if (fo) fclose(fo);
+            Log("  animkeys: %d names", n);
+        }
+    }
+    else if (!strcmp(name, "anims")) {
+        // !anims: every choreography queue with its scene object and running animations
+        for (const AnimQueue& q : AnimQueues()) {
+            std::string list;
+            for (const std::string& a : q.anims) list += " [" + a + "]";
+            Ptr lot = q.node ? Rd<Ptr>(q.node + addr::scenenode::kObject) : 0;
+            if (q.node) Log("  queue %p %s '%s' lot %p (%s)%s:%s", (void*)q.node, ClassName(q.node).c_str(),
+                            q.nodeName.c_str(), (void*)lot, ClassName(lot).c_str(), q.walking ? " walking" : "", list.c_str());
         }
     }
     else if (!strcmp(name, "wants")) {

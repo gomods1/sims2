@@ -98,7 +98,7 @@ void SayKeyHelp() {
     else if (lot) speech::Say(std::string(S(Str::KeysLot)) + " " +
                               (game::CurrentModeClass() == "cTSUIModeBuy" || game::CurrentModeClass() == "cTSUIModeBuild"
                                    ? std::string(S(Str::KeysCatalogPages)) + " " + S(Str::KeysCatalogBack) + " " : std::string()) +
-                              S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLotMore) + " " + S(Str::KeysLotNarration) + " " + S(Str::KeysLook) + " " + S(Str::KeysMapHint));
+                              S(Str::KeysFind) + " " + S(Str::KeysPortalDelete) + " " + S(Str::KeysLotMore) + " " + S(Str::KeysLotNarration) + " " + S(Str::KeysLook) + " " + S(Str::KeysAnimation) + " " + S(Str::KeysMapHint));
     else if (nav::neighborhood::ViewActive()) speech::Say(S(Str::KeysNeighborhood));
     else speech::Say(S(Str::KeysScreen));
     speech::Say(std::string(S(Str::KeysGroupLetter)) + " " + S(Str::KeysShowFocus) + " " + S(Str::KeysShowFocusThings) + " " + S(Str::KeysManual) + " " + S(Str::KeysToggle));
@@ -304,6 +304,18 @@ bool Dispatch(WPARAM vk, bool shift, bool ctrl) {
             if (!line.empty()) nav::buffers::SetDetails({line});
         }
         return true;
+    case 'A':  // Ctrl+Shift+A: what a Sim's body is doing (A alone moves the game's camera)
+        if (!ctrl || !shift || !lot) return false;
+        g_swallowChar = 'a';
+        {
+            game::LotObject o;
+            int id = nav::FocusOnThing() && game::ReadLotObject(nav::world::FocusedId(), &o) && o.person
+                         ? nav::world::FocusedId() : game::SelectedSimId();
+            std::string line = id ? nav::world::SimAnimationLine(id) : "";
+            speech::Say(line.empty() ? S(Str::NoSimSelected) : line);
+            if (!line.empty()) nav::buffers::SetDetails({line});
+        }
+        return true;
     case VK_F1:
         if (!ctrl) return false;  // F1 alone is the game's
         if (shift) nav::manual::Open();
@@ -354,7 +366,7 @@ bool OnKeyDown(WPARAM vk, LPARAM lp) {
     bool ctrl = Held(VK_CONTROL);
     bool ctrlKey = vk == VK_F1 || vk == VK_UP || vk == VK_DOWN || vk == VK_LEFT || vk == VK_RIGHT || vk == 'E' || vk == 'F' || vk == 'N' || vk == 'T' || vk == 'L' || (vk >= '1' && vk <= '9') ||
                    vk == VK_PRIOR || vk == VK_NEXT || vk == VK_RETURN || vk == 'M' ||
-                   ((vk == 'S' || vk == 'V') && Held(VK_SHIFT));  // the mod's Ctrl combinations
+                   ((vk == 'S' || vk == 'V' || vk == 'A') && Held(VK_SHIFT));  // the mod's Ctrl combinations
     if (Held(VK_MENU) || (ctrl && !ctrlKey)) return false;
     g_consumed[vk] = true;
     if (Dispatch(vk, Held(VK_SHIFT), ctrl)) return true;

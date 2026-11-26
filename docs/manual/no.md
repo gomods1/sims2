@@ -99,6 +99,7 @@ Jobbsiden sier simmens arbeidstider; Enter på dem legger til når samkjøringen
 | Ctrl+1 til Ctrl+9 | Velger familiens første til niende sim. |
 | Ctrl+E | Den valgte simen på én linje: hvor, hva den gjør, akutte behov. |
 | Ctrl+Skift+E | Hvordan en simmer ser ut: alder, hår, hud, øyne, briller, kropp og klær, med spillets ord. Simmeren med fokus blant tingene på tomten, ellers den valgte. En simmers detaljer (Ctrl+Pil opp på den) sier det også. |
+| Ctrl+Skift+A | Hva kroppen til en simmer gjør nå, beskrevet ut fra animasjonene spillet spiller av: hvilebevegelser, reaksjoner og måter å gjøre ting på som gir spillet sjarmen. Simmeren med fokus blant tingene på tomten, ellers den valgte. |
 | Ctrl+T | Sier hver ny time på klokken ("klokken er 14:00"), eller slutter. Nyttig på høyeste hastighet. |
 | Ctrl+Skift+F | Kameraet følger den valgte simen, eller forblir fritt. |
 

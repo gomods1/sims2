@@ -99,6 +99,7 @@ Jobbsidan säger simmens arbetstider; Enter på dem lägger till när samåkning
 | Ctrl+1 till Ctrl+9 | Väljer familjens första till nionde sim. |
 | Ctrl+E | Den valda simmen på en rad: var, vad den gör, akuta behov. |
 | Ctrl+Skift+E | Hur en Sim ser ut: ålder, hår, hud, ögon, glasögon, kropp och kläder, med spelets ord. Den Sim som har fokus bland tomtens saker, annars den valda. En Sims detaljer (Ctrl+Pil upp på den) säger det också. |
+| Ctrl+Skift+A | Vad en Sims kropp gör nu, beskrivet utifrån de animationer spelet spelar upp: vilorörelser, reaktioner och sätt att göra saker som ger spelet dess charm. Den Sim som har fokus bland tomtens saker, annars den valda. |
 | Ctrl+T | Säger varje ny timme på klockan ("klockan är 14:00"), eller slutar. Användbart på högsta hastighet. |
 | Ctrl+Skift+F | Kameran följer den valda simmen, eller förblir fri. |
 

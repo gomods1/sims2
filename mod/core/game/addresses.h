@@ -346,6 +346,31 @@ constexpr struct {
                       {"nTSSG::cAnimatable", 432}, {"nTSSG::cObject", 324}};
 }  // namespace scenenode
 
+// What a scene object is animating, as the game's displayAnimList -active cheat lists it
+// (0xa026ef60): the choreography service (framework GetSystemService 0x9a353ce8 / iid 0xfa353cdb,
+// cached by the game at [0xa10cc458]); its slot 51 the list of choreography queues (slot 16 count,
+// slot 5 (i) the queue). A queue (nGZSceneDBAnim::cIChoreoQueue, virtual base at [[q+4]+4]+4):
+// its virtual base's slot 18 then QueryInterface 0x5d4f2bc3 the scene object (its name through
+// 0xa0ae7900, cdecl, on the object's [[o+4]+8]+4 base); slot 58 the requests' count, slot 9 (i) one.
+// A request (cIChoreoRequest; the class says what: an animation, walking, looking at): slot 34 its
+// animation resource, whose virtual base's ([[r+4]+4]+4) slot 17 is the name ("a-idle-neutral-
+// stretch_anim"). Read live 2026-11-25: Carlos relaxing in bed ran a2o-bed-relax-loop-loop2_anim
+// and an unnamed one, the plumbob o-plumbob-spin_anim; doors and counters have empty queues.
+namespace anim {
+constexpr uint32_t kServiceId = 0x9a353ce8;
+constexpr uint32_t kIid = 0xfa353cdb;
+constexpr int kServiceSlotQueues = 51;
+constexpr int kListSlotCount = 16, kListSlotAt = 5;
+constexpr int kBaseSlotOwner = 18;
+constexpr uint32_t kIidSceneObject = 0x5d4f2bc3;
+constexpr uintptr_t kObjectNameFn = 0xa0ae7900;
+constexpr int kQueueSlotCount = 58, kQueueSlotAt = 9;
+constexpr int kRequestSlotResource = 34;
+constexpr const char* kAnimRequestClass = "nGZSceneDBAnim::cChoreoRequestAnim";
+constexpr const char* kLocoRequestClass = "nGZSceneDBAnim::cChoreoRequestLoco";
+constexpr int kResourceSlotName = 17;
+}  // namespace anim
+
 // Rooms, as Lua's GetRoomAtLocation (0xa05673c0): the world service (framework GetSystemService
 // 0x4a037ee3 / iid 0x49ff7d6f, cached by the game at [0xa10cc45c]); its slot 39 gives the room
 // manager, whose slot 80 takes ({float x, float y, int level}, 2, 1) and returns the room id (short).

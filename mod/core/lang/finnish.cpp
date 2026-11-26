@@ -449,6 +449,11 @@ const Translation kEntries[] = {
     {Str::LookOutfitNaked, "ei mitään"},
     {Str::LookOutfitMaternity, "äitiysvaatteet"},
     {Str::KeysLook, "Ctrl+Vaihto+E kertoo, miltä Sim näyttää: tontin asioista kohdistettu Sim, muuten valittu."},
+    {Str::KeysAnimation,
+     "Ctrl+Vaihto+A kertoo, mitä Simin keho tekee, pelin animaatioiden mukaan: tontin asioista kohdistettu Sim, "
+     "muuten valittu."},
+    {Str::AnimWalking, "kävelee"},
+    {Str::AnimNone, "%s: ei animaatiota käynnissä"},
     {Str::SeatFor, "istumapaikka kohteelle %s"},
     {Str::UsedFromSeat, "käyttöpaikka: %s"},
     {Str::KeysShowFocusThings, "Kun se on päällä, myös hiiren osoitin siirtyy tontin kohdistettuun asiaan."},

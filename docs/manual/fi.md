@@ -129,6 +129,7 @@ Työsivu kertoo simin työajat; Enter niiden kohdalla lisää, milloin kimppakyy
 | Control+1–Control+9 | Valitse perheen ensimmäinen–yhdeksäs simi. |
 | Control+E | Valittu simi yhdellä rivillä: missä se on, mitä se tekee, kiireelliset tarpeet. |
 | Control+Vaihto+E | Miltä Sim näyttää: ikä, hiukset, iho, silmät, silmälasit, vartalo ja vaatteet, pelin sanoin. Tontin asioista kohdistettu Sim, muuten valittu. Simin tiedot (Control+Nuoli ylös sen kohdalla) kertovat sen myös. |
+| Control+Vaihto+A | Mitä Simin keho tekee nyt, kuvattuna pelin toistamien animaatioiden perusteella: odotusliikkeet, reaktiot ja tavat tehdä asioita, jotka tekevät pelin viehätyksen. Tontin asioista kohdistettu Sim, muuten valittu. |
 | Control+T | Kertoo kellon jokaisen uuden tunnin ("kello on 14:00"), tai lopettaa. Hyödyllinen suurimmalla nopeudella. |
 | Control+Vaihto+F | Kamera seuraa valittua simiä tai on vapaa. |
 
